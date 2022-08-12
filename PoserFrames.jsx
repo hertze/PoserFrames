@@ -1,4 +1,13 @@
-var borderThickness = 104;
+// Settings
+
+var borderThickness = 4;
+
+
+// Initial
+
+var doc_height = app.activeDocument.height;
+var doc_width = app.activeDocument.width;
+var ratio = doc_height / doc_width;
 
 
 
@@ -49,6 +58,39 @@ function createPath(thisFrame) {
 	
 }
 
+function biggerCanvas() {
+	
+	
+	if ( ratio > 1 ) {
+		
+		var new_doc_height = doc_height * borderThickness / ratio / 100 + doc_height;
+		var new_doc_width = doc_width * borderThickness / 100 + doc_width;
+
+		var offset = borderThickness / 100 * doc_width / generateRandomInteger(10);
+		
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
+		
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+		
+	} else {
+		
+		var new_doc_height = doc_height * borderThickness / 100 + doc_height;
+		var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
+		
+		var offset = borderThickness / 100 * doc_height / generateRandomInteger(10);
+		alert(offset);
+		
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
+		
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+	}
+	
+	
+}
 
 
 // Generate a number between 0 and 4, including 4
@@ -84,10 +126,18 @@ else {
 
 var action = aspect_ratio + "-" + orientation + "-" + rand_int;
 
-// Let's get the show running
 
-createPath(frame[1]);
 
-app.activeDocument.resizeCanvas(UnitValue(borderThickness,"%"), UnitValue(borderThickness,"%"), AnchorPosition.MIDDLECENTER);
+// LET'S GET THIS SHOW GOING!!!!
+
+
+// För roterad ram skulle jag kunna rotera hela canvas och sedan rotera tillbaka efter att Path lagts på!!!
+
+
+// Drawing path
+//createPath(frame[1]);
+
+// Offset
+biggerCanvas();
 
 // app.doAction(action,"FrameIt.ATN")
