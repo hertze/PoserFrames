@@ -80,7 +80,6 @@ function biggerCanvas() {
 		var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
 		
 		var offset = borderThickness / 100 * doc_height / generateRandomInteger(10);
-		alert(offset);
 		
 		// Offset
 		app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
