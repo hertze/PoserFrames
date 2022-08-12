@@ -14,10 +14,7 @@ function createPath(thisFrame) {
 	var thisPathPointInfoProperties = [];
 	
 	var p = [];
-	var pth = new Array;
-	var anchorString = [];
-	var leftDirectionString = new Array;
-	var rightDirectionString = new Array;
+	var pth = [];
 	
 	for (var i = 0; i < thisPathPointInfo.length; i++ ) {
 		
@@ -26,13 +23,13 @@ function createPath(thisFrame) {
 		p[i] = new PathPointInfo();
 		p[i].kind = thisPathPointInfoProperties[0];
 	
-		anchorString = thisPathPointInfoProperties[1].split(",");
+		var anchorString = thisPathPointInfoProperties[1].split(",");
 		p[i].anchor = [anchorString[0]*1, anchorString[1]*1];
 		
-		leftDirectionString = thisPathPointInfoProperties[2].split(",");
+		var leftDirectionString = thisPathPointInfoProperties[2].split(",");
 		p[i].leftDirection = [leftDirectionString[0]*1, leftDirectionString[1]*1];
 		
-		rightDirectionString = thisPathPointInfoProperties[3].split(",");
+		var rightDirectionString = thisPathPointInfoProperties[3].split(",");
 		p[i].rightDirection = [rightDirectionString[0]*1, rightDirectionString[1]*1];
 
 		p[i].typename = thisPathPointInfoProperties[4];
