@@ -1,3 +1,7 @@
+var borderThickness = 104;
+
+
+
 // Frames
 
 var frame = [];
@@ -83,5 +87,7 @@ var action = aspect_ratio + "-" + orientation + "-" + rand_int;
 // Let's get the show running
 
 createPath(frame[1]);
+
+app.activeDocument.resizeCanvas(UnitValue(borderThickness,"%"), UnitValue(borderThickness,"%"), AnchorPosition.MIDDLECENTER);
 
 // app.doAction(action,"FrameIt.ATN")
