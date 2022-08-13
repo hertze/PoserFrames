@@ -8,7 +8,7 @@ Note: At the moment, the script only work on 2:3 images saved to a shortest side
 Installing the script and creating an action for PoserFrames
 ------------------------------------------------------------
 
-1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac its in **/Applications/Photoshop 2022/Presets/Scripts**. You may have to change the permissions of this folder to copy the script there.
+1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac it's in **/Applications/Photoshop 2022/Presets/Scripts**. You may have to change the permissions of this folder to copy the script there.
 
 2. Install the Photoshop actions by double-clicking on **PoserFrames.atn**, or by loading them in the Actions palette in Photoshop.
 
