@@ -1,15 +1,16 @@
 #target photoshop
 
+
 // Settings
 
-var borderThickness = 4;
-
-
-app.preferences.rulerUnits = Units.PIXELS;
-app.displayDialogs.NO;
+var borderThickness = 4; // Border width in %
+var offset_factor = 1; // How much offset is allowed, where 1 is maximun
 
 
 // Initial
+
+app.preferences.rulerUnits = Units.PIXELS;
+app.displayDialogs.NO;
 
 var doc_height = app.activeDocument.height;
 var doc_width = app.activeDocument.width;
@@ -25,6 +26,7 @@ var frameSquare = [];
 var frame67 = [];
 var frame645 = [];
 var frame35mm = [];
+
 
 // Frames
 
@@ -79,7 +81,7 @@ function biggerCanvas() {
 			var new_doc_height = doc_height * borderThickness / ratio / 100 + doc_height;
 			var new_doc_width = doc_width * borderThickness / 100 + doc_width;
 	
-			var offset = borderThickness / 100 * doc_width / generateRandomInteger(10);
+			var offset = offset_factor * borderThickness / 100 * doc_width / generateRandomInteger(10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
@@ -92,7 +94,7 @@ function biggerCanvas() {
 			var new_doc_height = doc_height * borderThickness / 100 + doc_height;
 			var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
 			
-			var offset = borderThickness / 100 * doc_height / generateRandomInteger(10);
+			var offset = offset_factor * borderThickness / 100 * doc_height / generateRandomInteger(10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
