@@ -5,7 +5,7 @@
 
 var borderThickness = 4; // Border width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
-
+var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
 
 // Initial
 
@@ -17,9 +17,9 @@ var doc_width = app.activeDocument.width;
 var ratio = doc_height / doc_width;
 
 if (ratio > 1) {
-	var feather = doc_width / 1200;
+	var feather = doc_width / feather_factor;
 } else {
-	var feather = doc_height / 1200;
+	var feather = doc_height / feather_factor;
 }
 
 var frameSquare = [];
