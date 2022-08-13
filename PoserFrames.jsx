@@ -1,6 +1,7 @@
 // Settings
 
 var borderThickness = 4;
+var feather = 3;
 
 
 // Initial
@@ -139,9 +140,34 @@ var action = aspect_ratio + "-" + orientation + "-" + rand_int;
 
 
 // Drawing path
-//createPath(frame[1]);
+
+if (ratio > 1 ){
+	// For portrait we need to rotate before placing path.
+	app.activeDocument.rotateCanvas(-90);
+	createPath(frame[1]);
+	app.activeDocument.rotateCanvas(90);
+	
+} else {
+	createPath(frame[1]);
+}
+
 
 // Offset
 biggerCanvas();
 
-// app.doAction(action,"FrameIt.ATN")
+// Make selection from path
+
+app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
+
+app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
+
+app.activeDocument.selection.invert(); // Invert selection
+
+var myColor = new SolidColor();  
+myColor.rgb.red = 0;  
+myColor.rgb.green = 0;  
+myColor.rgb.blue = 0;  
+
+app.activeDocument.selection.fill(myColor); // Fill with black
+
+app.activeDocument.selection.deselect(); // Unnecessary?
