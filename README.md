@@ -34,4 +34,4 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Using ExtractPath.jsx
 ---------------------
 
-Install this script the same way as PoserFrames. This script takes a path named "Frame" in your active document, extracts all the path points and saves them to the desktop in a text file in a format used in PoserFrames frame library.
+Install this script the same way as PoserFrames. This script takes a path named **Frame** in your active document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in PoserFrames frame library.
