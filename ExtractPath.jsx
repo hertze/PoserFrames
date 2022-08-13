@@ -1,5 +1,8 @@
 #target photoshop
 
+app.preferences.rulerUnits = Units.PIXELS;
+app.displayDialogs.NO;
+
 function writeToFile(output) {
     ExportFile.write(output);  
 }
@@ -12,8 +15,6 @@ ExportFile.open("a", "TEXT");
 var pathObj = app.activeDocument.pathItems.getByName('Frame');
 
 for (var s = 0; s < pathObj.subPathItems.length; s++) { // Loopa genom alla SubPathItems
-    
-    alert(pathObj.subPathItems[s].typename)
     
     for (var i = 0; i < pathObj.subPathItems[s].pathPoints.length; i++) { // Loopa genom alla pathPoints i SubPathitem
         
