@@ -1,7 +1,8 @@
 // Settings
 
 var borderThickness = 4;
-var feather = 3;
+
+
 
 
 // Initial
@@ -10,6 +11,11 @@ var doc_height = app.activeDocument.height;
 var doc_width = app.activeDocument.width;
 var ratio = doc_height / doc_width;
 
+if (ratio > 1) {
+	var feather = doc_width / 1200;
+} else {
+	var feather = doc_height / 1200;
+}
 
 
 // Frames
@@ -98,15 +104,10 @@ function biggerCanvas() {
 }
 
 
-// Generate a number between 0 and 4, including 4
+// Generate a number between 0 and max, including max
 function generateRandomInteger(max) {
     return Math.floor(Math.random() * max) + 1;
 }
-
-var rand_int = generateRandomInteger(3);
-
-var doc_height = app.activeDocument.height;
-var doc_width = app.activeDocument.width;
 
 if (doc_height > doc_width) {
 	var orientation = "portrait";
@@ -129,15 +130,10 @@ else {
 	}
 }
 
-var action = aspect_ratio + "-" + orientation + "-" + rand_int;
 
 
 
 // LET'S GET THIS SHOW GOING!!!!
-
-
-// För roterad ram skulle jag kunna rotera hela canvas och sedan rotera tillbaka efter att Path lagts på!!!
-
 
 // Drawing path
 
@@ -151,11 +147,7 @@ if (ratio > 1 ){
 	createPath(frame[1]);
 }
 
-
-// Offset
-biggerCanvas();
-
-// Make selection from path
+biggerCanvas(); // Enlarge canvas
 
 app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
 
@@ -171,3 +163,7 @@ myColor.rgb.blue = 0;
 app.activeDocument.selection.fill(myColor); // Fill with black
 
 app.activeDocument.selection.deselect(); // Unnecessary?
+
+//app.activeDocument.save();
+
+//app.activeDocument.close();
