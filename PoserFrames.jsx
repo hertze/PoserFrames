@@ -227,8 +227,6 @@ function loadVectorMask () {
 
 // LET'S GET THIS SHOW GOING!!!!
 
-app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the frame to fit
-
 if (app.documents.length > 0) {
 
 // Choosing the frame
@@ -249,11 +247,9 @@ else if (thisFormat == "35mm") {
 }
 
 
-
 // Drawing path
 
 if (ratio > 1 ){
-	// For portrait we need to rotate before placing path. We also add some random flipping to simulate holding the camera in opposite way.
 	
 	if (generateRandomInteger(10) < 7) {
 		
@@ -285,6 +281,9 @@ if (ratio > 1 ){
 
 app.activeDocument.pathItems.getByName('Frame').select(); // Select the path
 
+
+// Use shape layer work-around to scale the path to document dimensions
+
 var myDocument = app.activeDocument;
 
 var theShapeLayer = createSolidColorLayer (0,0,0); // Create shape layer
@@ -294,6 +293,9 @@ scaleToCanvasSize (); // Resize shape layer to canvas size
 loadVectorMask (); // convert path to selection
 
 theShapeLayer.remove(); // remove shape layer
+
+
+// Work that selection
 
 app.activeDocument.selection.invert(); // Invert selection
 
