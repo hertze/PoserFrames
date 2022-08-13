@@ -12,7 +12,7 @@ Installing the script and creating an action for PoserFrames
 
 2. Install the Photoshop actions by double-clicking on **PoserFrames.atn**, or by loading them in the Actions palette in Photoshop.
 
-3. Make sure **PoserFrames** shows up in the menu **File/Scripts**
+3. Make sure **PoserFrames** shows up in the menu **File/Scripts**.
 
 4. Run the action **Run PoserFrames** on your photo, or make a droplet with this action.
 
