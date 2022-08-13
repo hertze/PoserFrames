@@ -5,7 +5,7 @@
 
 var borderThickness = 4; // Border width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
-var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
+var feather_factor = 2000; // How much feathering of the border you like. The lower value, the more feathering.
 
 // Initial
 
@@ -15,6 +15,11 @@ app.displayDialogs.NO;
 var doc_height = app.activeDocument.height;
 var doc_width = app.activeDocument.width;
 var ratio = doc_height / doc_width;
+
+var myColor = new SolidColor();  
+myColor.rgb.red = 0;  
+myColor.rgb.green = 0;  
+myColor.rgb.blue = 0;  
 
 if (ratio > 1) {
 	var feather = doc_width / feather_factor;
@@ -145,11 +150,86 @@ function format(){
 	return format;
 }
 
+function createSolidColorLayer (theRed, theGreen, theBlue) {
+	// create solid color layer;
+	var desc8 = new ActionDescriptor();
+	var ref6 = new ActionReference();
+	var idcontentLayer = stringIDToTypeID( "contentLayer" );
+	ref6.putClass( idcontentLayer );
+	desc8.putReference( charIDToTypeID( "null" ), ref6 );
+	var desc9 = new ActionDescriptor();
+	var desc10 = new ActionDescriptor();
+	var desc11 = new ActionDescriptor();
+	desc11.putDouble( charIDToTypeID( "Rd  " ), theRed );
+	desc11.putDouble( charIDToTypeID( "Grn " ), theGreen );
+	desc11.putDouble( charIDToTypeID( "Bl  " ), theBlue );
+	var idRGBC = charIDToTypeID( "RGBC" );
+	desc10.putObject( charIDToTypeID( "Clr " ), idRGBC, desc11 );
+	desc9.putObject( charIDToTypeID( "Type" ), stringIDToTypeID( "solidColorLayer" ), desc10 );
+	desc8.putObject( charIDToTypeID( "Usng" ), idcontentLayer, desc9 );
+	executeAction( charIDToTypeID( "Mk  " ), desc8, DialogModes.NO );
+	return activeDocument.activeLayer
+};
+
+// scale active layer to canvas dimensions //////
+function scaleToCanvasSize () {
+	// scale smart object:
+	var originalRulerUnits = app.preferences.rulerUnits;
+	app.preferences.rulerUnits = Units.PIXELS;
+	var ref = new ActionReference();
+	ref.putEnumerated( charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt") );
+	var layerDesc = executeActionGet(ref);
+	var theBounds = layerDesc.getObjectValue(stringIDToTypeID('bounds'));
+	var theX = theBounds.getInteger(stringIDToTypeID('left'));
+	var theY = theBounds.getInteger(stringIDToTypeID('top'));
+	var theX2 = theBounds.getInteger(stringIDToTypeID('right'));
+	var theY2 = theBounds.getInteger(stringIDToTypeID('bottom'));
+	// determine the scale;
+	var theSOProp = activeDocument.width/activeDocument.height;
+	var theNewProp = (theX2 - theX)/(theY2 - theY);
+	if (theNewProp >= theSOProp) {var theScale = activeDocument.width / (theX2 - theX) * 100}
+	else {var theScale = activeDocument.height / (theY2 - theY) * 100};
+	// transform;
+	var desc23 = new ActionDescriptor();
+	var ref2 = new ActionReference();
+	ref2.putEnumerated( charIDToTypeID( "Lyr " ), charIDToTypeID( "Ordn" ), charIDToTypeID( "Trgt" ) );
+	desc23.putReference( charIDToTypeID( "null" ), ref2 );
+	var idOfst = charIDToTypeID( "Ofst" );
+  	var desc24 = new ActionDescriptor();
+  	var idPxl = charIDToTypeID( "#Pxl" );
+  	desc24.putUnitDouble( charIDToTypeID( "Hrzn" ), idPxl, activeDocument.width/2 - (theX+(theX2-theX)/2) );
+  	desc24.putUnitDouble( charIDToTypeID( "Vrtc" ), idPxl, activeDocument.height/2 - (theY+(theY2-theY)/2) );
+	desc23.putObject( idOfst, idOfst, desc24 );
+	var idPrc = charIDToTypeID( "#Prc" );
+	desc23.putUnitDouble( charIDToTypeID( "Wdth" ), idPrc, theScale );
+	desc23.putUnitDouble( charIDToTypeID( "Hght" ), idPrc, theScale );
+	desc23.putEnumerated( charIDToTypeID( "Intr" ), charIDToTypeID( "Intp" ), stringIDToTypeID( "bicubicSharper" ) );
+	desc23.putEnumerated( stringIDToTypeID( "freeTransformCenterState" ), stringIDToTypeID( "quadCenterState" ), stringIDToTypeID( "QCSAverage" ) );
+	executeAction( charIDToTypeID( "Trnf" ), desc23, DialogModes.NO );
+	app.preferences.rulerUnits = originalRulerUnits;
+};
+////// load vector mask as selection //////
+function loadVectorMask () {
+	var desc5 = new ActionDescriptor();
+	var ref1 = new ActionReference();
+	ref1.putProperty( stringIDToTypeID( "channel" ), stringIDToTypeID( "selection" ) );
+	desc5.putReference( stringIDToTypeID( "null" ), ref1 );
+	var ref2 = new ActionReference();
+	var idpath = stringIDToTypeID( "path" );
+	ref2.putEnumerated( idpath, idpath, stringIDToTypeID( "vectorMask" ) );
+	ref2.putEnumerated( stringIDToTypeID( "layer" ), stringIDToTypeID( "ordinal" ), stringIDToTypeID( "targetEnum" ));
+	desc5.putReference( stringIDToTypeID( "to" ), ref2 );
+	desc5.putInteger( stringIDToTypeID( "version" ), 1 );
+	desc5.putBoolean( stringIDToTypeID( "vectorMaskParams" ), true );
+	executeAction( stringIDToTypeID( "set" ), desc5, DialogModes.NO );
+};
+
 
 // LET'S GET THIS SHOW GOING!!!!
 
 app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the frame to fit
 
+if (app.documents.length > 0) {
 
 // Choosing the frame
 
@@ -168,7 +248,7 @@ else if (thisFormat == "35mm") {
 	var useFrame = frame35mm[generateRandomInteger(frame35mm.length) - 1];
 }
 
-//var useFrame = frame645[1]; // this sets the used frame. Change for logic.
+
 
 // Drawing path
 
@@ -203,23 +283,30 @@ if (ratio > 1 ){
 	}
 }
 
-biggerCanvas(); // Enlarge canvas
+app.activeDocument.pathItems.getByName('Frame').select(); // Select the path
 
-app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
+var myDocument = app.activeDocument;
 
-app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
+var theShapeLayer = createSolidColorLayer (0,0,0); // Create shape layer
+
+scaleToCanvasSize (); // Resize shape layer to canvas size
+
+loadVectorMask (); // convert path to selection
+
+theShapeLayer.remove(); // remove shape layer
 
 app.activeDocument.selection.invert(); // Invert selection
 
-var myColor = new SolidColor();  
-myColor.rgb.red = 0;  
-myColor.rgb.green = 0;  
-myColor.rgb.blue = 0;  
+app.activeDocument.selection.feather(UnitValue(feather, "px")); // Set additional feathering for selection
 
-app.activeDocument.selection.fill(myColor); // Fill with black
+app.activeDocument.selection.fill(myColor); // Fill selection with black
 
-app.activeDocument.selection.deselect(); // Unnecessary?
+app.activeDocument.selection.deselect();
+
+biggerCanvas(); // Enlarge canvas
 
 app.activeDocument.save();
 
 app.activeDocument.close();
+
+};
