@@ -19,6 +19,13 @@ frame[1] = "PointKind.CORNERPOINT 10.0000262260437,36.000047981739 10.0000262260
 
 
 
+function setOrientation(){
+	
+	
+	
+}
+
+
 // Build the path
 
 function createPath(thisFrame) {
@@ -60,35 +67,33 @@ function createPath(thisFrame) {
 
 function biggerCanvas() {
 	
-	
 	if ( ratio > 1 ) {
-		
-		var new_doc_height = doc_height * borderThickness / ratio / 100 + doc_height;
-		var new_doc_width = doc_width * borderThickness / 100 + doc_width;
+			
+			var new_doc_height = doc_height * borderThickness / ratio / 100 + doc_height;
+			var new_doc_width = doc_width * borderThickness / 100 + doc_width;
+	
+			var offset = borderThickness / 100 * doc_width / generateRandomInteger(10);
+			
+			// Offset
+			app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
+			
+			// Enlarging canvas
+			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+			
+		} else {
+			
+			var new_doc_height = doc_height * borderThickness / 100 + doc_height;
+			var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
+			
+			var offset = borderThickness / 100 * doc_height / generateRandomInteger(10);
+			
+			// Offset
+			app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
+			
+			// Enlarging canvas
+			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+		}
 
-		var offset = borderThickness / 100 * doc_width / generateRandomInteger(10);
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
-		
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-		
-	} else {
-		
-		var new_doc_height = doc_height * borderThickness / 100 + doc_height;
-		var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
-		
-		var offset = borderThickness / 100 * doc_height / generateRandomInteger(10);
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
-		
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-	}
-	
-	
 }
 
 
