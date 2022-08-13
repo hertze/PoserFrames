@@ -1,8 +1,6 @@
 P O S E R  F R A M E S
 ======================
 
-Note: At the moment, the script only work on 2:3 images saved to a shortest side of 3600px and 4:3 images with a shortest side of 6000px.
-
 
 
 Installing the script and creating an action for PoserFrames
