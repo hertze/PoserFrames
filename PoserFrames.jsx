@@ -232,9 +232,7 @@ function drawPath(useFrame) {
 
 // LET'S GET THIS SHOW GOING!!!!
 
-var useFrame = stageFrame();
-
-drawPath(useFrame);
+drawPath(stageFrame()); // Choose frame and draw the path
 
 biggerCanvas(); // Enlarge canvas
 
@@ -246,6 +244,6 @@ app.activeDocument.selection.invert(); // Invert selection
 
 app.activeDocument.selection.fill(myColor); // Fill with black
 
-app.activeDocument.selection.deselect(); // Unnecessary?
+//app.activeDocument.selection.deselect(); // Unnecessary?
 //app.activeDocument.save();
 //app.activeDocument.close();
