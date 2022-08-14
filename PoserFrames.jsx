@@ -29,6 +29,12 @@ if (ratio > 1) {
 	var feather = doc_height / feather_factor;
 }
 
+if (ratio > 1) {
+	var frame_size = doc_width;
+} else {
+	var frame_size = doc_height;
+}
+
 var frameSquare = [];
 var frame67 = [];
 var frame645_3000px = [];
@@ -186,7 +192,12 @@ function stageFrame() {
 		var stageFrame = frame645_6000px[generateRandomInteger(frame645_6000px.length) - 1];
 	}
 	else if (thisFormat == "35mm") {
-		var stageFrame = frame35mm_3600px[generateRandomInteger(frame35mm_3600px.length) - 1];
+		if (frame_size == 3600) {
+			var stageFrame = frame35mm_3600px[generateRandomInteger(frame35mm_3600px.length) - 1];
+		} else {
+			throw new Error('File size not supported!');
+			
+		}
 	}
 	
 	return stageFrame;
