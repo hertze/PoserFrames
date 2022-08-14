@@ -26,7 +26,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 1. **borderThickness**: Border width in %, initially set to 4.
 
-2. **offset_factor**: How much offset is allowed, where 0 is none and 1 is maximum.
+2. **offset_factor**: How much offset is allowed, where 0 is none, 0.5 is medium and 1 is maximum.
 
 3. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 
