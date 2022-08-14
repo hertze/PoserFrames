@@ -1,6 +1,7 @@
 P O S E R  F R A M E S
 ======================
 
+A JavaScript for Photoshop that adds a fake negative border, traced from real negatives.
 
 
 Note: At the moment, the script only work on 2:3 images saved to a shortest side of 3600px and 4:3 images with a shortest side of 6000px.
@@ -25,7 +26,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 1. **borderThickness**: Border width in %, initially set to 4.
 
-2. **offset_factor**: How much offset is allowed, where 1 is maximum. Initial value is 1.
+2. **offset_factor**: How much offset is allowed, where 0 is none and 1 is maximum.
 
 3. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 

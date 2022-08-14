@@ -232,6 +232,6 @@ app.activeDocument.selection.fill(myColor); // Fill with black
 
 app.activeDocument.selection.deselect(); // Unnecessary?
 
-//app.activeDocument.save();
+app.activeDocument.save();
 
-//app.activeDocument.close();
+app.activeDocument.close();
