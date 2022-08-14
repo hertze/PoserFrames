@@ -73,9 +73,9 @@ frame645_6000px[0] = "PointKind.CORNERPOINT 7730.74827421318,14.1846356161941 77
 
 
 
-function generateRandomInteger(max) {
+function generateRandomInteger(min, max) {
 	// Generate a number between 0 and max, including max
-	return Math.floor(Math.random() * max) + 1;
+	return Math.floor(Math.random() * max) + min;
 }
 
 
@@ -127,7 +127,7 @@ function biggerCanvas() {
 			var new_doc_height = doc_height * border_thickness / ratio / 100 + doc_height;
 			var new_doc_width = doc_width * border_thickness / 100 + doc_width;
 	
-			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(10);
+			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
@@ -140,7 +140,7 @@ function biggerCanvas() {
 			var new_doc_height = doc_height * border_thickness / 100 + doc_height;
 			var new_doc_width = doc_width * border_thickness * ratio / 100 + doc_width;
 			
-			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(10);
+			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
@@ -204,13 +204,13 @@ function stageFrame() {
 	} 
 	else if (thisFormat == "645") {
 		
-		var stageFrame = frame645_6000px[generateRandomInteger(frame645_6000px.length) - 1];
+		var stageFrame = frame645_6000px[generateRandomInteger(1, frame645_6000px.length) - 1];
 	}
 	else if (thisFormat == "35mm") {
 		
 		if (frame_size == 3600) {
 			
-			var stageFrame = frame35mm_3600px[generateRandomInteger(frame35mm_3600px.length) - 1];
+			var stageFrame = frame35mm_3600px[generateRandomInteger(1, frame35mm_3600px.length) - 1];
 			
 		} else {
 			
@@ -230,7 +230,7 @@ function drawPath(useFrame) {
 	if (ratio > 1 ){
 		// For portrait we need to rotate before placing path. We also add some random flipping to simulate holding the camera in opposite way.
 		
-		if (generateRandomInteger(10) < 7) {
+		if (generateRandomInteger(1, 10) < 7) {
 			
 			app.activeDocument.rotateCanvas(-90);
 			createPath(useFrame);
@@ -246,7 +246,7 @@ function drawPath(useFrame) {
 		
 	} else {
 		
-		if (generateRandomInteger(10) < 7) {
+		if (generateRandomInteger(1, 10) < 7) {
 			
 			createPath(useFrame);
 			
