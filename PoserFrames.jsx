@@ -3,7 +3,7 @@
 
 // Settings
 
-var borderThickness = 4; // Border width in %
+var border_thickness = 4; // Border width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
 var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
 
@@ -111,10 +111,10 @@ function biggerCanvas() {
 	
 	if ( ratio > 1 ) {
 			
-			var new_doc_height = doc_height * borderThickness / ratio / 100 + doc_height;
-			var new_doc_width = doc_width * borderThickness / 100 + doc_width;
+			var new_doc_height = doc_height * border_thickness / ratio / 100 + doc_height;
+			var new_doc_width = doc_width * border_thickness / 100 + doc_width;
 	
-			var offset = offset_factor * borderThickness / 100 * doc_width / generateRandomInteger(10);
+			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(doc_height,"px"), AnchorPosition.MIDDLERIGHT);
@@ -124,10 +124,10 @@ function biggerCanvas() {
 			
 		} else {
 			
-			var new_doc_height = doc_height * borderThickness / 100 + doc_height;
-			var new_doc_width = doc_width * borderThickness * ratio / 100 + doc_width;
+			var new_doc_height = doc_height * border_thickness / 100 + doc_height;
+			var new_doc_width = doc_width * border_thickness * ratio / 100 + doc_width;
 			
-			var offset = offset_factor * borderThickness / 100 * doc_height / generateRandomInteger(10);
+			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(10);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPCENTER);
@@ -244,17 +244,13 @@ function drawPath(useFrame) {
 // LET'S GET THIS SHOW GOING!!!!
 
 drawPath(stageFrame()); // Choose frame and draw the path
-
 biggerCanvas(); // Enlarge canvas
-
 app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
-
 app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
-
 app.activeDocument.selection.invert(); // Invert selection
-
 app.activeDocument.selection.fill(myColor); // Fill with black
 
-//app.activeDocument.selection.deselect(); // Unnecessary?
-//app.activeDocument.save();
-//app.activeDocument.close();
+app.activeDocument.save();
+app.activeDocument.close();
+
+// ALL DONE!
