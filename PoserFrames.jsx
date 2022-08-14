@@ -1,7 +1,7 @@
 #target photoshop
 
 
-// Settings
+// User settings
 
 var border_thickness = 4; // Border width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
