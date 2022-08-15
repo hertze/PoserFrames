@@ -37,3 +37,10 @@ Using ExtractPath.jsx
 ---------------------
 
 Install this script the same way as PoserFrames. This script takes a path named **Frame** in your active document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in PoserFrames frame library.
+
+
+
+Credit
+------
+
+Thanks to Marc Holstein for providing me with scanned negatives.
