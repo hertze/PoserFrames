@@ -3,7 +3,8 @@
 
 // User settings
 
-var border_thickness = 4; // Border width in %
+var border_thickness_35mm = 4; // Border for 35mm; width in %
+var border_thickness_67 = 2; // Border for 67; width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
 var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
 
@@ -127,7 +128,7 @@ function createPath(thisFrame) {
 }
 
 
-function biggerCanvas() {
+function biggerCanvas(border_thickness) {
 	
 	// Enlarge the canvas
 	
@@ -319,9 +320,13 @@ var thisFormat = format();
 
 drawPath(stageFrame()); // Choose frame and draw the path
 
-if (thisFormat == "35mm" || thisFormat =="67" ) {
+if (thisFormat == "35mm" ) {
 
-	biggerCanvas(); // Enlarge canvas
+	biggerCanvas(border_thickness_35mm); // Enlarge canvas
+	
+} else if ( thisFormat == "67" ) {
+	
+	biggerCanvas(border_thickness_67); // Enlarge canvas
 	
 } else if ( thisFormat == "645" || thisFormat == "square" ) {
 	
