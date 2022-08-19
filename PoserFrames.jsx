@@ -342,7 +342,7 @@ if (thisFormat == "35mm" ) {
 	
 } else if ( thisFormat == "645" || thisFormat == "square" ) {
 	
-	//offset645();
+	offset645();
 	
 }
 
