@@ -151,7 +151,7 @@ function biggerCanvas(border_thickness) {
 	
 			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10);
 			
-			var offset_2 = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10) / 2;
+			var offset_2 = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10) / 2;
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(offset + doc_width,"px"), UnitValue(offset_2 + doc_height,"px"), AnchorPosition.TOPRIGHT);
@@ -166,7 +166,7 @@ function biggerCanvas(border_thickness) {
 			
 			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10);
 			
-			var offset_2 = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10) / 2;
+			var offset_2 = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10) / 2;
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(offset_2 + doc_width,"px"), UnitValue(offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
