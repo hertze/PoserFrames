@@ -149,7 +149,7 @@ function biggerCanvas(border_thickness) {
 			var new_doc_height = doc_height * border_thickness / ratio / 100 + doc_height;
 			var new_doc_width = doc_width * border_thickness / 100 + doc_width;
 	
-			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10);
+			var offset = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 3);
 			
 			var offset_2 = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10) / 2;
 			
@@ -164,7 +164,7 @@ function biggerCanvas(border_thickness) {
 			var new_doc_height = doc_height * border_thickness / 100 + doc_height;
 			var new_doc_width = doc_width * border_thickness * ratio / 100 + doc_width;
 			
-			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 10);
+			var offset = offset_factor * border_thickness / 100 * doc_height / generateRandomInteger(1, 5);
 			
 			var offset_2 = offset_factor * border_thickness / 100 * doc_width / generateRandomInteger(1, 10) / 2;
 			
