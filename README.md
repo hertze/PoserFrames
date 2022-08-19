@@ -43,4 +43,4 @@ Install this script the same way as PoserFrames. This script takes a path named 
 Credit
 ------
 
-Thanks to Marc Holstein for providing me with scanned negatives.
+Thanks to Marc Holstein and Andreas Georgiou for providing me with scanned negatives.

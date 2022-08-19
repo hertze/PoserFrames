@@ -175,7 +175,7 @@ function biggerCanvas(border_thickness) {
 
 function offset645() {
 	
-	var offset = 2 / generateRandomInteger(1, 10);
+	var offset = 1.4 / generateRandomInteger(1, 10);
 	
 	if ( ratio > 1 ) {
 		
@@ -342,7 +342,7 @@ if (thisFormat == "35mm" ) {
 	
 } else if ( thisFormat == "645" || thisFormat == "square" ) {
 	
-	offset645();
+	//offset645();
 	
 }
 
