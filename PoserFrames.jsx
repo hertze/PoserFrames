@@ -351,7 +351,7 @@ app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 app.activeDocument.selection.invert(); // Invert selection
 app.activeDocument.selection.fill(myColor); // Fill with black
 
-//app.activeDocument.save(); // Saves file. Comment out when testing script.
-//app.activeDocument.close(); // Closes file. Comment out when testing script.
+app.activeDocument.save(); // Saves file. Comment out when testing script.
+app.activeDocument.close(); // Closes file. Comment out when testing script.
 
 // ALL DONE!
