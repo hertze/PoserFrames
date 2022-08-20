@@ -268,7 +268,7 @@ function biggerCanvas(border_thickness) {
 
 function offset645() {
 	
-	var offset = 1.4 / generateRandomInteger(1, 10);
+	var offset = offset_factor * 1.4 / generateRandomInteger(1, 10);
 	
 	if ( ratio > 1 ) {
 		
