@@ -6,7 +6,7 @@
 var border_thickness_35mm = 3; // Border for 35mm; width in %.
 var border_thickness_67 = 2; // Border for 67; width in %.
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
-var thin_border_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+var edge_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
 var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
 
 
@@ -237,7 +237,7 @@ function biggerCanvas(border_thickness) {
 			var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
 			var new_doc_width = doc_width * (100 + border_thickness) / 100;
 	
-			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, thin_border_odds);
+			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
 			var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
 			
 			// Offset
@@ -254,7 +254,7 @@ function biggerCanvas(border_thickness) {
 			var new_doc_width = doc_width * (100 + border_thickness * ratio) / 100;
 			
 			var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
-			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, thin_border_odds);
+			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
