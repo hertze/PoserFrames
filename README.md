@@ -30,7 +30,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 3. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
 
-4. **thin_border_odds**: = 3; The odds of getting a 35mm or 67 frame scanned right at one edge. 1 is certain, 10 is 10% probable.
+4. **thin_border_odds**: The odds of getting a 35mm or 67 frame scanned right at one edge. 1 is certain, 10 is 10% probable.
 
 5. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 
