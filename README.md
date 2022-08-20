@@ -34,12 +34,30 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 5. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 
 
+Examples
+--------
+
+![35mm](/examples/35mm.jpg)
+
+A 3:2 frame.
+
+![645](/examples/645.jpg)
+
+A 4:3 frame.
+
+![67](/examples/67.jpg)
+
+A 6:7 frame.
+
+![Square](/examples/square.jpg)
+
+A 1:1 frame.
 
 
 Using ExtractPath.jsx
 ---------------------
 
-Install this script the same way as PoserFrames. This script takes a path named **Frame** in your active document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in PoserFrames frame library.
+Install this companion script the same way as PoserFrames. This script takes a path named **Frame** in your active document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in PoserFrames frame library.
 
 
 
@@ -52,4 +70,4 @@ Thanks to Marc Holstein and Andreas Georgiou for providing me with scanned negat
 License
 -------
 
-**Poser Frames** uses [**Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) license**](https://creativecommons.org/licenses/by-sa/4.0/).
+Poser Frames uses a [**Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) license**](https://creativecommons.org/licenses/by-sa/4.0/).
