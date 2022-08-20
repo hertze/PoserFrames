@@ -1,10 +1,9 @@
 P O S E R  F R A M E S
 ======================
 
-A JavaScript for Photoshop that adds a fake negative border, traced from real negatives.
+by [Joakim Hertze](https://www.hertze.se)
 
-
-Note: At the moment, the script only work on 2:3 images saved to a shortest side of 3600px and 4:3 images with a shortest side of 6000px.
+**Poser Frames** is JavaScript for Photoshop that adds a fake negative border, traced from real negatives. It works with images in 3:2, 4:3, 6:7 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px.
 
 
 Installing the script and creating an action for PoserFrames
@@ -48,3 +47,9 @@ Credit
 ------
 
 Thanks to Marc Holstein and Andreas Georgiou for providing me with scanned negatives.
+
+
+License
+-------
+
+**Poser Frames** uses [**Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) license**](https://creativecommons.org/licenses/by-sa/4.0/).
