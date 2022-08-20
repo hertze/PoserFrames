@@ -448,9 +448,10 @@ try {
 	app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 	app.activeDocument.selection.invert(); // Invert selection
 	app.activeDocument.selection.fill(myColor); // Fill with black
+	app.activeDocument.selection.deselect(); // Remove selection
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script, or when chaining with other actions.
+	app.activeDocument.close(); // Closes file. Comment out when testing script, or when chaining with other actions.
 	
 	// ALL DONE!
 	
