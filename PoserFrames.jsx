@@ -130,6 +130,7 @@ function format(){
 	
 }
 
+
 function stageFrame() {
 	
 	// Choosing the frame
