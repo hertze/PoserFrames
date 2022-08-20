@@ -454,4 +454,4 @@ try {
 	
 	// ALL DONE!
 	
-} catch (e) { alert(e); }
+} catch (e) {}
