@@ -24,11 +24,15 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **borderThickness**: Border width in %, initially set to 4.
+1. **borderThickness_35mm**: Border width in % for 35mm, initially set to 3.
 
-2. **offset_factor**: How much offset is allowed, where 0 is none, 0.5 is medium and 1 is maximum.
+2. **borderThickness_67**: Border width in % for 67, initially set to 2.
 
-3. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
+3. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
+
+4. **thin_border_odds**: = 3; The odds of getting a 35mm or 67 frame scanned right at one edge. 1 is certain, 10 is 10% probable.
+
+5. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 
 
 
