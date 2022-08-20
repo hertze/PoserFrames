@@ -39,19 +39,19 @@ Examples
 
 ![35mm](/examples/35mm.jpg)
 
-A 3:2 frame.
+*A 3:2 frame.*
 
 ![645](/examples/645.jpg)
 
-A 4:3 frame.
+*A 4:3 frame.*
 
 ![67](/examples/67.jpg)
 
-A 6:7 frame.
+*A 6:7 frame.*
 
 ![Square](/examples/square.jpg)
 
-A 1:1 frame.
+*A 1:1 frame.*
 
 
 Using ExtractPath.jsx
