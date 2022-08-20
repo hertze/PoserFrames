@@ -3,7 +3,7 @@
 
 // User settings
 
-var border_thickness_35mm = 4; // Border for 35mm; width in %
+var border_thickness_35mm = 3; // Border for 35mm; width in %
 var border_thickness_67 = 2; // Border for 67; width in %
 var offset_factor = 1; // How much offset is allowed, where 1 is maximun
 var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
