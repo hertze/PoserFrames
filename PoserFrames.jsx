@@ -6,7 +6,7 @@
 var border_thickness_35mm = 3; // Border for 35mm; width in %.
 var border_thickness_67 = 2; // Border for 67; width in %.
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
-var thin_border_odds = 3; // The odds of getting a 35mm or 67 frame scanned right at one edge. 1 is certain, 10 is 10% probable.
+var thin_border_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
 var feather_factor = 1200; // How much feathering of the border you like. The lower value, the more feathering.
 
 
