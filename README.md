@@ -11,7 +11,7 @@ Installing the script and creating an action for PoserFrames
 
 1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac it's in **/Applications/Photoshop 2022/Presets/Scripts**. You may have to change the permissions of this folder to copy the script there.
 
-2. Install the Photoshop actions by double-clicking on **PoserFrames.atn**, or by loading them in the Actions palette in Photoshop.
+2. Install the Photoshop action by double-clicking on **PoserFrames.atn**, or by loading it in the Actions palette in Photoshop.
 
 3. Make sure **PoserFrames** shows up in the menu **File/Scripts**.
 
