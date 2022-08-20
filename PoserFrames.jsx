@@ -161,15 +161,15 @@ function biggerCanvas(border_thickness) {
 		
 		// Portrait
 			
-			var new_doc_height = doc_height * (100 + border_thickness) / 100;
+			var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
 			var new_doc_width = doc_width * (100 + border_thickness) / 100;
 	
-			var horisontal_offset = offset_factor * border_thickness / generateRandomInteger(1, 3);
-			var vertical_offset = offset_factor * border_thickness / generateRandomInteger(1, 10) / 2;
+			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, 3);
+			var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
 			
 			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + 100,"%"), UnitValue(vertical_offset + 100,"%"), AnchorPosition.TOPRIGHT);
-			
+			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
+		
 			// Enlarging canvas
 			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
 			
@@ -178,13 +178,13 @@ function biggerCanvas(border_thickness) {
 			// Landscape
 			
 			var new_doc_height = doc_height * (100 + border_thickness) / 100;
-			var new_doc_width = doc_width * (100 + border_thickness) / 100;
+			var new_doc_width = doc_width * (100 + border_thickness * ratio) / 100;
 			
-			var horisontal_offset = offset_factor * border_thickness / generateRandomInteger(1, 5);
-			var vertical_offset = offset_factor * border_thickness / generateRandomInteger(1, 10) / 2;
+			var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
+			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, 5);
 			
 			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(vertical_offset + 100,"%"), UnitValue(horisontal_offset + 100,"%"), AnchorPosition.TOPRIGHT);
+			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
 			
 			// Enlarging canvas
 			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
