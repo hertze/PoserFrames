@@ -25,15 +25,17 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 1. **borderThickness_35mm**: Border width in % for 35mm, initially set to 3.
 
-2. **border_thickness_645**: = Border width in % for 645, initially set to 2.
+2. **border_thickness_645**: Border width in % for 645, initially set to 2.
 
-2. **borderThickness_67**: Border width in % for 67, initially set to 2.
+3. **border_thickness_square**: Border width in % for Square; initially set to 1.
 
-3. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
+4. **borderThickness_67**: Border width in % for 67, initially set to 2.
 
-4. **edge_odds**: The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+5. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
 
-5. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
+6. **edge_odds**: The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+
+7. **feather_factor**: How much feathering of the border you like. The lower value, the more feathering. Initial value is 1200.
 
 
 Examples
