@@ -7,7 +7,7 @@
 
 // User settings
 
-var border_thickness_35mm = 3; // Border for 35mm; width in %.
+var border_thickness_35mm = 1; // Border for 35mm; width in %.
 var border_thickness_645 = 2; // Border for 645; width in %.
 var border_thickness_square = 1; // Border for 645; width in %.
 var border_thickness_67 = 2; // Border for 67; width in %.

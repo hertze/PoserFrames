@@ -23,7 +23,7 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **borderThickness_35mm**: Border width in % for 35mm, initially set to 3.
+1. **borderThickness_35mm**: Border width in % for 35mm, initially set to 1.
 
 2. **border_thickness_645**: Border width in % for 645, initially set to 2.
 
