@@ -9,7 +9,7 @@
 
 var border_thickness_35mm = 1; // Border for 35mm; width in %.
 var border_thickness_645 = 2; // Border for 645; width in %.
-var border_thickness_square = 1; // Border for 645; width in %.
+var border_thickness_square = 1; // Border for square; width in %.
 var border_thickness_67 = 2; // Border for 67; width in %.
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
 var edge_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
