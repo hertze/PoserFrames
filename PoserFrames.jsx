@@ -12,8 +12,10 @@ var border_thickness_645 = 2; // Border for 645; width in %.
 var border_thickness_square = 1; // Border for square; width in %.
 var border_thickness_67 = 2; // Border for 67; width in %.
 var border_thickness_45 = 1.5;
+
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
 var edge_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+
 var feather_factor_35mm = 1200; // How much feathering of the border you like for 35mm. The lower value, the more feathering.
 var feather_factor_645 = 2400; // How much feathering of the border you like for 645. The lower value, the more feathering.
 var feather_factor_67_square = 3600; // How much feathering of the border you like for square and 67. The lower value, the more feathering.
@@ -626,8 +628,8 @@ try {
 	app.activeDocument.selection.invert(); // Invert selection
 	app.activeDocument.selection.fill(myColor); // Fill with black
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
