@@ -31,7 +31,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 4. **borderThickness_67**: Border width in % for 67, initially set to 2.
 
-5. **border_thickness_45**: Border width in % for 4x5; initially set to 1.
+5. **border_thickness_45**: Border width in % for 4x5; initially set to 1.5.
 
 6. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
 
