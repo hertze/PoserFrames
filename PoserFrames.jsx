@@ -228,6 +228,21 @@ function stageFrame() {
 			var stageFrame = frame67_6000px[generateRandomInteger(1, frame67_6000px.length) - 1];
 			
 		}
+	}
+	else if (thisFormat == "45") {
+		if (frame_size == 3600) {
+		
+			var stageFrame = frame45_3600px[generateRandomInteger(1, frame45_3600px.length) - 1];
+					
+		} else if (frame_size == 4800) {
+			
+			var stageFrame = frame45_4800px[generateRandomInteger(1, frame45_4800px.length) - 1];
+					
+		} else if (frame_size == 6000) {
+			
+			var stageFrame = frame45_6000px[generateRandomInteger(1, frame45_6000px.length) - 1];
+			
+		}
 	} 
 	else if (thisFormat == "645") {
 		
