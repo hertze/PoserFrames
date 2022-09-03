@@ -14,7 +14,7 @@ var border_thickness_67 = 2; // Border for 67; width in %.
 var border_thickness_45 = 1.5;
 
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
-var edge_odds = 3; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+var edge_odds = 1; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
 
 var feather_factor_35mm = 1200; // How much feathering of the border you like for 35mm. The lower value, the more feathering.
 var feather_factor_645 = 2400; // How much feathering of the border you like for 645. The lower value, the more feathering.
@@ -393,6 +393,14 @@ function addBorder_645(border_thickness) {
 	
 			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
 			
+			// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
+			
+			if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
+			
+				horisontal_offset = horisontal_offset * 1.6;
+					
+			}
+			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
 		
@@ -406,6 +414,12 @@ function addBorder_645(border_thickness) {
 			var new_doc_height = doc_height * (100 + border_thickness) / 100;
 			
 			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
+			
+			if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+						
+				vertical_offset = vertical_offset * 1.6;
+								
+			}
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
@@ -628,8 +642,8 @@ try {
 	app.activeDocument.selection.invert(); // Invert selection
 	app.activeDocument.selection.fill(myColor); // Fill with black
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
