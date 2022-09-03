@@ -39,7 +39,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 8. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
-9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 2000.
+9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
 
 10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
 
