@@ -10,7 +10,7 @@
 var border_thickness_35mm = 1; // Border for 35mm; width in %.
 var border_thickness_645 = 2; // Border for 645; width in %.
 var border_thickness_square = 1; // Border for square; width in %.
-var border_thickness_67 = 2; // Border for 67; width in %.
+var border_thickness_67 = 1; // Border for 67; width in %.
 var border_thickness_45 = 1.5;
 
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
