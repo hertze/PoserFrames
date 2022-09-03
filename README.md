@@ -29,7 +29,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 3. **border_thickness_square**: Border width in % for Square; initially set to 1.
 
-4. **borderThickness_67**: Border width in % for 67, initially set to 2.
+4. **borderThickness_67**: Border width in % for 67, initially set to 1.
 
 5. **border_thickness_45**: Border width in % for 4x5; initially set to 1.5.
 

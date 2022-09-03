@@ -14,7 +14,7 @@ var border_thickness_67 = 1; // Border for 67; width in %.
 var border_thickness_45 = 1.5;
 
 var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
-var edge_odds = 1; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+var edge_odds = 2; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
 
 var feather_factor_35mm = 1200; // How much feathering of the border you like for 35mm. The lower value, the more feathering.
 var feather_factor_645 = 2400; // How much feathering of the border you like for 645. The lower value, the more feathering.
@@ -490,6 +490,18 @@ function addBorder_square(border_thickness) {
 
 		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
 		var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, edge_odds);
+		
+		if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
+					
+			horisontal_offset = horisontal_offset * 2;
+							
+		}
+		
+		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+								
+			vertical_offset = vertical_offset * 2;
+										
+		}
 		
 		// Offset
 		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
