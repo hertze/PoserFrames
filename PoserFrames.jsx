@@ -356,6 +356,14 @@ function addBorder_35mm_67(border_thickness) {
 			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
 			var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
 			
+			// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
+						
+			if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
+			
+				horisontal_offset = horisontal_offset * 1.6;
+					
+			}
+			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
 		
@@ -371,6 +379,12 @@ function addBorder_35mm_67(border_thickness) {
 			
 			var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
 			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
+			
+			if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+									
+				vertical_offset = vertical_offset * 1.6;
+											
+			}
 			
 			// Offset
 			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
