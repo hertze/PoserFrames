@@ -49,21 +49,20 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Examples
 --------
 
-| ![35mm](/examples/35mm.jpg) |
-|:--:|
+| ![35mm](/examples/35mm.jpg)
 | *A 3:2 frame.* |
+| |
 | ![645](/examples/645.jpg) |
-|:--:|
 | *A 4:3 frame.* |
+| |
 | ![4x5](/examples/4x5.jpg) |
-|:--:|
 | *A 4:5 frame.* |
-|:--:|
+| |
 | ![67](/examples/67.jpg) |
-|:--:|
 | *A 6:7 frame.* |
+| |
 | ![Square](/examples/square.jpg) |
-|:--:|
+| |
 | *A 1:1 frame.* |
 
 
