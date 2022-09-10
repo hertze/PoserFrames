@@ -3,7 +3,9 @@ P O S E R  F R A M E S
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px. Please note: at this time you need to resize your photos to one of these dimensions *prior* to running this script on them.
+**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px. At this time you need to resize your photos to one of these dimensions *prior* to running this script.
+
+Sidenote: Those dimensions mentioned above are chosen to be compatible with [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com). I run Poser Frames on my files first, directly when exporting from Lightroom. I then run the Film Grain on those files, so the borders blend into the images in a believable way.
 
 
 Installing the script and creating an action for PoserFrames
@@ -39,9 +41,9 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 8. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
-9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 2400.
+9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
 
-10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 3600.
+10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
 
 11. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
 
@@ -49,24 +51,19 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Examples
 --------
 
-![35mm](/examples/35mm.jpg)
-
+![35mm](/examples/35mm.jpg) <br>
 *A 3:2 frame.*
 
-![645](/examples/645.jpg)
-
+![645](/examples/645.jpg) <br>
 *A 4:3 frame.*
 
-![4x5](/examples/4x5.jpg)
-
+![4x5](/examples/4x5.jpg) <br>
 *A 4:5 frame.*
 
-![67](/examples/67.jpg)
-
+![67](/examples/67.jpg) <br>
 *A 6:7 frame.*
 
-![Square](/examples/square.jpg)
-
+![Square](/examples/square.jpg) <br>
 *A 1:1 frame.*
 
 

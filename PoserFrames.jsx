@@ -17,8 +17,8 @@ var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is
 var edge_odds = 2; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
 
 var feather_factor_35mm = 1200; // How much feathering of the border you like for 35mm. The lower value, the more feathering.
-var feather_factor_645 = 2400; // How much feathering of the border you like for 645. The lower value, the more feathering.
-var feather_factor_67_square = 3600; // How much feathering of the border you like for square and 67. The lower value, the more feathering.
+var feather_factor_645 = 1800; // How much feathering of the border you like for 645. The lower value, the more feathering.
+var feather_factor_67_square = 2400; // How much feathering of the border you like for square and 67. The lower value, the more feathering.
 var feather_factor_45 = 5400; // How much feathering of the border you like for 4x5. The lower value, the more feathering.
 
 
