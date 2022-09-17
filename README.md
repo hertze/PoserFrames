@@ -3,12 +3,12 @@ P O S E R  F R A M E S
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px. At this time you need to resize your photos to one of these dimensions *prior* to running this script.
+**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px.
 
 Sidenote: Those dimensions mentioned above are chosen to be compatible with [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com). I run Poser Frames on my files first, directly when exporting from Lightroom. I then run the Film Grain on those files, so the borders blend into the images in a believable way.
 
 
-Installing the script and creating an action for PoserFrames
+Installing and running Poser Frames
 ------------------------------------------------------------
 
 1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac it's in **/Applications/Photoshop 2022/Presets/Scripts**. You may have to change the permissions of this folder to copy the script there.
@@ -17,7 +17,9 @@ Installing the script and creating an action for PoserFrames
 
 3. Make sure **PoserFrames** shows up in the menu **File/Scripts**.
 
-4. Run the action **Run PoserFrames** on your photo, or make a droplet with this action.
+4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px. All other sizes will cause the script to silently fail.
+
+5. Run the action **Run PoserFrames** on your photo, or make a droplet with this action.
 
 
 Script settings
