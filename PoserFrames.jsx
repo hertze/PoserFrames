@@ -466,6 +466,7 @@ function drawPath(useFrame, format) {
 			app.activeDocument.rotateCanvas(90);
 		} else {
 			if (format != "45") {
+				// For believability reasons, we don't want to rotate 4x5 images.
 				app.activeDocument.rotateCanvas(-270);
 				createPath(useFrame);
 				app.activeDocument.rotateCanvas(270);
@@ -480,6 +481,7 @@ function drawPath(useFrame, format) {
 			createPath(useFrame);
 		} else {
 			if (format != "45") {
+				// For believability reasons, we don't want to rotate 4x5 images.
 				app.activeDocument.rotateCanvas(-180);
 				createPath(useFrame);
 				app.activeDocument.rotateCanvas(180);
