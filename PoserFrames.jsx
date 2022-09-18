@@ -7,19 +7,19 @@
 
 // User settings
 
-var border_thickness_35mm = 1; // Border for 35mm; width in %.
-var border_thickness_645 = 2; // Border for 645; width in %.
-var border_thickness_square = 1; // Border for square; width in %.
-var border_thickness_67 = 1; // Border for 67; width in %.
-var border_thickness_45 = 1.5; // Border for 4x5; width in %.
+var border_thickness_35mm = 1;
+var border_thickness_645 = 2;
+var border_thickness_square = 1;
+var border_thickness_67 = 1;
+var border_thickness_45 = 1.5;
 
-var offset_factor = 1; // How much offset is allowed for 35mm and 67, where 1 is maximum.
-var edge_odds = 2; // The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 10 is 10% probable.
+var offset_factor = 1;
+var edge_odds = 2;
 
-var feather_factor_35mm = 1200; // How much feathering of the border you like for 35mm. The lower value, the more feathering.
-var feather_factor_645 = 1800; // How much feathering of the border you like for 645. The lower value, the more feathering.
-var feather_factor_67_square = 2400; // How much feathering of the border you like for square and 67. The lower value, the more feathering.
-var feather_factor_45 = 5400; // How much feathering of the border you like for 4x5. The lower value, the more feathering.
+var feather_factor_35mm = 1200;
+var feather_factor_645 = 1800;
+var feather_factor_67_square = 2400;
+var feather_factor_45 = 5400;
 
 
 
@@ -161,48 +161,33 @@ frame45_6000px[2] = "PointKind.CORNERPOINT 11.9796385713937,6011.00536716884 11.
 function preflight_check() {
 	
 	if (app.activeDocument.height > app.activeDocument.width) {
-		
 		if (app.activeDocument.width == 3600 || app.activeDocument.width == 4800 || app.activeDocument.width == 6000) {
-		
 			var pass_check = 1;
-			
 		} else {
-			
 			var pass_check = 0;
-			
 		}
-		
 	} else {
-		
 		if (app.activeDocument.height == 3600 || app.activeDocument.height == 4800 || app.activeDocument.height == 6000) {
-					
 			var pass_check = 1;
-					
 		} else {
-					
 			var pass_check = 0;
-					
 		}
-		
 	}
-	
 	return pass_check;
+	
 }
 
 
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
-	
 	return Math.floor(Math.random() * max) + min;
-	
 }
 
 
 function format(){
 	
 	// Determine format
-	
 	if (doc_height > doc_width) {
 		if (doc_height/doc_width < 1.1) {
 			var format = "square";
@@ -237,7 +222,6 @@ function format(){
 			var format = "35mm";
 		}
 	}
-
 	return format;
 	
 }
@@ -246,98 +230,62 @@ function format(){
 function stageFrame() {
 	
 	// Choosing the frame
-
 	var thisFormat = format();
 	var stageFrame=[];
 	
 	if (thisFormat == "square") {
-		
 		if (frame_size == 3600) {
-			
 			var stageFrame = frameSquare_3600px[generateRandomInteger(1, frameSquare_3600px.length) - 1];
-				
 		} else if (frame_size == 4800) {
-				
 			var stageFrame = frameSquare_4800px[generateRandomInteger(1, frameSquare_4800px.length) - 1];
-				
 		} else if (frame_size == 6000) {
-			
 			var stageFrame = frameSquare_6000px[generateRandomInteger(1, frameSquare_6000px.length) - 1];
-			
 		}
-				
 	} 
 	else if (thisFormat == "67") {
 		if (frame_size == 3600) {
-		
 			var stageFrame = frame67_3600px[generateRandomInteger(1, frame67_3600px.length) - 1];
-					
 		} else if (frame_size == 4800) {
-			
 			var stageFrame = frame67_4800px[generateRandomInteger(1, frame67_4800px.length) - 1];
-					
 		} else if (frame_size == 6000) {
-			
 			var stageFrame = frame67_6000px[generateRandomInteger(1, frame67_6000px.length) - 1];
-			
 		}
 	}
 	else if (thisFormat == "45") {
 		if (frame_size == 3600) {
-		
 			var stageFrame = frame45_3600px[generateRandomInteger(1, frame45_3600px.length) - 1];
-					
 		} else if (frame_size == 4800) {
-			
 			var stageFrame = frame45_4800px[generateRandomInteger(1, frame45_4800px.length) - 1];
-					
 		} else if (frame_size == 6000) {
-			
 			var stageFrame = frame45_6000px[generateRandomInteger(1, frame45_6000px.length) - 1];
-			
 		}
 	} 
 	else if (thisFormat == "645") {
-		
 		if (frame_size == 3600) {
-
 			var stageFrame = frame645_3600px[generateRandomInteger(1, frame645_3600px.length) - 1];
-			
 		} else if (frame_size == 4800) {
-			
 			var stageFrame = frame645_4800px[generateRandomInteger(1, frame645_4800px.length) - 1];
-			
 		} else if (frame_size == 6000) {
-			
 			var stageFrame = frame645_6000px[generateRandomInteger(1, frame645_6000px.length) - 1];
-			
 		}
 	}
 	else if (thisFormat == "35mm") {
-		
 		if (frame_size == 3600) {
-			
 			var stageFrame = frame35mm_3600px[generateRandomInteger(1, frame35mm_3600px.length) - 1];
-			
 		} else if (frame_size == 4800) {
-			
 			var stageFrame = frame35mm_4800px[generateRandomInteger(1, frame35mm_4800px.length) - 1];
-			
 		} else if (frame_size == 6000) {
-			
 			var stageFrame = frame35mm_6000px[generateRandomInteger(1, frame35mm_6000px.length) - 1];
-			
 		}
 	}
-	
 	return stageFrame;
+	
 }
 
 
 function createPath(thisFrame) {
 	
 	// Build the path
-	
 	var thisPathPointInfo = thisFrame.split(";");
 	var thisPathPointInfoProperties = [];
 	
@@ -345,7 +293,6 @@ function createPath(thisFrame) {
 	var pth = [];
 	
 	for (var i = 0; i < thisPathPointInfo.length; i++ ) {
-		
 		thisPathPointInfoProperties = thisPathPointInfo[i].split(" "); // Splitta thisPathPointInfo i dess properties
 		
 		p[i] = new PathPointInfo();
@@ -361,7 +308,6 @@ function createPath(thisFrame) {
 		p[i].rightDirection = [rightDirectionString[0]*1, rightDirectionString[1]*1];
 
 		p[i].typename = thisPathPointInfoProperties[4];
-	
 	}
 
 	pth[0] = new SubPathInfo();
@@ -376,162 +322,17 @@ function createPath(thisFrame) {
 function addBorder_35mm_67(border_thickness) {
 	
 	// Enlarge the canvas
-	
 	if ( ratio > 1 ) {
-
-		// Portrait
-			
-			var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
-			var new_doc_width = doc_width * (100 + border_thickness) / 100;
-	
-			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-			var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
-			
-			// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
-						
-			if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-			
-				horisontal_offset = horisontal_offset * 1.6;
-					
-			}
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
 		
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-			
-		} else {
-			
-			// Landscape
-			
-			var new_doc_height = doc_height * (100 + border_thickness) / 100;
-			var new_doc_width = doc_width * (100 + border_thickness * ratio) / 100;
-			
-			var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
-			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-			
-			if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-									
-				vertical_offset = vertical_offset * 1.6;
-											
-			}
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-			
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-		}
-
-}
-
-function addBorder_645(border_thickness) {
-	
-	// Enlarge the canvas
-	
-	if ( ratio > 1 ) {
-
 		// Portrait
-			
-			var new_doc_width = doc_width * (100 + border_thickness) / 100;
-	
-			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-			
-			// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
-			
-			if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-			
-				horisontal_offset = horisontal_offset * 1.6;
-					
-			}
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
-		
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
-			
-		} else {
-			
-			// Landscape
-			
-			var new_doc_height = doc_height * (100 + border_thickness) / 100;
-			
-			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-			
-			if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-						
-				vertical_offset = vertical_offset * 1.6;
-								
-			}
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-			
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-		}
-
-}
-
-function addBorder_45(border_thickness) {
-	
-	// Enlarge the canvas
-	
-	if ( ratio > 1 ) {
-
-		// Portrait
-			
-			var new_doc_height = doc_height * (100 + border_thickness) / 100;
-	
-			var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(doc_height + vertical_offset,"px"), AnchorPosition.TOPRIGHT);
-		
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-			
-		} else {
-			
-			// Landscape
-			
-			var new_doc_width = doc_width * (100 + border_thickness) / 100;
-			
-			var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-			
-			// Offset
-			app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
-			
-			// Enlarging canvas
-			app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
-		}
-
-}
-
-
-function addBorder_square(border_thickness) {
-	
-	// Enlarge the canvas
-	
-			
 		var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
 		var new_doc_width = doc_width * (100 + border_thickness) / 100;
-
 		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-		var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, edge_odds);
+		var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
 		
+		// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
 		if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-					
-			horisontal_offset = horisontal_offset * 2;
-							
-		}
-		
-		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-								
-			vertical_offset = vertical_offset * 2;
-										
+			horisontal_offset = horisontal_offset * 1.6;
 		}
 		
 		// Offset
@@ -539,6 +340,117 @@ function addBorder_square(border_thickness) {
 	
 		// Enlarging canvas
 		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+	} else {
+			
+		// Landscape
+		var new_doc_height = doc_height * (100 + border_thickness) / 100;
+		var new_doc_width = doc_width * (100 + border_thickness * ratio) / 100;
+		var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
+		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
+		
+		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+			vertical_offset = vertical_offset * 1.6;
+		}
+		
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
+		
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+	}
+
+}
+
+function addBorder_645(border_thickness) {
+	
+	// Enlarge the canvas
+	if ( ratio > 1 ) {
+		
+		// Portrait
+		var new_doc_width = doc_width * (100 + border_thickness) / 100;
+		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
+		
+		// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
+		if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
+			horisontal_offset = horisontal_offset * 1.6;
+		}
+			
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
+	
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
+			
+	} else {
+			
+		// Landscape
+		
+		var new_doc_height = doc_height * (100 + border_thickness) / 100;
+		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
+		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+			vertical_offset = vertical_offset * 1.6;
+		}
+			
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
+		
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+	}
+
+}
+
+function addBorder_45(border_thickness) {
+	
+	// Enlarge the canvas
+	if ( ratio > 1 ) {
+
+		// Portrait
+		var new_doc_height = doc_height * (100 + border_thickness) / 100;
+		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
+		
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(doc_height + vertical_offset,"px"), AnchorPosition.TOPRIGHT);
+	
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
+			
+	} else {
+			
+		// Landscape
+		var new_doc_width = doc_width * (100 + border_thickness) / 100;
+		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
+		
+		// Offset
+		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
+		
+		// Enlarging canvas
+		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
+	}
+
+}
+
+
+function addBorder_square(border_thickness) {
+	
+	// Enlarge the canvas
+	var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
+	var new_doc_width = doc_width * (100 + border_thickness) / 100;
+	var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
+	var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, edge_odds);
+	
+	if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
+		horisontal_offset = horisontal_offset * 2;
+	}
+	if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
+		vertical_offset = vertical_offset * 2;
+	}
+	
+	// Offset
+	app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
+
+	// Enlarging canvas
+	app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
 		
 }
 
@@ -546,52 +458,34 @@ function addBorder_square(border_thickness) {
 function drawPath(useFrame, format) {
 	
 	// Drawing path
-	
-	
 	if (ratio > 1 ){
 		// For portrait we need to rotate before placing path. We also add some random flipping to simulate holding the camera in opposite way.
-		
 		if (generateRandomInteger(1, 10) < 7) {
-			
 			app.activeDocument.rotateCanvas(-90);
 			createPath(useFrame);
 			app.activeDocument.rotateCanvas(90);
-			
 		} else {
-
 			if (format != "45") {
-				
 				app.activeDocument.rotateCanvas(-270);
 				createPath(useFrame);
 				app.activeDocument.rotateCanvas(270);
-			
 			} else {
-				
 				app.activeDocument.rotateCanvas(-90);
 				createPath(useFrame);
 				app.activeDocument.rotateCanvas(90);
-				
 			}
 		}
-		
 	} else {
-		
 		if (generateRandomInteger(1, 10) < 7) {
-			
 			createPath(useFrame);
-			
 		} else {
-			
 			if (format != "45") {
 				app.activeDocument.rotateCanvas(-180);
 				createPath(useFrame);
 				app.activeDocument.rotateCanvas(180);
 			} else {
-				
 				createPath(useFrame);
-				
 			}		
-
 		}
 	}
 	
@@ -600,7 +494,7 @@ function drawPath(useFrame, format) {
 if ( preflight_check() == 1 ) {
 
 	try {
-	
+		
 		// Initial properties, settings and calculations
 		
 		app.preferences.rulerUnits = Units.PIXELS;
@@ -619,48 +513,31 @@ if ( preflight_check() == 1 ) {
 		
 		var thisFormat = format();
 		
+		// Calculate feathering
+		
 		if (ratio > 1) {
-			
 			if (thisFormat == "35mm") {
-				
 				var feather = doc_width / feather_factor_35mm;
-				
 			} else if (thisFormat == "645") {
-				
 				var feather = doc_width / feather_factor_645;
-				
 			} else if (thisFormat == "45") {
-				
 				var feather = doc_width / feather_factor_45;
-				
 			} else {
-				
 				var feather = doc_width / feather_factor_67_square;
-				
 			}
-			
 		} else {
-			
-			
 			if (thisFormat == "35mm") {
-						
 				var feather = doc_height / feather_factor_35mm;
-				
 			} else if (thisFormat == "645") {
-				
 				var feather = doc_height / feather_factor_645;
-				
 			} else if (thisFormat == "45") {
-				
 				var feather = doc_height / feather_factor_45;
-				
 			} else {
-				
 				var feather = doc_height / feather_factor_67_square;
-				
 			}
-			
 		}
+		
+		// Decide the shortest side
 		
 		if (ratio > 1) {
 			var frame_size = doc_width;
@@ -671,29 +548,20 @@ if ( preflight_check() == 1 ) {
 		
 		// LET'S GET THIS SHOW GOING!!!!
 		
+		drawPath(stageFrame(), thisFormat); // Choose a frame and draw the path
 		
-		drawPath(stageFrame(), thisFormat); // Choose frame and draw the path
+		// Enlarge the canvas
 		
 		if (thisFormat == "35mm" ) {
-			
-			addBorder_35mm_67(border_thickness_35mm); // Enlarge canvas
-			
+			addBorder_35mm_67(border_thickness_35mm);
 		} else if ( thisFormat == "67" ) {
-	
-			addBorder_35mm_67(border_thickness_67); // Enlarge canvas
-			
+			addBorder_35mm_67(border_thickness_67);
 		} else if ( thisFormat == "45" ) {
-		
-				addBorder_45(border_thickness_45); // Enlarge canvas
-			
+			addBorder_45(border_thickness_45);
 		} else if ( thisFormat == "square" ) {
-			
 			addBorder_square(border_thickness_square);
-			
 		} else if ( thisFormat == "645" ) {
-			
 			addBorder_645(border_thickness_645);
-			
 		}
 		
 		app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
@@ -706,7 +574,7 @@ if ( preflight_check() == 1 ) {
 		
 		// ALL DONE!
 		
-	} catch (e) {}
+	} catch (e) { alert(e); }
 
 } else {
 	
