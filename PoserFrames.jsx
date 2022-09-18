@@ -492,7 +492,6 @@ function drawPath(useFrame, format) {
 }
 
 if ( preflight_check() == 1 ) {
-
 	try {
 		
 		// Initial properties, settings and calculations
@@ -575,9 +574,6 @@ if ( preflight_check() == 1 ) {
 		// ALL DONE!
 		
 	} catch (e) { alert(e); }
-
 } else {
-	
 	alert("Sorry, but this image is of the wrong size! Poser Frames only work with images with a short side of 3600 px, 4800 px or 6000 px.");
-	
 }
