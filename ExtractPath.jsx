@@ -15,16 +15,11 @@ ExportFile.open("a", "TEXT");
 var pathObj = app.activeDocument.pathItems.getByName('Frame');
 
 for (var s = 0; s < pathObj.subPathItems.length; s++) { // Loop through all SubPathItems
-    
     for (var i = 0; i < pathObj.subPathItems[s].pathPoints.length; i++) { // Loop through all pathPoints in SubPathitem
-        
-        
         var thisPathPoint = pathObj.subPathItems[s].pathPoints[i].kind + " " + pathObj.subPathItems[s].pathPoints[i].anchor +  " " + pathObj.subPathItems[s].pathPoints[i].leftDirection + " " + pathObj.subPathItems[s].pathPoints[i].rightDirection + " " + pathObj.subPathItems[s].pathPoints[i].typename;
-        
         if (i < pathObj.subPathItems[s].pathPoints.length -1 ) {
             thisPathPoint = thisPathPoint + ";"    
         }
-        
         writeToFile(thisPathPoint);
     }
 }
