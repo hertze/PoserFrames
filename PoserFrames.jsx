@@ -158,6 +158,38 @@ frame45_6000px[2] = "PointKind.CORNERPOINT 11.9796385713937,6011.00536716884 11.
 
 
 
+function preflight_check() {
+	
+	if (app.activeDocument.height > app.activeDocument.width) {
+		
+		if (app.activeDocument.width == 3600 || app.activeDocument.width == 4800 || app.activeDocument.width == 6000) {
+		
+			var pass_check = 1;
+			
+		} else {
+			
+			var pass_check = 0;
+			
+		}
+		
+	} else {
+		
+		if (app.activeDocument.height == 3600 || app.activeDocument.height == 4800 || app.activeDocument.height == 6000) {
+					
+			var pass_check = 1;
+					
+		} else {
+					
+			var pass_check = 0;
+					
+		}
+		
+	}
+	
+	return pass_check;
+}
+
+
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
@@ -565,111 +597,119 @@ function drawPath(useFrame, format) {
 	
 }
 
-try {
+if ( preflight_check() == 1 ) {
 
-	// Initial properties, settings and calculations
+	try {
 	
-	app.preferences.rulerUnits = Units.PIXELS;
-	app.displayDialogs.NO;
-	
-	app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the frame to fit
-	
-	var doc_height = app.activeDocument.height;
-	var doc_width = app.activeDocument.width;
-	var ratio = doc_height / doc_width;
-	
-	var myColor = new SolidColor();  
-	myColor.rgb.red = 0;  
-	myColor.rgb.green = 0;  
-	myColor.rgb.blue = 0; 
-	
-	var thisFormat = format();
-	
-	if (ratio > 1) {
+		// Initial properties, settings and calculations
 		
-		if (thisFormat == "35mm") {
+		app.preferences.rulerUnits = Units.PIXELS;
+		app.displayDialogs.NO;
+		
+		app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the frame to fit
+		
+		var doc_height = app.activeDocument.height;
+		var doc_width = app.activeDocument.width;
+		var ratio = doc_height / doc_width;
+		
+		var myColor = new SolidColor();  
+		myColor.rgb.red = 0;  
+		myColor.rgb.green = 0;  
+		myColor.rgb.blue = 0; 
+		
+		var thisFormat = format();
+		
+		if (ratio > 1) {
 			
-			var feather = doc_width / feather_factor_35mm;
-			
-		} else if (thisFormat == "645") {
-			
-			var feather = doc_width / feather_factor_645;
-			
-		} else if (thisFormat == "45") {
-			
-			var feather = doc_width / feather_factor_45;
+			if (thisFormat == "35mm") {
+				
+				var feather = doc_width / feather_factor_35mm;
+				
+			} else if (thisFormat == "645") {
+				
+				var feather = doc_width / feather_factor_645;
+				
+			} else if (thisFormat == "45") {
+				
+				var feather = doc_width / feather_factor_45;
+				
+			} else {
+				
+				var feather = doc_width / feather_factor_67_square;
+				
+			}
 			
 		} else {
 			
-			var feather = doc_width / feather_factor_67_square;
+			
+			if (thisFormat == "35mm") {
+						
+				var feather = doc_height / feather_factor_35mm;
+				
+			} else if (thisFormat == "645") {
+				
+				var feather = doc_height / feather_factor_645;
+				
+			} else if (thisFormat == "45") {
+				
+				var feather = doc_height / feather_factor_45;
+				
+			} else {
+				
+				var feather = doc_height / feather_factor_67_square;
+				
+			}
 			
 		}
 		
-	} else {
-		
-		
-		if (thisFormat == "35mm") {
-					
-			var feather = doc_height / feather_factor_35mm;
-			
-		} else if (thisFormat == "645") {
-			
-			var feather = doc_height / feather_factor_645;
-			
-		} else if (thisFormat == "45") {
-			
-			var feather = doc_height / feather_factor_45;
-			
+		if (ratio > 1) {
+			var frame_size = doc_width;
 		} else {
+			var frame_size = doc_height;
+		}
+		
+		
+		// LET'S GET THIS SHOW GOING!!!!
+		
+		
+		drawPath(stageFrame(), thisFormat); // Choose frame and draw the path
+		
+		if (thisFormat == "35mm" ) {
 			
-			var feather = doc_height / feather_factor_67_square;
+			addBorder_35mm_67(border_thickness_35mm); // Enlarge canvas
+			
+		} else if ( thisFormat == "67" ) {
+	
+			addBorder_35mm_67(border_thickness_67); // Enlarge canvas
+			
+		} else if ( thisFormat == "45" ) {
+		
+				addBorder_45(border_thickness_45); // Enlarge canvas
+			
+		} else if ( thisFormat == "square" ) {
+			
+			addBorder_square(border_thickness_square);
+			
+		} else if ( thisFormat == "645" ) {
+			
+			addBorder_645(border_thickness_645);
 			
 		}
 		
-	}
-	
-	if (ratio > 1) {
-		var frame_size = doc_width;
-	} else {
-		var frame_size = doc_height;
-	}
-	
-	
-	// LET'S GET THIS SHOW GOING!!!!
-	
-	
-	drawPath(stageFrame(), thisFormat); // Choose frame and draw the path
-	
-	if (thisFormat == "35mm" ) {
+		app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
+		app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
+		app.activeDocument.selection.invert(); // Invert selection
+		app.activeDocument.selection.fill(myColor); // Fill with black
 		
-		addBorder_35mm_67(border_thickness_35mm); // Enlarge canvas
+		app.activeDocument.save(); // Saves file. Comment out when testing script.
+		app.activeDocument.close(); // Closes file. Comment out when testing script.
 		
-	} else if ( thisFormat == "67" ) {
+		// ALL DONE!
+		
+	} catch (e) {}
 
-		addBorder_35mm_67(border_thickness_67); // Enlarge canvas
-		
-	} else if ( thisFormat == "45" ) {
+} else {
 	
-			addBorder_45(border_thickness_45); // Enlarge canvas
-		
-	} else if ( thisFormat == "square" ) {
-		
-		addBorder_square(border_thickness_square);
-		
-	} else if ( thisFormat == "645" ) {
-		
-		addBorder_645(border_thickness_645);
-		
-	}
+	alert("Sorry, but this image is of the wrong size! Poser Frames only work with images with a short side of 3600 px, 4800 px or 6000 px.");
 	
-	app.activeDocument.pathItems.getByName('Frame').makeSelection(feather, true); // Make selection from path
-	app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
-	app.activeDocument.selection.invert(); // Invert selection
-	app.activeDocument.selection.fill(myColor); // Fill with black
-	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
-	
-	// ALL DONE!
-	
-} catch (e) {}
+}
