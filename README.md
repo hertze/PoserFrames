@@ -17,7 +17,7 @@ Installing and running Poser Frames
 
 3. Install the Photoshop action by double-clicking on **PoserFrames.atn**, or by loading it in the Actions palette in Photoshop.
 
-4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px. All other sizes will cause the script to silently fail.
+4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px.
 
 5. Run the action **Run PoserFrames** on your photo, or make a droplet with this action.
 
