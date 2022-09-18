@@ -11,11 +11,11 @@ Sidenote: Those dimensions mentioned above are chosen to be compatible with [the
 Installing and running Poser Frames
 ------------------------------------------------------------
 
-1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac it's in **/Applications/Photoshop 2022/Presets/Scripts**. You may have to change the permissions of this folder to copy the script there.
+1. Copy the script **PoserFrames.jsx** to Photoshop’s scripts folder. On Mac it's in **/Applications/Photoshop 2022/Presets/Scripts** and on Windows 10 it's in **C:\Program Files\Adobe\Adobe Photoshop 2022\Presets\Scripts**. You may have to change the permissions of this folder to copy the script there.
 
-2. Install the Photoshop action by double-clicking on **PoserFrames.atn**, or by loading it in the Actions palette in Photoshop.
+3. Start Photoshop and make sure **PoserFrames** shows up in the menu **File/Scripts**. If you already had Photoshop running when you copied the script to the scripts folder, you may have to restart it.
 
-3. Make sure **PoserFrames** shows up in the menu **File/Scripts**.
+3. Install the Photoshop action by double-clicking on **PoserFrames.atn**, or by loading it in the Actions palette in Photoshop.
 
 4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px. All other sizes will cause the script to silently fail.
 
@@ -27,7 +27,7 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **borderThickness_35mm**: Border width in % for 35mm, initially set to 1.
+1. **border_thickness_35mm**: Border width in % for 35mm, initially set to 1.
 
 2. **border_thickness_645**: Border width in % for 645, initially set to 2.
 
@@ -37,7 +37,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 5. **border_thickness_45**: Border width in % for 4x5; initially set to 1.5.
 
-6. **offset_factor**: How much offset is allowed for 35mm and 67, where 0 is none, 0.5 is medium and 1 is maximum.
+6. **offset_factor**: How much offset is allowed, where 0 is none, 0.5 is medium and 1 is maximum.
 
 7. **edge_odds**: The odds of getting a 35mm or 67 frame scanned right to the edge. 1 is certain, 2 is 50% probable and 10 is 10% probable.
 
