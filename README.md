@@ -19,7 +19,7 @@ Installing and running Poser Frames
 
 4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px.
 
-5. Run the action **Run PoserFrames** on your photo, or make a droplet with this action.
+5. Run the script in one of three ways: directly from the menu **File/Scripts/PoserFrames**, by running the action **Run PoserFrames** from the Actions Palette, or by making a droplet with the action **Run PoserFrames** and simply drag and drop your photo on it.
 
 
 Script settings
