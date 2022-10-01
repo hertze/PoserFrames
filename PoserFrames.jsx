@@ -511,9 +511,9 @@ if ( preflight_check() == 1 ) {
 		myColor_white.rgb.blue = 255;
 		
 		var myColor_grey = new SolidColor();  
-		myColor_grey.rgb.red = 180;  
-		myColor_grey.rgb.green = 180;  
-		myColor_grey.rgb.blue = 180;
+		myColor_grey.rgb.red = 238;  
+		myColor_grey.rgb.green = 229  
+		myColor_grey.rgb.blue = 215;
 		
 		
 		
@@ -585,16 +585,8 @@ if ( preflight_check() == 1 ) {
 
 		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
 		app.activeDocument.selection.fill(myColor_grey); // Fill with grey
-		
-		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-		//app.activeDocument.selection.invert(); // Invert selection
-		//app.activeDocument.selection.fill(myColor_white); // Fill with white
-		
-		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		app.activeDocument.selection.fill(myColor_black);
-		
-		app.activeDocument.selection.clear();
 		
 		
 		// Calculate the movement of the negative layer
@@ -616,7 +608,7 @@ if ( preflight_check() == 1 ) {
 		app.activeDocument.pathItems.getByName('negative').remove();
 		app.activeDocument.pathItems.getByName('shadow').remove();
 		app.activeDocument.pathItems.getByName('mask').remove();
-		//app.activeDocument.flatten(); // Flatten all layers
+		app.activeDocument.flatten(); // Flatten all layers
 		//app.activeDocument.save(); // Saves file. Comment out when testing script.
 		//app.activeDocument.close(); // Closes file. Comment out when testing script.
 		
