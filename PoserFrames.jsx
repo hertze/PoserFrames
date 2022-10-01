@@ -193,6 +193,16 @@ function generateRandomInteger(min, max) {
 }
 
 
+function MoveLayerTo(fLayer,fX,fY) {
+
+  var Position = fLayer.bounds;
+  Position[0] = fX - Position[0];
+  Position[1] = fY - Position[1];
+
+  fLayer.translate(-Position[0],-Position[1]);
+}
+
+
 function format(){
 	
 	// Determine format
@@ -404,8 +414,6 @@ function stageShadow() {
 
 
 function createPath(thisFrame, pathName) {
-	
-	
 	// Build the path
 	var thisPathPointInfo = thisFrame.split(";");
 	var thisPathPointInfoProperties = [];
@@ -437,142 +445,6 @@ function createPath(thisFrame, pathName) {
 	pth[0].entireSubPath = p;
 	app.activeDocument.pathItems.add(pathName, pth);
 	
-}
-
-
-function addBorder_35mm_67(border_thickness) {
-	
-	// Enlarge the canvas
-	if ( ratio > 1 ) {
-		
-		// Portrait
-		var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
-		var new_doc_width = doc_width * (100 + border_thickness) / 100;
-		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-		var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, 10) / 2;
-		
-		// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
-		if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-			horisontal_offset = horisontal_offset * 1.6;
-		}
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-	
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-	} else {
-			
-		// Landscape
-		var new_doc_height = doc_height * (100 + border_thickness) / 100;
-		var new_doc_width = doc_width * (100 + border_thickness * ratio) / 100;
-		var horisontal_offset = offset_factor * (border_thickness * ratio / 100) * doc_width / generateRandomInteger(1, 10) / 2;
-		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-		
-		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-			vertical_offset = vertical_offset * 1.6;
-		}
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-		
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-	}
-
-}
-
-function addBorder_645(border_thickness) {
-	
-	// Enlarge the canvas
-	if ( ratio > 1 ) {
-		
-		// Portrait
-		var new_doc_width = doc_width * (100 + border_thickness) / 100;
-		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-		
-		// If we have edge scan, we want a 50% chance of increasing the offset, so the image edge is free of frame.
-		if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-			horisontal_offset = horisontal_offset * 1.6;
-		}
-			
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
-	
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
-			
-	} else {
-			
-		// Landscape
-		
-		var new_doc_height = doc_height * (100 + border_thickness) / 100;
-		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-		if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-			vertical_offset = vertical_offset * 1.6;
-		}
-			
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-		
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-	}
-
-}
-
-function addBorder_45(border_thickness) {
-	
-	// Enlarge the canvas
-	if ( ratio > 1 ) {
-
-		// Portrait
-		var new_doc_height = doc_height * (100 + border_thickness) / 100;
-		var vertical_offset = offset_factor * (border_thickness / 100) * doc_height / generateRandomInteger(1, edge_odds);
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(doc_height + vertical_offset,"px"), AnchorPosition.TOPRIGHT);
-	
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-			
-	} else {
-			
-		// Landscape
-		var new_doc_width = doc_width * (100 + border_thickness) / 100;
-		var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-		
-		// Offset
-		app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(100,"%"), AnchorPosition.TOPRIGHT);
-		
-		// Enlarging canvas
-		app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
-	}
-
-}
-
-
-function addBorder_square(border_thickness) {
-	
-	// Enlarge the canvas
-	var new_doc_height = doc_height * (100 + border_thickness / ratio) / 100;
-	var new_doc_width = doc_width * (100 + border_thickness) / 100;
-	var horisontal_offset = offset_factor * (border_thickness / 100) * doc_width / generateRandomInteger(1, edge_odds);
-	var vertical_offset = offset_factor * (border_thickness / ratio / 100) * doc_height / generateRandomInteger(1, edge_odds);
-	
-	if ( horisontal_offset == offset_factor * (border_thickness / 100) * doc_width && generateRandomInteger(1, 2) > 1 ) {
-		horisontal_offset = horisontal_offset * 2;
-	}
-	if ( vertical_offset == offset_factor * (border_thickness / 100) * doc_height && generateRandomInteger(1, 2) > 1 ) {
-		vertical_offset = vertical_offset * 2;
-	}
-	
-	// Offset
-	app.activeDocument.resizeCanvas(UnitValue(horisontal_offset + doc_width,"px"), UnitValue(vertical_offset + doc_height,"px"), AnchorPosition.TOPRIGHT);
-
-	// Enlarging canvas
-	app.activeDocument.resizeCanvas(UnitValue(new_doc_width,"px"), UnitValue(new_doc_height,"px"), AnchorPosition.MIDDLECENTER);
-		
 }
 
 
@@ -677,24 +549,7 @@ if ( preflight_check() == 1 ) {
 		} else {
 			var frame_size = doc_height;
 		}
-		
-		//******************************************
-		// MOVE LAYER TO
-		// Author: Max Kielland
-		//
-		// Moves layer fLayer to the absolute
-		// position fX,fY. The unit of fX and fY are
-		// the same as the ruler setting. 
-		
-		function MoveLayerTo(fLayer,fX,fY) {
-		
-		  var Position = fLayer.bounds;
-		  Position[0] = fX - Position[0];
-		  Position[1] = fY - Position[1];
-		
-		  fLayer.translate(-Position[0],-Position[1]);
-		}
-		
+			
 		
 		// LET'S GET THIS SHOW GOING!!!!
 		
@@ -705,33 +560,15 @@ if ( preflight_check() == 1 ) {
 		
 		drawPath(stageFrame(), thisFormat, "negative"); // Choose a frame and draw the path
 		
+		// Because of the dimensions the negative frame is created in, we need to enlarge the canvas next
 		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
 		
 		drawPath(stageShadow(), thisFormat, "shadow"); // Choose a mask and draw the path
 		drawPath(stageMask(), thisFormat, "mask"); // Choose a mask and draw the path
 		
 		
-		
-		// Enlarge the canvas
-		
-		if (thisFormat == "35mm" ) {
-			
-		} else if ( thisFormat == "67" ) {
-
-		} else if ( thisFormat == "45" ) {
-
-		} else if ( thisFormat == "square" ) {
-
-		} else if ( thisFormat == "645" ) {
-
-		}
-		
-		
-	
-		
 		// Creates the negative layer content
 		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-		//app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
 
@@ -740,14 +577,14 @@ if ( preflight_check() == 1 ) {
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
 
 		// Creates the mask layer content
-		
-		//app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
-		//app.activeDocument.selection.fill(myColor_grey); // Fill with grey
 
+		//app.activeDocument.pathItems.getByName('shadow').makeSelection(feather, true);
+		//app.activeDocument.selection.invert(); // Invert selection
+		//app.activeDocument.selection.fill(myColor_grey); // Fill with grey
+		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_white); // Fill with white
-		//app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 		
 		
 		// Calculate the movement of the negative layer
@@ -766,6 +603,9 @@ if ( preflight_check() == 1 ) {
 		MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal,movement_vertical);
 		
 		// Finish up
+		app.activeDocument.pathItems.getByName('negative').remove();
+		app.activeDocument.pathItems.getByName('shadow').remove();
+		app.activeDocument.pathItems.getByName('mask').remove();
 		//app.activeDocument.flatten(); // Flatten all layers
 		//app.activeDocument.save(); // Saves file. Comment out when testing script.
 		//app.activeDocument.close(); // Closes file. Comment out when testing script.
