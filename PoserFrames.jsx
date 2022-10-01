@@ -614,7 +614,7 @@ if ( preflight_check() == 1 ) {
 		
 		// LET'S GET THIS SHOW GOING!!!!
 		
-		app.activeDocument.activeLayer.name = "background"; // Names background layer.
+		app.activeDocument.activeLayer.name = "negative"; // Names background layer.
 		
 		drawPath(stageFrame(), thisFormat); // Choose a frame and draw the path
 		
