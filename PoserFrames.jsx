@@ -516,6 +516,7 @@ if ( preflight_check() == 1 ) {
 		myColor_grey.rgb.blue = 180;
 		
 		
+		
 		var thisFormat = format();
 		
 		// Calculate feathering
@@ -575,16 +576,25 @@ if ( preflight_check() == 1 ) {
 		// Creates mask layer
 		app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
+		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+		
+		app.activeDocument.selection.selectAll();
+		app.activeDocument.selection.fill(myColor_white);
 
 		// Creates the mask layer content
 
-		//app.activeDocument.pathItems.getByName('shadow').makeSelection(feather, true);
-		//app.activeDocument.selection.invert(); // Invert selection
-		//app.activeDocument.selection.fill(myColor_grey); // Fill with grey
+		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
+		app.activeDocument.selection.fill(myColor_grey); // Fill with grey
 		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-		app.activeDocument.selection.invert(); // Invert selection
-		app.activeDocument.selection.fill(myColor_white); // Fill with white
+		//app.activeDocument.selection.invert(); // Invert selection
+		//app.activeDocument.selection.fill(myColor_white); // Fill with white
+		
+		
+		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
+		app.activeDocument.selection.fill(myColor_black);
+		
+		app.activeDocument.selection.clear();
 		
 		
 		// Calculate the movement of the negative layer
