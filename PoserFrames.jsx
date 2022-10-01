@@ -614,6 +614,8 @@ if ( preflight_check() == 1 ) {
 		
 		// LET'S GET THIS SHOW GOING!!!!
 		
+		app.activeDocument.activeLayer.name = "background"; // Names background layer.
+		
 		drawPath(stageFrame(), thisFormat); // Choose a frame and draw the path
 		
 		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
@@ -643,6 +645,7 @@ if ( preflight_check() == 1 ) {
 		//app.activeDocument.selection.deselect();
 		
 		app.activeDocument.artLayers.add();
+		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
 		//app.activeDocument.selection.selectAll();
 		//app.activeDocument.selection.fill(myColor_white); // Fill with white
 		
@@ -656,7 +659,7 @@ if ( preflight_check() == 1 ) {
 		
 		app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 		
-		app.activeDocument.flatten();
+		//app.activeDocument.flatten();
 		
 		
 		//app.activeDocument.save(); // Saves file. Comment out when testing script.
