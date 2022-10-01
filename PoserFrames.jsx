@@ -611,9 +611,27 @@ if ( preflight_check() == 1 ) {
 			var frame_size = doc_height;
 		}
 		
+		//******************************************
+		// MOVE LAYER TO
+		// Author: Max Kielland
+		//
+		// Moves layer fLayer to the absolute
+		// position fX,fY. The unit of fX and fY are
+		// the same as the ruler setting. 
+		
+		function MoveLayerTo(fLayer,fX,fY) {
+		
+		  var Position = fLayer.bounds;
+		  Position[0] = fX - Position[0];
+		  Position[1] = fY - Position[1];
+		
+		  fLayer.translate(-Position[0],-Position[1]);
+		}
+		
 		
 		// LET'S GET THIS SHOW GOING!!!!
 		
+		app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
 		app.activeDocument.activeLayer.name = "negative"; // Names background layer.
 		
 		drawPath(stageFrame(), thisFormat); // Choose a frame and draw the path
@@ -659,7 +677,24 @@ if ( preflight_check() == 1 ) {
 		
 		app.activeDocument.pathItems.getByName('Frame').remove(); // Trash path
 		
-		//app.activeDocument.flatten();
+		
+		// Calculate the movement
+		
+		if (ratio > 1) {
+		
+			var movement_horisontal = generateRandomInteger(5, 10) * 0.1 * doc_width * 0.02 * -1;
+			var movement_vertical = generateRandomInteger(1, 10) * 0.1 * doc_height * 0.01 * -1;
+		
+		} else {
+			
+			var movement_horisontal = generateRandomInteger(1, 10) * 0.1 * doc_width * 0.01 * -1;
+			var movement_vertical = generateRandomInteger(5, 10) * 0.1 * doc_height * 0.02 * 1;
+			
+		}
+			
+		MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal,movement_vertical);
+		
+		app.activeDocument.flatten();
 		
 		
 		//app.activeDocument.save(); // Saves file. Comment out when testing script.
