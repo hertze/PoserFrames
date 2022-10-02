@@ -102,16 +102,6 @@ function generateRandomInteger(min, max) {
 }
 
 
-function MoveLayerTo(fLayer,fX,fY) {
-
-  var Position = fLayer.bounds;
-  Position[0] = fX - Position[0];
-  Position[1] = fY - Position[1];
-
-  fLayer.translate(-Position[0],-Position[1]);
-}
-
-
 function format(){
 	
 	// Determine format
@@ -252,6 +242,15 @@ function adjustSelection() {
 	var delta_y = app.activeDocument.height / 2 - middle_vertical;
 	
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
+}
+
+function MoveLayerTo(fLayer,fX,fY) {
+
+  var Position = fLayer.bounds;
+  Position[0] = fX - Position[0];
+  Position[1] = fY - Position[1];
+  fLayer.translate(-Position[0],-Position[1]);
+  
 }
 
 function moveNeg() {
