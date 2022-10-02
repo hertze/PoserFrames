@@ -243,6 +243,7 @@ function decideRotation(format, pathKind) {
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
 		if (pathKind == "frame") {
+			// Only frame should have random rotation or 180 flip.
 			if (generateRandomInteger(1, 3) == 3) {
 				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.TOPLEFT);
 			} else {
