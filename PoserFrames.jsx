@@ -97,6 +97,14 @@ function generateRandomInteger(min, max) {
 	return Math.floor(Math.random() * max) + min;
 }
 
+function colorCheck () {
+	var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
+	if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
+		return "bw";
+	} else {
+		return "color";
+	}
+}
 
 function format(){
 	
@@ -302,6 +310,7 @@ function moveNeg() {
 	var doc_width = app.activeDocument.width;
 	var ratio = doc_height / doc_width;
 	
+	
 	var myColor_black = new SolidColor();  
 	myColor_black.rgb.red = 0;  
 	myColor_black.rgb.green = 0;  
@@ -312,10 +321,19 @@ function moveNeg() {
 	myColor_white.rgb.green = 255;  
 	myColor_white.rgb.blue = 255;
 	
-	var myColor_shadow = new SolidColor();  
-	myColor_shadow.rgb.red = 238;  
-	myColor_shadow.rgb.green = 229  
-	myColor_shadow.rgb.blue = 215;
+	if (colorCheck() == "color") {
+		var myColor_shadow = new SolidColor();  
+		myColor_shadow.rgb.red = 238;  
+		myColor_shadow.rgb.green = 229;
+		myColor_shadow.rgb.blue = 215;
+	} else {
+		
+		var myColor_shadow = new SolidColor();  
+		myColor_shadow.rgb.red = 215;  
+		myColor_shadow.rgb.green = 215;  
+		myColor_shadow.rgb.blue = 215;
+		
+	}
 	
 	var thisFormat = format();
 	
