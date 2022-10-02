@@ -7,6 +7,7 @@
 
 // User settings
 
+var post_crop = false;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
@@ -421,7 +422,9 @@ function moveNeg() {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	// Crop?
+	if (post_crop == true) {
+		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+	}
 	
 	//app.activeDocument.save(); // Saves file. Comment out when testing script.
 	//app.activeDocument.close(); // Closes file. Comment out when testing script.
