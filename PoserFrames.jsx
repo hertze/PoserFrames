@@ -327,12 +327,10 @@ function moveNeg() {
 		myColor_shadow.rgb.green = 229;
 		myColor_shadow.rgb.blue = 215;
 	} else {
-		
 		var myColor_shadow = new SolidColor();  
 		myColor_shadow.rgb.red = 215;  
 		myColor_shadow.rgb.green = 215;  
 		myColor_shadow.rgb.blue = 215;
-		
 	}
 	
 	var thisFormat = format();
