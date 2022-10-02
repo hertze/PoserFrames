@@ -243,7 +243,11 @@ function decideRotation(format, pathKind) {
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
 		if (pathKind == "frame") {
-			app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.TOPLEFT);
+			if (generateRandomInteger(1, 3) == 3) {
+				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.TOPLEFT);
+			} else {
+				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.TOPLEFT);
+			}
 		} else {
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.TOPLEFT);
 		}
