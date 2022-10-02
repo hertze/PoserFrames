@@ -275,7 +275,7 @@ function moveNeg() {
 			if (ratio > 1) {
 				// Portrait
 				var movement_horisontal = generateRandomInteger(5, 10) * 0.1 * doc_width * 0.015 * -1;
-				var movement_vertical = generateRandomInteger(1, 10) * 0.1 * doc_height * 0.01 * -1;
+				var movement_vertical = generateRandomInteger(1, 10) * 0.1 * doc_height * 0.01;
 			} else {
 				// Landscape
 				var movement_horisontal = generateRandomInteger(1, 10) * 0.1 * doc_width * 0.01 * -1;
