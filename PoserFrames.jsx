@@ -143,7 +143,7 @@ function format(){
 	
 }
 
-function stagePath(pathKind) {
+function choosePath(pathKind) {
 	// Choosing the path
 	var thisFormat = format();
 	var stageFrame=[];
@@ -344,9 +344,9 @@ function moveNeg() {
 	app.activeDocument.activeLayer.name = "negative"; // Names background layer.
 	
 	// Creates paths
-	createPath(stagePath("frame"), "negative"); // Choose a frame and draw the path
-	createPath(stagePath("shadow"), "shadow"); // Choose a mask and draw the path
-	createPath(stagePath("mask"), "mask"); // Choose a mask and draw the path
+	createPath(choosePath("frame"), "negative"); // Choose a frame and draw the path
+	createPath(choosePath("shadow"), "shadow"); // Choose a mask and draw the path
+	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
 	
 	app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
 	
