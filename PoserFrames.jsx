@@ -316,7 +316,19 @@ function moveNeg(thisFormat) {
 	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
-
+function postCrop(thisFormat) {
+	if (thisFormat == "35mm") {
+		app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(94,"%"), AnchorPosition.MIDDLECENTER);
+	} else if (thisFormat == "645") {
+		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+	} else if (thisFormat == "67") {
+		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+	} else if (thisFormat == "square") {
+		app.activeDocument.resizeCanvas(UnitValue(91.5,"%"), UnitValue(91.5,"%"), AnchorPosition.MIDDLECENTER);
+	} else if (thisFormat == "45") {
+		app.activeDocument.resizeCanvas(UnitValue(91,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+	}
+}
 
 
 try {
@@ -439,7 +451,7 @@ try {
 	app.activeDocument.flatten(); // Flatten all layers
 	
 	if (post_crop == true) {
-		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+		postCrop(thisFormat);
 	}
 	
 	//app.activeDocument.save(); // Saves file. Comment out when testing script.
