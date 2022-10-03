@@ -241,17 +241,17 @@ function decideRotation(format, pathKind) {
 		if (pathKind == "frame") {
 			// Only frame should have random rotation or 180 flip.
 			if (generateRandomInteger(1, 3) == 3 && format != "45") {
-				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.TOPLEFT);
+				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
-				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.TOPLEFT);
+				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
 			}
 		} else {
-			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.TOPLEFT);
+			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
 		// Landscape
 		if (pathKind == "frame") {
-			app.activeDocument.selection.rotateBoundary(randRotation, AnchorPosition.TOPLEFT);
+			app.activeDocument.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
 		}
 	}
 }
@@ -259,13 +259,11 @@ function decideRotation(format, pathKind) {
 
 function adjustSelection() {
 	app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
-	
 	var selection_bounds = activeDocument.selection.bounds;
 	var middle_horisontal = ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0];
 	var middle_vertical = ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1];
 	var delta_x = app.activeDocument.width / 2 - middle_horisontal;
 	var delta_y = app.activeDocument.height / 2 - middle_vertical;
-	
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
 }
 
@@ -397,6 +395,8 @@ function moveNeg(thisFormat) {
 	
 	// LET'S GET THIS SHOW GOING!!!!
 	
+	app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+	
 	app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
 	app.activeDocument.activeLayer.name = "negative"; // Names background layer.
 	
@@ -404,8 +404,6 @@ function moveNeg(thisFormat) {
 	createPath(choosePath("frame"), "negative"); // Choose a frame and draw the path
 	createPath(choosePath("shadow"), "shadow"); // Choose a mask and draw the path
 	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
-	
-	app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
 	
 	// Creates the negative layer content
 	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
