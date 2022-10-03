@@ -23,7 +23,7 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **post_crop**: If you want you images cropped to a narrow border, set this to true. Initially set to false.
+1. **artsy**: If you want you images cropped to a narrow border, set this to false. Initially set to true.
 
 2. **eccentric**: If you want the image area to be centered in the frame,  set this to false. Initially set to true.
 
