@@ -350,9 +350,9 @@ try {
 		myColor_shadow.rgb.blue = 138;
 	} else {
 		var myColor_shadow = new SolidColor();  
-		myColor_shadow.rgb.red = 215;  
-		myColor_shadow.rgb.green = 215;  
-		myColor_shadow.rgb.blue = 215;
+		myColor_shadow.rgb.red = 175;  
+		myColor_shadow.rgb.green = 175;  
+		myColor_shadow.rgb.blue = 175;
 	}
 	
 	var thisFormat = format();
