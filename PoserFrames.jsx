@@ -476,9 +476,9 @@ try {
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
 		
-		// Creates mask layer
+		// Creates fill layer
 		app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
+		app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
 		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_black); // Fill the layer with white
