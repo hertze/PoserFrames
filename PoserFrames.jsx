@@ -7,7 +7,7 @@
 
 // User settings
 
-var post_crop = false;
+var post_crop = true;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
@@ -324,13 +324,25 @@ function postCrop(thisFormat, ratio) {
 			app.activeDocument.resizeCanvas(UnitValue(94,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
 		}
 	} else if (thisFormat == "645") {
-		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+		}
 	} else if (thisFormat == "67") {
-		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
+		}
 	} else if (thisFormat == "square") {
 		app.activeDocument.resizeCanvas(UnitValue(91.5,"%"), UnitValue(91.5,"%"), AnchorPosition.MIDDLECENTER);
 	} else if (thisFormat == "45") {
-		app.activeDocument.resizeCanvas(UnitValue(91,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(91,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(91,"%"), AnchorPosition.MIDDLECENTER);
+		}
 	}
 }
 
