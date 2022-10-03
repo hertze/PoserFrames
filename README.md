@@ -3,9 +3,7 @@ P O S E R  F R A M E S
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a shortest side of 3600 px, 4800 px or 6000 px.
-
-Sidenote: Those dimensions mentioned above are chosen to be compatible with [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com). I run Poser Frames on my files first, directly when exporting from Lightroom. I then run the Film Grain on those files, so the borders blend into the images in a believable way.
+**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a minimum short side of 1500px.
 
 
 Installing and running Poser Frames
@@ -17,9 +15,7 @@ Installing and running Poser Frames
 
 3. Install the Photoshop action by double-clicking on **PoserFrames.atn**, or by loading it in the Actions palette in Photoshop.
 
-4. Resize your photo, so its shortest side is either 3600 px, 4800 px or 6000 px.
-
-5. Run the script in one of three ways: directly from the menu **File/Scripts/PoserFrames**, by running the action **Run PoserFrames** from the Actions Palette, or by making a droplet with the action **Run PoserFrames** and simply drag and drop your photo on it.
+4. Run the script in one of three ways: directly from the menu **File/Scripts/PoserFrames**, by running the action **Run PoserFrames** from the Actions Palette, or by making a droplet with the action **Run PoserFrames** and simply drag and drop your photo on it.
 
 
 Script settings
@@ -27,27 +23,15 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **border_thickness_35mm**: Border width in % for 35mm, initially set to 1.
+1. **post_crop**: If you want you images cropped to a narrow border, set this to true. Initially set to false.
 
-2. **border_thickness_645**: Border width in % for 645, initially set to 2.
+2. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
-3. **border_thickness_square**: Border width in % for Square; initially set to 1.
+3. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
 
-4. **borderThickness_67**: Border width in % for 67, initially set to 1.
+4. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
 
-5. **border_thickness_45**: Border width in % for 4x5; initially set to 1.5.
-
-6. **offset_factor**: How much offset is allowed, where 0 is none, 0.5 is medium and 1 is maximum.
-
-7. **edge_odds**: The odds of getting an eccentric border placement, mimicking scanning right to the edge of the image area. 1 is certain, 2 is 50% probable and 10 is 10% probable.
-
-8. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
-
-9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
-
-10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
-
-11. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
+5. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
 
 
 Examples

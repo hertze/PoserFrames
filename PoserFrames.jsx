@@ -316,9 +316,13 @@ function moveNeg(thisFormat) {
 	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
-function postCrop(thisFormat) {
+function postCrop(thisFormat, ratio) {
 	if (thisFormat == "35mm") {
-		app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(94,"%"), AnchorPosition.MIDDLECENTER);
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(94,"%"), AnchorPosition.MIDDLECENTER);
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(94,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
+		}
 	} else if (thisFormat == "645") {
 		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
 	} else if (thisFormat == "67") {
@@ -406,7 +410,11 @@ try {
 	
 	// LET'S GET THIS SHOW GOING!!!!
 	
-	app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+	if (ratio > 1) {
+		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+	} else {
+		app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+	}
 	
 	app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
 	app.activeDocument.activeLayer.name = "negative"; // Names background layer.
@@ -451,11 +459,11 @@ try {
 	app.activeDocument.flatten(); // Flatten all layers
 	
 	if (post_crop == true) {
-		postCrop(thisFormat);
+		postCrop(thisFormat, ratio);
 	}
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
