@@ -60,7 +60,7 @@ Troubleshooting and general tips
 
 - The error message "The document does not contain a selection" means the image dimensions are too small. For technical reasons your image needs to be at least 1500px on it's shortest side for the script to run.
 
-- Consider keeping more than one copy of **PoserFrames.jsx** with different user settings in your scripts folder, for example two named **PoserFrames-artsy.jsx** and **PoserFrames-conservative.jsx**. They'll all show up in Photoshop's scripts menu for easy access.
+- Consider keeping multiple copies of **PoserFrames.jsx** with different user settings in your scripts folder, for example two named **PoserFrames-artsy.jsx** and **PoserFrames-conservative.jsx**. They'll all show up in Photoshop's scripts menu for easy access.
 
 - I like to run [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com), on my images after I've run Poser Frames. That way, the borders blend in nicely with the image. If you have Poser Frames in artsy mode, you might have to remove the grain added to the white areas outside of the border. I use the magic wand in Photoshop, and fill the selection with white. I actually have a Photoshop droplet that does this automatically.
 
