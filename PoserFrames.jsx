@@ -307,7 +307,6 @@ function moveNeg(thisFormat) {
 		}
 	}
 	// Move the negative layer
-	alert(movement_horisontal + ", " + movement_vertical);
 	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
