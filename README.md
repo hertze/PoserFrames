@@ -45,7 +45,7 @@ Examples
 ![645](/examples/645.jpg) <br>
 *A 4:3 frame.*
 
-![4x5](/examples/4x5.jpg) <br>
+![4x5](/examples/45.jpg) <br>
 *A 4:5 frame.*
 
 ![67](/examples/67.jpg) <br>
