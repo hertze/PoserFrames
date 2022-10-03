@@ -289,11 +289,11 @@ function moveNeg(thisFormat) {
 		if (ratio > 1) {
 			// Portrait
 			var movement_horisontal = generateRandomInteger(5, 10) * 0.1 * doc_width * 0.015 * -1;
-			var movement_vertical = generateRandomInteger(1, 10) * 0.1 * doc_height * 0.001;
+			var movement_vertical = generateRandomInteger(1, 10) * 0.1 * doc_height * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(1, 10) * 0.1 * doc_width * 0.001 * -1;
-			var movement_vertical = generateRandomInteger(5, 10) * 0.1 * doc_height * 0.015 * 1;
+			var movement_horisontal = generateRandomInteger(1, 10) * 0.1 * doc_width * 0.002;
+			var movement_vertical = generateRandomInteger(5, 10) * 0.1 * doc_height * 0.015;
 		}
 	} else {
 		if (ratio > 1) {
@@ -307,7 +307,8 @@ function moveNeg(thisFormat) {
 		}
 	}
 	// Move the negative layer
-	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal,movement_vertical);
+	alert(movement_horisontal + ", " + movement_vertical);
+	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
 
