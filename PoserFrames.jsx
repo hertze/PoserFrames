@@ -320,7 +320,7 @@ function moveNeg(thisFormat) {
 
 
 
-//try {
+try {
 	
 	// Initial properties, settings and calculations
 	
@@ -448,4 +448,4 @@ function moveNeg(thisFormat) {
 	
 	// ALL DONE!
 	
-//} catch (e) { alert(e); }
+} catch (e) { alert(e); }
