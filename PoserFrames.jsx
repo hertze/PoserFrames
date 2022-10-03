@@ -7,7 +7,7 @@
 
 // User settings
 
-var post_crop = false;
+var artsy = false;
 var eccentric = true;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
@@ -316,36 +316,6 @@ function moveNeg(thisFormat) {
 	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
-function postCrop(thisFormat, ratio) {
-	if (thisFormat == "35mm") {
-		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(94,"%"), AnchorPosition.MIDDLECENTER);
-		} else {
-			app.activeDocument.resizeCanvas(UnitValue(94,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
-		}
-	} else if (thisFormat == "645") {
-		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
-		} else {
-			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
-		}
-	} else if (thisFormat == "67") {
-		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
-		} else {
-			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
-		}
-	} else if (thisFormat == "square") {
-		app.activeDocument.resizeCanvas(UnitValue(91.5,"%"), UnitValue(91.5,"%"), AnchorPosition.MIDDLECENTER);
-	} else if (thisFormat == "45") {
-		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(91,"%"), UnitValue(93,"%"), AnchorPosition.MIDDLECENTER);
-		} else {
-			app.activeDocument.resizeCanvas(UnitValue(93,"%"), UnitValue(91,"%"), AnchorPosition.MIDDLECENTER);
-		}
-	}
-}
-
 
 try {
 	
@@ -422,12 +392,6 @@ try {
 	
 	// LET'S GET THIS SHOW GOING!!!!
 	
-	if (ratio > 1) {
-		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
-	} else {
-		app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
-	}
-	
 	app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
 	app.activeDocument.activeLayer.name = "negative"; // Names background layer.
 	
@@ -436,31 +400,65 @@ try {
 	createPath(choosePath("shadow"), "shadow"); // Choose a mask and draw the path
 	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
 	
-	// Creates the negative layer content
-	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-	decideRotation(thisFormat, "frame");
-	adjustSelection(); //Scales and centers the selection
-	app.activeDocument.selection.invert(); // Invert selection
-	app.activeDocument.selection.fill(myColor_black); // Fill with black
-
-	// Creates mask layer
-	app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
-	app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
-	app.activeDocument.selection.selectAll();
-	app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
-
-	// Creates the mask layer content
-	app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
-	decideRotation(thisFormat, "shadow");
-	adjustSelection(); //Scales and centers the selection
-	app.activeDocument.selection.fill(myColor_shadow); // Fill the shadow
+	if (artsy == true) {
 	
-	app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-	decideRotation(thisFormat, "mask");
-	adjustSelection(); //Scales and centers the selection
-	app.activeDocument.selection.fill(myColor_black);
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+		}
+		
+		// Creates the negative layer content
+		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+		decideRotation(thisFormat, "frame");
+		adjustSelection(); //Scales and centers the selection
+		app.activeDocument.selection.invert(); // Invert selection
+		app.activeDocument.selection.fill(myColor_black); // Fill with black
 	
+		// Creates mask layer
+		app.activeDocument.artLayers.add();
+		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
+		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+		app.activeDocument.selection.selectAll();
+		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
+	
+		// Creates the mask layer content
+		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
+		decideRotation(thisFormat, "shadow");
+		adjustSelection(); //Scales and centers the selection
+		app.activeDocument.selection.fill(myColor_shadow); // Fill the shadow
+		
+		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
+		decideRotation(thisFormat, "mask");
+		adjustSelection(); //Scales and centers the selection
+		app.activeDocument.selection.fill(myColor_black);
+		
+	} else {
+		
+		// Uptight
+		
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(102,"%"), UnitValue(2 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(2 * ratio + 100,"%"), UnitValue(102,"%"), AnchorPosition.MIDDLECENTER);
+		}
+		
+		// Creates the negative layer content
+		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+		decideRotation(thisFormat, "frame");
+		adjustSelection(); //Scales and centers the selection
+		app.activeDocument.selection.invert(); // Invert selection
+		app.activeDocument.selection.fill(myColor_black); // Fill with black
+		
+		// Creates mask layer
+		app.activeDocument.artLayers.add();
+		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
+		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+		app.activeDocument.selection.selectAll();
+		app.activeDocument.selection.fill(myColor_black); // Fill the layer with white
+		
+	}
+		
 	if (eccentric == true) {
 		moveNeg(thisFormat);
 	}
@@ -470,11 +468,7 @@ try {
 	app.activeDocument.pathItems.getByName('negative').remove();
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	app.activeDocument.flatten(); // Flatten all layers
-	
-	if (post_crop == true) {
-		postCrop(thisFormat, ratio);
-	}
+	//app.activeDocument.flatten(); // Flatten all layers
 	
 	//app.activeDocument.save(); // Saves file. Comment out when testing script.
 	//app.activeDocument.close(); // Closes file. Comment out when testing script.
