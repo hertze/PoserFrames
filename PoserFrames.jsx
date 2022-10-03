@@ -7,7 +7,8 @@
 
 // User settings
 
-var post_crop = true;
+var post_crop = false;
+var eccentric = true;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
@@ -461,7 +462,9 @@ try {
 	adjustSelection(); //Scales and centers the selection
 	app.activeDocument.selection.fill(myColor_black);
 	
-	moveNeg(thisFormat);
+	if (eccentric == true) {
+		moveNeg(thisFormat);
+	}
 
 	// Finish up
 	app.activeDocument.selection.deselect();
