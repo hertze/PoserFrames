@@ -7,7 +7,7 @@
 
 // User settings
 
-var artsy = false;
+var artsy = true;
 var eccentric = true;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
@@ -435,12 +435,38 @@ try {
 		
 	} else {
 		
-		// Uptight
+		// Conservative mode
 		
-		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(102,"%"), UnitValue(2 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
-		} else {
-			app.activeDocument.resizeCanvas(UnitValue(2 * ratio + 100,"%"), UnitValue(102,"%"), AnchorPosition.MIDDLECENTER);
+		if (thisFormat == "35mm") {
+			if (ratio > 1) {
+				app.activeDocument.resizeCanvas(UnitValue(102,"%"), UnitValue(2 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			} else {
+				app.activeDocument.resizeCanvas(UnitValue(2 * ratio + 100,"%"), UnitValue(102,"%"), AnchorPosition.MIDDLECENTER);
+			}
+		} else if (thisFormat == "645") {
+			if (ratio > 1) {
+				app.activeDocument.resizeCanvas(UnitValue(102,"%"), UnitValue(0 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			} else {
+				app.activeDocument.resizeCanvas(UnitValue(0 * ratio + 100,"%"), UnitValue(102,"%"), AnchorPosition.MIDDLECENTER);
+			}
+		} else if (thisFormat == "67") {
+			if (ratio > 1) {
+				app.activeDocument.resizeCanvas(UnitValue(102,"%"), UnitValue(2 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			} else {
+				app.activeDocument.resizeCanvas(UnitValue(2 * ratio + 100,"%"), UnitValue(102,"%"), AnchorPosition.MIDDLECENTER);
+			}
+		} else if (thisFormat == "45") {
+			if (ratio > 1) {
+				app.activeDocument.resizeCanvas(UnitValue(100.5,"%"), UnitValue(3 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			} else {
+				app.activeDocument.resizeCanvas(UnitValue(3 * ratio + 100,"%"), UnitValue(100.5,"%"), AnchorPosition.MIDDLECENTER);
+			}
+		} else if (thisFormat == "square") {
+			if (ratio > 1) {
+				app.activeDocument.resizeCanvas(UnitValue(101,"%"), UnitValue(1 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			} else {
+				app.activeDocument.resizeCanvas(UnitValue(1 * ratio + 100,"%"), UnitValue(101,"%"), AnchorPosition.MIDDLECENTER);
+			}
 		}
 		
 		// Creates the negative layer content
@@ -468,7 +494,7 @@ try {
 	app.activeDocument.pathItems.getByName('negative').remove();
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	//app.activeDocument.flatten(); // Flatten all layers
+	app.activeDocument.flatten(); // Flatten all layers
 	
 	//app.activeDocument.save(); // Saves file. Comment out when testing script.
 	//app.activeDocument.close(); // Closes file. Comment out when testing script.
