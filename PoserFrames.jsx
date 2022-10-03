@@ -425,10 +425,10 @@ function moveNeg(thisFormat) {
 
 	// Finish up
 	app.activeDocument.selection.deselect();
-	//app.activeDocument.pathItems.getByName('negative').remove();
-	//app.activeDocument.pathItems.getByName('shadow').remove();
-	//app.activeDocument.pathItems.getByName('mask').remove();
-	//app.activeDocument.flatten(); // Flatten all layers
+	app.activeDocument.pathItems.getByName('negative').remove();
+	app.activeDocument.pathItems.getByName('shadow').remove();
+	app.activeDocument.pathItems.getByName('mask').remove();
+	app.activeDocument.flatten(); // Flatten all layers
 	
 	if (post_crop == true) {
 		app.activeDocument.resizeCanvas(UnitValue(92,"%"), UnitValue(92,"%"), AnchorPosition.MIDDLECENTER);
