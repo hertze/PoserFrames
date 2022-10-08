@@ -7,10 +7,10 @@
 
 // User settings
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
-var border_width_35mm = 1;
+var border_width_35mm = 1.5;
 var border_width_645 = 1;
 var border_width_67 = 1;
 var border_width_45 = 1;
@@ -21,7 +21,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-
+var extreme = true;
 
 // PATH LIBRARY ------------------------------------------------------
 
@@ -159,7 +159,11 @@ shadow45[2] = "PointKind.CORNERPOINT 221.750181913376,212.453141212463 221.75018
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
-	return Math.floor(Math.random() * max) + min;
+	if (extreme = true ) {
+		return Math.floor(Math.random() * max) + min;
+	} else {
+		return max;
+	}
 }
 
 function colorCheck () {
@@ -385,12 +389,12 @@ function moveNeg(thisFormat) {
 	} else {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.01 * -1;
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * 0.01;
+			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.005 * -1;
+			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(10, 20) * 0.01 * doc_width * border_width_35mm * 0.01 * -1;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_35mm * 0.01;
+			var movement_horisontal = generateRandomInteger(10, 20) * 0.01 * doc_width * border_width_35mm * 0.002 * -1;
+			var movement_vertical = generateRandomInteger(40, 100) * 0.01 * doc_height * border_width_35mm * 0.008;
 		}
 	}
 	// Move the negative layer
