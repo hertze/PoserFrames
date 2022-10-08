@@ -7,7 +7,7 @@
 
 // User settings
 
-var artsy = true;
+var fancy = true;
 var eccentric = true;
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
@@ -348,7 +348,7 @@ function moveNeg(thisFormat) {
 	} else {
 		// Landscape
 		var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.01 * -1;
-		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.012 * 1;
+		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.012;
 	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
@@ -371,7 +371,7 @@ function moveNeg(thisFormat) {
 		} else {
 			// Landscape
 			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.005 * -1;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.01 * 1;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.01;
 		}
 	}
 	// Move the negative layer
@@ -462,7 +462,7 @@ try {
 	createPath(choosePath("shadow"), "shadow"); // Choose a mask and draw the path
 	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
 	
-	if (artsy == true) {
+	if (fancy == true) {
 	
 		if (ratio > 1) {
 			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
