@@ -159,10 +159,10 @@ shadow45[2] = "PointKind.CORNERPOINT 221.750181913376,212.453141212463 221.75018
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
-	if (extreme = true ) {
-		return Math.floor(Math.random() * max) + min;
-	} else {
+	if (extreme == true ) {
 		return max;
+	} else {
+		return Math.floor(Math.random() * max) + min;
 	}
 }
 
@@ -366,12 +366,12 @@ function moveNeg(thisFormat) {
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
 		// Portrait
-		var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_67 * 0.009 * -1;
-		var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_67 * 0.002;
+		var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_67 * 0.006 * -1;
+		var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_67 * ratio * 0.002;
 	} else {
 		// Landscape
-		var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_67 * 0.002 * -1;
-		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_67 * 0.007;
+		var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_67 * ratio * 0.002 * -1;
+		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * border_width_67 * 0.006 * doc_height;
 	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
@@ -390,11 +390,11 @@ function moveNeg(thisFormat) {
 		if (ratio > 1) {
 			// Portrait
 			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.005 * -1;
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * 0.002;
+			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * ratio * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(10, 20) * 0.01 * doc_width * border_width_35mm * 0.002 * -1;
-			var movement_vertical = generateRandomInteger(40, 100) * 0.01 * doc_height * border_width_35mm * 0.008;
+			var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_35mm * ratio * 0.002 * -1;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_35mm * 0.006;
 		}
 	}
 	// Move the negative layer
