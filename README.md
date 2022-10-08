@@ -49,20 +49,35 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Examples
 --------
 
+![35mm](/examples/35mm_fancy.jpg) <br>
+*A 3:2 frame in fancy mode.*
+
+![645](/examples/645_fancy.jpg) <br>
+*A 4:3 frame in fancy mode.*
+
+![4x5](/examples/45_fancy.jpg) <br>
+*A 4:5 frame in fancy mode.*
+
+![67](/examples/67_fancy.jpg) <br>
+*A 6:7 frame in fancy mode.*
+
+![Square](/examples/square_fancy.jpg) <br>
+*A 1:1 frame in fancy mode.*
+
 ![35mm](/examples/35mm.jpg) <br>
-*A 3:2 frame.*
+*A 3:2 frame in conservative mode.*
 
 ![645](/examples/645.jpg) <br>
-*A 4:3 frame.*
+*A 4:3 frame in conservative mode.*
 
 ![4x5](/examples/45.jpg) <br>
-*A 4:5 frame.*
+*A 4:5 frame in conservative mode.*
 
 ![67](/examples/67.jpg) <br>
-*A 6:7 frame.*
+*A 6:7 frame in conservative mode.*
 
 ![Square](/examples/square.jpg) <br>
-*A 1:1 frame.*
+*A 1:1 frame in conservative mode.*
 
 
 Troubleshooting and general tips
