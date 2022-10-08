@@ -21,7 +21,11 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
+
+// For testing purposes only
+
 var extreme = false;
+
 
 // PATH LIBRARY ------------------------------------------------------
 
