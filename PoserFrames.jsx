@@ -12,7 +12,7 @@ var eccentric = true;
 
 var border_width_35mm = 1.5;
 var border_width_645 = 1;
-var border_width_67 = 1;
+var border_width_67 = 2;
 var border_width_45 = 1;
 var border_width_square = 1;
 
@@ -366,12 +366,12 @@ function moveNeg(thisFormat) {
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
 		// Portrait
-		var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_67 * 0.01 * -1;
-		var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_67 * 0.01;
+		var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_67 * 0.009 * -1;
+		var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_67 * 0.002;
 	} else {
 		// Landscape
-		var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_67 * 0.01 * -1;
-		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_67 * 0.01;
+		var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_67 * 0.002 * -1;
+		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_67 * 0.007;
 	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
