@@ -1,11 +1,13 @@
 // P O S E R  F R A M E S
 //
 // by Joakim Hertze (www.hertze.se)
+//
+// ------------------------------------------------------------------
 
 #target photoshop
 
 
-// User settings
+// User settings ----------------------------------------------------
 
 var fancy = false;
 var eccentric = true;
