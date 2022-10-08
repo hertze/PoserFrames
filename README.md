@@ -27,13 +27,23 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 2. **eccentric**: If you want the image area to be centered in the frame,  set this to false. Initially set to true.
 
-3. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
+3. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
 
-4. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+4. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 1.
 
-5. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+5. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 1.
 
-6. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
+6. **border_width_45**: Border width for 4x5 format in conservative mode. Initially set to 1.
+
+7. **border_width_square**: Border width for square format in conservative mode. Initially set to 1.
+
+8. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
+
+9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+
+10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+
+11. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
 
 
 Examples
