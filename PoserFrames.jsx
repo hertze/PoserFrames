@@ -11,7 +11,7 @@ var fancy = false;
 var eccentric = true;
 
 var border_width_35mm = 1.5;
-var border_width_645 = 1;
+var border_width_645 = 2;
 var border_width_67 = 2;
 var border_width_45 = 1;
 var border_width_square = 1;
@@ -356,12 +356,12 @@ function moveNeg(thisFormat) {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * border_width_645 * 0.01 * -1;
+			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.006 * -1;
 			var movement_vertical = 0;
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = generateRandomInteger(40, 90) * 0.01 * doc_height * border_width_645 * 0.01;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_645 * 0.006;
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
