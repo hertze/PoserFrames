@@ -27,11 +27,11 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 2. **eccentric**: If you want the image area to be centered in the frame,  set this to false. Initially set to true.
 
-3. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
+3. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.5.
 
-4. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 1.
+4. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 2.
 
-5. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 1.
+5. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 2.
 
 6. **border_width_45**: Border width for 4x5 format in conservative mode. Initially set to 1.
 
