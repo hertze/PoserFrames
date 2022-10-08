@@ -7,7 +7,7 @@
 
 // User settings
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 var feather_factor_35mm = 1200;
@@ -392,6 +392,58 @@ function moveNeg(thisFormat) {
 }
 
 
+function moveNeg_fancy(thisFormat) {
+	// Calculate the movement of the negative layer
+			
+	if (thisFormat == "645") {
+		if (ratio > 1) {
+			// Portrait
+			var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * 0.015 * -1;
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.002;
+		} else {
+			// Landscape
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002;
+			var movement_vertical = generateRandomInteger(40, 90) * 0.01 * doc_height * 0.015;
+		}
+	} else if (thisFormat == "67") {
+	if (ratio > 1) {
+		// Portrait
+		var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.01 * -1;
+		var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.012;
+	} else {
+		// Landscape
+		var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.01 * -1;
+		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.012;
+	}
+	} else if (thisFormat == "45") {
+		if (ratio > 1) {
+			// Portrait
+			var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * 0.002 * -1;
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.002;
+		} else {
+			// Landscape
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002;
+			var movement_vertical = generateRandomInteger(40, 90) * 0.01 * doc_height * 0.002;
+		}
+	} else if (thisFormat == "square" ) {
+		var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * 0.01 * -1;
+		var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.01;
+	} else {
+		if (ratio > 1) {
+			// Portrait
+			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.01 * -1;
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.005;
+		} else {
+			// Landscape
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.005 * -1;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.01;
+		}
+	}
+	// Move the negative layer
+	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
+}
+
+
 try {
 	
 	// Initial properties, settings and calculations
@@ -508,6 +560,10 @@ try {
 		adjustSelection(); //Scales and centers the selection
 		app.activeDocument.selection.fill(myColor_black);
 		
+		if (eccentric == true) {
+			moveNeg_fancy(thisFormat);
+		}
+		
 	} else {
 		
 		// Conservative mode
@@ -558,10 +614,10 @@ try {
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_black); // Fill the layer with white
 		
-	}
+		if (eccentric == true) {
+			moveNeg(thisFormat);
+		}
 		
-	if (eccentric == true) {
-		moveNeg(thisFormat);
 	}
 
 	// Finish up
