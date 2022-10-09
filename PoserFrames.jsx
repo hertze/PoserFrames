@@ -226,8 +226,6 @@ function format(){
 
 function choosePath(pathKind) {
 	// Choosing the path
-	var thisFormat = format();
-	var stageFrame=[];
 	
 	if (thisFormat == "square") {
 		if (pathKind == "frame") {
