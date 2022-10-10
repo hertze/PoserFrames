@@ -9,7 +9,7 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 var border_width_35mm = 1.5;
@@ -26,7 +26,7 @@ var feather_factor_45 = 5400;
 
 // For testing purposes only -----------------------------------------
 
-var extreme = false;
+var extreme = true;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -396,12 +396,12 @@ function moveNeg() {
 	} else {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.005 * -1;
+			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.005 + doc_width * 0.002);
 			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * ratio * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_35mm * ratio * 0.002 * -1;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_35mm * 0.006;
+			var movement_horisontal = -1 * (generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_35mm * ratio * 0.002);
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_35mm * 0.005 + doc_height * 0.002;
 		}
 	}
 	// Move the negative layer
