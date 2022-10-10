@@ -312,14 +312,14 @@ function createPath(thisFrame, pathName) {
 }
 
 
-function decideRotation(format, pathKind) {
+function decideRotation(pathKind) {
 	
 	var randRotation = generateRandomInteger(1, 10) / 10 * 0.1 * -1; // How much random rotation to add.
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
 		if (pathKind == "frame") {
 			// Only frame should have random rotation or 180 flip.
-			if (generateRandomInteger(1, 3) == 3 && format != "45") {
+			if (generateRandomInteger(1, 3) == 3 && thisFormat != "45") {
 				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
 				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
@@ -337,6 +337,7 @@ function decideRotation(format, pathKind) {
 
 
 function adjustSelection() {
+	
 	app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
 	var selection_bounds = activeDocument.selection.bounds;
 	var middle_horisontal = ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0];
@@ -344,6 +345,7 @@ function adjustSelection() {
 	var delta_x = app.activeDocument.width / 2 - middle_horisontal;
 	var delta_y = app.activeDocument.height / 2 - middle_vertical;
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
+	
 }
 
 function MoveLayerTo(fLayer,fX,fY) {
@@ -355,7 +357,7 @@ function MoveLayerTo(fLayer,fX,fY) {
   
 }
 
-function moveNeg(thisFormat) {
+function moveNeg() {
 	// Calculate the movement of the negative layer
 			
 	if (thisFormat == "645") {
@@ -407,7 +409,7 @@ function moveNeg(thisFormat) {
 }
 
 
-function moveNeg_fancy(thisFormat) {
+function moveNeg_fancy() {
 	// Calculate the movement of the negative layer
 			
 	if (thisFormat == "645") {
@@ -552,7 +554,7 @@ try {
 		
 		// Creates the negative layer content
 		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-		decideRotation(thisFormat, "frame");
+		decideRotation("frame");
 		adjustSelection(); //Scales and centers the selection
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
@@ -576,7 +578,7 @@ try {
 		app.activeDocument.selection.fill(myColor_black);
 		
 		if (eccentric == true) {
-			moveNeg_fancy(thisFormat);
+			moveNeg_fancy();
 		}
 		
 	} else {
@@ -617,7 +619,7 @@ try {
 		
 		// Creates the negative layer content
 		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-		decideRotation(thisFormat, "frame");
+		decideRotation("frame");
 		adjustSelection(); //Scales and centers the selection
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
@@ -630,7 +632,7 @@ try {
 		app.activeDocument.selection.fill(myColor_black); // Fill the layer with white
 		
 		if (eccentric == true) {
-			moveNeg(thisFormat);
+			moveNeg();
 		}
 		
 	}
@@ -642,8 +644,8 @@ try {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
