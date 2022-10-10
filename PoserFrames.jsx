@@ -363,12 +363,12 @@ function moveNeg() {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.006 * -1;
+			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.005 + doc_width * 0.005);
 			var movement_vertical = 0;
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_645 * 0.006;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_645 * 0.005 + doc_height * 0.005;
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
