@@ -23,7 +23,7 @@ Script settings
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges. If you like your borders conservative, set this to false. Initially set to true.
+1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges. If you like your borders conservative, set this to false. Initially set to false.
 
 2. **eccentric**: If you want the image area to be centered in the frame,  set this to false. Initially set to true.
 
