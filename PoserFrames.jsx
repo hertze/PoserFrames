@@ -9,7 +9,7 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 var border_width_35mm = 1.5;
@@ -567,10 +567,12 @@ try {
 		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
 	
 		// Creates the mask layer content
-		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2, true);
+		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather, true);
 		decideRotation(thisFormat, "shadow");
 		adjustSelection(); //Scales and centers the selection
 		app.activeDocument.selection.fill(myColor_shadow); // Fill the shadow
+		app.activeDocument.activeLayer.applyAddNoise(8, NoiseDistribution.GAUSSIAN, true); // Dirty upp the shadow
+		app.activeDocument.activeLayer.applyGaussianBlur(feather/2);
 		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation(thisFormat, "mask");
@@ -642,10 +644,10 @@ try {
 	app.activeDocument.pathItems.getByName('negative').remove();
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	app.activeDocument.flatten(); // Flatten all layers
+	//app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
