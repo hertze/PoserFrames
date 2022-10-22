@@ -633,7 +633,7 @@ try {
 		app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
 		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_black); // Fill the layer with white
+		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
 		
 		if (eccentric == true) {
 			moveNeg();
