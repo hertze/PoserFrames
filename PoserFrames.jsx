@@ -26,7 +26,7 @@ var feather_factor_45 = 5400;
 
 // For testing purposes only -----------------------------------------
 
-var extreme = true;
+var extreme = false;
 
 
 // PATH LIBRARY ------------------------------------------------------
