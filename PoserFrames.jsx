@@ -169,7 +169,7 @@ function generateRandomInteger(min, max) {
 	if (extreme == true ) {
 		return max;
 	} else {
-		return Math.floor(Math.random() * max) + min;
+		return Math.floor(Math.random() * (max - min)) + min;
 	}
 }
 
@@ -486,15 +486,17 @@ try {
 	myColor_white.rgb.blue = 255;
 	
 	if (colorCheck() == "color") {
-		var myColor_shadow = new SolidColor();  
-		myColor_shadow.rgb.red = 198;  
-		myColor_shadow.rgb.green = 181;
-		myColor_shadow.rgb.blue = 138;
+		var myColor_shadow = new SolidColor();
+		
+		myColor_shadow.hsb.hue = 44;
+		myColor_shadow.hsb.saturation = generateRandomInteger(25, 30);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 90); 
 	} else {
 		var myColor_shadow = new SolidColor();  
-		myColor_shadow.rgb.red = 175;  
-		myColor_shadow.rgb.green = 175;  
-		myColor_shadow.rgb.blue = 175;
+		
+		myColor_shadow.hsb.hue = 0;
+		myColor_shadow.hsb.saturation = 0;
+		myColor_shadow.hsb.brightness =  generateRandomInteger(69, 90); 
 	}
 	
 	var thisFormat = format();
