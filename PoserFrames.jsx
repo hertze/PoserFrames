@@ -9,7 +9,7 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 var border_width_35mm = 1.5;
@@ -646,10 +646,10 @@ try {
 	app.activeDocument.pathItems.getByName('negative').remove();
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	//app.activeDocument.flatten(); // Flatten all layers
+	app.activeDocument.flatten(); // Flatten all layers
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
