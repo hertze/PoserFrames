@@ -9,7 +9,7 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 var border_width_35mm = 1.5;
