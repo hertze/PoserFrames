@@ -12,7 +12,7 @@
 var fancy = false;
 var eccentric = true;
 
-var border_width_35mm = 1.5;
+var border_width_35mm = 1;
 var border_width_645 = 2;
 var border_width_67 = 2;
 var border_width_45 = 2.5;
