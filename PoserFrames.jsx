@@ -492,13 +492,13 @@ try {
 		
 		myColor_shadow.hsb.hue = 44;
 		myColor_shadow.hsb.saturation = generateRandomInteger(15, 20);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 85); 
+		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90); 
 	} else {
 		var myColor_shadow = new SolidColor();  
 		
 		myColor_shadow.hsb.hue = 0;
 		myColor_shadow.hsb.saturation = 0;
-		myColor_shadow.hsb.brightness =  generateRandomInteger(69, 90); 
+		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90); 
 	}
 	
 	var thisFormat = format();
