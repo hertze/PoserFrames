@@ -9,6 +9,10 @@ function writeToFile(output) {
 
 // Open file for append to file "poserframes-path.txt" on desktop
 var ExportFile = new File(Folder.desktop + "/poserframes-path.txt");
+
+ExportFile.open("w", "TEXT"); // Hack to delete existing file
+ExportFile.close();
+
 ExportFile.open("a", "TEXT");
 
 // Get paths in document
