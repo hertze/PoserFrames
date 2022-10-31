@@ -10,7 +10,7 @@
 // User settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = false;
+var eccentric = true;
 
 var border_width_35mm = 1;
 var border_width_645 = 2;
@@ -418,11 +418,11 @@ function moveNeg_fancy() {
 		if (ratio > 1) {
 			// Portrait
 			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.02 * -1;
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.0005 * -1;
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002;
-			var movement_vertical = generateRandomInteger(50, 10) * 0.01 * doc_height * 0.015;
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002 * -1;
+			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.04;
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
