@@ -26,7 +26,7 @@ var feather_factor_45 = 5400;
 
 // For testing purposes only -----------------------------------------
 
-var extreme = false;
+var extreme = true;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -364,7 +364,7 @@ function moveNeg() {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.005 + doc_width * 0.005);
+			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.005 + doc_width * 0.004);
 			var movement_vertical = 0;
 		} else {
 			// Landscape
@@ -650,8 +650,8 @@ try {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
