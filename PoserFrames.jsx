@@ -9,7 +9,7 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 var border_width_35mm = 1;
@@ -26,7 +26,7 @@ var feather_factor_45 = 5400;
 
 // For testing purposes only -----------------------------------------
 
-var extreme = true;
+var extreme = false;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -420,8 +420,8 @@ function moveNeg_fancy() {
 			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.002;
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002 * -1;
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.04;
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.001 * -1;
+			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.02;
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
