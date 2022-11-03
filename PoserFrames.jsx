@@ -9,12 +9,12 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 
-var border_width_35mm = 1;
+var border_width_35mm = 2;
 var border_width_645 = 2;
 var border_width_67 = 2;
 var border_width_45 = 2.5;

@@ -31,7 +31,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two looks, numbered from 1 to 2. Initially set to 1.
 
-5. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
+5. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 2.
 
 6. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 2.
 
@@ -53,35 +53,47 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Examples
 --------
 
-![35mm](/examples/35mm_fancy.jpg) <br>
-*A 3:2 frame in fancy mode.*
-
-![645](/examples/645_fancy.jpg) <br>
-*A 4:3 frame in fancy mode.*
-
-![4x5](/examples/45_fancy.jpg) <br>
-*A 4:5 frame in fancy mode.*
-
-![67](/examples/67_fancy.jpg) <br>
-*A 6:7 frame in fancy mode.*
-
-![Square](/examples/square_fancy.jpg) <br>
-*A 1:1 frame in fancy mode.*
-
-![35mm](/examples/35mm.jpg) <br>
+![35mm](/examples/35mm.jpeg) <br>
 *A 3:2 frame in conservative mode.*
 
-![645](/examples/645.jpg) <br>
-*A 4:3 frame in conservative mode.*
+![35mm](/examples/35mm-fancy-v1.jpeg) <br>
+*A 3:2 frame in fancy mode. Scanner mask 1.*
 
-![4x5](/examples/45.jpg) <br>
+![35mm](/examples/35mm-fancy-v2.jpeg) <br>
+*A 3:2 frame in fancy mode. Scanner mask 2.*
+
+![35mm](/examples/35mm-fancy-v3.jpeg) <br>
+*A 3:2 frame in fancy mode. Scanner mask 3.*
+
+![645](/examples/645-v1.jpeg) <br>
+*A 4:3 frame in conservative mode. Scanner mask 1.*
+
+![645](/examples/645-v2.jpeg) <br>
+*A 4:3 frame in conservative mode. Scanner mask 2.*
+
+![645](/examples/645-fancy-v1.jpeg) <br>
+*A 4:3 frame in fancy mode. Scanner mask 1.*
+
+![645](/examples/645-fancy-v2.jpeg) <br>
+*A 4:3 frame in fancy mode. Scanner mask 2.*
+
+![4x5](/examples/4x5.jpeg) <br>
 *A 4:5 frame in conservative mode.*
 
-![67](/examples/67.jpg) <br>
+![4x5](/examples/4x5-fancy.jpeg) <br>
+*A 4:5 frame in fancy mode.*
+
+![67](/examples/67.jpeg) <br>
 *A 6:7 frame in conservative mode.*
 
-![Square](/examples/square.jpg) <br>
+![67](/examples/67-fancy.jpeg) <br>
+*A 6:7 frame in fancy mode.*
+
+![Square](/examples/square.jpeg) <br>
 *A 1:1 frame in conservative mode.*
+
+![Square](/examples/square-fancy.jpeg) <br>
+*A 1:1 frame in fancy mode.*
 
 
 Troubleshooting and general tips
