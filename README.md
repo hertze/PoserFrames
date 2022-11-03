@@ -25,25 +25,29 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges. If you like your borders conservative, set this to false. Initially set to false.
 
-2. **eccentric**: If you want the image area to be centered in the frame,  set this to false. Initially set to true.
+2. **eccentric**: If you want the image area to be centered in the frame, set this to false. Initially set to true.
 
-3. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
+3. **mask_variant_35mm**: The style of mask to use with 2:3 images. The script comes with three looks, numbered from 1 to 3. Initially set to 1.
 
-4. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 2.
+4. **mask_variant_645**: The style of mask to use with 4:3 images. The script comes with two looks, numbered from 1 to 2. Initially set to 1.
 
-5. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 2.
+5. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
 
-6. **border_width_45**: Border width for 4x5 format in conservative mode. Initially set to 1.
+6. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 2.
 
-7. **border_width_square**: Border width for square format in conservative mode. Initially set to 1.
+7. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 2.
 
-8. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
+8. **border_width_45**: Border width for 4x5 format in conservative mode. Initially set to 1.
 
-9. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+9. **border_width_square**: Border width for square format in conservative mode. Initially set to 1.
 
-10. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+10. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
-11. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
+11. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+
+12. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+
+13. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
 
 
 Examples
