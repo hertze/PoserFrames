@@ -27,9 +27,9 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 2. **eccentric**: If you want the image area to be centered in the frame, set this to false. Initially set to true.
 
-3. **mask_variant_35mm**: The style of mask to use with 2:3 images. The script comes with three looks, numbered from 1 to 3. Initially set to 1.
+3. **mask_variant_35mm**: The style of scanner mask to use with 2:3 images. The script comes with three looks, numbered from 1 to 3. Initially set to 1.
 
-4. **mask_variant_645**: The style of mask to use with 4:3 images. The script comes with two looks, numbered from 1 to 2. Initially set to 1.
+4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two looks, numbered from 1 to 2. Initially set to 1.
 
 5. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 1.
 
