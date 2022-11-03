@@ -53,46 +53,72 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 Examples
 --------
 
-![35mm](/examples/35mm.jpeg) <br>
+![35mm](/examples/35mm.jpeg)
 *A 3:2 frame in conservative mode.*
 
-![35mm](/examples/35mm-fancy-v1.jpeg) <br>
+<br>
+
+![35mm](/examples/35mm-fancy-v1.jpeg)
 *A 3:2 frame in fancy mode. Scanner mask 1.*
 
-![35mm](/examples/35mm-fancy-v2.jpeg) <br>
+<br>
+
+![35mm](/examples/35mm-fancy-v2.jpeg)
 *A 3:2 frame in fancy mode. Scanner mask 2.*
 
-![35mm](/examples/35mm-fancy-v3.jpeg) <br>
+<br>
+
+![35mm](/examples/35mm-fancy-v3.jpeg)
 *A 3:2 frame in fancy mode. Scanner mask 3.*
 
-![645](/examples/645-v1.jpeg) <br>
+<br>
+
+![645](/examples/645-v1.jpeg)
 *A 4:3 frame in conservative mode. Scanner mask 1.*
 
-![645](/examples/645-v2.jpeg) <br>
+<br>
+
+![645](/examples/645-v2.jpeg)
 *A 4:3 frame in conservative mode. Scanner mask 2.*
 
-![645](/examples/645-fancy-v1.jpeg) <br>
+<br>
+
+![645](/examples/645-fancy-v1.jpeg)
 *A 4:3 frame in fancy mode. Scanner mask 1.*
 
-![645](/examples/645-fancy-v2.jpeg) <br>
+<br>
+
+![645](/examples/645-fancy-v2.jpeg)
 *A 4:3 frame in fancy mode. Scanner mask 2.*
 
-![4x5](/examples/4x5.jpeg) <br>
+<br>
+
+![4x5](/examples/4x5.jpeg)
 *A 4:5 frame in conservative mode.*
 
-![4x5](/examples/4x5-fancy.jpeg) <br>
+<br>
+
+![4x5](/examples/4x5-fancy.jpeg)
 *A 4:5 frame in fancy mode.*
 
-![67](/examples/67.jpeg) <br>
+<br>
+
+![67](/examples/67.jpeg)
 *A 6:7 frame in conservative mode.*
 
-![67](/examples/67-fancy.jpeg) <br>
+<br>
+
+![67](/examples/67-fancy.jpeg)
 *A 6:7 frame in fancy mode.*
 
-![Square](/examples/square.jpeg) <br>
+<br>
+
+![Square](/examples/square.jpeg)
 *A 1:1 frame in conservative mode.*
 
-![Square](/examples/square-fancy.jpeg) <br>
+<br>
+
+![Square](/examples/square-fancy.jpeg)
 *A 1:1 frame in fancy mode.*
 
 
