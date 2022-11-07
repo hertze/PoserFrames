@@ -74,6 +74,11 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 <br>
 
+![35mm](./examples/35mm-fancy-v5.jpg)
+*A 3:2 frame in fancy mode. Scanner mask 5.*
+
+<br>
+
 ![645](./examples/645-v1.jpg)
 *A 4:3 frame in conservative mode. Scanner mask 1.*
 
