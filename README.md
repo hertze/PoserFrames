@@ -20,7 +20,7 @@ by [Joakim Hertze](https://www.hertze.se)
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges. If you like your borders conservative, set this to false. Initially set to false.
+1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges (called fancy mode from here on). If you like a cropped look (called cropped mode from here on), set this to false. Initially set to false.
 
 2. **eccentric**: If you want the image area to be centered in the frame, set this to false. Initially set to true.
 
@@ -28,15 +28,15 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
 
-5. **border_width_35mm**: Border width for 35mm format in conservative mode. Initially set to 2.
+5. **border_width_35mm**: Border width for 35mm format in cropped mode. Initially set to 2.
 
-6. **border_width_645**: Border width for 645 format in conservative mode. Initially set to 2.
+6. **border_width_645**: Border width for 645 format in cropped mode. Initially set to 2.
 
-7. **border_width_67**: Border width for 6x7 format in conservative mode. Initially set to 2.
+7. **border_width_67**: Border width for 6x7 format in cropped mode. Initially set to 2.
 
-8. **border_width_45**: Border width for 4x5 format in conservative mode. Initially set to 1.
+8. **border_width_45**: Border width for 4x5 format in cropped mode. Initially set to 1.
 
-9. **border_width_square**: Border width for square format in conservative mode. Initially set to 1.
+9. **border_width_square**: Border width for square format in cropped mode. Initially set to 1.
 
 10. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
@@ -50,7 +50,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 ## Examples
 
 ![35mm](./examples/35mm.jpg)
-*A 3:2 frame in conservative mode.*
+*A 3:2 frame in cropped mode.*
 
 <br>
 
@@ -80,12 +80,12 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 <br>
 
 ![645](./examples/645-v1.jpg)
-*A 4:3 frame in conservative mode. Scanner mask 1.*
+*A 4:3 frame in cropped mode. Scanner mask 1.*
 
 <br>
 
 ![645](./examples/645-v2.jpg)
-*A 4:3 frame in conservative mode. Scanner mask 2.*
+*A 4:3 frame in cropped mode. Scanner mask 2.*
 
 <br>
 
@@ -100,7 +100,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 <br>
 
 ![4x5](./examples/4x5.jpg)
-*A 4:5 frame in conservative mode.*
+*A 4:5 frame in cropped mode.*
 
 <br>
 
@@ -110,7 +110,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 <br>
 
 ![67](./examples/67.jpg)
-*A 6:7 frame in conservative mode.*
+*A 6:7 frame in cropped mode.*
 
 <br>
 
@@ -120,7 +120,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 <br>
 
 ![Square](./examples/square.jpg)
-*A 1:1 frame in conservative mode.*
+*A 1:1 frame in cropped mode.*
 
 <br>
 
@@ -132,7 +132,7 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 - The error message "The document does not contain a selection" means the image dimensions are too small. For technical reasons your image needs to be at least 1500px on it's shortest side for the script to run.
 
-- Consider keeping multiple copies of **PoserFrames.jsx** with different user settings in your scripts folder, for example two named **PoserFrames-fancy.jsx** and **PoserFrames-conservative.jsx**. They'll all show up in Photoshop's scripts menu for easy access. You will have to adjust the action **PoserFrames.atn** when you change the script name and you may want to record separate actions for each script and then  build droplets for them.
+- Consider keeping multiple copies of **PoserFrames.jsx** with different user settings in your scripts folder, for example two named **PoserFrames-fancy.jsx** and **PoserFrames-cropped.jsx**. They'll all show up in Photoshop's scripts menu for easy access. You will have to adjust the action **PoserFrames.atn** when you change the script name and you may want to record separate actions for each script and then  build droplets for them.
 
 - I like to run [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com), on my images after I've run Poser Frames. That way, the borders blend in nicely with the image. If you have Poser Frames in fancy mode, you might have to remove the grain added to the white areas outside of the border. I use the magic wand in Photoshop, and fill the selection with white. I actually have a Photoshop droplet that does this automatically.
 
