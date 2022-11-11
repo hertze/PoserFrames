@@ -28,6 +28,8 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
 
+5. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
+
 5. **border_width_35mm**: Border width for 35mm format in cropped mode. Initially set to 2.
 
 6. **border_width_645**: Border width for 645 format in cropped mode. Initially set to 2.
