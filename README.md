@@ -114,8 +114,13 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 <br>
 
-![67](./examples/67-fancy.jpg)
-*A 6:7 frame in fancy mode.*
+![67](./examples/67-fancy-v1.jpg)
+*A 6:7 frame in fancy mode. Scanner mask 1.*
+
+<br>
+
+![67](./examples/67-fancy-v2.jpg)
+*A 6:7 frame in fancy mode. Scanner mask 2.*
 
 <br>
 
