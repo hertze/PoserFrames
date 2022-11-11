@@ -30,23 +30,23 @@ If you open the script **PoserFrames.jsx** in a text editor, you may want to exp
 
 5. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
 
-5. **border_width_35mm**: Border width for 35mm format in cropped mode. Initially set to 2.
+6. **border_width_35mm**: Border width for 35mm format in cropped mode. Initially set to 2.
 
-6. **border_width_645**: Border width for 645 format in cropped mode. Initially set to 2.
+7. **border_width_645**: Border width for 645 format in cropped mode. Initially set to 2.
 
-7. **border_width_67**: Border width for 6x7 format in cropped mode. Initially set to 2.
+8. **border_width_67**: Border width for 6x7 format in cropped mode. Initially set to 2.
 
-8. **border_width_45**: Border width for 4x5 format in cropped mode. Initially set to 1.
+9. **border_width_45**: Border width for 4x5 format in cropped mode. Initially set to 1.
 
-9. **border_width_square**: Border width for square format in cropped mode. Initially set to 1.
+10. **border_width_square**: Border width for square format in cropped mode. Initially set to 1.
 
-10. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
+11. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
 
-11. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+12. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
 
-12. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+13. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
 
-13. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
+14. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
 
 
 ## Examples
