@@ -20,119 +20,114 @@ by [Joakim Hertze](https://www.hertze.se)
 
 If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings:
 
-1. **fancy**: If set to true, the script will simulate a scan with visible scan mask edges (called fancy mode from here on). If you like a cropped look (called cropped mode from here on), set this to false. Initially set to false.
+1. **fancy**: If set to `true`, the script will simulate a scan with visible scan mask edges. If you like a cropped look, set this to false. Initially set to `false`.
 
-2. **eccentric**: If you want the image area to be centered in the frame, set this to false. Initially set to true.
+2. **eccentric**: If you want the image area to be centered in the frame, set this to `false`. Initially set to `true`.
 
-3. **mask_variant_35mm**: The style of scanner mask to use with 2:3 images. The script comes with five styles, numbered from 1 to 5. Initially set to 1.
+3. **mask_variant_35mm**: The style of scanner mask to use with 2:3 images. The script comes with five styles, numbered from 1 to 5. Initially set to `1`.
 
-4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
+4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 
-5. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to 1.
+5. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 
-6. **border_width_35mm**: Border width for 35mm format in cropped mode. Initially set to 2.
+6. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
 
-7. **border_width_645**: Border width for 645 format in cropped mode. Initially set to 2.
+7. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
 
-8. **border_width_67**: Border width for 6x7 format in cropped mode. Initially set to 2.
+8. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
 
-9. **border_width_45**: Border width for 4x5 format in cropped mode. Initially set to 1.
+9. **border_width_45**: Border width for 4x5 format with `fancy = false`. Initially set to `1`.
 
-10. **border_width_square**: Border width for square format in cropped mode. Initially set to 1.
+10. **border_width_square**: Border width for square format with `fancy = false`. Initially set to `1`.
 
-11. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is 1200.
+11. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is `1200`.
 
-12. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is 1800.
+12. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is `1800`.
 
-13. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is 2400.
+13. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is `2400`.
 
-14. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is 5400. 
+14. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is `5400`. 
 
 
-## Examples
+## Gallery
 
 ![35mm](./examples/35mm.jpg)
-*A 3:2 frame in cropped mode.*
+*A 3:2 frame with `fancy = false`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v1.jpg)
-*A 3:2 frame in fancy mode. Scanner mask 1.*
+*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 1`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v2.jpg)
-*A 3:2 frame in fancy mode. Scanner mask 2.*
+*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 2`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v3.jpg)
-*A 3:2 frame in fancy mode. Scanner mask 3.*
+*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 3`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v4.jpg)
-*A 3:2 frame in fancy mode. Scanner mask 4.*
+*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 4`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v5.jpg)
-*A 3:2 frame in fancy mode. Scanner mask 5.*
+*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 5`.*
 
 <br>
 
-![645](./examples/645-v1.jpg)
-*A 4:3 frame in cropped mode. Scanner mask 1.*
-
-<br>
-
-![645](./examples/645-v2.jpg)
-*A 4:3 frame in cropped mode. Scanner mask 2.*
+![645](./examples/645.jpg)
+*A 4:3 frame with `fancy = false`.*
 
 <br>
 
 ![645](./examples/645-fancy-v1.jpg)
-*A 4:3 frame in fancy mode. Scanner mask 1.*
+*A 4:3 frame with `fancy = true` and `mask_variant_645 = 1`.*
 
 <br>
 
 ![645](./examples/645-fancy-v2.jpg)
-*A 4:3 frame in fancy mode. Scanner mask 2.*
+*A 4:3 frame with `fancy = true` and `mask_variant_645 = 2`.*
 
 <br>
 
 ![4x5](./examples/4x5.jpg)
-*A 4:5 frame in cropped mode.*
+*A 4:5 frame with `fancy = false`.*
 
 <br>
 
 ![4x5](./examples/4x5-fancy.jpg)
-*A 4:5 frame in fancy mode.*
+*A 4:5 frame with `fancy = true`.*
 
 <br>
 
-![67](./examples/67.jpg)
-*A 6:7 frame in cropped mode.*
+![67](./examples/67.jpg)with fancy = false
+*A 6:7 frame with `fancy = false`.*
 
 <br>
 
 ![67](./examples/67-fancy-v1.jpg)
-*A 6:7 frame in fancy mode. Scanner mask 1.*
+*A 6:7 frame with `fancy = true` and `mask_variant_67 = 1`.*
 
 <br>
 
 ![67](./examples/67-fancy-v2.jpg)
-*A 6:7 frame in fancy mode. Scanner mask 2.*
+*A 6:7 frame with `fancy = true` and `mask_variant_645 = 2`.*
 
 <br>
 
 ![Square](./examples/square.jpg)
-*A 1:1 frame in cropped mode.*
+*A 1:1 frame with `fancy = false`.*
 
 <br>
 
 ![Square](./examples/square-fancy.jpg)
-*A 1:1 frame in fancy mode.*
+*A 1:1 frame with `fancy = true`.*
 
 
 ## Troubleshooting and general tips
