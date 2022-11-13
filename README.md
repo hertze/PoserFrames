@@ -2,8 +2,7 @@
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a minimum short side of 1500 px. The script automatically chooses a border style depending on the aspect ratio of your image. For some formats, you have a choice between different scanner mask styles.
-
+**Poser Frames** is JavaScript for Photoshop that draws  negative borders, traced from real negatives.
 
 ## Installing and running Poser Frames
 
@@ -32,7 +31,7 @@ Look through the **settings gallery** below, as well as the **complete directory
 2. Decide if you prefer the image are to be centered in the frame (with more or less equal thickness of the border), or a scan towards one of the inner mask edges. This is set with the variable **eccentric**.
 3.
 	* If you chose a cropped look, the variables **border_width_35mm**, **border_width_645**, **border_width_67**, **border_width_45** and **border_width_square** determines the thickness of the visible border.
-	* If you chose a fancy look, with visible scanner mask edges, you now have a choice between scanner mask styles for each aspect ratio. The style for each aspect ratio is set with the variables **mask_variant_35mm**, **mask_variant_645**, **mask_variant_67**, **mask_variant_45** and **mask_variant_square**.
+	* If you chose a fancy look, with visible scanner mask edges, you now have a choice between scanner mask styles for each aspect ratio. The style for each aspect ratio is set with the variables **mask_variant_35mm**, **mask_variant_645**, **mask_variant_67**, **mask_variant_45** and **mask_variant_square**. For square images, the variable **negative_variant_square** switches between a Rolleiflex look and a Hasselblad look for the negative.
 4. Use the variables **feather_factor_35mm**, **feather_factor_645**, **feather_factor_67_square** and **feather_factor_45** to control how fuzzy the mask edges and negative edges appear for each aspect ratio.
 
 ## Complete directory of script settings
@@ -44,15 +43,16 @@ Look through the **settings gallery** below, as well as the **complete directory
 5. **mask_variant_45**: The style of scanner mask to use with 4:5 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 6. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 7. **mask_variant_square**: The style of scanner mask to use with square images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
-8. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
-9. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
-10. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
-11. **border_width_45**: Border width for 4x5 format with `fancy = false`. Initially set to `1`.
-12. **border_width_square**: Border width for square format with `fancy = false`. Initially set to `1`.
-13. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is `1200`.
-14. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is `1800`.
-15. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is `2400`.
-16. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is `5400`. 
+8. **negative_variant_square**: The look of the negative, where 1 has a look drawn from Rolleiflex square formats and 2 from Hasselblad square formats.
+9. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
+10. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
+11. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
+12. **border_width_45**: Border width for 4x5 format with `fancy = false`. Initially set to `1`.
+13. **border_width_square**: Border width for square format with `fancy = false`. Initially set to `1`.
+14. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is `1200`.
+15. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is `1800`.
+16. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is `2400`.
+17. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is `5400`. 
 
 
 ## Settings gallery
@@ -137,14 +137,23 @@ Look through the **settings gallery** below, as well as the **complete directory
 
 <br>
 
-![Square](./examples/square-fancy-v1.jpg)
-*A 1:1 frame with `fancy = true` and `mask_variant_square = 1`.*
+![Square](./examples/square-fancy-v1-neg-v1.jpg)
+*A 1:1 frame with `fancy = true`, `mask_variant_square = 1` and `negative_variant_square = 1`.*
 
 <br>
 
-![Square](./examples/square-fancy-v2.jpg)
-*A 1:1 frame with `fancy = true` and `mask_variant_square = 2`.*
+![Square](./examples/square-fancy-v1-neg-v2.jpg)
+*A 1:1 frame with `fancy = true`, `mask_variant_square = 1` and `negative_variant_square = 2`.*
 
+<br>
+
+![Square](./examples/square-fancy-v2-neg-v1.jpg)
+*A 1:1 frame with `fancy = true`, `mask_variant_square = 2` and `negative_variant_square = 1`.*
+
+<br>
+
+![Square](./examples/square-fancy-v2-neg-v2.jpg)
+*A 1:1 frame with `fancy = true`, `mask_variant_square = 2` and `negative_variant_square = 2`.*
 
 ## Troubleshooting and general tips
 
@@ -152,6 +161,18 @@ Look through the **settings gallery** below, as well as the **complete directory
 
 - Consider keeping multiple copies of **PoserFrames.jsx** with different user settings in your scripts folder, for example two named **PoserFrames-fancy.jsx** and **PoserFrames-cropped.jsx**. They'll all show up in Photoshop's scripts menu for easy access. You will have to adjust the action **PoserFrames.atn** when you change the script name and you may want to record separate actions for each script and then  build droplets for them.
 
+- Comment out (change) these lines:
+
+	`app.activeDocument.save();`<br>
+	`app.activeDocument.close();`
+		
+	to
+		
+	`\\app.activeDocument.save();`<br>
+	`\\app.activeDocument.close();`
+	
+	to prevent the script from saving and closing the image. This is great for testing different settings.
+		
 - I like to run [the Film Grain](https://thearchetypeprocess.com/collections/adobe-photoshop-actions/products/the-film-grain), from [the Archetype Process](https://thearchetypeprocess.com), on my images after I've run Poser Frames. That way, the borders blend in nicely with the image. If you have Poser Frames in fancy mode, you might have to remove the grain added to the white areas outside of the border. I use the magic wand in Photoshop, and fill the selection with white. I actually have a Photoshop droplet that does this automatically.
 
 
