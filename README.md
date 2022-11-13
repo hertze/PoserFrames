@@ -2,7 +2,7 @@
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a minimum short side of 1500px. The script automatically chooses a border style depending on the aspect ratio of your image. For some formats, you have a choice between different scanner mask styles.
+**Poser Frames** is JavaScript for Photoshop that adds fake negative borders, traced from real negatives. It works with images in 3:2, 4:3, 6:7, 4:5 and 1:1 format, with a minimum short side of 1500 px. The script automatically chooses a border style depending on the aspect ratio of your image. For some formats, you have a choice between different scanner mask styles.
 
 
 ## Installing and running Poser Frames
@@ -18,7 +18,7 @@ by [Joakim Hertze](https://www.hertze.se)
 
 ## How to use Poser Frames
 
-If you install the script as instructed above, it should work out of the box. The script will automatically apply a border, which style depends on whether it’s a 2:3 image, a 6:45 image, a 6:7 image, a 4:5 image or a 1:1 image. However, it is capable if producing quite a few different looks for each aspect ratio, so you may want to open **PoserFrames.jsx** in a text editor (not a word processor) and experiment with the settings.
+If you install the script as instructed above, it should work out of the box on images with a minimum short side of 1500 px. The script will automatically apply a border, which style depends on whether it’s a 2:3 image, a 4:3 image, a 6:7 image, a 4:5 image or a 1:1 image. However, it is capable if producing quite a few different looks for each aspect ratio, so you may want to open **PoserFrames.jsx** in a text editor (not a word processor) and experiment with the settings.
 
 The settings are written as Javascript variable declarations, like this:
 
@@ -41,17 +41,18 @@ Look through the **settings gallery** below, as well as the **complete directory
 2. **eccentric**: If you want the image area to be centered in the frame, set this to `false`. Initially set to `true`.
 3. **mask_variant_35mm**: The style of scanner mask to use with 2:3 images. The script comes with five styles, numbered from 1 to 5. Initially set to `1`.
 4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
-5. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
-6. **mask_variant_square**: The style of scanner mask to use with square images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
-7. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
-8. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
-9. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
-10. **border_width_45**: Border width for 4x5 format with `fancy = false`. Initially set to `1`.
-11. **border_width_square**: Border width for square format with `fancy = false`. Initially set to `1`.
-12. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is `1200`.
-13. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is `1800`.
-14. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is `2400`.
-15. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is `5400`. 
+5. **mask_variant_45**: The style of scanner mask to use with 4:5 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
+6. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
+7. **mask_variant_square**: The style of scanner mask to use with square images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
+8. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
+9. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
+10. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
+11. **border_width_45**: Border width for 4x5 format with `fancy = false`. Initially set to `1`.
+12. **border_width_square**: Border width for square format with `fancy = false`. Initially set to `1`.
+13. **feather_factor_35mm**: How much feathering of the border you like for 35mm. The lower value, the more feathering. Initial value is `1200`.
+14. **feather_factor_645**: How much feathering of the border you like for 645. The lower value, the more feathering. Initial value is `1800`.
+15. **feather_factor_67_square**: How much feathering of the border you like for square and 67. The lower value, the more feathering. Initial value is `2400`.
+16. **feather_factor_45**: How much feathering of the border you like for 4x5. The lower value, the more feathering. Initial value is `5400`. 
 
 
 ## Settings gallery
@@ -106,8 +107,13 @@ Look through the **settings gallery** below, as well as the **complete directory
 
 <br>
 
-![4x5](./examples/4x5-fancy.jpg)
-*A 4:5 frame with `fancy = true`.*
+![4x5](./examples/4x5-fancy-v1.jpg)
+*A 4:5 frame with `fancy = true` and `mask_variant_45 = 1`.*
+
+<br>
+
+![4x5](./examples/4x5-fancy-v2.jpg)
+*A 4:5 frame with `fancy = true` and `mask_variant_45 = 2`.*
 
 <br>
 
