@@ -18,27 +18,24 @@ by [Joakim Hertze](https://www.hertze.se)
 
 ## How to use Poser Frames
 
-The script can be set up to produce quite a few border styles for each frame ratio.
+If you install the script as instructed above, it should work out of the box. The script will automatically apply a border, which style depends on whether it’s a 2:3 image, a 6:45 image, a 6:7 image, a 4:5 image or a 1:1 image. However, it is capable if producing quite a few different looks for each aspect ratio, so you may want to open **PoserFrames.jsx** in a text editor (not a word processor) and experiment with the settings.
 
-If you open the script **PoserFrames.jsx** in a text editor, you may want to experiment with changing the following settings.
-
-The settings are written as a Javascript variable declaration, like this:
+The settings are written as Javascript variable declarations, like this:
 
 	var fancy = true;
 
 It’s important to keep this format when you make changes. Make sure the `=` or the `;` doesn’t accidentally get deleted when you change value.
 
-Look through the example gallery below. The aspect ratio of your image determines the main style of border applied. A 2:3 image for instance automatically gets the scanner mask style set with the **mask_variant_35mm** setting.
+Look through the **settings gallery** below, as well as the **complete directory of script settings**. Use the following decision algorithm as a guide:
 
-Decide on whether you like a cropped look or a look where the scanner mask is visible in the scan.
+1. Decide if you prefer a cropped look, or a fancy look where the outer scanner mask edges are included in the scan. This is set by the variable **fancy**.
+2. Decide if you prefer the image are to be centered in the frame (with more or less equal thickness of the border), or a scan towards one of the inner mask edges. This is set with the variable **eccentric**.
+3.
+	* If you chose a cropped look, the variables **border_width_35mm**, **border_width_645**, **border_width_67**, **border_width_45** and **border_width_square** determines the thickness of the visible border.
+	* If you chose a fancy look, with visible scanner mask edges, you now have a choice between scanner mask styles for each aspect ratio. The style for each aspect ratio is set with the variables **mask_variant_35mm**, **mask_variant_645**, **mask_variant_67**, **mask_variant_45** and **mask_variant_square**.
+4. Use the variables **feather_factor_35mm**, **feather_factor_645**, **feather_factor_67_square** and **feather_factor_45** to control how fuzzy the mask edges and negative edges appear for each aspect ratio.
 
-If you like a cropped look, experiment with different border thicknesses.
-
-If you like a fancy style, decide if you like a thicker or thinner border, and pick a corresponding scanner mask style.
-
-
-
-## List of script settings
+## Complete directory of script settings
 
 1. **fancy**: If set to `true`, the script will simulate a scan with visible scan mask edges. If you like a cropped look, set this to false. Initially set to `false`.
 2. **eccentric**: If you want the image area to be centered in the frame, set this to `false`. Initially set to `true`.
