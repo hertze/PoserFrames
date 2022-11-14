@@ -2,7 +2,7 @@
 
 by [Joakim Hertze](https://www.hertze.se)
 
-**Poser Frames** is JavaScript for Photoshop that draws  negative borders, traced from real negatives.
+**Poser Frames** is JavaScript for Photoshop that draws black borders, traced from real negatives scanned with film rebates.
 
 ## Installing and running Poser Frames
 
@@ -17,26 +17,26 @@ by [Joakim Hertze](https://www.hertze.se)
 
 ## How to use Poser Frames
 
-If you install the script as instructed above, it should work out of the box on images with a minimum short side of 1500 px. The script will automatically apply a border, which style depends on whether it’s a 2:3 image, a 4:3 image, a 6:7 image, a 4:5 image or a 1:1 image. However, it is capable if producing quite a few different looks for each aspect ratio, so you may want to open **PoserFrames.jsx** in a text editor (not a word processor) and experiment with the settings.
+If you install the script as instructed above, it should work out of the box on images with a minimum short side of 1500 px. The script will automatically apply a border, the style of which depends on whether it’s a 2:3 image, a 4:3 image, a 6:7 image, a 4:5 image or a 1:1 image. However, it is capable if producing quite a few different looks for each aspect ratio, so you may want to open **PoserFrames.jsx** in a text editor (not a word processor) and experiment with the settings.
 
-The settings are written as Javascript variable declarations, like this:
+The settings are written as Javascript variable declarations at the top of the script, like this:
 
 	var fancy = true;
 
-It’s important to keep this format when you make changes. Make sure the `=` or the `;` doesn’t accidentally get deleted when you change value.
+It’s important to keep this format when you make changes. Make sure the `=` or the `;` doesn’t accidentally get deleted when you change value. All variables must be declared, so make sure you don’t accidentally delete any lines containing them when you make changes.
 
 Look through the **settings gallery** below, as well as the **complete directory of script settings**. Use the following decision algorithm as a guide:
 
 1. Decide if you prefer a cropped look, or a fancy look where the outer scanner mask edges are included in the scan. This is set by the variable **fancy**.
-2. Decide if you prefer the image are to be centered in the frame (with more or less equal thickness of the border), or a scan towards one of the inner mask edges. This is set with the variable **eccentric**.
+2. Decide if you prefer the image area to be centered in the frame (with more or less equal thickness of the border), or a scan towards one of the inner mask edges. This is set with the variable **eccentric**.
 3.
 	* If you chose a cropped look, the variables **border_width_35mm**, **border_width_645**, **border_width_67**, **border_width_45** and **border_width_square** determines the thickness of the visible border.
 	* If you chose a fancy look, with visible scanner mask edges, you now have a choice between scanner mask styles for each aspect ratio. The style for each aspect ratio is set with the variables **mask_variant_35mm**, **mask_variant_645**, **mask_variant_67**, **mask_variant_45** and **mask_variant_square**. For square images, the variable **negative_variant_square** switches between a Rolleiflex look and a Hasselblad look for the negative.
-4. Use the variables **feather_factor_35mm**, **feather_factor_645**, **feather_factor_67_square** and **feather_factor_45** to control how fuzzy the mask edges and negative edges appear for each aspect ratio.
+4. Use the variables **feather_factor_35mm**, **feather_factor_645**, **feather_factor_67_square** and **feather_factor_45** to control how fuzzy the mask edges and rebate edges appear for each aspect ratio.
 
 ## Complete directory of script settings
 
-1. **fancy**: If set to `true`, the script will simulate a scan with visible scan mask edges. If you like a cropped look, set this to false. Initially set to `false`.
+1. **fancy**: If set to `true`, the script will simulate a scan with visible scan mask edges. If you like a cropped look, set this to false. Initially set to `true`.
 2. **eccentric**: If you want the image area to be centered in the frame, set this to `false`. Initially set to `true`.
 3. **mask_variant_35mm**: The style of scanner mask to use with 2:3 images. The script comes with five styles, numbered from 1 to 5. Initially set to `1`.
 4. **mask_variant_645**: The style of scanner mask to use with 4:3 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
@@ -58,32 +58,32 @@ Look through the **settings gallery** below, as well as the **complete directory
 ## Settings gallery
 
 ![35mm](./examples/35mm.jpg)
-*A 3:2 frame with `fancy = false`.*
+*A 2:3 frame with `fancy = false`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v1.jpg)
-*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 1`.*
+*A 2:3 frame with `fancy = true` and `mask_variant_35mm = 1`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v2.jpg)
-*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 2`.*
+*A 2:3 frame with `fancy = true` and `mask_variant_35mm = 2`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v3.jpg)
-*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 3`.*
+*A 2:3 frame with `fancy = true` and `mask_variant_35mm = 3`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v4.jpg)
-*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 4`.*
+*A 2:3 frame with `fancy = true` and `mask_variant_35mm = 4`.*
 
 <br>
 
 ![35mm](./examples/35mm-fancy-v5.jpg)
-*A 3:2 frame with `fancy = true` and `mask_variant_35mm = 5`.*
+*A 2:3 frame with `fancy = true` and `mask_variant_35mm = 5`.*
 
 <br>
 
@@ -178,8 +178,7 @@ Look through the **settings gallery** below, as well as the **complete directory
 
 ## Using ExtractPath.jsx
 
-Install this companion Photoshop script the same way as PoserFrames. This script takes a path named **Frame** in your active Photoshop document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in the PoserFrames frame library.
-
+Install this companion Photoshop script the same way as PoserFrames. This script takes a path named **Frame** in your active Photoshop document, extracts all the path points and saves them to the desktop in the text file **poserframes-path.txt** in a format used in the PoserFrames frame library. If you feel adventurous, you can use this to add your own borders to Poser Frames.
 
 
 ## Credit
