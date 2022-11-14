@@ -43,7 +43,7 @@ Look through the **settings gallery** below, as well as the **complete directory
 5. **mask_variant_45**: The style of scanner mask to use with 4:5 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 6. **mask_variant_67**: The style of scanner mask to use with 6:7 images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
 7. **mask_variant_square**: The style of scanner mask to use with square images. The script comes with two styles, numbered from 1 to 2. Initially set to `1`.
-8. **negative_variant_square**: The look of the negative, where 1 has a look drawn from Rolleiflex square formats and 2 from Hasselblad square formats.
+8. **negative_variant_square**: The look of the negative, where 1 has a look drawn from Rolleiflex square formats and 2 from Hasselblad square formats. Initially set to `1`.
 9. **border_width_35mm**: Border width for 35mm format with `fancy = false`. Initially set to `2`.
 10. **border_width_645**: Border width for 645 format with `fancy = false`. Initially set to `2`.
 11. **border_width_67**: Border width for 6x7 format with `fancy = false`. Initially set to `2`.
