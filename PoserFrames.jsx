@@ -9,11 +9,11 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 1;
+var mask_variant_645 = 2;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -21,7 +21,7 @@ var mask_variant_square = 1;
 var negative_variant_square = 1;
 
 var border_width_35mm = 2;
-var border_width_645 = 2;
+var border_width_645 = 1;
 var border_width_67 = 2;
 var border_width_45 = 2.5;
 var border_width_square = 2;
@@ -521,12 +521,12 @@ function moveNeg() {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_645 * 0.005 + doc_width * 0.004);
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_645 * 0.005 + doc_width * 0.003);
 			var movement_vertical = 0;
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_645 * 0.005 + doc_height * 0.005;
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_645 * 0.005 + doc_height * 0.003;
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
@@ -852,8 +852,8 @@ try {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
