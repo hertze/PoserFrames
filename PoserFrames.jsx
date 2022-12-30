@@ -9,21 +9,21 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
-var mask_variant_35mm = 1;
-var mask_variant_645 = 2;
+var mask_variant_35mm = 2;
+var mask_variant_645 = 1;
 var mask_variant_67 = 1;
-var mask_variant_45 = 1;
+var mask_variant_45 = 2;
 var mask_variant_square = 1;
 
 var negative_variant_square = 1;
 
-var border_width_35mm = 2;
+var border_width_35mm = 1;
 var border_width_645 = 1;
 var border_width_67 = 2;
-var border_width_45 = 2.5;
+var border_width_45 = 1;
 var border_width_square = 2;
 
 var feather_factor_35mm = 1200;
