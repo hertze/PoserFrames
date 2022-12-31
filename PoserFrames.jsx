@@ -502,7 +502,7 @@ function createPath(thisFrame, pathName) {
 
 function decideRotation(pathKind) {
 	
-	var randRotation = generateRandomInteger(1, 10) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
+	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
 		if (pathKind == "frame") {
