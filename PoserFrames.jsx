@@ -12,7 +12,7 @@
 var fancy = true;
 var eccentric = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 4;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 2;
@@ -732,7 +732,7 @@ function moveNeg_fancy() {
 	var myColor_subshadow = new SolidColor();
 	myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 	myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 2;
-	myColor_subshadow.hsb.brightness = generateRandomInteger(95, 100);
+	myColor_subshadow.hsb.brightness = generateRandomInteger(95, 101);
 	
 	var thisFormat = format();
 	
