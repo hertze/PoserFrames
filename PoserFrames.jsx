@@ -11,6 +11,7 @@
 
 var fancy = true;
 var eccentric = true;
+var scanning_artifacts = true;
 
 var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
@@ -624,25 +625,25 @@ function moveNeg_fancy() {
 			}	
 		}
 	} else if (thisFormat == "67") {
-	if (ratio > 1) {
-		// Portrait
-		if (mask_variant_67 == 2) {
-			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1;
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003;
+		if (ratio > 1) {
+			// Portrait
+			if (mask_variant_67 == 2) {
+				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1;
+				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003;
+			} else {
+				var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.015 * -1;
+				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.02;
+			}
 		} else {
-			var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.015 * -1;
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.02;
+			// Landscape
+			if (mask_variant_645 == 2) {
+				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1;
+				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003;
+			} else {
+				var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.012 * -1;
+				var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.015;
+			}
 		}
-	} else {
-		// Landscape
-		if (mask_variant_645 == 2) {
-			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1;
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003;
-		} else {
-			var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.012 * -1;
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.015;
-		}
-	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
 			// Portrait
@@ -696,8 +697,7 @@ function moveNeg_fancy() {
 	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"),movement_horisontal, movement_vertical);
 }
 
-
-//try {
+try {
 	
 	// Initial properties, settings and calculations
 	
@@ -788,7 +788,7 @@ function moveNeg_fancy() {
 	if (fancy == true) {
 	
 		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space. Ska vi verkligen ha 10% både horisontellt och vertikalt?
+			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
 		} else {
 			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
 		}
@@ -808,26 +808,30 @@ function moveNeg_fancy() {
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
 		
-		app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true); // Make selection from path
-		decideRotation(thisFormat, "subshadow");
-		adjustSelection();
-		app.activeDocument.selection.fill(myColor_subshadow); // Fill the layer with subshadow color
+		if (scanning_artifacts == true) {
 		
-		app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
-		decideRotation(thisFormat, "shadow");
-		adjustSelection();
-		app.activeDocument.selection.fill(myColor_shadow); // Fill the layer with subshadow color
+			app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true); // Make selection from path
+			decideRotation(thisFormat, "subshadow");
+			adjustSelection();
+			app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color
+			
+			app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
+			decideRotation(thisFormat, "shadow");
+			adjustSelection();
+			app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
+			
+			app.activeDocument.selection.deselect(); // Apply noise to the whole layer
+			app.activeDocument.activeLayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+			app.activeDocument.activeLayer.applyGaussianBlur(feather);
+			
+			// Creates the mask layer content
+			app.activeDocument.pathItems.getByName('subshadow').makeSelection(feather, true);
+			decideRotation(thisFormat, "subshadow");
+			adjustSelection(); //Scales and centers the selection
+			app.activeDocument.selection.invert();
+			app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
 		
-		app.activeDocument.selection.deselect();
-		app.activeDocument.activeLayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true); // Dirty upp the shadow
-		app.activeDocument.activeLayer.applyGaussianBlur(feather);
-		
-		// Creates the mask layer content
-		app.activeDocument.pathItems.getByName('subshadow').makeSelection(feather * 2.5, true);
-		decideRotation(thisFormat, "subshadow");
-		adjustSelection(); //Scales and centers the selection
-		app.activeDocument.selection.invert();
-		app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
+		}
 		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation(thisFormat, "mask");
@@ -907,4 +911,4 @@ function moveNeg_fancy() {
 	
 	// ALL DONE!
 	
-//} catch (e) { alert(e); }
+} catch (e) { alert(e); }
