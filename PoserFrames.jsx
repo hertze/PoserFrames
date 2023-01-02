@@ -13,11 +13,11 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
-var mask_variant_67 = 2;
-var mask_variant_45 = 2;
-var mask_variant_square = 2;
+var mask_variant_67 = 1;
+var mask_variant_45 = 1;
+var mask_variant_square = 1;
 
 var negative_variant_square = 1;
 
@@ -917,10 +917,10 @@ try {
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('subshadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	//app.activeDocument.flatten(); // Flatten all layers
+	app.activeDocument.flatten(); // Flatten all layers
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
