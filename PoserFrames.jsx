@@ -11,7 +11,7 @@
 
 var fancy = true;
 var eccentric = true;
-var scanning_artifacts = true;
+var artifacts = true;
 
 var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
@@ -821,7 +821,7 @@ try {
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
 		
-		if (scanning_artifacts == true) {
+		if (artifacts == true) {
 		
 			app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true); // Make selection from path
 			decideRotation(thisFormat, "subshadow");
