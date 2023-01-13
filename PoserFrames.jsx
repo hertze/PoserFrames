@@ -13,7 +13,7 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -723,8 +723,8 @@ function moveNeg_fancy() {
 				var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.004 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.014 * thisDirection();
 			} else {
-				var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.004 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.014 * thisDirection();
+				var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.018 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.017 * thisDirection();
 			}
 		}
 	}
@@ -840,7 +840,7 @@ try {
 		var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
 		
 		var backdrop = app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer.
+		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
 		
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
@@ -850,7 +850,6 @@ try {
 		// Creates mask layer
 		app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
-		//app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 		
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
@@ -880,14 +879,12 @@ try {
 		
 		}
 		
-		//app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation(thisFormat, "mask");
 		adjustSelection(); //Scales and centers the selection
 		
 		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
-		
 		if (eccentric == true) {
 			moveNeg_fancy();
 		}
