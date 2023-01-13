@@ -9,11 +9,11 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -932,12 +932,23 @@ try {
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
 		
+		// Create black backdrop and move to background
+				
+		var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
+		
+		var backdrop = app.activeDocument.artLayers.add();
+		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
+		
+		app.activeDocument.selection.selectAll();
+		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
+		
+		backdrop.moveAfter(imageLayer);
+		
 		// Creates fill layer
 		app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
-		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
+		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 		
 		if (eccentric == true) {
 			moveNeg();
