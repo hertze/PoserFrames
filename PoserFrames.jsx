@@ -13,7 +13,7 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -700,7 +700,7 @@ function moveNeg_fancy() {
 			// Portrait
 			if (mask_variant_35mm == 4 || mask_variant_35mm == 5) {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.007 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.0025 * thisDirection();
+				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.009 * thisDirection();
 			} else if (mask_variant_35mm == 2) {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.017 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.006 * thisDirection();
@@ -709,7 +709,7 @@ function moveNeg_fancy() {
 				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.02 * thisDirection();
 			} else {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.017 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.007 * thisDirection();
+				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.011 * thisDirection();
 			}
 		} else {
 			// Landscape
@@ -834,6 +834,18 @@ try {
 		adjustSelection(); //Scales and centers the selection
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
+		
+		// Create black backdrop and move to background
+		
+		var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
+		
+		var backdrop = app.activeDocument.artLayers.add();
+		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer.
+		
+		app.activeDocument.selection.selectAll();
+		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
+		
+		backdrop.moveAfter(imageLayer);
 	
 		// Creates mask layer
 		app.activeDocument.artLayers.add();
@@ -868,11 +880,10 @@ try {
 		
 		}
 		
+		//app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation(thisFormat, "mask");
 		adjustSelection(); //Scales and centers the selection
-		
-		//app.activeDocument.selection.fill(myColor_black);
 		
 		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
