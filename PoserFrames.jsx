@@ -706,7 +706,7 @@ function moveNeg_fancy() {
 				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.006 * thisDirection();
 			} else if (mask_variant_35mm == 3) {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.009 * thisDirection();
+				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.02 * thisDirection();
 			} else {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.017 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.007 * thisDirection();
@@ -838,7 +838,7 @@ try {
 		// Creates mask layer
 		app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
-		app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+		//app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 		
 		app.activeDocument.selection.selectAll();
 		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
@@ -871,7 +871,11 @@ try {
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation(thisFormat, "mask");
 		adjustSelection(); //Scales and centers the selection
-		app.activeDocument.selection.fill(myColor_black);
+		
+		//app.activeDocument.selection.fill(myColor_black);
+		
+		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	
 		
 		if (eccentric == true) {
 			moveNeg_fancy();
@@ -939,7 +943,7 @@ try {
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('subshadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	app.activeDocument.flatten(); // Flatten all layers
+	//app.activeDocument.flatten(); // Flatten all layers
 	
 	//app.activeDocument.save(); // Saves file. Comment out when testing script.
 	//app.activeDocument.close(); // Closes file. Comment out when testing script.
