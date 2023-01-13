@@ -35,7 +35,7 @@ var feather_factor_45 = 5400;
 
 // For testing purposes only -----------------------------------------
 
-var extreme = false;
+var extreme = true;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -367,6 +367,16 @@ function generateRandomInteger(min, max) {
 	}
 }
 
+function thisDirection() {
+	
+	// Randomly assign 1 or -1 for direction
+	if (Math.floor(Math.random() * 100) < 30) {
+		return -1;
+	} else {
+		return 1;
+	}
+}
+
 function colorCheck () {
 	var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
 	if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
@@ -692,8 +702,8 @@ function moveNeg_fancy() {
 				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.002 * -1;
 				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.001;
 			} else {
-				var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.014 * -1;
-				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.004;
+				var movement_horisontal = generateRandomInteger(50, 100) * 0.01 * doc_width * 0.014 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * 0.004 * thisDirection();
 			}
 		} else {
 			// Landscape
@@ -919,8 +929,8 @@ try {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
