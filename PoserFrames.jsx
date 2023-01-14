@@ -701,8 +701,8 @@ function moveNeg_fancy() {
 		if (ratio > 1) {
 			// Portrait
 			if (mask_variant_35mm == 5 || mask_variant_35mm == 4) {
-				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.007 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.009 * thisDirection();
+				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_width * 0.007 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_height * 0.009 * thisDirection();
 			} else if (mask_variant_35mm == 3) {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.018 * thisDirection();
