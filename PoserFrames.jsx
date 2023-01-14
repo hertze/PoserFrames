@@ -660,8 +660,8 @@ function moveNeg_fancy() {
 		} else {
 			// Landscape
 			if (mask_variant_67 == 2) {
-				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003 * thisDirection();
+				var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.005 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.007 * thisDirection();
 			} else {
 				var movement_horisontal = generateRandomInteger(10, 50) * 0.01 * doc_width * 0.028 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.02 * thisDirection();
