@@ -587,35 +587,35 @@ function moveNeg() {
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
 		// Portrait
-		var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_67 * 0.005 + doc_width * 0.002) * thisDirection();
+		var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_67 * 0.005 + doc_width * 0.002) * thisDirection();
 		var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_67 * ratio * 0.002 * thisDirection();
 	} else {
 		// Landscape
-		var movement_horisontal = -1 * (generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_67 * ratio * 0.002) * thisDirection();
-		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * border_width_67 * doc_height * 0.005 + doc_height * 0.002 * thisDirection();
+		var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_67 * ratio * 0.002) * thisDirection();
+		var movement_vertical = generateRandomInteger(10, 100) * 0.01 * border_width_67 * doc_height * 0.005 + doc_height * 0.002 * thisDirection();
 	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * 0.0025) * thisDirection();
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_45 * ratio * 0.003 * thisDirection();
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * 0.0025) * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_45 * ratio * 0.003 * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = -1 * (generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_45 * ratio * 0.003) * thisDirection();
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * 0.0025 * thisDirection();
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_45 * ratio * 0.003) * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.0025 * thisDirection();
 		}
 	} else if (thisFormat == "square" ) {
-		var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_square * 0.005 + doc_width * 0.005) * thisDirection();
-		var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_square * 0.005 + doc_height * 0.004 * thisDirection();
+		var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_square * 0.005 + doc_width * 0.005) * thisDirection();
+		var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_square * 0.005 + doc_height * 0.004 * thisDirection();
 	} else {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(50, 100) * 0.01 * doc_width * border_width_35mm * 0.005 + doc_width * 0.0015) * thisDirection();
-			var movement_vertical = generateRandomInteger(10, 50) * 0.01 * doc_height * border_width_35mm * ratio * 0.002 * thisDirection();
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_35mm * 0.008 + doc_width * 0.0015) * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_35mm * ratio * 0.005 * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = -1 * (generateRandomInteger(10, 50) * 0.01 * doc_width * border_width_35mm * ratio * 0.002) * thisDirection();
-			var movement_vertical = generateRandomInteger(50, 100) * 0.01 * doc_height * border_width_35mm * 0.005 + doc_height * 0.0015 * thisDirection();
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_35mm * ratio * 0.002) * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_35mm * 0.005 + doc_height * 0.0015 * thisDirection();
 		}
 	}
 	// Move the negative layer
