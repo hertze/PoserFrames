@@ -28,7 +28,7 @@ var border_width_45 = 1;
 var border_width_square = 1;
 
 
-// Advanced user settings. Here be dragons! ------------------------
+// Advanced user settings. Here be dragons! --------------------------
 
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
