@@ -13,7 +13,7 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 2;
 var mask_variant_45 = 2;
@@ -27,6 +27,9 @@ var border_width_67 = 2;
 var border_width_45 = 1;
 var border_width_square = 1;
 
+
+// Advanced user settings. Here be dragons! ------------------------
+
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
@@ -34,10 +37,6 @@ var feather_factor_45 = 5400;
 
 var probalility_min = 10;
 var probalility_max = 100;
-
-// For testing purposes only -----------------------------------------
-
-var extreme = true;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -362,11 +361,7 @@ if (mask_variant_45 == 2) {
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
-	if (extreme == true ) {
-		return max - 1;
-	} else {
-		return Math.floor(Math.random() * (max - min)) + min;
-	}
+	return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function thisDirection() {
