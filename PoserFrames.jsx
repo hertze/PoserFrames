@@ -14,7 +14,7 @@ var eccentric = true;
 var artifacts = true;
 
 var mask_variant_35mm = 3;
-var mask_variant_645 = 1;
+var mask_variant_645 = 2;
 var mask_variant_67 = 2;
 var mask_variant_45 = 2;
 var mask_variant_square = 2;
@@ -632,8 +632,8 @@ function moveNeg_fancy() {
 		if (ratio > 1) {
 			// Portrait
 			if (mask_variant_645 == 2) {
-				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.008 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.0001 * thisDirection();
+				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_width * 0.008 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_height * 0.0001 * thisDirection();
 			} else {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.15 * doc_width * 0.02 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_height * 0.004 * thisDirection();
@@ -641,8 +641,8 @@ function moveNeg_fancy() {
 		} else {
 			// Landscape
 			if (mask_variant_645 == 2) {
-				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.0001 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.008 * thisDirection();
+				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_width * 0.0001 * -1 * thisDirection();
+				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_height * 0.008 * thisDirection();
 			} else {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.1 * doc_width * 0.004 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.15 * doc_height * 0.02 * thisDirection();
