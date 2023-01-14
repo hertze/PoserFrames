@@ -17,7 +17,7 @@ var mask_variant_35mm = 3;
 var mask_variant_645 = 1;
 var mask_variant_67 = 2;
 var mask_variant_45 = 1;
-var mask_variant_square = 1;
+var mask_variant_square = 2;
 
 var negative_variant_square = 1;
 
@@ -689,11 +689,11 @@ function moveNeg_fancy() {
 		}
 	} else if (thisFormat == "square" ) {
 		if (mask_variant_square == 2) {
-			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.003 * -1 * thisDirection();
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.003 * thisDirection();
+			var movement_horisontal = generateRandomInteger(10, 100) * 0.01 * doc_width * 0.01 * -1 * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.01 * thisDirection();
 		} else {
-			var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * 0.013 * -1 * thisDirection();
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.012 * thisDirection();
+			var movement_horisontal = generateRandomInteger(40, 90) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * 0.018 * thisDirection();
 		}
 	} else {
 		if (ratio > 1) {
