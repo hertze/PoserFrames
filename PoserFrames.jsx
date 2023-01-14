@@ -614,8 +614,8 @@ function moveNeg() {
 			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_35mm * ratio * 0.005 * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_35mm * ratio * 0.002) * thisDirection();
-			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_35mm * 0.005 + doc_height * 0.0015 * thisDirection();
+			var movement_horisontal = -1 * (generateRandomInteger(10, 100) * 0.01 * doc_width * border_width_35mm * ratio * 0.008) * thisDirection();
+			var movement_vertical = generateRandomInteger(10, 100) * 0.01 * doc_height * border_width_35mm * 0.01 + doc_height * 0.0015 * thisDirection();
 		}
 	}
 	// Move the negative layer
@@ -945,10 +945,10 @@ try {
 		backdrop.moveAfter(imageLayer);
 		
 		// Creates fill layer
-		app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
-		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+		//app.activeDocument.artLayers.add();
+		//app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
+		//app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+		//app.activeDocument.selection.selectAll();
 		
 		if (eccentric == true) {
 			moveNeg();
