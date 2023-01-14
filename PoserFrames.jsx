@@ -17,7 +17,7 @@ var mask_variant_35mm = 5;
 var mask_variant_645 = 2;
 var mask_variant_67 = 2;
 var mask_variant_45 = 2;
-var mask_variant_square = 2;
+var mask_variant_square = 1;
 
 var negative_variant_square = 1;
 
@@ -686,11 +686,11 @@ function moveNeg_fancy() {
 		}
 	} else if (thisFormat == "square" ) {
 		if (mask_variant_square == 2) {
-			var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.001 * doc_width * 0.01 * -1 * thisDirection();
-			var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.001 * doc_height * 0.01 * thisDirection();
+			var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.01 * -1 * thisDirection();
+			var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.01 * thisDirection();
 		} else {
-			var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.001 * doc_width * 0.016 * -1 * thisDirection();
-			var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.001 * doc_height * 0.018 * thisDirection();
+			var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
+			var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.018 * thisDirection();
 		}
 	} else {
 		if (ratio > 1) {
