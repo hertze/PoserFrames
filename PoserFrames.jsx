@@ -9,11 +9,11 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 2;
 var mask_variant_67 = 2;
 var mask_variant_45 = 1;
@@ -700,7 +700,7 @@ function moveNeg_fancy() {
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.009 * thisDirection();
 			} else if (mask_variant_35mm == 3) {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.018 * thisDirection();
+				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.011 * doc_height * 0.018 * thisDirection();
 			} else if (mask_variant_35mm == 2) {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.015 * doc_width * 0.017 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.015 * doc_height * 0.012 * thisDirection();
@@ -715,7 +715,7 @@ function moveNeg_fancy() {
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.007 * thisDirection();
 			} else if (mask_variant_35mm == 3) {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_width * 0.025 * -1 * thisDirection();
-				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.01 * doc_height * 0.016 * thisDirection();
+				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.011 * doc_height * 0.016 * thisDirection();
 			} else if (mask_variant_35mm == 2) {
 				var movement_horisontal = generateRandomInteger(probalility_min, probalility_max) * 0.015 * doc_width * 0.018 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(probalility_min, probalility_max) * 0.015 * doc_height * 0.017 * thisDirection();
