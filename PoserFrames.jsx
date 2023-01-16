@@ -13,13 +13,13 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
-var mask_variant_645 = 1;
+var mask_variant_35mm = 5;
+var mask_variant_645 = 2;
 var mask_variant_67 = 2;
-var mask_variant_45 = 1;
+var mask_variant_45 = 2;
 var mask_variant_square = 2;
 
-var negative_variant_square = 2;
+var negative_variant_square = 1;
 
 var border_width_35mm = 1;
 var border_width_645 = 1;
@@ -35,7 +35,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var probalility_min = 100;
+var probalility_min = 10;
 var probalility_max = 100;
 
 
@@ -499,7 +499,6 @@ function choosePath(pathKind) {
 	
 }
 
-
 function createPath(thisnegative, pathName) {
 	// Build the path
 	var thisPathPointInfo = thisnegative.split(";");
@@ -933,12 +932,6 @@ try {
 		
 		createBackdropLayer();
 		
-		// Creates fill layer
-		//app.activeDocument.artLayers.add();
-		//app.activeDocument.activeLayer.name = "fill"; // Names mask layer.
-		//app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-		//app.activeDocument.selection.selectAll();
-		
 		if (eccentric == true) {
 			moveNeg();
 		}
@@ -951,10 +944,10 @@ try {
 	app.activeDocument.pathItems.getByName('shadow').remove();
 	app.activeDocument.pathItems.getByName('subshadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	//app.activeDocument.flatten(); // Flatten all layers
+	app.activeDocument.flatten(); // Flatten all layers
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
