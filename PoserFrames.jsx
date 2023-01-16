@@ -374,13 +374,24 @@ function thisDirection() {
 	}
 }
 
-function colorCheck () {
+function colorCheck() {
 	var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
 	if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
 		return "bw";
 	} else {
 		return "color";
 	}
+}
+
+function createBackdropLayer() {
+	
+	// Create black backdrop and move to background
+	var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
+	var backdrop = app.activeDocument.artLayers.add();
+	app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
+	app.activeDocument.selection.selectAll();
+	app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
+	backdrop.moveAfter(imageLayer);
 }
 
 function format(){
@@ -832,17 +843,7 @@ try {
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
 		
-		// Create black backdrop and move to background
-		
-		var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
-		
-		var backdrop = app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
-		
-		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
-		
-		backdrop.moveAfter(imageLayer);
+		createBackdropLayer();
 	
 		// Creates mask layer
 		app.activeDocument.artLayers.add();
@@ -929,17 +930,7 @@ try {
 		app.activeDocument.selection.invert(); // Invert selection
 		app.activeDocument.selection.fill(myColor_black); // Fill with black
 		
-		// Create black backdrop and move to background
-				
-		var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
-		
-		var backdrop = app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
-		
-		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
-		
-		backdrop.moveAfter(imageLayer);
+		createBackdropLayer();
 		
 		// Creates fill layer
 		//app.activeDocument.artLayers.add();
