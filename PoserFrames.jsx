@@ -811,9 +811,9 @@ try {
 	
 	
 	var myColor_black = new SolidColor();  
-	myColor_black.rgb.red = 0;  
-	myColor_black.rgb.green = 0;  
-	myColor_black.rgb.blue = 0;
+	myColor_black.rgb.red = 3;  
+	myColor_black.rgb.green = 3;  
+	myColor_black.rgb.blue = 3;
 	
 	var myColor_white = new SolidColor();  
 	myColor_white.rgb.red = 255;  
