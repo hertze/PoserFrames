@@ -13,7 +13,7 @@ var fancy = true;
 var eccentric = true;
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 2;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -810,22 +810,27 @@ try {
 	var ratio = doc_height / doc_width;
 	
 	
-	var myColor_black = new SolidColor();  
-	myColor_black.rgb.red = 3;  
-	myColor_black.rgb.green = 3;  
-	myColor_black.rgb.blue = 3;
-	
 	var myColor_white = new SolidColor();  
 	myColor_white.rgb.red = 255;  
 	myColor_white.rgb.green = 255;  
 	myColor_white.rgb.blue = 255;
 	
 	if (colorCheck() == "color") {
+		var myColor_black = new SolidColor();  
+		myColor_black.rgb.red = 11;  
+		myColor_black.rgb.green = 3;  
+		myColor_black.rgb.blue = 9;
+		
 		var myColor_shadow = new SolidColor();
 		myColor_shadow.hsb.hue = 44;
 		myColor_shadow.hsb.saturation = generateRandomInteger(20, 26);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 76);
 	} else {
+		var myColor_black = new SolidColor();  
+		myColor_black.rgb.red = 3;  
+		myColor_black.rgb.green = 3;  
+		myColor_black.rgb.blue = 3;
+		
 		var myColor_shadow = new SolidColor();  
 		myColor_shadow.hsb.hue = 0;
 		myColor_shadow.hsb.saturation = 0;
