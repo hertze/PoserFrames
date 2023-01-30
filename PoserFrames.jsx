@@ -817,19 +817,19 @@ try {
 	
 	if (colorCheck() == "color") {
 		var myColor_black = new SolidColor();  
-		myColor_black.rgb.red = 6;  
-		myColor_black.rgb.green = 3;  
-		myColor_black.rgb.blue = 4;
+		myColor_black.rgb.red = generateRandomInteger(1, 6); 
+		myColor_black.rgb.green = generateRandomInteger(1, 6);  
+		myColor_black.rgb.blue = generateRandomInteger(1, 6);
 		
 		var myColor_shadow = new SolidColor();
 		myColor_shadow.hsb.hue = 44;
 		myColor_shadow.hsb.saturation = generateRandomInteger(20, 26);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 76);
 	} else {
-		var myColor_black = new SolidColor();  
-		myColor_black.rgb.red = 3;  
-		myColor_black.rgb.green = 3;  
-		myColor_black.rgb.blue = 3;
+		var myColor_black = new SolidColor();
+		myColor_black.hsb.hue = 0;
+		myColor_black.hsb.saturation = 0;
+		myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
 		
 		var myColor_shadow = new SolidColor();  
 		myColor_shadow.hsb.hue = 0;
