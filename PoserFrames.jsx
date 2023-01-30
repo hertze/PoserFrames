@@ -14,7 +14,7 @@ var eccentric = true;
 var artifacts = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 2;
+var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -817,9 +817,9 @@ try {
 	
 	if (colorCheck() == "color") {
 		var myColor_black = new SolidColor();  
-		myColor_black.rgb.red = 11;  
+		myColor_black.rgb.red = 6;  
 		myColor_black.rgb.green = 3;  
-		myColor_black.rgb.blue = 9;
+		myColor_black.rgb.blue = 4;
 		
 		var myColor_shadow = new SolidColor();
 		myColor_shadow.hsb.hue = 44;
