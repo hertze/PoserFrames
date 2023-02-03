@@ -672,12 +672,12 @@ function moveNeg() {
 	} else {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * border_width_35mm * 0.008 + doc_width * 0.0015) * thisDirection();
-			var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_35mm * ratio * 0.005 * thisDirection();
+			var movement_horisontal = (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * border_width_35mm * 0.01 + doc_width * 0.0015) * thisDirection();
+			var movement_vertical = (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_35mm / ratio * 0.008 + doc_height * 0.002) * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = -1 * (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * border_width_35mm * ratio * 0.008) * thisDirection();
-			var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_35mm * 0.01 + doc_height * 0.0015 * thisDirection();
+			var movement_horisontal = (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * border_width_35mm * ratio * 0.008 + doc_width * 0.002) * thisDirection();
+			var movement_vertical = (generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_35mm * 0.01 + doc_height * 0.0015) * thisDirection();
 		}
 	}
 	// Move the negative layer
