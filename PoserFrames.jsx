@@ -9,12 +9,12 @@
 
 // User settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 var artifacts = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 1;
+var mask_variant_645 = 2;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -35,7 +35,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 10;
+var movement_min = 100;
 var movement_max = 100;
 
 
@@ -954,35 +954,48 @@ try {
 		
 		if (thisFormat == "35mm") {
 			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_35mm + 100,"%"), UnitValue(border_width_35mm / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); 
+				var finished_width = border_width_35mm + 100;
+				var finished_height = border_width_35mm / ratio + 100;
 			} else {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_35mm * ratio + 100,"%"), UnitValue(border_width_35mm + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_35mm * ratio + 100;
+				var finished_height = border_width_35mm + 100;
 			}
 		} else if (thisFormat == "645") {
 			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_645 + 100,"%"), UnitValue(100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_645 + 100;
+				var finished_height = 100;
 			} else {
-				app.activeDocument.resizeCanvas(UnitValue(100,"%"), UnitValue(border_width_645 + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = 100;
+				var finished_height = border_width_645 + 100;
 			}
 		} else if (thisFormat == "67") {
 			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_67 + 100,"%"), UnitValue(border_width_67 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_67 + 100;
+				var finished_height = border_width_67 / ratio + 100;
 			} else {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_67 * ratio + 100,"%"), UnitValue(border_width_67 + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_67 * ratio + 100;
+				var finished_height = border_width_67 + 100;
 			}
 		} else if (thisFormat == "45") {
 			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(100.5,"%"), UnitValue(border_width_45 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = 100.5;
+				var finished_height = border_width_45 / ratio + 100;
 			} else {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_45 * ratio + 100,"%"), UnitValue(100.5,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_45 * ratio + 100;
+				var finished_height = 100.5;
 			}
 		} else if (thisFormat == "square") {
 			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_square + 100,"%"), UnitValue(border_width_square / ratio + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_square + 100;
+				var finished_height = border_width_square / ratio + 100;
 			} else {
-				app.activeDocument.resizeCanvas(UnitValue(border_width_square * ratio + 100,"%"), UnitValue(border_width_square + 100,"%"), AnchorPosition.MIDDLECENTER);
+				var finished_width = border_width_square * ratio + 100;
+				var finished_height = border_width_square + 100;
 			}
 		}
+		
+		// Enlarge canvas to finished size
+		app.activeDocument.resizeCanvas(UnitValue(finished_width ,"%"), UnitValue(finished_height ,"%"), AnchorPosition.MIDDLECENTER);
 		
 		// Creates the negative layer content
 		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
@@ -1007,8 +1020,8 @@ try {
 	app.activeDocument.pathItems.getByName('mask').remove();
 	app.activeDocument.flatten(); // Flatten all layers
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
