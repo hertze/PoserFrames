@@ -1015,6 +1015,7 @@ try {
 		decideRotation("negative");
 		adjustSelection(); //Scales and centers the selection
 		
+		// For 645 we need to move the negative shape and not the entire layer
 		if (thisFormat == "645") {
 			if (ratio > 1) {
 				var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00009 * doc_height * thisDirection();
