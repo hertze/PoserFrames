@@ -44,7 +44,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 100;
+var movement_min = 10;
 var movement_max = 100;
 
 
