@@ -1016,7 +1016,7 @@ try {
 		adjustSelection(); //Scales and centers the selection
 		
 		// For 645 we need to move the negative shape and not the entire layer
-		if (thisFormat == "645") {
+		if (thisFormat == "645" && eccentric == true) {
 			if (ratio > 1) {
 				var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00005 * doc_height * thisDirection();
 				app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
