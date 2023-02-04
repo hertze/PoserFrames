@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 
@@ -17,8 +17,8 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 3;
-var mask_variant_645 = 3;
+var mask_variant_35mm = 1;
+var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -1061,8 +1061,8 @@ try {
 	app.activeDocument.pathItems.getByName('subshadow').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
