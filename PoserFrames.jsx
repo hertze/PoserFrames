@@ -7,12 +7,15 @@
 #target photoshop
 
 
-// User settings ----------------------------------------------------
+// General settings ----------------------------------------------------
 
 var fancy = false;
 var eccentric = true;
+
+
+// Settings for fancy borders
+
 var artifacts = true;
-var inset_crop = true;
 
 var mask_variant_35mm = 3;
 var mask_variant_645 = 3;
@@ -21,6 +24,11 @@ var mask_variant_45 = 1;
 var mask_variant_square = 1;
 
 var negative_variant_square = 1;
+
+
+// Settings for crop/conservative borders
+
+var inset_crop = true;
 
 var border_width_35mm = 1;
 var border_width_645 = 1;
