@@ -26,7 +26,7 @@ var mask_variant_square = 2;
 var negative_variant_square = 1;
 
 
-// Settings for crop/conservative borders
+// Settings for conservative (cropped) borders
 
 var inset_crop = true;
 
@@ -37,7 +37,7 @@ var border_width_45 = 1;
 var border_width_square = 1;
 
 
-// Advanced user settings. Here be dragons! --------------------------
+// Hic sunt dracones (advanced user settings) --------------------------
 
 var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
