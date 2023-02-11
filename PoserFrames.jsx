@@ -547,9 +547,9 @@ function choosePath(pathKind) {
 	
 }
 
-function createPath(thisnegative, pathName) {
+function createPath(thisPath, pathName) {
 	// Build the path
-	var thisPathPointInfo = thisnegative.split(";");
+	var thisPathPointInfo = thisPath.split(";");
 	var thisPathPointInfoProperties = [];
 	
 	var p = [];
