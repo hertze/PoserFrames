@@ -44,7 +44,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 90;
+var movement_min = 100;
 var movement_max = 100;
 
 
@@ -711,7 +711,7 @@ function moveNeg_fancy() {
 		}
 	} else if (thisFormat == "square" ) {
 		if (mask_variant_square == 2) {
-			var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.01 * -1 * thisDirection();
+			var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.008 * thisDirection();
 			var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * 0.01 * thisDirection();
 		} else {
 			var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
@@ -1020,8 +1020,8 @@ try {
 	if (thisSubshadow != false ) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
 	if (thisShadow != false ) { app.activeDocument.pathItems.getByName('shadow').remove(); }
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
