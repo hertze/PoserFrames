@@ -17,9 +17,9 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 3;
-var mask_variant_67 = 2;
+var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
 
@@ -543,17 +543,19 @@ function createPath(thisPath, pathName) {
 
 
 function decideRotation(pathKind) {
-	
+
 	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
 		if (pathKind == "negative") {
 			// Only negative should have random rotation or 180 flip.
-			if (generateRandomInteger(1, 4) == 8 && thisFormat != "45") {
+			if (generateRandomInteger(1, 4) > 2 && thisFormat != "45") {
 				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
 				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
 			}
+		} else if (rotate_mask == true) {	
+			app.activeDocument.selection.rotateBoundary(270, AnchorPosition.MIDDLECENTER);
 		} else {
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
@@ -561,7 +563,9 @@ function decideRotation(pathKind) {
 		// Landscape
 		if (pathKind == "negative") {
 			app.activeDocument.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-		}
+		} else if (rotate_mask == true) {
+			app.activeDocument.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);	
+		} 
 	}
 }
 
@@ -868,6 +872,12 @@ try {
 			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
 		}
 		
+		if (generateRandomInteger(1, 4) > 2 && thisFormat != "45") {
+			var rotate_mask = true;
+		} else {
+			var rotate_mask = false;
+		}
+		
 		// Creates the negative layer content
 		app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
 		decideRotation("negative");
@@ -888,14 +898,14 @@ try {
 			
 			if (thisSubshadow != false ) {
 				app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true); // Make selection from path
-				decideRotation(thisFormat, "subshadow");
+				decideRotation("subshadow");
 				adjustSelection();
 				app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color
 			}
 			
 			if (thisShadow != false ) {
 				app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
-				decideRotation(thisFormat, "shadow");
+				decideRotation("shadow");
 				adjustSelection();
 				app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
 			}
@@ -907,7 +917,7 @@ try {
 	
 				// Creates inverted subshadow layer for white fill
 				app.activeDocument.pathItems.getByName('subshadow').makeSelection(feather, true);
-				decideRotation(thisFormat, "subshadow");
+				decideRotation("subshadow");
 				adjustSelection(); //Scales and centers the selection
 				app.activeDocument.selection.invert();
 				app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
@@ -916,7 +926,7 @@ try {
 		}
 		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-		decideRotation(thisFormat, "mask");
+		decideRotation("mask");
 		adjustSelection(); //Scales and centers the selection
 		
 		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
