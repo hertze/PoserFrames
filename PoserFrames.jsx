@@ -21,7 +21,7 @@ var mask_variant_35mm = 3;
 var mask_variant_645 = 3;
 var mask_variant_67 = 2;
 var mask_variant_45 = 1;
-var mask_variant_square = 1;
+var mask_variant_square = 2;
 
 var negative_variant_square = 2;
 
@@ -895,9 +895,6 @@ try {
 		if (artifacts == true) {
 			
 			if (thisSubshadow != false ) {
-				//app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true); // Make selection from path
-				//decideRotation("subshadow");
-				//adjustSelection();
 				app.activeDocument.selection.selectAll();
 				app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color
 			}
