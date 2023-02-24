@@ -17,7 +17,7 @@ var eccentric = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 6;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -46,6 +46,8 @@ var feather_factor_45 = 5400;
 
 var movement_min = 10;
 var movement_max = 100;
+
+var mask_flip_probaility = 80;
 
 
 // PATH LIBRARY ------------------------------------------------------
@@ -870,7 +872,7 @@ try {
 			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
 		}
 		
-		if (generateRandomInteger(1, 4) > 2 && thisFormat != "45") {
+		if (generateRandomInteger(1, 100) > mask_flip_probaility && thisFormat != "45") {
 			var rotate_mask = true;
 		} else {
 			var rotate_mask = false;
@@ -1026,8 +1028,8 @@ try {
 	if (thisSubshadow != false ) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
 	if (thisShadow != false ) { app.activeDocument.pathItems.getByName('shadow').remove(); }
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
