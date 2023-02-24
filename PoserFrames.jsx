@@ -10,14 +10,14 @@
 // General settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = true;
+var eccentric = false;
 
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 6;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
