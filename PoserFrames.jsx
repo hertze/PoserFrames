@@ -10,7 +10,7 @@
 // General settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = false;
+var eccentric = true;
 
 
 // Settings for fancy borders
@@ -18,7 +18,7 @@ var eccentric = false;
 var artifacts = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 1;
+var mask_variant_645 = 3;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -44,7 +44,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 10;
+var movement_min = 100;
 var movement_max = 100;
 
 var mask_flip_probaility = 80;
@@ -1028,8 +1028,8 @@ try {
 	if (thisSubshadow != false ) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
 	if (thisShadow != false ) { app.activeDocument.pathItems.getByName('shadow').remove(); }
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
