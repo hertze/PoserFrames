@@ -10,12 +10,12 @@
 // General settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = false;
+var eccentric = true;
 
 
 // Settings for fancy borders
 
-var artifacts = true;
+var artifacts = false;
 
 var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
@@ -858,10 +858,10 @@ try {
 	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
 	
 	var thisSubshadow = choosePath("subshadow");
-	if (thisSubshadow != false ) { createPath(thisSubshadow, "subshadow"); }
+	if (thisSubshadow != false && fancy == true && artifacts == true) { createPath(thisSubshadow, "subshadow"); }
 	
 	var thisShadow = choosePath("shadow");
-	if (thisShadow != false ) { createPath(thisShadow, "shadow"); }
+	if (thisShadow != false && fancy == true && artifacts == true) { createPath(thisShadow, "shadow"); }
 	
 	
 	if (fancy == true) {
@@ -1027,11 +1027,11 @@ try {
 	app.activeDocument.selection.deselect();
 	app.activeDocument.pathItems.getByName('negative').remove();
 	app.activeDocument.pathItems.getByName('mask').remove();
-	if (thisSubshadow != false ) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
-	if (thisShadow != false ) { app.activeDocument.pathItems.getByName('shadow').remove(); }
+	if (thisSubshadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
+	if (thisShadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('shadow').remove(); }
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
