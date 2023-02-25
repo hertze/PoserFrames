@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 
