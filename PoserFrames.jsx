@@ -18,7 +18,7 @@ var eccentric = true;
 var artifacts = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 3;
+var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -44,8 +44,8 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 100;
-var movement_max = 100;
+var movement_min = 10;
+var movement_max = 50;
 
 var mask_flip_probaility = 80;
 
@@ -891,9 +891,6 @@ try {
 		app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
 		
-		app.activeDocument.selection.selectAll();
-		app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
-		
 		if (artifacts == true) {
 			
 			if (thisSubshadow != false ) {
@@ -921,13 +918,18 @@ try {
 				app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
 			}
 		
+		} else {
+			
+			app.activeDocument.selection.selectAll();
+			app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
+			
 		}
 		
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation("mask");
 		adjustSelection(); //Scales and centers the selection
 		
-		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR); // Punches a hole in the mask layer with the shape of the mask
 	
 		if (eccentric == true) {
 			moveNeg_fancy();
