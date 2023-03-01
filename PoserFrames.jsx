@@ -791,8 +791,8 @@ try {
 		
 		var myColor_shadow = new SolidColor();
 		myColor_shadow.hsb.hue = 44;
-		myColor_shadow.hsb.saturation = generateRandomInteger(15, 21);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 81);
+		myColor_shadow.hsb.saturation = generateRandomInteger(30, 40);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 80);
 	} else {
 		var myColor_black = new SolidColor();
 		myColor_black.hsb.hue = 0;
@@ -802,7 +802,7 @@ try {
 		var myColor_shadow = new SolidColor();  
 		myColor_shadow.hsb.hue = 0;
 		myColor_shadow.hsb.saturation = 0;
-		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 81);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 80);
 	}
 	var myColor_subshadow = new SolidColor();
 	myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
