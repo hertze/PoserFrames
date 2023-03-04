@@ -854,7 +854,7 @@ function filmBurn() {
 	
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*30, true);
+	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*20, true);
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_orange);
 	alert("step");
