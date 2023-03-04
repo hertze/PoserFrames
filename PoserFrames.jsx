@@ -788,16 +788,17 @@ function edge_snap() {
 	
 	adjustSelection();
 	
+	if (ratio > 1) { app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER); }
+	
 	var selection_bounds = activeDocument.selection.bounds;
 	
 	if (ratio > 1) {
 		// Portrait
 		var delta_x = 0;
-		var delta_y = ( selection_bounds[1] + app.activeDocument.width * 0.15 * ratio ) * -1;
-		
+		var delta_y = ( selection_bounds[1] ) * -1;
 	} else {
 		// Landscape
-		var delta_x = ( selection_bounds[0] + app.activeDocument.width * 0.1 ) * -1;
+		var delta_x = ( selection_bounds[0] ) * -1;
 		var delta_y = 0;
 		
 	}
@@ -837,15 +838,13 @@ function filmBurn() {
 	if (ratio > 1) {
 		// Portrait
 		var sel_width = app.activeDocument.width;
-		var sel_height = app.activeDocument.height/2 - app.activeDocument.height * 0.032;
-		var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
+		var sel_height = app.activeDocument.height/2 + app.activeDocument.height * 0.068;
 	} else {
 		// Landscape
-		var sel_width = app.activeDocument.width/2 - app.activeDocument.width * 0.032;
+		var sel_width = app.activeDocument.width/2 + app.activeDocument.width * 0.068;
 		var sel_height = app.activeDocument.height;
-		var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
 	}
-	
+	var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
 	
 	app.activeDocument.selection.select(shapeRef);
 	app.activeDocument.selection.fill(myColor_red);
@@ -856,7 +855,6 @@ function filmBurn() {
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
 	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*30, true);
-	decideRotation("burn");
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_orange);
 	alert("step");
@@ -864,7 +862,6 @@ function filmBurn() {
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*150, true);
-	decideRotation("burn");
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_light);
 	alert("step");
@@ -872,7 +869,6 @@ function filmBurn() {
 	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
 	createPath(thisredBurn, "redburn");
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
-	decideRotation("burn");
 	edge_snap();
 	alert("step");
 	app.activeDocument.selection.invert();
@@ -1060,7 +1056,7 @@ try {
 		
 		if (burn == true) { filmBurn(); }
 		
-		app.activeDocument.flatten(); // Flatten all layers
+		//app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
