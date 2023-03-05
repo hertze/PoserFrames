@@ -963,7 +963,8 @@ function filmBurn() {
 		}
 	}
 	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
-	
+	app.activeDocument.selection.selectAll();
+	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);	
 }
 
 
