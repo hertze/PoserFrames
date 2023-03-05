@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 var burn = true;
 
@@ -812,10 +812,10 @@ function edge_snap() {
 		if (ratio < 1) {
 			// Landscape
 			var delta_x = 0;
-			var delta_y = ( selection_bounds[1] ) * -1;
+			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] ) * -1;
 		} else {
 			// Portrait
-			var delta_x = ( selection_bounds[0] ) * -1;
+			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
 			var delta_y = 0;
 			
 		}
@@ -823,15 +823,14 @@ function edge_snap() {
 		if (ratio > 1) {
 			// Portrait
 			var delta_x = 0;
-			var delta_y = ( selection_bounds[1] ) * -1;
+			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] ) * -1;
 		} else {
 			// Landscape
-			var delta_x = ( selection_bounds[0] ) * -1;
+			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
 			var delta_y = 0;
 			
 		}
 	}
-	
 	
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
 	
@@ -890,20 +889,20 @@ function filmBurn() {
 	
 	if (thisFormat == "645") {
 		if (ratio > 1) {
-			var sel_width = burn_width - 0.01 * burn_width;
+			var sel_width = burn_width / 2 - 0.01 * burn_width;
 			var sel_height = app.activeDocument.height;
 		} else {
 			var sel_width = app.activeDocument.width;
-			var sel_height = burn_width - 0.01 * burn_width;
+			var sel_height = burn_width / 2 - 0.01 * burn_width;
 		}
 	} else {
 		if (ratio > 1) {
 			// Portrait
 			var sel_width = app.activeDocument.width;
-			var sel_height = burn_width - 0.01 * burn_width;
+			var sel_height = burn_width / 2 - 0.01 * burn_width;
 		} else {
 			// Landscape
-			var sel_width = burn_width - 0.01 * burn_width;
+			var sel_width = burn_width / 2- 0.01 * burn_width;
 			var sel_height = app.activeDocument.height;
 		}
 	}
@@ -943,8 +942,8 @@ function filmBurn() {
 	
 	if (fancy == true) { burnlayer.moveAfter(maskLayer); }
 	
-	var min_movement = Math.round(burn_width/1.67);
-	var max_movement = Math.round(burn_width/3);
+	var min_movement = Math.round(burn_width/4);
+	var max_movement = Math.round(burn_width/2.1);
 	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
@@ -965,8 +964,6 @@ function filmBurn() {
 			var movement_vertical = 0;
 		}
 	}
-	
-	
 	
 	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
 	
