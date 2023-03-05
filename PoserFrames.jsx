@@ -589,9 +589,14 @@ function decideRotation(pathKind) {
 }
 
 
-function adjustSelection() {
+function adjustSelection(side) {
 	
-	app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
+	if (side > 0) {
+		var scale = side / 3600;
+		app.activeDocument.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
+	} else {
+		app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
+	}
 	var selection_bounds = activeDocument.selection.bounds;
 	var middle_horisontal = ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0];
 	var middle_vertical = ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1];
@@ -786,22 +791,48 @@ function moveNeg_fancy() {
 
 function edge_snap() {
 	
-	adjustSelection();
 	
-	if (ratio > 1) { app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER); }
-	
-	var selection_bounds = activeDocument.selection.bounds;
-	
-	if (ratio > 1) {
-		// Portrait
-		var delta_x = 0;
-		var delta_y = ( selection_bounds[1] ) * -1;
+	if (thisFormat == "645") {
+		if (ratio > 1) {
+			adjustSelection(doc_width*1.2);
+		} else {
+			adjustSelection(doc_width*1.2);
+			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
+		}
 	} else {
-		// Landscape
-		var delta_x = ( selection_bounds[0] ) * -1;
-		var delta_y = 0;
-		
+		adjustSelection();
+		if (ratio > 1) {
+			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
+		}
 	}
+	
+	var selection_bounds = app.activeDocument.selection.bounds;
+	
+	if (thisFormat == "645") {
+		if (ratio < 1) {
+			// Landscape
+			var delta_x = 0;
+			var delta_y = ( selection_bounds[1] ) * -1;
+		} else {
+			// Portrait
+			var delta_x = ( selection_bounds[0] ) * -1;
+			var delta_y = 0;
+			
+		}
+	} else {
+		if (ratio > 1) {
+			// Portrait
+			var delta_x = 0;
+			var delta_y = ( selection_bounds[1] ) * -1;
+		} else {
+			// Landscape
+			var delta_x = ( selection_bounds[0] ) * -1;
+			var delta_y = 0;
+			
+		}
+	}
+	
+	
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
 	
 }
@@ -830,25 +861,59 @@ function filmBurn() {
 		myColor_light.hsb.brightness = generateRandomInteger(96, 100);
 	}
 	
-	var maskLayer = app.activeDocument.artLayers.getByName('mask');
-	var burnlayer = app.activeDocument.artLayers.add();
+	if (fancy == true) { 
+		var maskLayer = app.activeDocument.artLayers.getByName('mask');
+	}
+		var burnlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "burn"; // Names backdrop layer
 	app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 	
-	if (ratio > 1) {
-		// Portrait
-		var sel_width = app.activeDocument.width;
-		var sel_height = app.activeDocument.height/2 + app.activeDocument.height * 0.068;
+	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
+	createPath(thisredBurn, "redburn");
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
+	edge_snap();
+	var burn_bounds = app.activeDocument.selection.bounds;
+	
+	if (thisFormat == "645") {
+		if (ratio > 1) {
+			var burn_width = burn_bounds[2] - burn_bounds[0];
+		} else {
+			var burn_width = burn_bounds[3] - burn_bounds[1];
+		}
 	} else {
-		// Landscape
-		var sel_width = app.activeDocument.width/2 + app.activeDocument.width * 0.068;
-		var sel_height = app.activeDocument.height;
+		if (ratio > 1) {
+			var burn_width = burn_bounds[3] - burn_bounds[1];
+		} else {
+			var burn_width = burn_bounds[2] - burn_bounds[0];
+		}
 	}
+	
+	if (thisFormat == "645") {
+		if (ratio > 1) {
+			var sel_width = burn_width - 0.01 * burn_width;
+			var sel_height = app.activeDocument.height;
+		} else {
+			var sel_width = app.activeDocument.width;
+			var sel_height = burn_width - 0.01 * burn_width;
+		}
+	} else {
+		if (ratio > 1) {
+			// Portrait
+			var sel_width = app.activeDocument.width;
+			var sel_height = burn_width - 0.01 * burn_width;
+		} else {
+			// Landscape
+			var sel_width = burn_width - 0.01 * burn_width;
+			var sel_height = app.activeDocument.height;
+		}
+	}
+	
 	var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
 	
 	app.activeDocument.selection.select(shapeRef);
 	app.activeDocument.selection.fill(myColor_red);
 	alert("step");
+
 	app.activeDocument.selection.deselect();
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
 	
@@ -866,24 +931,49 @@ function filmBurn() {
 	app.activeDocument.selection.fill(myColor_light);
 	alert("step");
 	
-	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
-	createPath(thisredBurn, "redburn");
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap();
-	alert("step");
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	alert("step");
 	
 	app.activeDocument.selection.deselect();
-	app.activeDocument.activeLayer.applyAddNoise(3, NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyAddNoise(5, NoiseDistribution.GAUSSIAN, true);
 	app.activeDocument.activeLayer.applyGaussianBlur(feather);
 	
-	burnlayer.moveAfter(maskLayer);
+	if (fancy == true) { burnlayer.moveAfter(maskLayer); }
+	
+	var min_movement = Math.round(burn_width/1.67);
+	var max_movement = Math.round(burn_width/3);
+	
+	if (thisFormat == "645") {
+		if (ratio < 1) {
+			//Landscape
+			var movement_horisontal = 0;
+			var movement_vertical = generateRandomInteger(min_movement, max_movement) * -1;
+		} else {
+			var movement_horisontal = generateRandomInteger(min_movement, max_movement) * -1;
+			var movement_vertical = 0;
+		}
+	} else {
+		if (ratio > 1) {
+			//Portrait
+			var movement_horisontal = 0;
+			var movement_vertical = generateRandomInteger(min_movement, max_movement) * -1;
+		} else {
+			var movement_horisontal = generateRandomInteger(min_movement, max_movement) * -1;
+			var movement_vertical = 0;
+		}
+	}
+	
+	
+	
+	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
 	
 }
 
 
-try {
+//try {
 	
 	// Initial properties, settings and calculations
 	
@@ -1133,6 +1223,8 @@ try {
 			moveNeg();
 		}
 		
+		if (burn == true) { filmBurn(); }
+		
 		app.activeDocument.flatten(); // Flatten all layers
 		
 		if (inset_crop == true) {
@@ -1162,4 +1254,4 @@ try {
 	
 	// ALL DONE!
 	
-} catch (e) { alert(e); }
+//} catch (e) { alert(e); }
