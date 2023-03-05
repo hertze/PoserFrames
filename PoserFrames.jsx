@@ -791,9 +791,9 @@ function moveNeg_fancy() {
 
 function edge_snap() {
 	
-	
 	if (thisFormat == "645") {
 		if (ratio > 1) {
+			// For 645, we need to scale selection after the long side
 			adjustSelection(doc_width*1.2);
 		} else {
 			adjustSelection(doc_width*1.2);
@@ -806,8 +806,8 @@ function edge_snap() {
 		}
 	}
 	
+	// Move selection past one edge
 	var selection_bounds = app.activeDocument.selection.bounds;
-	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
 			// Landscape
@@ -817,7 +817,6 @@ function edge_snap() {
 			// Portrait
 			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
 			var delta_y = 0;
-			
 		}
 	} else {
 		if (ratio > 1) {
@@ -828,10 +827,8 @@ function edge_snap() {
 			// Landscape
 			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
 			var delta_y = 0;
-			
 		}
 	}
-	
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
 	
 }
@@ -857,22 +854,24 @@ function filmBurn() {
 		var myColor_light = new SolidColor();
 		myColor_light.hsb.hue = generateRandomInteger(48, 52);
 		myColor_light.hsb.saturation = generateRandomInteger(10, 20);
-		myColor_light.hsb.brightness = generateRandomInteger(96, 100);
+		myColor_light.hsb.brightness = generateRandomInteger(98, 100);
 	}
 	
 	if (fancy == true) { 
 		var maskLayer = app.activeDocument.artLayers.getByName('mask');
 	}
-		var burnlayer = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "burn"; // Names backdrop layer
+	
+	var burnlayer = app.activeDocument.artLayers.add();
+	app.activeDocument.activeLayer.name = "burn";
 	app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
 	
 	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
 	createPath(thisredBurn, "redburn");
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap();
-	var burn_bounds = app.activeDocument.selection.bounds;
 	
+	// Make a rectangular selection
+	var burn_bounds = app.activeDocument.selection.bounds;
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			var burn_width = burn_bounds[2] - burn_bounds[0];
@@ -886,7 +885,6 @@ function filmBurn() {
 			var burn_width = burn_bounds[2] - burn_bounds[0];
 		}
 	}
-	
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			var sel_width = burn_width / 2 - 0.01 * burn_width;
@@ -906,44 +904,44 @@ function filmBurn() {
 			var sel_height = app.activeDocument.height;
 		}
 	}
-	
 	var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
 	
+	// Color rectangle and blur the edge somewhat
 	app.activeDocument.selection.select(shapeRef);
 	app.activeDocument.selection.fill(myColor_red);
-	alert("step");
-
 	app.activeDocument.selection.deselect();
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
 	
+	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*20, true);
+	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*50, true);
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_orange);
-	alert("step");
 	
+	// Make selection and fill with white
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*150, true);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*200, true);
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_light);
-	alert("step");
 	
+	// Make and invert outer selection and clear it
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap();
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	alert("step");
 	
+	// Add noise nánd finish with blur
 	app.activeDocument.selection.deselect();
-	app.activeDocument.activeLayer.applyAddNoise(5, NoiseDistribution.GAUSSIAN, true);
-	app.activeDocument.activeLayer.applyGaussianBlur(feather);
+	app.activeDocument.activeLayer.applyAddNoise(6, NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
 	
 	if (fancy == true) { burnlayer.moveAfter(maskLayer); }
 	
-	var min_movement = Math.round(burn_width/4);
-	var max_movement = Math.round(burn_width/2.1);
+	// Move layer
+	var min_movement = 0;
+	var max_movement = Math.round(burn_width/3);
 	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
@@ -964,13 +962,12 @@ function filmBurn() {
 			var movement_vertical = 0;
 		}
 	}
-	
 	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
 	
 }
 
 
-//try {
+try {
 	
 	// Initial properties, settings and calculations
 	
@@ -1143,7 +1140,7 @@ function filmBurn() {
 		
 		if (burn == true) { filmBurn(); }
 		
-		//app.activeDocument.flatten(); // Flatten all layers
+		app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
@@ -1251,4 +1248,4 @@ function filmBurn() {
 	
 	// ALL DONE!
 	
-//} catch (e) { alert(e); }
+} catch (e) { alert(e); }
