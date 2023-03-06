@@ -11,7 +11,6 @@
 
 var fancy = true;
 var eccentric = true;
-var burn = true;
 
 // Settings for fancy borders
 
@@ -26,7 +25,7 @@ var mask_variant_square = 1;
 var negative_variant_square = 1;
 
 
-// Settings for conservative (cropped) borders
+// Settings for conservative (cropped) borders) ------------------------
 
 var inset_crop = true;
 
@@ -35,6 +34,11 @@ var border_width_645 = 1;
 var border_width_67 = 1;
 var border_width_45 = 1;
 var border_width_square = 1;
+
+// Settings for film burns ---------------------------------------------
+
+var burn = true;
+var burn_at_opposite_edge = false;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -924,7 +928,6 @@ function filmBurn() {
 	app.activeDocument.selection.fill(myColor_red);
 	app.activeDocument.selection.deselect();
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
-	alert("step");
 	
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
@@ -939,6 +942,29 @@ function filmBurn() {
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*200, true);
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_light);
+	
+	var contrastlayer = app.activeDocument.artLayers.add();
+	app.activeDocument.activeLayer.name = "contrast";
+	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
+	app.activeDocument.activeLayer.opacity = 30;
+	
+	//if (fancy == true) { 
+		//var maskLayer = app.activeDocument.artLayers.getByName('mask');
+		//burnlayer.moveAfter(maskLayer);
+		//contrastlayer.moveAfter(maskLayer); 
+	//}
+	
+	// Adding contrast towards burn edge
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
+	edge_snap();
+	app.activeDocument.selection.fill(myColor_black);
+	
+	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*80, true);
+	edge_snap();
+	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	
+	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
+	app.activeDocument.artLayers.getByName("contrast").merge();
 	
 	// Make and invert outer selection and clear it
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
@@ -974,35 +1000,38 @@ function filmBurn() {
 			var movement_vertical = 0;
 		}
 	}
-	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
+	app.activeDocument.artLayers.getByName("burn").translate(movement_horisontal, movement_vertical);
 	
 	app.activeDocument.artLayers.getByName("burn").adjustBrightnessContrast(generateRandomInteger(0,2), generateRandomInteger(0,5));
 	
-	var contrastlayer = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "contrast";
-	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
-	app.activeDocument.activeLayer.opacity = 30;
-	
-	//if (fancy == true) { 
-		//var maskLayer = app.activeDocument.artLayers.getByName('mask');
-		//burnlayer.moveAfter(maskLayer);
-		//contrastlayer.moveAfter(maskLayer); 
-	//}
-	
-	// Adding contrast towards burn edge
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
-	edge_snap();
-	app.activeDocument.selection.fill(myColor_black);
-	
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*80, true);
-	edge_snap();
-	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	
-	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
-	//app.activeDocument.artLayers.getByName("contrast").merge();
-	
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
+	
+	if (burn_at_opposite_edge == true) {
+		var layerPosition = app.activeDocument.activeLayer.bounds;
+		var diff_x = layerPosition[2] - Math.abs(layerPosition[0]);
+		var diff_y = layerPosition[3] - Math.abs(layerPosition[1]);
+		
+		if (thisFormat == "645") {
+			if (ratio > 1) {
+				app.activeDocument.activeLayer.resize(-100,undefined);
+				app.activeDocument.activeLayer.translate(app.activeDocument.width - diff_x, 0);
+			} else {
+				app.activeDocument.activeLayer.resize(undefined,-100);
+				app.activeDocument.activeLayer.translate(0, app.activeDocument.height - diff_y);
+			}
+		} else {
+			if (ratio > 1) {
+				app.activeDocument.activeLayer.resize(undefined,-100);
+				app.activeDocument.activeLayer.translate(0, app.activeDocument.height - diff_y);			
+			} else {
+				app.activeDocument.activeLayer.resize(-100,undefined);
+				app.activeDocument.activeLayer.translate(app.activeDocument.width - diff_x, 0);			
+			}
+		}
+		
+	}
+	
 }
 
 
@@ -1183,7 +1212,7 @@ try {
 			filmBurn();
 		}
 		
-		//app.activeDocument.flatten(); // Flatten all layers
+		app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
