@@ -17,7 +17,7 @@ var burn = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 6;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 3;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -803,7 +803,7 @@ function edge_snap() {
 			// For 645, we need to scale selection after the long side
 			adjustSelection(doc_width * ratio);
 		} else {
-			adjustSelection(doc_width * ratio);
+			adjustSelection(doc_height / ratio);
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
@@ -856,7 +856,7 @@ function filmBurn() {
 		var myColor_light = new SolidColor();
 		myColor_light.hsb.hue = generateRandomInteger(48, 52);
 		myColor_light.hsb.saturation = generateRandomInteger(10, 20);
-		myColor_light.hsb.brightness = generateRandomInteger(98, 100);
+		myColor_light.hsb.brightness = generateRandomInteger(99, 100);
 	} else {
 		var myColor_red = new SolidColor();
 		myColor_red.hsb.hue = generateRandomInteger(0, 5);
@@ -913,7 +913,7 @@ function filmBurn() {
 			var sel_height = burn_width / 2 - 0.01 * burn_width;
 		} else {
 			// Landscape
-			var sel_width = burn_width / 2- 0.01 * burn_width;
+			var sel_width = burn_width / 2 - 0.01 * burn_width;
 			var sel_height = app.activeDocument.height;
 		}
 	}
@@ -952,7 +952,7 @@ function filmBurn() {
 	
 	// Move layer
 	var min_movement = 0;
-	var max_movement = Math.round(burn_width/3);
+	var max_movement = Math.round(burn_width/4);
 	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
@@ -975,16 +975,18 @@ function filmBurn() {
 	}
 	MoveLayerTo(app.activeDocument.artLayers.getByName("burn"),movement_horisontal, movement_vertical);
 	
+	app.activeDocument.artLayers.getByName("burn").adjustBrightnessContrast(generateRandomInteger(0,2), generateRandomInteger(0,5));
+	
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "contrast";
 	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
 	app.activeDocument.activeLayer.opacity = 30;
 	
-	if (fancy == true) { 
-		var maskLayer = app.activeDocument.artLayers.getByName('mask');
-		burnlayer.moveAfter(maskLayer);
-		contrastlayer.moveAfter(maskLayer); 
-	}
+	//if (fancy == true) { 
+		//var maskLayer = app.activeDocument.artLayers.getByName('mask');
+		//burnlayer.moveAfter(maskLayer);
+		//contrastlayer.moveAfter(maskLayer); 
+	//}
 	
 	// Adding contrast towards burn edge
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
@@ -996,8 +998,7 @@ function filmBurn() {
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
-	app.activeDocument.artLayers.getByName("contrast").merge();
-	app.activeDocument.artLayers.getByName("burn").adjustBrightnessContrast(generateRandomInteger(0,5), generateRandomInteger(0,5));
+	//app.activeDocument.artLayers.getByName("contrast").merge();
 	
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
@@ -1175,9 +1176,13 @@ try {
 			moveNeg_fancy();
 		}
 		
-		if (burn == true) { filmBurn(); }
+		if (burn == true) { 
+			filmBurn(); 
+		} else if (burn == "surprise" && generateRandomInteger(1, 20) == 20) {
+			filmBurn();
+		}
 		
-		app.activeDocument.flatten(); // Flatten all layers
+		//app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
@@ -1254,7 +1259,11 @@ try {
 			moveNeg();
 		}
 		
-		if (burn == true) { filmBurn(); }
+		if (burn == true) { 
+			filmBurn(); 
+		} else if (burn == "surprise" && generateRandomInteger(1, 20) == 20) {
+			filmBurn();
+		}
 		
 		app.activeDocument.flatten(); // Flatten all layers
 		
