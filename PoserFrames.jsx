@@ -924,6 +924,7 @@ function filmBurn() {
 	app.activeDocument.selection.fill(myColor_red);
 	app.activeDocument.selection.deselect();
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
+	alert("step");
 	
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
@@ -989,7 +990,7 @@ function filmBurn() {
 	//}
 	
 	// Adding contrast towards burn edge
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
 	edge_snap();
 	app.activeDocument.selection.fill(myColor_black);
 	
