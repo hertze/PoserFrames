@@ -16,8 +16,8 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 3;
-var mask_variant_645 = 3;
+var mask_variant_35mm = 1;
+var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
@@ -34,6 +34,7 @@ var border_width_645 = 1;
 var border_width_67 = 1;
 var border_width_45 = 1;
 var border_width_square = 1;
+
 
 // Settings for film burns ---------------------------------------------
 
@@ -979,7 +980,14 @@ function filmBurn() {
 	
 	// Move layer
 	var min_movement = 0;
-	var max_movement = Math.round(burn_width/4);
+	if (thisFormat == "35mm") {
+		var max_movement = Math.round(burn_width/8);
+	} else if (thisFormat == "645") {
+		var max_movement = Math.round(burn_width/4);
+	} else {
+		var max_movement = Math.round(burn_width/6);
+	}
+	
 	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
