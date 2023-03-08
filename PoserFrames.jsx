@@ -16,7 +16,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -39,7 +39,7 @@ var border_width_square = 1;
 // Settings for film burns ---------------------------------------------
 
 var burn = true;
-var burn_at_opposite_edge = false;
+var burn_at_opposite_edge = true;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -801,14 +801,14 @@ function moveNeg_fancy() {
 }
 
 
-function edge_snap() {
+function edge_snap(extra) {
 	
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// For 645, we need to scale selection after the long side
-			adjustSelection(doc_width * ratio);
+			adjustSelection(doc_width * 1.2);
 		} else {
-			adjustSelection(doc_height / ratio);
+			adjustSelection(doc_height * 1.2);
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
@@ -824,20 +824,20 @@ function edge_snap() {
 		if (ratio < 1) {
 			// Landscape
 			var delta_x = 0;
-			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] ) * -1;
+			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] + extra) * -1;
 		} else {
 			// Portrait
-			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
+			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] + extra) * -1;
 			var delta_y = 0;
 		}
 	} else {
 		if (ratio > 1) {
 			// Portrait
 			var delta_x = 0;
-			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] ) * -1;
+			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] + extra) * -1;
 		} else {
 			// Landscape
-			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] ) * -1;
+			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] + extra) * -1;
 			var delta_y = 0;
 		}
 	}
@@ -886,9 +886,8 @@ function filmBurn() {
 	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
 	createPath(thisredBurn, "redburn");
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
-	edge_snap();
 	
-	// Make a rectangular selection
+	// Measure burn width
 	var burn_bounds = app.activeDocument.selection.bounds;
 	if (thisFormat == "645") {
 		if (ratio > 1) {
@@ -903,6 +902,10 @@ function filmBurn() {
 			var burn_width = burn_bounds[2] - burn_bounds[0];
 		}
 	}
+	
+	edge_snap(0);
+	
+	// Make a rectangular selection
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			var sel_width = burn_width / 2 - 0.01 * burn_width;
@@ -928,20 +931,20 @@ function filmBurn() {
 	app.activeDocument.selection.select(shapeRef);
 	app.activeDocument.selection.fill(myColor_red);
 	app.activeDocument.selection.deselect();
-	app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
-	
+	//app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
+
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
 	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*50, true);
-	edge_snap();
+	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_orange);
 	
 	// Make selection and fill with white
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*200, true);
-	edge_snap();
+	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_light);
 	
 	var contrastlayer = app.activeDocument.artLayers.add();
@@ -949,45 +952,47 @@ function filmBurn() {
 	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
 	app.activeDocument.activeLayer.opacity = 30;
 	
-	//if (fancy == true) { 
-		//var maskLayer = app.activeDocument.artLayers.getByName('mask');
-		//burnlayer.moveAfter(maskLayer);
-		//contrastlayer.moveAfter(maskLayer); 
-	//}
-	
 	// Adding contrast towards burn edge
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
-	edge_snap();
+	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black);
 	
 	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*80, true);
-	edge_snap();
+	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
 	app.activeDocument.artLayers.getByName("contrast").merge();
 	
-	// Make and invert outer selection and clear it
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
-	edge_snap();
+	// Make and invert outer selection and clear it, but feathered
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*20, true);
+	edge_snap(feather*5);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
+	// Make and invert outer selection and clear it, but crisper
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
+	edge_snap(0);
+	app.activeDocument.selection.invert();
+	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+
 	// Add noise nánd finish with blur
 	app.activeDocument.selection.deselect();
 	app.activeDocument.activeLayer.applyAddNoise(8, NoiseDistribution.GAUSSIAN, true);
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
 	
 	// Move layer
-	var min_movement = 0;
-	if (thisFormat == "35mm") {
-		var max_movement = Math.round(burn_width/8);
-	} else if (thisFormat == "645") {
-		var max_movement = Math.round(burn_width/4);
-	} else {
-		var max_movement = Math.round(burn_width/6);
-	}
 	
+	if (thisFormat == "645") {
+		var min_movement = Math.round(0.5 * burn_width * 0.1);
+		var max_movement = Math.round(0.5 * burn_width * 0.2);
+	} else if (thisFormat == "67" || thisFormat == "square") {
+		var min_movement = 0;
+		var max_movement = Math.round(0.5 * burn_width * 0.1);
+	} else {
+		var min_movement = 0;
+		var max_movement = Math.round(0.5 * burn_width * 0.1);
+	}	
 	
 	if (thisFormat == "645") {
 		if (ratio < 1) {
@@ -1220,7 +1225,7 @@ try {
 			filmBurn();
 		}
 		
-		app.activeDocument.flatten(); // Flatten all layers
+		//app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
