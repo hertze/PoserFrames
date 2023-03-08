@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 // Settings for fancy borders
@@ -39,7 +39,7 @@ var border_width_square = 1;
 // Settings for film burns ---------------------------------------------
 
 var burn = true;
-var burn_at_opposite_edge = true;
+var burn_at_opposite_edge = false;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -806,9 +806,9 @@ function edge_snap(extra) {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// For 645, we need to scale selection after the long side
-			adjustSelection(doc_width * 1.2);
+			adjustSelection(doc_width * ratio);
 		} else {
-			adjustSelection(doc_height * 1.2);
+			adjustSelection(doc_height / ratio);
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
@@ -855,12 +855,12 @@ function filmBurn() {
 		
 		var myColor_orange = new SolidColor();
 		myColor_orange.hsb.hue = generateRandomInteger(18, 22);
-		myColor_orange.hsb.saturation = 100;
+		myColor_orange.hsb.saturation = generateRandomInteger(80, 100);
 		myColor_orange.hsb.brightness =  generateRandomInteger(90, 100);
 		
 		var myColor_light = new SolidColor();
 		myColor_light.hsb.hue = generateRandomInteger(48, 52);
-		myColor_light.hsb.saturation = generateRandomInteger(10, 20);
+		myColor_light.hsb.saturation = generateRandomInteger(5, 20);
 		myColor_light.hsb.brightness = generateRandomInteger(99, 100);
 	} else {
 		var myColor_red = new SolidColor();
@@ -887,6 +887,8 @@ function filmBurn() {
 	createPath(thisredBurn, "redburn");
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	
+	edge_snap(0);
+	
 	// Measure burn width
 	var burn_bounds = app.activeDocument.selection.bounds;
 	if (thisFormat == "645") {
@@ -903,40 +905,16 @@ function filmBurn() {
 		}
 	}
 	
-	edge_snap(0);
-	
-	// Make a rectangular selection
-	if (thisFormat == "645") {
-		if (ratio > 1) {
-			var sel_width = burn_width / 2 - 0.01 * burn_width;
-			var sel_height = app.activeDocument.height;
-		} else {
-			var sel_width = app.activeDocument.width;
-			var sel_height = burn_width / 2 - 0.01 * burn_width;
-		}
-	} else {
-		if (ratio > 1) {
-			// Portrait
-			var sel_width = app.activeDocument.width;
-			var sel_height = burn_width / 2 - 0.01 * burn_width;
-		} else {
-			// Landscape
-			var sel_width = burn_width / 2 - 0.01 * burn_width;
-			var sel_height = app.activeDocument.height;
-		}
-	}
-	var shapeRef = [ [0,0], [0,sel_height], [sel_width,sel_height], [sel_width,0] ];
-	
 	// Color rectangle and blur the edge somewhat
-	app.activeDocument.selection.select(shapeRef);
+	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.fill(myColor_red);
-	app.activeDocument.selection.deselect();
-	//app.activeDocument.activeLayer.applyGaussianBlur(feather*10);
+	app.activeDocument.activeLayer.applyAddNoise(Math.round(feather*10), NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyGaussianBlur(feather);
 
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*50, true);
+	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*100, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_orange);
 	
@@ -960,16 +938,16 @@ function filmBurn() {
 	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*80, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	
+
 	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
 	app.activeDocument.artLayers.getByName("contrast").merge();
-	
+
 	// Make and invert outer selection and clear it, but feathered
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*20, true);
 	edge_snap(feather*5);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	
+
 	// Make and invert outer selection and clear it, but crisper
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
 	edge_snap(0);
@@ -978,14 +956,14 @@ function filmBurn() {
 
 	// Add noise nánd finish with blur
 	app.activeDocument.selection.deselect();
-	app.activeDocument.activeLayer.applyAddNoise(8, NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyAddNoise(Math.round(feather*3), NoiseDistribution.GAUSSIAN, true);
 	app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
 	
 	// Move layer
 	
 	if (thisFormat == "645") {
-		var min_movement = Math.round(0.5 * burn_width * 0.1);
-		var max_movement = Math.round(0.5 * burn_width * 0.2);
+		var min_movement = Math.round(0.5 * burn_width * 0.2);
+		var max_movement = Math.round(0.5 * burn_width * 0.3);
 	} else if (thisFormat == "67" || thisFormat == "square") {
 		var min_movement = 0;
 		var max_movement = Math.round(0.5 * burn_width * 0.1);
