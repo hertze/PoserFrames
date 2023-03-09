@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 // Settings for fancy borders
@@ -944,7 +944,7 @@ function filmBurn() {
 
 	// Make and invert outer selection and clear it, but feathered
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*20, true);
-	edge_snap(feather*5);
+	edge_snap(feather*3);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 
@@ -1203,7 +1203,7 @@ try {
 			filmBurn();
 		}
 		
-		//app.activeDocument.flatten(); // Flatten all layers
+		app.activeDocument.flatten(); // Flatten all layers
 		
 	} else {
 		
