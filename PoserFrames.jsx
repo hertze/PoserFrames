@@ -38,7 +38,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = true;
+var burn = false;
 var burn_at_opposite_edge = false;
 
 
@@ -49,7 +49,7 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 100;
+var movement_min = 10;
 var movement_max = 100;
 
 var mask_flip_probaility = 20;
@@ -855,7 +855,7 @@ function filmBurn() {
 		
 		var myColor_orange = new SolidColor();
 		myColor_orange.hsb.hue = generateRandomInteger(18, 22);
-		myColor_orange.hsb.saturation = generateRandomInteger(80, 100);
+		myColor_orange.hsb.saturation = generateRandomInteger(95, 100);
 		myColor_orange.hsb.brightness =  generateRandomInteger(90, 100);
 		
 		var myColor_light = new SolidColor();
@@ -928,15 +928,15 @@ function filmBurn() {
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "contrast";
 	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
-	app.activeDocument.activeLayer.opacity = 30;
+	app.activeDocument.activeLayer.opacity = 80;
 	
 	// Adding contrast towards burn edge
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black);
 	
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*80, true);
-	edge_snap(0);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*80, true);
+	edge_snap(feather*40);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 
 	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
@@ -992,8 +992,6 @@ function filmBurn() {
 		}
 	}
 	app.activeDocument.artLayers.getByName("burn").translate(movement_horisontal, movement_vertical);
-	
-	app.activeDocument.artLayers.getByName("burn").adjustBrightnessContrast(generateRandomInteger(0,2), generateRandomInteger(0,5));
 	
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
@@ -1310,8 +1308,8 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
