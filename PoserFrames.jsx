@@ -9,8 +9,8 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
-var eccentric = true;
+var fancy = false;
+var eccentric = false;
 
 // Settings for fancy borders
 
@@ -27,7 +27,7 @@ var negative_variant_square = 1;
 
 // Settings for conservative (cropped) borders) ------------------------
 
-var inset_crop = true;
+var matted_crop = true;
 
 var border_width_35mm = 1;
 var border_width_645 = 1;
@@ -1286,7 +1286,7 @@ try {
 		
 		app.activeDocument.flatten(); // Flatten all layers
 		
-		if (inset_crop == true) {
+		if (matted_crop == true) {
 			backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
 			if (ratio > 1) {
 				app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
@@ -1308,8 +1308,8 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
