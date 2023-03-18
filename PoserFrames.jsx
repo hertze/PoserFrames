@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = false;
 
 // Settings for fancy borders
@@ -39,7 +39,7 @@ var border_width_square = 1;
 // Settings for film burns ---------------------------------------------
 
 var burn = true;
-var burn_at_opposite_edge = false;
+var burn_at_opposite_edge = true;
 var monochrome_burn = false;
 
 
@@ -935,7 +935,7 @@ function filmBurn() {
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "contrast";
 	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
-	app.activeDocument.activeLayer.opacity = 80;
+	app.activeDocument.activeLayer.opacity = 60;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap(0);
@@ -973,11 +973,11 @@ function filmBurn() {
 	app.activeDocument.activeLayer.opacity = 80;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*18, true);
-	edge_snap(negative_size/3600*-6);
+	edge_snap(negative_size/3600*-3);
 	app.activeDocument.selection.fill(myColor_black);
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*40, true);
-	edge_snap(negative_size/3600*100);
+	edge_snap(negative_size/3600*60);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	app.activeDocument.selection.deselect();	
@@ -995,8 +995,8 @@ function filmBurn() {
 	else if (negative_size > 5500) {
 		// 6000px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
-		app.activeDocument.activeLayer.adjustLevels(80,140,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
+		app.activeDocument.activeLayer.adjustLevels(80,135,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 4500) {
 		// 4800 px
@@ -1007,8 +1007,8 @@ function filmBurn() {
 	} else if (negative_size > 3500) {
 		// 3600px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
-		app.activeDocument.activeLayer.adjustLevels(80,160,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
+		app.activeDocument.activeLayer.adjustLevels(80,135,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*1.5);
 	} else {
 		// 2000px
