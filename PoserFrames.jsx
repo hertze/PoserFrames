@@ -972,7 +972,7 @@ function filmBurn() {
 	app.activeDocument.activeLayer.blendMode = BlendMode.COLORDODGE;
 	app.activeDocument.activeLayer.opacity = 80;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*6, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*18, true);
 	edge_snap(negative_size/3600*-6);
 	app.activeDocument.selection.fill(myColor_black);
 	
@@ -1014,8 +1014,8 @@ function filmBurn() {
 		// 2000px
 		app.activeDocument.activeLayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
-		app.activeDocument.activeLayer.adjustLevels(50,255,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
+		app.activeDocument.activeLayer.adjustLevels(40,255,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
 	}
 	
 	app.activeDocument.artLayers.getByName("tear").merge();
