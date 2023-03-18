@@ -9,14 +9,14 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = false;
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -860,7 +860,7 @@ function filmBurn() {
 		myColor_orange.hsb.brightness =  generateRandomInteger(90, 100);
 		
 		var myColor_light = new SolidColor();
-		myColor_light.hsb.hue = generateRandomInteger(48, 52);
+		myColor_light.hsb.hue = generateRandomInteger(48, 70);
 		myColor_light.hsb.saturation = generateRandomInteger(5, 20);
 		myColor_light.hsb.brightness = generateRandomInteger(99, 100);
 	} else {
@@ -970,53 +970,53 @@ function filmBurn() {
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "tear";
 	app.activeDocument.activeLayer.blendMode = BlendMode.COLORDODGE;
-	app.activeDocument.activeLayer.opacity = 50;
+	app.activeDocument.activeLayer.opacity = 80;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*3, true);
-	edge_snap(feather*-3);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*6, true);
+	edge_snap(negative_size/3600*-6);
 	app.activeDocument.selection.fill(myColor_black);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*30, true);
-	edge_snap(feather*10);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*40, true);
+	edge_snap(negative_size/3600*100);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
-	app.activeDocument.selection.deselect();
+	app.activeDocument.selection.deselect();	
 	
-	app.activeDocument.activeLayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
-	app.activeDocument.activeLayer.applyGaussianBlur(feather);
-	
-	
-	
+	//throw new Error();
 	
 	
 	if (negative_size > 6500) {
 		// 7800px
-		app.activeDocument.activeLayer.adjustLevels(80,100,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
+		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
+		app.activeDocument.activeLayer.adjustLevels(80,125,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
 	}
 	else if (negative_size > 5500) {
 		// 6000px
-		app.activeDocument.activeLayer.adjustLevels(80,100,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather);
+		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
+		app.activeDocument.activeLayer.adjustLevels(80,140,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 4500) {
 		// 4800 px
-		app.activeDocument.activeLayer.adjustLevels(78,100,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
+		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
+		app.activeDocument.activeLayer.adjustLevels(80,140,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 3500) {
 		// 3600px
-		app.activeDocument.activeLayer.adjustLevels(75,100,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather*1);
-	} else if (negative_size > 1500) {
-		// 2000px
-		app.activeDocument.activeLayer.adjustLevels(75,110,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather*1.2);
+		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
+		app.activeDocument.activeLayer.adjustLevels(80,160,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*1.5);
 	} else {
-		// 1500px
-		app.activeDocument.activeLayer.adjustLevels(80,100,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(feather*1.5);
+		// 2000px
+		app.activeDocument.activeLayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
+		app.activeDocument.activeLayer.adjustLevels(50,255,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	}
-	
-	//throw new Error();
 	
 	app.activeDocument.artLayers.getByName("tear").merge();
 	
