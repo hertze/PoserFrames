@@ -38,7 +38,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = false;
+var burn = true;
 var burn_at_opposite_edge = false;
 
 
@@ -908,8 +908,8 @@ function filmBurn() {
 	// Color rectangle and blur the edge somewhat
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.fill(myColor_red);
-	app.activeDocument.activeLayer.applyAddNoise(Math.round(feather*10), NoiseDistribution.GAUSSIAN, true);
-	app.activeDocument.activeLayer.applyGaussianBlur(feather);
+	//app.activeDocument.activeLayer.applyAddNoise(Math.round(feather*10), NoiseDistribution.GAUSSIAN, true);
+	//app.activeDocument.activeLayer.applyGaussianBlur(feather);
 
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
@@ -925,12 +925,13 @@ function filmBurn() {
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_light);
 	
+	
+	// Adding contrast towards burn edge
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "contrast";
 	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
 	app.activeDocument.activeLayer.opacity = 80;
 	
-	// Adding contrast towards burn edge
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black);
@@ -953,6 +954,56 @@ function filmBurn() {
 	edge_snap(0);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	
+	
+	// Adding tear effect
+		
+	var contrastlayer = app.activeDocument.artLayers.add();
+	app.activeDocument.activeLayer.name = "tear";
+	app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+	app.activeDocument.activeLayer.opacity = 80;
+	
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
+	edge_snap(feather*-5);
+	app.activeDocument.selection.fill(myColor_black);
+	
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*60, true);
+	edge_snap(feather*20);
+	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	
+	app.activeDocument.selection.deselect();
+	
+	app.activeDocument.activeLayer.applyAddNoise(Math.round(100), NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyGaussianBlur(feather);
+	
+	//throw new Error();
+	
+	// Vi måste kanske räkna ut olika Levels för olika storlekar och göra en formel?
+	
+	
+	// För 1500: 80 255
+	// För 2000: 80 160
+	// För 3600: 80 110
+	// För 6000: 80 100
+	// För 8000: 80 95
+	
+	if (negative_size > 6000) {
+		app.activeDocument.activeLayer.adjustLevels(80,110,1,0,255);
+	} else if (negative_size > 5500) {
+		app.activeDocument.activeLayer.adjustLevels(80,110,1,0,255);
+	} else if (negative_size > 4500) {
+	app.activeDocument.activeLayer.adjustLevels(78,100,1,0,255);
+	} else if (negative_size > 3500) {
+		app.activeDocument.activeLayer.adjustLevels(80,110,1,0,255);
+	} else if (negative_size > 1500) {
+		app.activeDocument.activeLayer.adjustLevels(88,108,1,0,255);
+	} else {
+		app.activeDocument.activeLayer.adjustLevels(80,2500,0.5,0,255);
+	}
+	
+	//app.activeDocument.activeLayer.applyGaussianBlur(feather/2);
+	
+	app.activeDocument.artLayers.getByName("tear").merge();
 
 	// Add noise nánd finish with blur
 	app.activeDocument.selection.deselect();
