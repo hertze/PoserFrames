@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = false;
 
 // Settings for fancy borders
@@ -987,9 +987,9 @@ function filmBurn() {
 	if (negative_size > 6500) {
 		// 7800px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
-		app.activeDocument.activeLayer.adjustLevels(80,125,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
+		app.activeDocument.activeLayer.adjustLevels(85,120,1,0,255);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	}
 	else if (negative_size > 5500) {
 		// 6000px
