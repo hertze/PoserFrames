@@ -860,8 +860,8 @@ function filmBurn() {
 		myColor_orange.hsb.brightness =  generateRandomInteger(90, 100);
 		
 		var myColor_light = new SolidColor();
-		myColor_light.hsb.hue = generateRandomInteger(48, 70);
-		myColor_light.hsb.saturation = generateRandomInteger(5, 20);
+		myColor_light.hsb.hue = generateRandomInteger(50, 60);
+		myColor_light.hsb.saturation = generateRandomInteger(10, 20);
 		myColor_light.hsb.brightness = generateRandomInteger(99, 100);
 	} else {
 		var myColor_red = new SolidColor();
@@ -981,14 +981,11 @@ function filmBurn() {
 	
 	app.activeDocument.selection.deselect();	
 	
-	//throw new Error();
-	
-	
 	if (negative_size > 6500) {
 		// 7800px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(85,120,1,0,255);
+		app.activeDocument.activeLayer.adjustLevels(85,125,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	}
 	else if (negative_size > 5500) {
@@ -1000,14 +997,14 @@ function filmBurn() {
 	} else if (negative_size > 4500) {
 		// 4800 px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*2);
+		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
 		app.activeDocument.activeLayer.adjustLevels(80,140,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 3500) {
 		// 3600px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,138,1,0,255);
+		app.activeDocument.activeLayer.adjustLevels(80,145,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*1.5);
 	} else {
 		// 2000px
@@ -1022,19 +1019,19 @@ function filmBurn() {
 	// Fading it to white
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(negative_size/3600*100, true);
 	edge_snap(negative_size/3600 * 600);
-	app.activeDocument.activeLayer.adjustBrightnessContrast(25,0);
+	app.activeDocument.activeLayer.adjustBrightnessContrast(20,0);
 	
 	// Move layer
 	
 	if (thisFormat == "645") {
 		var min_movement = Math.round(0.5 * burn_width * 0.2);
-		var max_movement = Math.round(0.5 * burn_width * 0.3);
+		var max_movement = Math.round(0.5 * burn_width * 0.6);
 	} else if (thisFormat == "67" || thisFormat == "square") {
 		var min_movement = 0;
 		var max_movement = Math.round(0.5 * burn_width * 0.1);
 	} else {
 		var min_movement = 0;
-		var max_movement = Math.round(0.5 * burn_width * 0.1);
+		var max_movement = Math.round(0.5 * burn_width * 0.7);
 	}	
 	
 	if (thisFormat == "645") {
