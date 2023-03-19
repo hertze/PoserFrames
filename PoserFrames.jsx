@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = false;
 
 // Settings for fancy borders
@@ -39,7 +39,7 @@ var border_width_square = 1;
 // Settings for film burns ---------------------------------------------
 
 var burn = true;
-var burn_at_opposite_edge = true;
+var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
 
@@ -930,7 +930,6 @@ function filmBurn() {
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_light);
 	
-	
 	// Adding contrast towards burn edge
 	var contrastlayer = app.activeDocument.artLayers.add();
 	app.activeDocument.activeLayer.name = "contrast";
@@ -996,7 +995,7 @@ function filmBurn() {
 		// 6000px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,135,1,0,255);
+		app.activeDocument.activeLayer.adjustLevels(80,128,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 4500) {
 		// 4800 px
@@ -1008,7 +1007,7 @@ function filmBurn() {
 		// 3600px
 		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,135,1,0,255);
+		app.activeDocument.activeLayer.adjustLevels(80,138,1,0,255);
 		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*1.5);
 	} else {
 		// 2000px
@@ -1019,6 +1018,11 @@ function filmBurn() {
 	}
 	
 	app.activeDocument.artLayers.getByName("tear").merge();
+	
+	// Fading it to white
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(negative_size/3600*100, true);
+	edge_snap(negative_size/3600 * 600);
+	app.activeDocument.activeLayer.adjustBrightnessContrast(30,0);
 	
 	// Move layer
 	
