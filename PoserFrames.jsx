@@ -9,8 +9,8 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
-var eccentric = false;
+var fancy = true;
+var eccentric = true;
 
 // Settings for fancy borders
 
