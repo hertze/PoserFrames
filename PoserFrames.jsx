@@ -1022,7 +1022,7 @@ function filmBurn() {
 	// Fading it to white
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(negative_size/3600*100, true);
 	edge_snap(negative_size/3600 * 600);
-	app.activeDocument.activeLayer.adjustBrightnessContrast(30,0);
+	app.activeDocument.activeLayer.adjustBrightnessContrast(25,0);
 	
 	// Move layer
 	
