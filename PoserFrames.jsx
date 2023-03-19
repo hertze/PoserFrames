@@ -1028,7 +1028,7 @@ function filmBurn() {
 		var max_movement = Math.round(0.5 * burn_width * 0.6);
 	} else if (thisFormat == "67" || thisFormat == "square") {
 		var min_movement = 0;
-		var max_movement = Math.round(0.5 * burn_width * 0.1);
+		var max_movement = Math.round(0.5 * burn_width * 0.7);
 	} else {
 		var min_movement = 0;
 		var max_movement = Math.round(0.5 * burn_width * 0.7);
