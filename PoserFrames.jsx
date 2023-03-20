@@ -9,14 +9,14 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -38,8 +38,8 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = true;
-var burn_at_opposite_edge = true;
+var burn = false;
+var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
 
@@ -1372,8 +1372,8 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
