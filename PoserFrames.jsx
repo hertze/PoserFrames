@@ -9,7 +9,7 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 // Settings for fancy borders
@@ -38,8 +38,8 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = false;
-var burn_at_opposite_edge = false;
+var burn = true;
+var burn_at_opposite_edge = true;
 var monochrome_burn = false;
 
 
@@ -1372,8 +1372,8 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	//app.activeDocument.save(); // Saves file. Comment out when testing script.
+	//app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
