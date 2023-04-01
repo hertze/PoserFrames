@@ -9,14 +9,14 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var eccentric = true;
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -38,8 +38,8 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = true;
-var burn_at_opposite_edge = true;
+var burn = false;
+var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
 
@@ -1116,7 +1116,7 @@ try {
 		var myColor_shadow = new SolidColor();
 		myColor_shadow.hsb.hue = 44;
 		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(74, 80);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 85);
 	} else {
 		var myColor_black = new SolidColor();
 		myColor_black.hsb.hue = 0;
@@ -1130,7 +1130,7 @@ try {
 	}
 	var myColor_subshadow = new SolidColor();
 	myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-	myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 2;
+	myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 	myColor_subshadow.hsb.brightness = generateRandomInteger(95, 100);
 	
 	var thisFormat = format();
@@ -1212,7 +1212,7 @@ try {
 		createBackdropLayer();
 	
 		// Creates mask layer
-		app.activeDocument.artLayers.add();
+		var mask = app.activeDocument.artLayers.add();
 		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
 		
 		if (artifacts == true) {
@@ -1232,8 +1232,8 @@ try {
 			if (thisSubshadow != false ) {
 				app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 				app.activeDocument.activeLayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				app.activeDocument.activeLayer.applyGaussianBlur(feather);
-	
+				app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*6);
+				
 				// Creates inverted subshadow layer for white fill
 				app.activeDocument.pathItems.getByName('subshadow').makeSelection(feather, true);
 				decideRotation("subshadow");
@@ -1241,7 +1241,17 @@ try {
 				app.activeDocument.selection.invert();
 				app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
 			}
-		
+
+			var hipasslayer = app.activeDocument.activeLayer.duplicate();
+			hipasslayer.name = "hipass";
+			hipasslayer.blendMode = BlendMode.HARDLIGHT;
+			hipasslayer.applyHighPass(negative_size/3600);			
+			hipasslayer.merge();			
+			app.activeDocument.selection.deselect();
+			mask.adjustLevels(0,255,0.3,0,255);
+			mask.applySharpenEdges();
+			//throw new Error();			
+			
 		} else {
 			
 			app.activeDocument.selection.selectAll();
