@@ -16,7 +16,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 4;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -38,7 +38,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = false;
+var burn = true;
 var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
@@ -916,7 +916,7 @@ function filmBurn() {
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
 	if (monochrome_burn == false) {
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(feather*100, true);
+	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_orange);
 	}
@@ -924,7 +924,7 @@ function filmBurn() {
 	// Make selection and fill with white
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(feather*200, true);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*600, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_light);
 	
@@ -934,33 +934,33 @@ function filmBurn() {
 	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
 	contrastlayer.opacity = 60;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*3, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_black);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*80, true);
-	edge_snap(feather*40);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*240, true);
+	edge_snap(doc_scale*120);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 
 	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
 	contrastlayer.merge();
 
 	// Make and invert outer selection and clear it, but feathered
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*20, true);
-	edge_snap(feather*3);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*60, true);
+	edge_snap(doc_scale*9);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 
 	// Make and invert outer selection and clear it, but crisper
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*2, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*6, true);
 	edge_snap(0);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	// Add noise nánd finish with blur
 	app.activeDocument.selection.deselect();
-	app.activeDocument.activeLayer.applyAddNoise(Math.round(feather*3), NoiseDistribution.GAUSSIAN, true);
-	app.activeDocument.activeLayer.applyGaussianBlur(feather*2);
+	app.activeDocument.activeLayer.applyAddNoise(Math.round(doc_scale*9), NoiseDistribution.GAUSSIAN, true);
+	app.activeDocument.activeLayer.applyGaussianBlur(doc_scale*6);
 	
 	// Adding tear effect
 		
@@ -969,12 +969,12 @@ function filmBurn() {
 	tearlayer.blendMode = BlendMode.COLORDODGE;
 	tearlayer.opacity = 80;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*18, true);
-	edge_snap(negative_size/3600*-3);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*18, true);
+	edge_snap(doc_scale*-3);
 	app.activeDocument.selection.fill(myColor_black);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*40, true);
-	edge_snap(negative_size/3600*60);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*40, true);
+	edge_snap(doc_scale*60);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	app.activeDocument.selection.deselect();	
@@ -982,41 +982,41 @@ function filmBurn() {
 	if (negative_size > 6500) {
 		// 7800px
 		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.applyGaussianBlur(doc_scale*4);
 		tearlayer.adjustLevels(85,125,1,0,255);
-		tearlayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyGaussianBlur(doc_scale);
 	}
 	else if (negative_size > 5500) {
 		// 6000px
 		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.applyGaussianBlur(doc_scale*4);
 		tearlayer.adjustLevels(80,128,1,0,255);
-		tearlayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyGaussianBlur(doc_scale);
 	} else if (negative_size > 4500) {
 		// 4800 px
 		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.applyGaussianBlur(doc_scale*4);
 		tearlayer.adjustLevels(80,140,1,0,255);
-		tearlayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyGaussianBlur(doc_scale);
 	} else if (negative_size > 3500) {
 		// 3600px
 		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.applyGaussianBlur(doc_scale*4);
 		tearlayer.adjustLevels(80,145,1,0,255);
-		tearlayer.applyGaussianBlur(negative_size/3600*1.5);
+		tearlayer.applyGaussianBlur(doc_scale*1.5);
 	} else {
 		// 2000px
 		tearlayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyGaussianBlur(doc_scale);
 		tearlayer.adjustLevels(40,255,1,0,255);
-		tearlayer.applyGaussianBlur(negative_size/3600*3);
+		tearlayer.applyGaussianBlur(doc_scale*3);
 	}
 	
 	tearlayer.merge();
 	
 	// Fading it to white
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(negative_size/3600*100, true);
-	edge_snap(negative_size/3600 * 600);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*100, true);
+	edge_snap(doc_scale * 600);
 	burnlayer.adjustBrightnessContrast(20,0);
 	
 	// Move layer
@@ -1229,20 +1229,21 @@ try {
 			if (thisSubshadow != false ) {
 				app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(negative_size/3600*10);
+				masklayer.applyGaussianBlur(doc_scale*10);
 				
 				// Creates inverted subshadow layer for white fill
-				app.activeDocument.pathItems.getByName('subshadow').makeSelection(negative_size/3600*4, true);
+				app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale*4, true);
 				decideRotation("subshadow");
 				adjustSelection(); //Scales and centers the selection
 				app.activeDocument.selection.invert();
 				app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
 			}
-
+			
+			// Adds a more organic look to the artefacts layer
 			var hipasslayer = masklayer.duplicate();
 			hipasslayer.name = "hipass";
 			hipasslayer.blendMode = BlendMode.OVERLAY;
-			hipasslayer.applyHighPass(negative_size/3600);			
+			hipasslayer.applyHighPass(doc_scale);			
 			hipasslayer.merge();			
 			app.activeDocument.selection.deselect();
 			masklayer.adjustLevels(0,250,generateRandomInteger(10,30)*0.01,0,255);
