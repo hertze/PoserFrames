@@ -421,7 +421,7 @@ function createBackdropLayer() {
 	// Create black backdrop and move to background
 	var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
 	var backdrop = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "backdrop"; // Names backdrop layer
+	backdrop.name = "backdrop"; // Names backdrop layer
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
 	backdrop.moveAfter(imageLayer);
@@ -1169,6 +1169,7 @@ try {
 	// LET'S GET THIS SHOW GOING!!!!
 	
 	app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
+	var negativelayer = app.activeDocument.activeLayer;
 	app.activeDocument.activeLayer.name = "negative"; // Names background layer
 	
 	// Creates paths
@@ -1208,8 +1209,8 @@ try {
 		createBackdropLayer();
 	
 		// Creates mask layer
-		var mask = app.activeDocument.artLayers.add();
-		app.activeDocument.activeLayer.name = "mask"; // Names mask layer.
+		var masklayer = app.activeDocument.artLayers.add();
+		masklayer.name = "mask"; // Names mask layer.
 		
 		if (artifacts == true) {
 			
@@ -1227,8 +1228,8 @@ try {
 			
 			if (thisSubshadow != false ) {
 				app.activeDocument.selection.deselect(); // Apply noise to the whole layer
-				app.activeDocument.activeLayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*10);
+				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+				masklayer.applyGaussianBlur(negative_size/3600*10);
 				
 				// Creates inverted subshadow layer for white fill
 				app.activeDocument.pathItems.getByName('subshadow').makeSelection(negative_size/3600*4, true);
@@ -1238,14 +1239,14 @@ try {
 				app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.
 			}
 
-			var hipasslayer = app.activeDocument.activeLayer.duplicate();
+			var hipasslayer = masklayer.duplicate();
 			hipasslayer.name = "hipass";
 			hipasslayer.blendMode = BlendMode.OVERLAY;
 			hipasslayer.applyHighPass(negative_size/3600);			
 			hipasslayer.merge();			
 			app.activeDocument.selection.deselect();
-			mask.adjustLevels(0,250,generateRandomInteger(10,30)*0.01,0,255);
-			mask.applyGaussianBlur(feather/2);
+			masklayer.adjustLevels(0,250,generateRandomInteger(10,30)*0.01,0,255);
+			masklayer.applyGaussianBlur(feather/2);
 			
 		} else {
 			
