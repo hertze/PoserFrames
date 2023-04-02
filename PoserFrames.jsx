@@ -9,14 +9,14 @@
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var eccentric = true;
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 4;
+var mask_variant_35mm = 6;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -1175,7 +1175,7 @@ try {
 	// Creates paths
 
 	createPath(choosePath("negative"), "negative"); // Choose a negative and draw the path
-	createPath(choosePath("mask"), "mask"); // Choose a mask and draw the path
+	if (fancy == true) { createPath(choosePath("mask"), "mask"); } // Choose a mask and draw the path
 	
 	var thisSubshadow = choosePath("subshadow");
 	if (thisSubshadow != false && fancy == true && artifacts == true) { createPath(thisSubshadow, "subshadow"); }
@@ -1370,7 +1370,7 @@ try {
 	// Finish up
 	app.activeDocument.selection.deselect();
 	app.activeDocument.pathItems.getByName('negative').remove();
-	app.activeDocument.pathItems.getByName('mask').remove();
+	if (fancy == true) { app.activeDocument.pathItems.getByName('mask').remove(); }
 	if (thisSubshadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
 	if (thisShadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('shadow').remove(); }
 	if (burn == true) { 
