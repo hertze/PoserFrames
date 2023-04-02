@@ -16,7 +16,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 6;
+var mask_variant_35mm = 3;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -879,8 +879,8 @@ function filmBurn() {
 	}
 	
 	var burnlayer = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "burn";
-	app.activeDocument.activeLayer.blendMode = BlendMode.SCREEN;
+	burnlayer.name = "burn";
+	burnlayer.blendMode = BlendMode.SCREEN;
 	
 	var thisredBurn = redburn[generateRandomInteger(0, redburn.length)];
 	createPath(thisredBurn, "redburn");
@@ -930,9 +930,9 @@ function filmBurn() {
 	
 	// Adding contrast towards burn edge
 	var contrastlayer = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "contrast";
-	app.activeDocument.activeLayer.blendMode = BlendMode.SOFTLIGHT;
-	app.activeDocument.activeLayer.opacity = 60;
+	contrastlayer.name = "contrast";
+	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
+	contrastlayer.opacity = 60;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather, true);
 	edge_snap(0);
@@ -942,8 +942,8 @@ function filmBurn() {
 	edge_snap(feather*40);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 
-	MoveLayerTo(app.activeDocument.artLayers.getByName("contrast"),movement_horisontal, movement_vertical);
-	app.activeDocument.artLayers.getByName("contrast").merge();
+	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
+	contrastlayer.merge();
 
 	// Make and invert outer selection and clear it, but feathered
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(feather*20, true);
@@ -964,10 +964,10 @@ function filmBurn() {
 	
 	// Adding tear effect
 		
-	var contrastlayer = app.activeDocument.artLayers.add();
-	app.activeDocument.activeLayer.name = "tear";
-	app.activeDocument.activeLayer.blendMode = BlendMode.COLORDODGE;
-	app.activeDocument.activeLayer.opacity = 80;
+	var tearlayer = app.activeDocument.artLayers.add();
+	tearlayer.name = "tear";
+	tearlayer.blendMode = BlendMode.COLORDODGE;
+	tearlayer.opacity = 80;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(negative_size/3600*18, true);
 	edge_snap(negative_size/3600*-3);
@@ -981,43 +981,43 @@ function filmBurn() {
 	
 	if (negative_size > 6500) {
 		// 7800px
-		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(85,125,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.adjustLevels(85,125,1,0,255);
+		tearlayer.applyGaussianBlur(negative_size/3600);
 	}
 	else if (negative_size > 5500) {
 		// 6000px
-		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,128,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.adjustLevels(80,128,1,0,255);
+		tearlayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 4500) {
 		// 4800 px
-		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,140,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.adjustLevels(80,140,1,0,255);
+		tearlayer.applyGaussianBlur(negative_size/3600);
 	} else if (negative_size > 3500) {
 		// 3600px
-		app.activeDocument.activeLayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*4);
-		app.activeDocument.activeLayer.adjustLevels(80,145,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*1.5);
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(negative_size/3600*4);
+		tearlayer.adjustLevels(80,145,1,0,255);
+		tearlayer.applyGaussianBlur(negative_size/3600*1.5);
 	} else {
 		// 2000px
-		app.activeDocument.activeLayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600);
-		app.activeDocument.activeLayer.adjustLevels(40,255,1,0,255);
-		app.activeDocument.activeLayer.applyGaussianBlur(negative_size/3600*3);
+		tearlayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(negative_size/3600);
+		tearlayer.adjustLevels(40,255,1,0,255);
+		tearlayer.applyGaussianBlur(negative_size/3600*3);
 	}
 	
-	app.activeDocument.artLayers.getByName("tear").merge();
+	tearlayer.merge();
 	
 	// Fading it to white
 	app.activeDocument.pathItems.getByName('lightburn').makeSelection(negative_size/3600*100, true);
 	edge_snap(negative_size/3600 * 600);
-	app.activeDocument.activeLayer.adjustBrightnessContrast(20,0);
+	burnlayer.adjustBrightnessContrast(20,0);
 	
 	// Move layer
 	
@@ -1051,31 +1051,31 @@ function filmBurn() {
 			var movement_vertical = 0;
 		}
 	}
-	app.activeDocument.artLayers.getByName("burn").translate(movement_horisontal, movement_vertical);
+	burnlayer.translate(movement_horisontal, movement_vertical);
 	
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
 	
 	if (burn_at_opposite_edge == true) {
-		var layerPosition = app.activeDocument.activeLayer.bounds;
+		var layerPosition = burnlayer.bounds;
 		var diff_x = layerPosition[2] - Math.abs(layerPosition[0]);
 		var diff_y = layerPosition[3] - Math.abs(layerPosition[1]);
 		
 		if (thisFormat == "645") {
 			if (ratio > 1) {
-				app.activeDocument.activeLayer.resize(-100,undefined);
-				app.activeDocument.activeLayer.translate(app.activeDocument.width - diff_x, 0);
+				burnlayer.resize(-100,undefined);
+				burnlayer.translate(app.activeDocument.width - diff_x, 0);
 			} else {
-				app.activeDocument.activeLayer.resize(undefined,-100);
-				app.activeDocument.activeLayer.translate(0, app.activeDocument.height - diff_y);
+				burnlayer.resize(undefined,-100);
+				burnlayer.translate(0, app.activeDocument.height - diff_y);
 			}
 		} else {
 			if (ratio > 1) {
-				app.activeDocument.activeLayer.resize(undefined,-100);
-				app.activeDocument.activeLayer.translate(0, app.activeDocument.height - diff_y);			
+				burnlayer.resize(undefined,-100);
+				burnlayer.translate(0, app.activeDocument.height - diff_y);			
 			} else {
-				app.activeDocument.activeLayer.resize(-100,undefined);
-				app.activeDocument.activeLayer.translate(app.activeDocument.width - diff_x, 0);			
+				burnlayer.resize(-100,undefined);
+				burnlayer.translate(app.activeDocument.width - diff_x, 0);			
 			}
 		}
 		
@@ -1244,7 +1244,7 @@ try {
 			hipasslayer.applyHighPass(negative_size/3600);			
 			hipasslayer.merge();			
 			app.activeDocument.selection.deselect();
-			mask.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
+			mask.adjustLevels(0,250,generateRandomInteger(10,30)*0.01,0,255);
 			mask.applyGaussianBlur(feather/2);
 			
 		} else {
