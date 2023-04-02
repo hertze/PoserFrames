@@ -38,7 +38,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = true;
+var burn = false;
 var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
