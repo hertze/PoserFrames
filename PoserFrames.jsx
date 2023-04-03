@@ -9,7 +9,7 @@
 
 // Script behaviour ---------------------------------------------------
 
-var save = false;
+var save = true;
 
 
 // General settings ----------------------------------------------------
@@ -1385,16 +1385,33 @@ try {
 	}
 	
 	if (save == true ) {
-		// Save out the image as jpeg
-		var fPath = app.activeDocument.path;
-		var jpgFile = new File(fPath);
-		jpgSaveOptions = new JPEGSaveOptions();
-		jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
-		jpgSaveOptions.embedColorProfile = true;
-		jpgSaveOptions.matte = MatteType.NONE;
-		jpgSaveOptions.quality = 12;
 		
-		app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
+		var file_ending = app.activeDocument.name.split('.').pop().toLowerCase();
+		var fPath = app.activeDocument.path;
+		
+		if (file_ending == "tif" || file_ending == "tiff") {
+			
+			// Save out the image as tiff
+			var tiffFile = new File(fPath);
+			tiffSaveOptions = new TiffSaveOptions();
+			tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
+			tiffSaveOptions.layers = false;
+			tiffSaveOptions.embedColorProfile = true;
+			app.activeDocument.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
+			
+		} else {
+		
+			// Save out the image as jpeg
+			var jpgFile = new File(fPath);
+			jpgSaveOptions = new JPEGSaveOptions();
+			jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
+			jpgSaveOptions.embedColorProfile = true;
+			jpgSaveOptions.matte = MatteType.NONE;
+			jpgSaveOptions.quality = 12;
+			app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
+			
+		}
+		
 		app.activeDocument.close();
 	}
 	
