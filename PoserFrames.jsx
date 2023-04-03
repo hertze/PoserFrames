@@ -9,6 +9,8 @@
 
 // General settings ----------------------------------------------------
 
+var save = false;
+
 var fancy = true;
 var eccentric = true;
 
@@ -16,7 +18,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 2;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -29,7 +31,7 @@ var negative_variant_square = 1;
 
 var matted_crop = true;
 
-var border_width_35mm = 1;
+var border_width_35mm = 2;
 var border_width_645 = 1;
 var border_width_67 = 1;
 var border_width_45 = 1;
@@ -50,8 +52,8 @@ var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
-var movement_min = 10;
-var movement_max = 100;
+var movement_min = 0;
+var movement_max = 20;
 
 var mask_flip_probaility = 20;
 
@@ -1379,17 +1381,19 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	// Save out the image as jpeg
-	var fPath = app.activeDocument.path;
-	var jpgFile = new File(fPath);
-	jpgSaveOptions = new JPEGSaveOptions();
-	jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
-	jpgSaveOptions.embedColorProfile = true;
-	jpgSaveOptions.matte = MatteType.NONE;
-	jpgSaveOptions.quality = 12;
-	
-	app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
-	app.activeDocument.close(); // Closes file. Comment out when testing script.
+	if (save == true ) {
+		// Save out the image as jpeg
+		var fPath = app.activeDocument.path;
+		var jpgFile = new File(fPath);
+		jpgSaveOptions = new JPEGSaveOptions();
+		jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
+		jpgSaveOptions.embedColorProfile = true;
+		jpgSaveOptions.matte = MatteType.NONE;
+		jpgSaveOptions.quality = 12;
+		
+		app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
+		app.activeDocument.close();
+	}
 	
 	// ALL DONE!
 	
