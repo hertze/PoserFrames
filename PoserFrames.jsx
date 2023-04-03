@@ -20,8 +20,8 @@ var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
-var mask_variant_square = 1;
 
+var mask_variant_square = 1;
 var negative_variant_square = 1;
 
 
@@ -1089,7 +1089,7 @@ try {
 	// Initial properties, settings and calculations
 	
 	app.preferences.rulerUnits = Units.PIXELS;
-	app.displayDialogs.NO;
+	app.displayDialogs = DialogModes.NO;
 	
 	app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
 	
@@ -1379,7 +1379,16 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	// Save out the image as jpeg
+	var fPath = app.activeDocument.path;
+	var jpgFile = new File(fPath);
+	jpgSaveOptions = new JPEGSaveOptions();
+	jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
+	jpgSaveOptions.embedColorProfile = true;
+	jpgSaveOptions.matte = MatteType.NONE;
+	jpgSaveOptions.quality = 12;
+	
+	app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
 	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
