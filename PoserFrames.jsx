@@ -16,7 +16,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -1245,10 +1245,8 @@ try {
 			hipasslayer.blendMode = BlendMode.OVERLAY;
 			hipasslayer.applyHighPass(doc_scale);			
 			hipasslayer.merge();
-			app.activeDocument.selection.invert();
-			masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-			masklayer.applyGaussianBlur(doc_scale*3);
 			app.activeDocument.selection.deselect();
+			masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
 			masklayer.applyGaussianBlur(feather/2);
 			
 		} else {
@@ -1381,8 +1379,8 @@ try {
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
 	
-	//app.activeDocument.save(); // Saves file. Comment out when testing script.
-	//app.activeDocument.close(); // Closes file. Comment out when testing script.
+	app.activeDocument.save(); // Saves file. Comment out when testing script.
+	app.activeDocument.close(); // Closes file. Comment out when testing script.
 	
 	// ALL DONE!
 	
