@@ -61,6 +61,14 @@ var movement_max = 20;
 var mask_flip_probaility = 20;
 
 
+// UI ----------------------------------------------------------------
+
+<javascriptresource> 
+<name>Poser Frames</name> 
+<menu>automate</menu>
+<enableinfo>true</enableinfo> 
+</javascriptresource>
+
 // PATH LIBRARY ------------------------------------------------------
 
 
