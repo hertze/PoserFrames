@@ -56,7 +56,7 @@ var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
 
 var movement_min = 0;
-var movement_max = 30;
+var movement_max = 20;
 
 var mask_flip_probaility = 20;
 
