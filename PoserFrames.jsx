@@ -61,13 +61,6 @@ var movement_max = 20;
 var mask_flip_probaility = 20;
 
 
-// UI ----------------------------------------------------------------
-
-<javascriptresource> 
-<name>Poser Frames</name> 
-<menu>automate</menu>
-<enableinfo>true</enableinfo> 
-</javascriptresource>
 
 // PATH LIBRARY ------------------------------------------------------
 
@@ -400,6 +393,14 @@ lightburn[1] = "PointKind.CORNERPOINT 2111,-298 2111,-298 2111,-298 PathPoint;Po
 
 // ---------------------------------------------------------------------
 
+
+// UI ----------------------------------------------------------------
+
+<javascriptresource> 
+<name>Poser Frames</name> 
+<menu>automate</menu>
+<enableinfo>true</enableinfo> 
+</javascriptresource>
 
 
 
