@@ -9,7 +9,7 @@
 
 // Script behaviour ---------------------------------------------------
 
-var save = true;
+var save = false;
 
 
 // General settings ----------------------------------------------------
@@ -21,7 +21,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 7;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -59,6 +59,17 @@ var movement_min = 80;
 var movement_max = 100;
 
 var mask_flip_probaility = 20;
+
+
+
+
+// Place for <javascriptresource>
+
+
+//
+// This is where to place logic for GUI-inputted settings later on. Settings need to be known before we go into the path library.
+//
+
 
 
 
