@@ -21,7 +21,7 @@ var eccentric = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 4;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -59,6 +59,7 @@ var movement_min = 100;
 var movement_max = 100;
 
 var mask_flip_probaility = 20;
+var random_direction = true;
 
 
 
@@ -445,8 +446,12 @@ function generateRandomInteger(min, max) {
 function thisDirection() {
 	
 	// Randomly assign 1 or -1 for direction
-	if (Math.floor(Math.random() * 100) < 30) {
-		return -1;
+	if (random_direction == true) {
+		if (Math.floor(Math.random() * 100) < 30) {
+			return -1;
+		} else {
+			return 1;
+		}
 	} else {
 		return 1;
 	}
