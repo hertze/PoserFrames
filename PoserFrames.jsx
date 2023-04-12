@@ -455,7 +455,7 @@ function generateRandomInteger(min, max) {
 
 function thisDirection() {
 	
-	// Randomly assign 1 or -1 for direction
+	// Randomly assign 1 or -1 for direction, unless random_direction is set to false.
 	if (random_direction == true) {
 		if (Math.floor(Math.random() * 100) < 30) {
 			return -1;
@@ -660,10 +660,10 @@ function decideRotation(pathKind) {
 }
 
 
-function adjustSelection(side) {
+function adjustSelection(offset) {
 	
-	if (side > 0) {
-		var scale = side / 3600;
+	if (offset > 0) {
+		var scale = offset / 3600;
 		app.activeDocument.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
 	} else {
 		app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
