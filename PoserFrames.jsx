@@ -447,6 +447,38 @@ lightburn[1] = "PointKind.CORNERPOINT 2111,-298 2111,-298 2111,-298 PathPoint;Po
 
 
 
+function saveClose() {
+	
+	var file_ending = app.activeDocument.name.split('.').pop().toLowerCase();
+	var fPath = app.activeDocument.path;
+	
+	if (file_ending == "tif" || file_ending == "tiff") {
+		
+		// Save out the image as tiff
+		var tiffFile = new File(fPath);
+		tiffSaveOptions = new TiffSaveOptions();
+		tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
+		tiffSaveOptions.layers = false;
+		tiffSaveOptions.embedColorProfile = true;
+		app.activeDocument.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
+		
+	} else {
+	
+		// Save out the image as jpeg
+		var jpgFile = new File(fPath);
+		jpgSaveOptions = new JPEGSaveOptions();
+		jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
+		jpgSaveOptions.embedColorProfile = true;
+		jpgSaveOptions.matte = MatteType.NONE;
+		jpgSaveOptions.quality = 12;
+		app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
+		
+	}
+	
+	app.activeDocument.close();
+	
+}
+
 function generateRandomInteger(min, max) {
 	
 	// Generate a number between min and max, including max
@@ -1180,38 +1212,6 @@ var doc_height = app.activeDocument.height;
 var doc_width = app.activeDocument.width;
 var ratio = doc_height / doc_width;
 
-
-var myColor_white = new SolidColor();  
-myColor_white.rgb.red = 255;  
-myColor_white.rgb.green = 255;  
-myColor_white.rgb.blue = 255;
-
-if (colorCheck() == "color") {
-	var myColor_black = new SolidColor();  
-	myColor_black.rgb.red = generateRandomInteger(1, 6); 
-	myColor_black.rgb.green = generateRandomInteger(1, 6);  
-	myColor_black.rgb.blue = generateRandomInteger(1, 6);
-	
-	var myColor_shadow = new SolidColor();
-	myColor_shadow.hsb.hue = 32;
-	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
-} else {
-	var myColor_black = new SolidColor();
-	myColor_black.hsb.hue = 0;
-	myColor_black.hsb.saturation = 0;
-	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
-	
-	var myColor_shadow = new SolidColor();  
-	myColor_shadow.hsb.hue = 0;
-	myColor_shadow.hsb.saturation = 0;
-	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
-}
-var myColor_subshadow = new SolidColor();
-myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
-
 var thisFormat = format();
 
 // Calculate feathering
@@ -1247,15 +1247,50 @@ if (ratio > 1) {
 // Scale
 var doc_scale = negative_size.value / 3600;
 
+// Sets up existing image layer
+app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
+var negativelayer = app.activeDocument.activeLayer;
+app.activeDocument.activeLayer.name = "negative"; // Names background layer
+
+
+var myColor_white = new SolidColor();  
+myColor_white.rgb.red = 255;  
+myColor_white.rgb.green = 255;  
+myColor_white.rgb.blue = 255;
+
+if (colorCheck() == "color") {
+	var myColor_black = new SolidColor();  
+	myColor_black.rgb.red = generateRandomInteger(1, 6); 
+	myColor_black.rgb.green = generateRandomInteger(1, 6);  
+	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+	
+	var myColor_shadow = new SolidColor();
+	myColor_shadow.hsb.hue = 32;
+	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+} else {
+	var myColor_black = new SolidColor();
+	myColor_black.hsb.hue = 0;
+	myColor_black.hsb.saturation = 0;
+	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
+	
+	var myColor_shadow = new SolidColor();  
+	myColor_shadow.hsb.hue = 0;
+	myColor_shadow.hsb.saturation = 0;
+	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
+}
+var myColor_subshadow = new SolidColor();
+myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
+myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
+myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
+
+
+
+//
+// MAIN ROUTINE
+//
 
 try {
-	
-	
-	// LET'S GET THIS SHOW GOING!!!!
-	
-	app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
-	var negativelayer = app.activeDocument.activeLayer;
-	app.activeDocument.activeLayer.name = "negative"; // Names background layer
 	
 	// Creates paths
 
@@ -1270,6 +1305,8 @@ try {
 	
 	
 	if (fancy == true) {
+		
+		// FANCY MODE
 		
 		if (ratio > 1) {
 			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
@@ -1336,6 +1373,7 @@ try {
 			
 		} else {
 			
+			// If artefacts == false, fill the whole layer with white
 			app.activeDocument.selection.selectAll();
 			app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
 			
@@ -1344,7 +1382,6 @@ try {
 		app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 		decideRotation("mask");
 		adjustSelection(); //Scales and centers the selection
-		
 		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR); // Punches a hole in the mask layer with the shape of the mask
 	
 		if (eccentric == true) {
@@ -1361,8 +1398,10 @@ try {
 		
 	} else {
 		
-		// Conservative mode
+		// CROP MODE
 		
+		
+		// Decide new document width
 		if (thisFormat == "35mm") {
 			if (ratio > 1) {
 				var finished_width = border_width_35mm + 100;
@@ -1405,8 +1444,7 @@ try {
 			}
 		}
 		
-		
-		// Crop canvas to finished size
+		// Crop canvas to new size
 		app.activeDocument.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
 		
 		// Creates the negative layer content
@@ -1452,7 +1490,7 @@ try {
 		}
 	}
 
-	// Finish up
+	// Clean up
 	app.activeDocument.selection.deselect();
 	app.activeDocument.pathItems.getByName('negative').remove();
 	if (fancy == true) { app.activeDocument.pathItems.getByName('mask').remove(); }
@@ -1463,37 +1501,8 @@ try {
 		app.activeDocument.pathItems.getByName('orangeburn').remove(); 
 		app.activeDocument.pathItems.getByName('lightburn').remove(); 
 	}
-	
-	if (save == true ) {
-		
-		var file_ending = app.activeDocument.name.split('.').pop().toLowerCase();
-		var fPath = app.activeDocument.path;
-		
-		if (file_ending == "tif" || file_ending == "tiff") {
-			
-			// Save out the image as tiff
-			var tiffFile = new File(fPath);
-			tiffSaveOptions = new TiffSaveOptions();
-			tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
-			tiffSaveOptions.layers = false;
-			tiffSaveOptions.embedColorProfile = true;
-			app.activeDocument.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
-			
-		} else {
-		
-			// Save out the image as jpeg
-			var jpgFile = new File(fPath);
-			jpgSaveOptions = new JPEGSaveOptions();
-			jpgSaveOptions.formatOptions = FormatOptions.OPTIMIZEDBASELINE;
-			jpgSaveOptions.embedColorProfile = true;
-			jpgSaveOptions.matte = MatteType.NONE;
-			jpgSaveOptions.quality = 12;
-			app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
-			
-		}
-		
-		app.activeDocument.close();
-	}
+
+	if (save == true ) { saveClose(); }
 	
 	// ALL DONE!
 	
