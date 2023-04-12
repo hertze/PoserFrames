@@ -660,10 +660,10 @@ function decideRotation(pathKind) {
 }
 
 
-function adjustSelection(offset) {
+function adjustSelection(side) {
 	
-	if (offset > 0) {
-		var scale = offset / 3600;
+	if (side > 0) {
+		var scale = side / 3600;
 		app.activeDocument.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
 	} else {
 		app.activeDocument.selection.resizeBoundary(doc_scale * 100, doc_scale * 100, AnchorPosition.TOPLEFT);
