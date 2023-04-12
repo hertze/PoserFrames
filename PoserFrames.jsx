@@ -1168,87 +1168,88 @@ function filmBurn() {
 }
 
 
+
+// Initial properties, settings and calculations
+
+app.preferences.rulerUnits = Units.PIXELS;
+app.displayDialogs = DialogModes.NO;
+
+app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
+
+var doc_height = app.activeDocument.height;
+var doc_width = app.activeDocument.width;
+var ratio = doc_height / doc_width;
+
+
+var myColor_white = new SolidColor();  
+myColor_white.rgb.red = 255;  
+myColor_white.rgb.green = 255;  
+myColor_white.rgb.blue = 255;
+
+if (colorCheck() == "color") {
+	var myColor_black = new SolidColor();  
+	myColor_black.rgb.red = generateRandomInteger(1, 6); 
+	myColor_black.rgb.green = generateRandomInteger(1, 6);  
+	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+	
+	var myColor_shadow = new SolidColor();
+	myColor_shadow.hsb.hue = 32;
+	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+} else {
+	var myColor_black = new SolidColor();
+	myColor_black.hsb.hue = 0;
+	myColor_black.hsb.saturation = 0;
+	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
+	
+	var myColor_shadow = new SolidColor();  
+	myColor_shadow.hsb.hue = 0;
+	myColor_shadow.hsb.saturation = 0;
+	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
+}
+var myColor_subshadow = new SolidColor();
+myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
+myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
+myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
+
+var thisFormat = format();
+
+// Calculate feathering
+if (ratio > 1) {
+	if (thisFormat == "35mm") {
+		var feather = doc_width / feather_factor_35mm;
+	} else if (thisFormat == "645") {
+		var feather = doc_width / feather_factor_645;
+	} else if (thisFormat == "45") {
+		var feather = doc_width / feather_factor_45;
+	} else {
+		var feather = doc_width / feather_factor_67_square;
+	}
+} else {
+	if (thisFormat == "35mm") {
+		var feather = doc_height / feather_factor_35mm;
+	} else if (thisFormat == "645") {
+		var feather = doc_height / feather_factor_645;
+	} else if (thisFormat == "45") {
+		var feather = doc_height / feather_factor_45;
+	} else {
+		var feather = doc_height / feather_factor_67_square;
+	}
+}
+
+// Decide the shortest side
+if (ratio > 1) {
+	var negative_size = doc_width;
+} else {
+	var negative_size = doc_height;
+}
+
+// Scale
+var doc_scale = negative_size.value / 3600;
+
+
 try {
 	
-	// Initial properties, settings and calculations
-	
-	app.preferences.rulerUnits = Units.PIXELS;
-	app.displayDialogs = DialogModes.NO;
-	
-	app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
-	
-	var doc_height = app.activeDocument.height;
-	var doc_width = app.activeDocument.width;
-	var ratio = doc_height / doc_width;
-	
-	
-	var myColor_white = new SolidColor();  
-	myColor_white.rgb.red = 255;  
-	myColor_white.rgb.green = 255;  
-	myColor_white.rgb.blue = 255;
-	
-	if (colorCheck() == "color") {
-		var myColor_black = new SolidColor();  
-		myColor_black.rgb.red = generateRandomInteger(1, 6); 
-		myColor_black.rgb.green = generateRandomInteger(1, 6);  
-		myColor_black.rgb.blue = generateRandomInteger(1, 6);
-		
-		var myColor_shadow = new SolidColor();
-		myColor_shadow.hsb.hue = 32;
-		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
-	} else {
-		var myColor_black = new SolidColor();
-		myColor_black.hsb.hue = 0;
-		myColor_black.hsb.saturation = 0;
-		myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
-		
-		var myColor_shadow = new SolidColor();  
-		myColor_shadow.hsb.hue = 0;
-		myColor_shadow.hsb.saturation = 0;
-		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
-	}
-	var myColor_subshadow = new SolidColor();
-	myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-	myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-	myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
-	
-	var thisFormat = format();
-	
-	// Calculate feathering
-	if (ratio > 1) {
-		if (thisFormat == "35mm") {
-			var feather = doc_width / feather_factor_35mm;
-		} else if (thisFormat == "645") {
-			var feather = doc_width / feather_factor_645;
-		} else if (thisFormat == "45") {
-			var feather = doc_width / feather_factor_45;
-		} else {
-			var feather = doc_width / feather_factor_67_square;
-		}
-	} else {
-		if (thisFormat == "35mm") {
-			var feather = doc_height / feather_factor_35mm;
-		} else if (thisFormat == "645") {
-			var feather = doc_height / feather_factor_645;
-		} else if (thisFormat == "45") {
-			var feather = doc_height / feather_factor_45;
-		} else {
-			var feather = doc_height / feather_factor_67_square;
-		}
-	}
-	
-	// Decide the shortest side
-	if (ratio > 1) {
-		var negative_size = doc_width;
-	} else {
-		var negative_size = doc_height;
-	}
-	
-	// Scale
-	var doc_scale = negative_size.value / 3600;
-	
-		
 	
 	// LET'S GET THIS SHOW GOING!!!!
 	
