@@ -22,8 +22,8 @@ var eccentric = true;
 var artifacts = true;
 
 var mask_variant_35mm = 1;
-var mask_variant_645 = 4;
-var mask_variant_67 = 3;
+var mask_variant_645 = 1;
+var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 
 var mask_variant_square = 1;
