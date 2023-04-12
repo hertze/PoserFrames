@@ -9,7 +9,7 @@
 
 // Script behaviour ---------------------------------------------------
 
-var save = true;
+var save = false;
 
 
 // General settings ----------------------------------------------------
@@ -23,7 +23,7 @@ var artifacts = true;
 
 var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
-var mask_variant_67 = 1;
+var mask_variant_67 = 3;
 var mask_variant_45 = 1;
 
 var mask_variant_square = 1;
@@ -443,15 +443,6 @@ lightburn[1] = "PointKind.CORNERPOINT 2111,-298 2111,-298 2111,-298 PathPoint;Po
 
 
 // ---------------------------------------------------------------------
-
-
-// UI ----------------------------------------------------------------
-
-<javascriptresource> 
-<name>Poser Frames</name> 
-<menu>automate</menu>
-<enableinfo>true</enableinfo> 
-</javascriptresource>
 
 
 
