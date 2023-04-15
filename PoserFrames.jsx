@@ -90,7 +90,7 @@ function displayDialog(thisRecipe, runmode) {
 	// Display dialog box.
 	
 	var dialog = new Window("dialog");
-	dialog.text = "Poser Frames runs in Recipe Mode";
+	dialog.text = "Poser Frames";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
 	dialog.spacing = 10;
@@ -105,7 +105,7 @@ function displayDialog(thisRecipe, runmode) {
 	}
 	dialog.statictext1.alignment = ["fill", "top"];
 
-	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { characters: 100, multiline: true });
+	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
 	dialog.edittext1.alignment = ["fill", "top"];
 	dialog.edittext1.size = [500, 50];
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
@@ -129,7 +129,6 @@ function displayDialog(thisRecipe, runmode) {
 			dialog.close();
 		};
 	}
-	
 	
 	dialog.show();
 
@@ -195,18 +194,6 @@ function processRecipe(thisRecipe) {
 	monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
 	movement_min = parseInt(thisRecipe[18]);
 	movement_max = parseInt(thisRecipe[19]);
-
-}
-
-// Run in recipe mode
-if (recipemode == true ) {
-	
-	var executeScript = true;
-	var isCancelled = false;
-	var thisRecipe = getRecipe();
-	
-	//isCancelled ? 'cancel' : undefined
-	if (thisRecipe != "none") { processRecipe(thisRecipe); }
 
 }
 
@@ -965,6 +952,17 @@ function filmBurn() {
 }
 
 
+// Run in recipe mode
+if (recipemode == true ) {
+	
+	var executeScript = true;
+	var isCancelled = false;
+	var thisRecipe = getRecipe();
+	
+	//isCancelled ? 'cancel' : undefined
+	if (thisRecipe != "none") { processRecipe(thisRecipe); }
+
+}
 
 
 // PATH LIBRARY ------------------------------------------------------
