@@ -155,8 +155,8 @@ function getRecipe() {
 
 function processRecipe(thisRecipe) {
 	// Process the recipe and change settings
-	
-	thisRecipe = thisRecipe.replace(/\s+/g, ''); // Removes spaces
+	thisRecipe = thisRecipe.replace(/\s+/g, ""); // Removes spaces
+	thisRecipe = thisRecipe.replace(/,+/g, ";"); // Converts , to ;
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	thisRecipe = thisRecipe.split(";"); // Splits into array at ;
 
@@ -1447,7 +1447,7 @@ myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
 
 try {
 	
-	if (executeScript == true) {
+	if (executeScript == true || recipemode == false) {
 	
 		// Creates paths
 	
