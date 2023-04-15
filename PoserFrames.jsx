@@ -140,19 +140,21 @@ function getRecipe() {
 		}
 		if (app.playbackDisplayDialogs != DialogModes.ALL) {
 			// user run script without recording
-			alert('variable recordered in action:\n' + recipe);
+			return recipe;
 		}
 	}
 }
 
-function processRecipe() {
+function processRecipe(thisRecipe) {
 	
+	alert(thisRecipe);
 	
 }
 
 if (recipemode == true ) {
 	var isCancelled = false;
-	getRecipe();
+	var thisRecipe = getRecipe();
+	processRecipe(thisRecipe);
 	isCancelled ? 'cancel' : undefined
 }
 
