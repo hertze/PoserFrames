@@ -135,6 +135,7 @@ function displayDialog(thisRecipe, runmode) {
 	return thisRecipe;
 }
 
+
 function getRecipe() {
 	// Retrieve recipe from action or dialog
 	if (!app.playbackParameters.count) {
@@ -166,6 +167,7 @@ function getRecipe() {
 		}
 	}
 }
+
 
 function processRecipe(thisRecipe) {
 	// Process the recipe and change settings
