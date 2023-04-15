@@ -90,7 +90,7 @@ function displayDialog(thisRecipe) {
 	// Display dialog box.
 	var dialog = new Window("dialog");
 	dialog.size = [500, 200];
-	dialog.text = "Run Poser Frames with recipe";
+	dialog.text = "Poser Frames runs in Recipe Mode";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
 	dialog.spacing = 10;
@@ -98,7 +98,7 @@ function displayDialog(thisRecipe) {
 
 
 	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
-	dialog.statictext1.text = "Paste your recipe here.";
+	dialog.statictext1.text = "Paste or edit your recipe here:";
 	dialog.statictext1.alignment = ["fill", "top"];
 
 	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
