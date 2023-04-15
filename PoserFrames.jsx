@@ -66,6 +66,7 @@ var random_direction = true;
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
 
 
+
 /*
 // BEGIN__HARVEST_EXCEPTION_ZSTRING
 <javascriptresource> 
@@ -86,8 +87,9 @@ var random_direction = true;
 
 
 function displayDialog(thisRecipe) {
+	// Display dialog box.
 	var dialog = new Window("dialog");
-	dialog.size = [500, 150];
+	dialog.size = [500, 200];
 	dialog.text = "Run Poser Frames with recipe";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
@@ -96,12 +98,12 @@ function displayDialog(thisRecipe) {
 
 
 	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
-	dialog.statictext1.text = "Your recipe:";
+	dialog.statictext1.text = "Paste your recipe here.";
 	dialog.statictext1.alignment = ["fill", "top"];
 
 	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
 	dialog.edittext1.alignment = ["fill", "top"];
-	dialog.edittext1.size = [400, 50];
+	dialog.edittext1.size = [400, 100];
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
 
 	var submit = dialog.add("button", undefined, undefined, { name: "submit" });
@@ -118,6 +120,7 @@ function displayDialog(thisRecipe) {
 }
 
 function getRecipe() {
+	// Retrieve recipe from action or dialog
 	if (!app.playbackParameters.count) {
 		//normal run (from scripts menu)
 		var result = displayDialog();
@@ -125,6 +128,7 @@ function getRecipe() {
 			var d = new ActionDescriptor;
 			d.putString(stringIDToTypeID('recipe'), result)
 			app.playbackParameters = d;
+			return result;
 		}
 	}
 	else {
@@ -137,6 +141,7 @@ function getRecipe() {
 				d.putString(stringIDToTypeID('recipe'), result)
 				app.playbackParameters = d;
 			}
+			return result;
 		}
 		if (app.playbackDisplayDialogs != DialogModes.ALL) {
 			// user run script without recording
@@ -146,16 +151,21 @@ function getRecipe() {
 }
 
 function processRecipe(thisRecipe) {
+	// Process the recipe and change settings
 	
-	alert(thisRecipe);
+		alert(thisRecipe);
 	
 }
 
+// Run in recipe mode
 if (recipemode == true ) {
+	
 	var isCancelled = false;
 	var thisRecipe = getRecipe();
-	processRecipe(thisRecipe);
 	isCancelled ? 'cancel' : undefined
+	
+	processRecipe(thisRecipe);
+
 }
 
 
