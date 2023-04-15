@@ -210,8 +210,8 @@ function processRecipe(thisRecipe) {
 		monochrome_burn = false;
 	}
 
-	movement_min = thisRecipe[18];
-	movement_max = thisRecipe[19];
+	movement_min = parseInt(thisRecipe[18]);
+	movement_max = parseInt(thisRecipe[19]);
 
 }
 
