@@ -77,7 +77,7 @@ var random_direction = true;
 <terminology><![CDATA[<< /Version 1
 					   /Events <<
 					   /f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3 [(Poser Frames) <<
-					   /recipe [(Recipie text) /string]
+					   /recipe [(Recipe) /string]
 					   >>]
 						>>
 					 >> ]]></terminology>
