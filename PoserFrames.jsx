@@ -187,7 +187,7 @@ if (recipemode == true ) {
 	var executeScript = true;
 	var isCancelled = false;
 	var thisRecipe = getRecipe();
-	isCancelled ? 'cancel' : undefined
+	//isCancelled ? 'cancel' : undefined
 	
 	if (thisRecipe != "") { processRecipe(thisRecipe); }
 
