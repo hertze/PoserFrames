@@ -105,7 +105,7 @@ function displayDialog(thisRecipe) {
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
 
 	var submit = dialog.add("button", undefined, undefined, { name: "submit" });
-	submit.text = "Run Poser Frames!";
+	submit.text = "Use this recipe!";
 
 	dialog.submit.onClick = function () {
 		thisRecipe = dialog.edittext1.text;
@@ -145,13 +145,16 @@ function getRecipe() {
 	}
 }
 
-if (recipemode == true ) {
-	var isCancelled = false;
-	getRecipe()
-	isCancelled ? 'cancel' : undefined
+function processRecipe() {
+	
+	
 }
 
-
+if (recipemode == true ) {
+	var isCancelled = false;
+	getRecipe();
+	isCancelled ? 'cancel' : undefined
+}
 
 
 function saveClose() {
