@@ -86,10 +86,10 @@ var random_direction = true;
 */
 
 
-function displayDialog(thisRecipe) {
+function displayDialog(thisRecipe, runmode) {
 	// Display dialog box.
+	
 	var dialog = new Window("dialog");
-	dialog.size = [500, 250];
 	dialog.text = "Poser Frames runs in Recipe Mode";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
@@ -98,29 +98,38 @@ function displayDialog(thisRecipe) {
 
 
 	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
-	dialog.statictext1.text = "Paste or edit your recipe here:";
+	if (runmode != "edit") {
+		dialog.statictext1.text = "Paste your recipe here:";
+	} else {
+		dialog.statictext1.text = "Edit your recipe here:";
+	}
 	dialog.statictext1.alignment = ["fill", "top"];
 
-	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
+	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { characters: 100, multiline: true });
 	dialog.edittext1.alignment = ["fill", "top"];
-	dialog.edittext1.size = [400, 100];
+	dialog.edittext1.size = [500, 50];
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
 
-	var submit = dialog.add("button", undefined, undefined, { name: "submit" });
+	var buttons = dialog.add( "group" );
+
+	var submit = buttons.add("button", undefined, undefined, { name: "submit" });
 	submit.text = "Use this recipe";
 	
-	var cancel = dialog.add("button", undefined, undefined, { name: "cancel" });
-	cancel.text = "Use without recipe";
-
-	dialog.submit.onClick = function () {
+	submit.onClick = function () {
 		thisRecipe = dialog.edittext1.text;
 		dialog.close();
 	};
 	
-	dialog.cancel.onClick = function () {
-		thisRecipe = "none";
-		dialog.close();
-	};
+	if (runmode != "edit") {
+		var without = buttons.add("button", undefined, undefined, { name: "without" });
+		without.text = "Use default settings";
+		
+		without.onClick = function () {
+			thisRecipe = "none";
+			dialog.close();
+		};
+	}
+	
 	
 	dialog.show();
 
@@ -134,7 +143,7 @@ function getRecipe() {
 		var result = displayDialog();
 		if (!result || result == '') { isCancelled = true; return } else {
 			var d = new ActionDescriptor;
-			d.putString(stringIDToTypeID('recipe'), result)
+			d.putString(stringIDToTypeID('recipe'), result);
 			app.playbackParameters = d;
 			return result;
 		}
@@ -143,10 +152,10 @@ function getRecipe() {
 		var recipe = app.playbackParameters.getString(stringIDToTypeID('recipe'));
 		if (app.playbackDisplayDialogs == DialogModes.ALL) {
 			// user run action in dialog mode (edit action step)
-			var result = displayDialog(recipe);
+			var result = displayDialog(recipe, "edit");
 			if (!result || result == "") { isCancelled = true; return } else {
 				var d = new ActionDescriptor;
-				d.putString(stringIDToTypeID('recipe'), result)
+				d.putString(stringIDToTypeID('recipe'), result);
 				app.playbackParameters = d;
 			}
 			executeScript = false;
