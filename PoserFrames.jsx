@@ -9,7 +9,7 @@
 
 // Script behaviour ---------------------------------------------------
 
-var save = true;
+var save = false;
 
 
 // General settings ----------------------------------------------------
@@ -64,12 +64,88 @@ var random_direction = true;
 
 
 
-// Place for <javascriptresource>
+/*
+// BEGIN__HARVEST_EXCEPTION_ZSTRING
+<javascriptresource> 
+<name>Poser Frames</name> 
+<menu>automate</menu>
+<enableinfo>true</enableinfo>
+<eventid>f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3</eventid>
+<terminology><![CDATA[<< /Version 1
+					   /Events <<
+					   /f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3 [(Poser Frames) <<
+					   /recipe [(Recipie text) /string]
+					   >>]
+						>>
+					 >> ]]></terminology>
+</javascriptresource>
+// END__HARVEST_EXCEPTION_ZSTRING
+*/
 
 
-//
-// This is where to place logic for GUI-inputted settings later on. Settings need to be known before we go into the path library.
-//
+var isCancelled = false;
+main()
+isCancelled ? 'cancel' : undefined
+
+function main() {
+	if (!app.playbackParameters.count) {
+		//normal run (from scripts menu)
+		var result = displayDialog();
+		if (!result || result == '') { isCancelled = true; return } else {
+			var d = new ActionDescriptor;
+			d.putString(stringIDToTypeID('recipe'), result)
+			app.playbackParameters = d;
+		}
+	}
+	else {
+		var recipe = app.playbackParameters.getString(stringIDToTypeID('recipe'));
+		if (app.playbackDisplayDialogs == DialogModes.ALL) {
+			// user run action in dialog mode (edit action step)
+			var result = displayDialog(recipe);
+			if (!result || result == '') { isCancelled = true; return } else {
+				var d = new ActionDescriptor;
+				d.putString(stringIDToTypeID('recipe'), result)
+				app.playbackParameters = d;
+			}
+		}
+		if (app.playbackDisplayDialogs != DialogModes.ALL) {
+			// user run script without recording
+			alert('variable recordered in action:\n' + recipe);
+		}
+	}
+}
+
+function displayDialog(thisRecipe) {
+	var dialog = new Window("dialog");
+	dialog.size = [500, 150];
+	dialog.text = "Run Poser Frames with recipe";
+	dialog.orientation = "column";
+	dialog.alignChildren = ["left", "top"];
+	dialog.spacing = 10;
+	dialog.margins = 20;
+
+
+	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
+	dialog.statictext1.text = "Your recipe:";
+	dialog.statictext1.alignment = ["fill", "top"];
+
+	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
+	dialog.edittext1.alignment = ["fill", "top"];
+	dialog.edittext1.size = [400, 50];
+	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
+
+	var submit = dialog.add("button", undefined, undefined, { name: "submit" });
+	submit.text = "Run Poser Frames!";
+
+	dialog.submit.onClick = function () {
+		thisRecipe = dialog.edittext1.text;
+		dialog.close();
+	};
+
+	dialog.show();
+
+	return thisRecipe;
+}
 
 
 
