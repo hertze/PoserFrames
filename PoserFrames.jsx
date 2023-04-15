@@ -1611,8 +1611,6 @@ try {
 			
 			if (burn == true) { 
 				filmBurn(); 
-			} else if (burn == "surprise" && generateRandomInteger(1, 20) == 20) {
-				filmBurn();
 			}
 			
 			app.activeDocument.flatten(); // Flatten all layers
