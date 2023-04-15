@@ -128,7 +128,6 @@ function getRecipe() {
 			var d = new ActionDescriptor;
 			d.putString(stringIDToTypeID('recipe'), result)
 			app.playbackParameters = d;
-			executeScript = true;
 			return result;
 		}
 	}
@@ -137,7 +136,7 @@ function getRecipe() {
 		if (app.playbackDisplayDialogs == DialogModes.ALL) {
 			// user run action in dialog mode (edit action step)
 			var result = displayDialog(recipe);
-			if (!result || result == '') { isCancelled = true; return } else {
+			if (!result || result == "") { isCancelled = true; return } else {
 				var d = new ActionDescriptor;
 				d.putString(stringIDToTypeID('recipe'), result)
 				app.playbackParameters = d;
@@ -147,7 +146,6 @@ function getRecipe() {
 		}
 		if (app.playbackDisplayDialogs != DialogModes.ALL) {
 			// user run script without recording
-			executeScript = true;
 			return recipe;
 		}
 	}
@@ -160,59 +158,24 @@ function processRecipe(thisRecipe) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	thisRecipe = thisRecipe.split(";"); // Splits into array at ;
 
-	if (thisRecipe[0] == "true") {
-		fancy = true;
-	} else {
-		fancy = false;
-	}
-	
-	if (thisRecipe[1] == "true") {
-		eccentric = true;
-	} else {
-		eccentric = false;
-	}
-	
-	if (thisRecipe[2] == "true") {
-		artifacts = true;
-	} else {
-		artifacts = false;
-	}
-	
+	fancy = (thisRecipe[0].toLowerCase() === "true");
+	eccentric = (thisRecipe[1].toLowerCase() === "true");
+	artifacts = (thisRecipe[2].toLowerCase() === "true");
 	mask_variant_35mm = thisRecipe[3];
 	mask_variant_645 = thisRecipe[4];
 	mask_variant_67 = thisRecipe[5];
 	mask_variant_45 = thisRecipe[6];
 	mask_variant_square = thisRecipe[7];
 	negative_variant_square = thisRecipe[8];
-
-	if (thisRecipe[9] == "true") {
-		matted_crop = true;
-	} else {
-		matted_crop = false;
-	}
-	
+	matted_crop = (thisRecipe[9].toLowerCase() === "true");
 	border_width_35mm = parseInt(thisRecipe[10]);
 	border_width_645 = parseInt(thisRecipe[11]);
 	border_width_67 = parseInt(thisRecipe[12]);
 	border_width_45 = parseInt(thisRecipe[13]);
 	border_width_square = parseInt(thisRecipe[14]);
-	
-	if (thisRecipe[15] == "true") {
-		burn = true;
-	} else {
-		burn = false;
-	}
-	if (thisRecipe[16] == "true") {
-		burn_at_opposite_edge = true;
-	} else {
-		burn_at_opposite_edge = false;
-	}
-	if (thisRecipe[17] == "true") {
-		monochrome_burn = true;
-	} else {
-		monochrome_burn = false;
-	}
-
+	burn = (thisRecipe[15].toLowerCase() === "true");
+	burn_at_opposite_edge = (thisRecipe[16].toLowerCase() === "true");
+	monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
 	movement_min = parseInt(thisRecipe[18]);
 	movement_max = parseInt(thisRecipe[19]);
 
@@ -221,12 +184,12 @@ function processRecipe(thisRecipe) {
 // Run in recipe mode
 if (recipemode == true ) {
 	
-	var executeScript = false;
+	var executeScript = true;
 	var isCancelled = false;
 	var thisRecipe = getRecipe();
 	isCancelled ? 'cancel' : undefined
 	
-	processRecipe(thisRecipe);
+	if (thisRecipe != "") { processRecipe(thisRecipe); }
 
 }
 
