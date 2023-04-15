@@ -156,7 +156,62 @@ function processRecipe(thisRecipe) {
 	thisRecipe = thisRecipe.replace(/\s+/g, ''); // Removes spaces
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	thisRecipe = thisRecipe.split(";"); // Splits into array at ;
-	alert(thisRecipe);
+
+	if (thisRecipe[0] == "true") {
+		fancy = true;
+	} else {
+		fancy = false;
+	}
+	
+	if (thisRecipe[1] == "true") {
+		eccentric = true;
+	} else {
+		eccentric = false;
+	}
+	
+	if (thisRecipe[2] == "true") {
+		artifacts = true;
+	} else {
+		artifacts = false;
+	}
+	
+	mask_variant_35mm = thisRecipe[3];
+	mask_variant_645 = thisRecipe[4];
+	mask_variant_67 = thisRecipe[5];
+	mask_variant_45 = thisRecipe[6];
+	mask_variant_square = thisRecipe[7];
+	negative_variant_square = thisRecipe[8];
+
+	if (thisRecipe[9] == "true") {
+		matted_crop = true;
+	} else {
+		matted_crop = false;
+	}
+	
+	border_width_35mm = thisRecipe[10];
+	border_width_645 = thisRecipe[11];
+	border_width_67 = thisRecipe[12];
+	border_width_45 = thisRecipe[13];
+	border_width_square = thisRecipe[14];
+	
+	if (thisRecipe[15] == "true") {
+		burn = true;
+	} else {
+		burn = false;
+	}
+	if (thisRecipe[16] == "true") {
+		burn_at_opposite_edge = true;
+	} else {
+		burn_at_opposite_edge = false;
+	}
+	if (thisRecipe[17] == "true") {
+		monochrome_burn = true;
+	} else {
+		monochrome_burn = false;
+	}
+
+	movement_min = thisRecipe[18];
+	movement_max = thisRecipe[19];
 
 }
 
