@@ -89,7 +89,7 @@ var random_direction = true;
 function displayDialog(thisRecipe) {
 	// Display dialog box.
 	var dialog = new Window("dialog");
-	dialog.size = [500, 200];
+	dialog.size = [500, 250];
 	dialog.text = "Poser Frames runs in Recipe Mode";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
@@ -107,13 +107,21 @@ function displayDialog(thisRecipe) {
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
 
 	var submit = dialog.add("button", undefined, undefined, { name: "submit" });
-	submit.text = "Use this recipe!";
+	submit.text = "Use this recipe";
+	
+	var cancel = dialog.add("button", undefined, undefined, { name: "cancel" });
+	cancel.text = "Use without recipe";
 
 	dialog.submit.onClick = function () {
 		thisRecipe = dialog.edittext1.text;
 		dialog.close();
 	};
-
+	
+	dialog.cancel.onClick = function () {
+		thisRecipe = "none";
+		dialog.close();
+	};
+	
 	dialog.show();
 
 	return thisRecipe;
@@ -187,9 +195,9 @@ if (recipemode == true ) {
 	var executeScript = true;
 	var isCancelled = false;
 	var thisRecipe = getRecipe();
-	//isCancelled ? 'cancel' : undefined
 	
-	if (thisRecipe != "") { processRecipe(thisRecipe); }
+	//isCancelled ? 'cancel' : undefined
+	if (thisRecipe != "none") { processRecipe(thisRecipe); }
 
 }
 
