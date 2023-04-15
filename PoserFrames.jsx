@@ -153,8 +153,11 @@ function getRecipe() {
 function processRecipe(thisRecipe) {
 	// Process the recipe and change settings
 	
-		alert(thisRecipe);
-	
+	thisRecipe = thisRecipe.replace(/\s+/g, ''); // Removes spaces
+	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
+	thisRecipe = thisRecipe.split(";"); // Splits into array at ;
+	alert(thisRecipe);
+
 }
 
 // Run in recipe mode
