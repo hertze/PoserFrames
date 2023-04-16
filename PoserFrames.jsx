@@ -44,7 +44,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = false;
+var burn = true;
 var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
@@ -78,6 +78,7 @@ var random_direction = true;
 					   /Events <<
 					   /f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3 [(Poser Frames) <<
 					   /recipe [(Recipe) /string]
+					   /savestatus [(Save) /boolean]
 					   >>]
 						>>
 					 >> ]]></terminology>
@@ -86,7 +87,7 @@ var random_direction = true;
 */
 
 
-function displayDialog(thisRecipe, runmode) {
+function displayDialog(thisRecipe, saveStatus, runmode) {
 	// Display dialog box.
 	
 	var dialog = new Window("dialog");
@@ -109,6 +110,13 @@ function displayDialog(thisRecipe, runmode) {
 	dialog.edittext1.alignment = ["fill", "top"];
 	dialog.edittext1.size = [500, 50];
 	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
+	
+	dialog.savestatus = dialog.add("checkbox", undefined, "Save and close when done");
+	if (saveStatus !== undefined) {
+		dialog.savestatus.value = (saveStatus.toLowerCase() === "true");
+	} else {
+		dialog.savestatus.value
+	}
 
 	var buttons = dialog.add( "group" );
 
@@ -117,6 +125,7 @@ function displayDialog(thisRecipe, runmode) {
 	
 	submit.onClick = function () {
 		thisRecipe = dialog.edittext1.text;
+		saveStatus = dialog.savestatus.value.toString();
 		dialog.close();
 	};
 	
@@ -126,13 +135,17 @@ function displayDialog(thisRecipe, runmode) {
 		
 		without.onClick = function () {
 			thisRecipe = "none";
+			saveStatus = dialog.savestatus.value;
 			dialog.close();
 		};
 	}
 	
 	dialog.show();
 
-	return thisRecipe;
+	return {
+		"recipe": thisRecipe,
+		"savestatus": saveStatus
+	};
 }
 
 
@@ -140,22 +153,29 @@ function getRecipe() {
 	// Retrieve recipe from action or dialog
 	if (!app.playbackParameters.count) {
 		//normal run (from scripts menu)
+
 		var result = displayDialog();
-		if (!result || result == '') { isCancelled = true; return } else {
+		
+		if (!result.recipe || result.recipe == '') { isCancelled = true; return } else {
 			var d = new ActionDescriptor;
-			d.putString(stringIDToTypeID('recipe'), result);
-			app.playbackParameters = d;
+			d.putString(stringIDToTypeID('recipe'), result.recipe);
+			d.putString(stringIDToTypeID('savestatus'), result.savestatus);
+			app.playbackParameters = d;		
+			
 			return result;
 		}
 	}
 	else {
 		var recipe = app.playbackParameters.getString(stringIDToTypeID('recipe'));
+		var savestatus = app.playbackParameters.getString(stringIDToTypeID('savestatus'));
+		
 		if (app.playbackDisplayDialogs == DialogModes.ALL) {
 			// user run action in dialog mode (edit action step)
-			var result = displayDialog(recipe, "edit");
-			if (!result || result == "") { isCancelled = true; return } else {
+			var result = displayDialog(recipe, savestatus, "edit");
+			if (!result.recipe || result.recipe == "") { isCancelled = true; return } else {
 				var d = new ActionDescriptor;
-				d.putString(stringIDToTypeID('recipe'), result);
+				d.putString(stringIDToTypeID('recipe'), result.recipe);
+				d.putString(stringIDToTypeID('savestatus'), result.savestatus);
 				app.playbackParameters = d;
 			}
 			executeScript = false;
@@ -163,14 +183,23 @@ function getRecipe() {
 		}
 		if (app.playbackDisplayDialogs != DialogModes.ALL) {
 			// user run script without recording
-			return recipe;
+			return {
+				"recipe": recipe,
+				"savestatus": savestatus
+			};
 		}
 	}
 }
 
 
-function processRecipe(thisRecipe) {
+function processRecipe(runtimesettings) {
 	// Process the recipe and change settings
+	
+	var thisRecipe = runtimesettings.recipe;
+	var saveStatus = runtimesettings.savestatus;
+	
+	save = (saveStatus.toLowerCase() === "true");
+	
 	thisRecipe = thisRecipe.replace(/\s+/g, ""); // Removes spaces
 	thisRecipe = thisRecipe.replace(/,+/g, ";"); // Converts , to ;
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
@@ -196,7 +225,9 @@ function processRecipe(thisRecipe) {
 	monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
 	movement_min = parseInt(thisRecipe[18]);
 	movement_max = parseInt(thisRecipe[19]);
-
+	try {
+		color_image = (thisRecipe[20].toLowerCase() === "true");
+	} catch (e) {}
 }
 
 
@@ -254,11 +285,21 @@ function thisDirection() {
 }
 
 function colorCheck() {
-	var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
-	if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
-		return "bw";
+	
+	if (typeof color_image !== "undefined" ) {
+		// color_image is set
+		if (color_image == true) {
+			return "color";
+		} else {
+			return "bw";
+		}
 	} else {
-		return "color";
+		var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
+		if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
+			return "bw";
+		} else {
+			return "color";
+		}
 	}
 }
 
@@ -785,10 +826,11 @@ function filmBurn() {
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
+	
 	if (monochrome_burn == false) {
-	app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
-	edge_snap(0);
-	app.activeDocument.selection.fill(myColor_orange);
+		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
+		edge_snap(0);
+		app.activeDocument.selection.fill(myColor_orange);
 	}
 	
 	// Make selection and fill with white
@@ -959,10 +1001,10 @@ if (recipemode == true ) {
 	
 	var executeScript = true;
 	var isCancelled = false;
-	var thisRecipe = getRecipe();
+	var runtimesettings = getRecipe();
 	
 	//isCancelled ? 'cancel' : undefined
-	if (thisRecipe != "none") { processRecipe(thisRecipe); }
+	if (runtimesettings != "none") { processRecipe(runtimesettings); }
 
 }
 
