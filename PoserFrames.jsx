@@ -203,31 +203,43 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/\s+/g, ""); // Removes spaces
 	thisRecipe = thisRecipe.replace(/,+/g, ";"); // Converts , to ;
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
-	thisRecipe = thisRecipe.split(";"); // Splits into array at ;
-
-	fancy = (thisRecipe[0].toLowerCase() === "true");
-	eccentric = (thisRecipe[1].toLowerCase() === "true");
-	artifacts = (thisRecipe[2].toLowerCase() === "true");
-	mask_variant_35mm = thisRecipe[3];
-	mask_variant_645 = thisRecipe[4];
-	mask_variant_67 = thisRecipe[5];
-	mask_variant_45 = thisRecipe[6];
-	mask_variant_square = thisRecipe[7];
-	negative_variant_square = thisRecipe[8];
-	matted_crop = (thisRecipe[9].toLowerCase() === "true");
-	border_width_35mm = parseInt(thisRecipe[10]);
-	border_width_645 = parseInt(thisRecipe[11]);
-	border_width_67 = parseInt(thisRecipe[12]);
-	border_width_45 = parseInt(thisRecipe[13]);
-	border_width_square = parseInt(thisRecipe[14]);
-	burn = (thisRecipe[15].toLowerCase() === "true");
-	burn_at_opposite_edge = (thisRecipe[16].toLowerCase() === "true");
-	monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
-	movement_min = parseInt(thisRecipe[18]);
-	movement_max = parseInt(thisRecipe[19]);
-	try {
-		color_image = (thisRecipe[20].toLowerCase() === "true");
-	} catch (e) {}
+	
+	// Check recipe against syntax
+	const regex = new RegExp('^(true;|false;){3}(\\d;){6}(true;|false;)(\\d;){5}(true;|false;){3}([1-9]|[1-9][0-9]|100);([1-9]|[1-9][0-9]|100)(;true|;false){0,1}$', 'gm')
+	
+	if (regex.exec(thisRecipe) !== null) {
+	
+		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
+		fancy = (thisRecipe[0].toLowerCase() === "true");
+		eccentric = (thisRecipe[1].toLowerCase() === "true");
+		artifacts = (thisRecipe[2].toLowerCase() === "true");
+		mask_variant_35mm = thisRecipe[3];
+		mask_variant_645 = thisRecipe[4];
+		mask_variant_67 = thisRecipe[5];
+		mask_variant_45 = thisRecipe[6];
+		mask_variant_square = thisRecipe[7];
+		negative_variant_square = thisRecipe[8];
+		matted_crop = (thisRecipe[9].toLowerCase() === "true");
+		border_width_35mm = parseInt(thisRecipe[10]);
+		border_width_645 = parseInt(thisRecipe[11]);
+		border_width_67 = parseInt(thisRecipe[12]);
+		border_width_45 = parseInt(thisRecipe[13]);
+		border_width_square = parseInt(thisRecipe[14]);
+		burn = (thisRecipe[15].toLowerCase() === "true");
+		burn_at_opposite_edge = (thisRecipe[16].toLowerCase() === "true");
+		monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
+		movement_min = parseInt(thisRecipe[18]);
+		movement_max = parseInt(thisRecipe[19]);
+		try {
+			color_image = (thisRecipe[20].toLowerCase() === "true");
+		} catch (e) {}
+	
+	} else {
+		
+		executeScript = false;
+		alert("Sorry, but that recipe is malformed! Please check its syntax and try again.");
+		
+	}
 }
 
 
