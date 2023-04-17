@@ -44,7 +44,7 @@ var border_width_square = 1;
 
 // Settings for film burns ---------------------------------------------
 
-var burn = true;
+var burn = false;
 var burn_at_opposite_edge = false;
 var monochrome_burn = false;
 
@@ -135,7 +135,7 @@ function displayDialog(thisRecipe, saveStatus, runmode) {
 		
 		without.onClick = function () {
 			thisRecipe = "none";
-			saveStatus = dialog.savestatus.value;
+			saveStatus = false;
 			dialog.close();
 		};
 	}
@@ -1016,7 +1016,7 @@ if (recipemode == true ) {
 	var runtimesettings = getRecipe();
 	
 	//isCancelled ? 'cancel' : undefined
-	if (runtimesettings != "none") { processRecipe(runtimesettings); }
+	if (runtimesettings.recipe != "none") { processRecipe(runtimesettings); }
 
 }
 
