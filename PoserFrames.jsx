@@ -9,8 +9,8 @@
 
 // Script behaviour ---------------------------------------------------
 
-var save = false;
 var recipemode = true;
+var save = false;
 
 
 // General settings ----------------------------------------------------
