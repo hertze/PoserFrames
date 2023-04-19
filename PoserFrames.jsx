@@ -1581,7 +1581,7 @@ try {
 			adjustSelection(); //Scales and centers the selection
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR); // Punches a hole in the mask layer with the shape of the mask
 			
-			masklayer.applyRipple(20*doc_scale, RippleSize.MEDIUM);
+			masklayer.applyRipple(-20, RippleSize.MEDIUM);
 		
 			if (eccentric == true) {
 				moveNeg_fancy();
