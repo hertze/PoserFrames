@@ -58,9 +58,9 @@ var feather_factor_45 = 5400;
 
 var movement_min = 10;
 var movement_max = 100;
+var movement_direction = "topright";
 
 var mask_flip_probaility = 20;
-var random_direction = true;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
@@ -205,7 +205,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){3}(\\d;){6}(true;|false;)(\\d;){5}(true;|false;){3}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100)(;true|;false){0,1}$', 'gm')
+	const regex = new RegExp('^(true;|false;){3}(\\d;){6}(true;|false;)(\\d;){5}(true;|false;){3}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm')
 	
 	if (regex.exec(thisRecipe) !== null) {
 	
@@ -230,8 +230,9 @@ function processRecipe(runtimesettings) {
 		monochrome_burn = (thisRecipe[17].toLowerCase() === "true");
 		movement_min = parseInt(thisRecipe[18]);
 		movement_max = parseInt(thisRecipe[19]);
+		movement_direction = thisRecipe[20];
 		try {
-			color_image = (thisRecipe[20].toLowerCase() === "true");
+			color_image = (thisRecipe[21].toLowerCase() === "true");
 		} catch (e) {}
 	
 	} else {
@@ -285,14 +286,16 @@ function generateRandomInteger(min, max) {
 function thisDirection() {
 	
 	// Randomly assign 1 or -1 for direction, unless random_direction is set to false.
-	if (random_direction == true) {
+	if (movement_direction == "bottomleft") {
+		return -1;
+	} else if (movement_direction == "topright") {
+		return 1;
+	} else {
 		if (Math.floor(Math.random() * 100) < 30) {
 			return -1;
 		} else {
 			return 1;
 		}
-	} else {
-		return 1;
 	}
 }
 
