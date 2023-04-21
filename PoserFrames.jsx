@@ -9,14 +9,14 @@
 
 // Script behaviour ---------------------------------------------------
 
-var recipemode = true;
+var legacy = false;
 var save = false;
 
 
 // General settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = true;
+var eccentric = false;
 
 // Settings for fancy borders
 
@@ -1009,7 +1009,7 @@ function filmBurn() {
 
 
 // Run in recipe mode
-if (recipemode == true ) {
+if (legacy == false ) {
 	
 	var executeScript = true;
 	var isCancelled = false;
@@ -1487,7 +1487,7 @@ myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
 
 try {
 	
-	if (executeScript == true || recipemode == false) {
+	if (executeScript == true || legacy == true) {
 	
 		// Creates paths
 	
