@@ -36,10 +36,10 @@ var negative_variant_square = 1;
 var matted_crop = true;
 
 var border_width_35mm = 2;
-var border_width_645 = 1;
-var border_width_67 = 1;
-var border_width_45 = 1;
-var border_width_square = 1;
+var border_width_645 = 2;
+var border_width_67 = 2;
+var border_width_45 = 2;
+var border_width_square = 2;
 
 
 // Settings for film burns ---------------------------------------------
@@ -237,7 +237,7 @@ function processRecipe(runtimesettings) {
 	} else {
 		
 		executeScript = false;
-		alert("Sorry, but that recipe is faulty! Please check its syntax, its settings and then try again.");
+		alert("Sorry, but that recipe is faulty! Please check its syntax and its settings and then try again.");
 		
 	}
 }
@@ -1470,7 +1470,7 @@ app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background 
 var negativelayer = app.activeDocument.activeLayer;
 app.activeDocument.activeLayer.name = "negative"; // Names background layer
 
-
+// Colors
 var myColor_white = new SolidColor();  
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
@@ -1502,7 +1502,7 @@ myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
 
-
+// Half the gauge of these settings should be used
 border_width_35mm = border_width_35mm/2;
 border_width_645 = border_width_645/2;
 border_width_67 = border_width_67/2;
