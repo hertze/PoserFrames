@@ -230,9 +230,6 @@ function processRecipe(runtimesettings) {
 		movement_min = parseInt(thisRecipe[18]);
 		movement_max = parseInt(thisRecipe[19]);
 		movement_direction = thisRecipe[20];
-		try {
-			color_image = (thisRecipe[21].toLowerCase() === "true");
-		} catch (e) {}
 	
 	} else {
 		
@@ -299,14 +296,24 @@ function thisDirection() {
 }
 
 function colorCheck() {
-	
-	if (typeof color_image !== "undefined" ) {
-		// color_image is set
-		if (color_image == true) {
-			return "color";
-		} else {
-			return "bw";
+	// Extract keywords
+	var doc_keywords = app.activeDocument.info.keywords;
+	// Set variables from keywords
+	for(var a in doc_keywords){
+		if (doc_keywords[a].toString().match(/bw/)) {
+			var do_bw = true;
 		}
+		if (doc_keywords[a].toString().match(/color/)) {
+			var do_color = true;
+		}
+	}
+	// If keywords exist, use them. Fall back on sampler.
+	if (do_bw == true ) {
+		// bw
+		return "bw";
+	} else if (do_color == true) {
+		// color
+		return "color";
 	} else {
 		var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
 		if (theSampler.color.rgb.red == theSampler.color.rgb.green && theSampler.color.rgb.green == theSampler.color.rgb.blue) {
