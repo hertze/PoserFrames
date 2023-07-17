@@ -1593,7 +1593,6 @@ try {
 					
 					app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 					masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-					masklayer.applyRipple(-50, RippleSize.SMALL);
 					masklayer.applyGaussianBlur(doc_scale*10);
 			
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
