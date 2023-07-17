@@ -1019,6 +1019,24 @@ function filmBurn() {
 	
 }
 
+// Spatter
+
+function spatter(radius, smoothness) {
+	
+	var idGEfc = charIDToTypeID( "GEfc" );
+	var desc224 = new ActionDescriptor();
+	var idGEfk = charIDToTypeID( "GEfk" );
+	var idGEft = charIDToTypeID( "GEft" );
+	var idspatter = stringIDToTypeID( "spatter" );
+	desc224.putEnumerated( idGEfk, idGEft, idspatter );
+	var idsprayRadius = stringIDToTypeID( "sprayRadius" );
+	desc224.putInteger( idsprayRadius, radius );
+	var idsmoothness = stringIDToTypeID( "smoothness" );
+	desc224.putInteger( idsmoothness, smoothness );
+	executeAction( idGEfc, desc224, DialogModes.NO );
+	
+}
+
 
 // Run in recipe mode
 if (legacy == false ) {
@@ -1615,6 +1633,8 @@ try {
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
+				spatter(3,10);
+				
 			} else {
 				
 				// If artefacts == false, fill the whole layer with white
@@ -1628,7 +1648,6 @@ try {
 			adjustSelection(); //Scales and centers the selection
 			// Punches a hole in the mask layer with the shape of the mask
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);					
-			masklayer.applyRipple(-30, RippleSize.MEDIUM);
 		
 			if (eccentric == true) {
 				moveNeg_fancy();
