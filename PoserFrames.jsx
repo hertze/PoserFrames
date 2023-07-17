@@ -1588,35 +1588,24 @@ try {
 					decideRotation("subshadow");
 					adjustSelection(); //Scales and centers the selection
 					
-					// Adds and edge to the subshadow
-					var shadowedge = app.activeDocument.artLayers.add();
-					shadowedge.name = "shadowedge"; // Names mask layer.
-					shadowedge.blendMode = BlendMode.DARKEN;
-					
-					app.activeDocument.selection.stroke(myColor_black, doc_scale*2, StrokeLocation.OUTSIDE, ColorBlendMode.NORMAL, 30);
-					shadowedge.applyMotionBlur(0, 15);
+					// Adds and edge to the subshadow			
+					app.activeDocument.selection.stroke(myColor_black, doc_scale*2, StrokeLocation.OUTSIDE, ColorBlendMode.COLORBURN, 100);
+					masklayer.applyMotionBlur(0, 15);
 					
 					//throw "exit";
 					
-					shadowedge.merge();
-					
 					app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 					masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-					masklayer.applyRipple(-50, RippleSize.LARGE);
+					masklayer.applyRipple(-30, RippleSize.LARGE);
 					masklayer.applyGaussianBlur(doc_scale*10);
-					
-					// Break up the shadow layer a bit
-				
-					
+			
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
 					decideRotation("subshadow");
 					adjustSelection(); //Scales and centers the selection
 					
 					app.activeDocument.selection.invert();
 					app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
-					
-					masklayer.applyUnSharpMask(200, 10, 0);
-					
+					app.activeDocument.selection.stroke(myColor_white, doc_scale, StrokeLocation.OUTSIDE, ColorBlendMode.DISSOLVE, 80);
 					//throw "exit";
 				}
 				
@@ -1627,8 +1616,8 @@ try {
 				hipasslayer.applyHighPass(doc_scale);			
 				hipasslayer.merge();
 				app.activeDocument.selection.deselect();
-				masklayer.adjustLevels(0,249,generateRandomInteger(10,40)*0.01,0,255);
-				masklayer.applyGaussianBlur(feather*generateRandomInteger(10,20)*0.1);
+				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
+				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
 			} else {
 				
@@ -1642,7 +1631,6 @@ try {
 			decideRotation("mask");
 			adjustSelection(); //Scales and centers the selection
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR); // Punches a hole in the mask layer with the shape of the mask
-			
 			masklayer.applyRipple(-20, RippleSize.MEDIUM);
 		
 			if (eccentric == true) {
