@@ -1602,7 +1602,7 @@ try {
 					
 					app.activeDocument.selection.invert();
 					app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
-					app.activeDocument.selection.stroke(myColor_white, doc_scale, StrokeLocation.OUTSIDE, ColorBlendMode.DISSOLVE, 80);
+					//app.activeDocument.selection.stroke(myColor_white, doc_scale, StrokeLocation.OUTSIDE, ColorBlendMode.DISSOLVE, 80);
 					//throw "exit";
 				}
 				
@@ -1628,8 +1628,8 @@ try {
 			decideRotation("mask");
 			adjustSelection(); //Scales and centers the selection
 			// Punches a hole in the mask layer with the shape of the mask
-			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-			masklayer.applyRipple(-20, RippleSize.MEDIUM);
+			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);					
+			masklayer.applyRipple(-30, RippleSize.MEDIUM);
 		
 			if (eccentric == true) {
 				moveNeg_fancy();
