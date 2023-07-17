@@ -1590,13 +1590,10 @@ try {
 					
 					// Adds and edge to the subshadow			
 					app.activeDocument.selection.stroke(myColor_black, doc_scale*2, StrokeLocation.OUTSIDE, ColorBlendMode.COLORBURN, 100);
-					masklayer.applyMotionBlur(0, 15);
-					
-					//throw "exit";
 					
 					app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 					masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-					masklayer.applyRipple(-30, RippleSize.LARGE);
+					masklayer.applyRipple(-50, RippleSize.SMALL);
 					masklayer.applyGaussianBlur(doc_scale*10);
 			
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
@@ -1630,7 +1627,8 @@ try {
 			app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
 			decideRotation("mask");
 			adjustSelection(); //Scales and centers the selection
-			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR); // Punches a hole in the mask layer with the shape of the mask
+			// Punches a hole in the mask layer with the shape of the mask
+			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 			masklayer.applyRipple(-20, RippleSize.MEDIUM);
 		
 			if (eccentric == true) {
