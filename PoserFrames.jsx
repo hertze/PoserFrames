@@ -1633,8 +1633,6 @@ try {
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
-				spatter(3,10);
-				
 			} else {
 				
 				// If artefacts == false, fill the whole layer with white
@@ -1647,7 +1645,10 @@ try {
 			decideRotation("mask");
 			adjustSelection(); //Scales and centers the selection
 			// Punches a hole in the mask layer with the shape of the mask
-			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);					
+			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+			app.activeDocument.selection.deselect();
+			spatter(5,15);
+			masklayer.applyRipple(-20, RippleSize.MEDIUM);		
 		
 			if (eccentric == true) {
 				moveNeg_fancy();
