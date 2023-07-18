@@ -1616,11 +1616,9 @@ try {
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
 					decideRotation("subshadow");
 					adjustSelection(); //Scales and centers the selection
-					
+					//throw "exit";
 					app.activeDocument.selection.invert();
 					app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
-					//app.activeDocument.selection.stroke(myColor_white, doc_scale, StrokeLocation.OUTSIDE, ColorBlendMode.DISSOLVE, 80);
-					//throw "exit";
 				}
 				
 				// Adds a more organic look to the artefacts layer
@@ -1631,6 +1629,7 @@ try {
 				hipasslayer.merge();
 				app.activeDocument.selection.deselect();
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
+				spatter(10,15);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
 			} else {
@@ -1647,7 +1646,6 @@ try {
 			// Punches a hole in the mask layer with the shape of the mask
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 			app.activeDocument.selection.deselect();
-			spatter(5,15);
 			masklayer.applyRipple(-20, RippleSize.MEDIUM);		
 		
 			if (eccentric == true) {
