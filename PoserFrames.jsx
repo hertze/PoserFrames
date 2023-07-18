@@ -1019,23 +1019,7 @@ function filmBurn() {
 	
 }
 
-// Spatter
 
-function spatter(radius, smoothness) {
-	
-	var idGEfc = charIDToTypeID( "GEfc" );
-	var desc224 = new ActionDescriptor();
-	var idGEfk = charIDToTypeID( "GEfk" );
-	var idGEft = charIDToTypeID( "GEft" );
-	var idspatter = stringIDToTypeID( "spatter" );
-	desc224.putEnumerated( idGEfk, idGEft, idspatter );
-	var idsprayRadius = stringIDToTypeID( "sprayRadius" );
-	desc224.putInteger( idsprayRadius, radius );
-	var idsmoothness = stringIDToTypeID( "smoothness" );
-	desc224.putInteger( idsmoothness, smoothness );
-	executeAction( idGEfc, desc224, DialogModes.NO );
-	
-}
 
 // Crystalize
 
@@ -1641,7 +1625,6 @@ try {
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
 					decideRotation("subshadow");
 					adjustSelection(); //Scales and centers the selection
-					//throw "exit";
 					app.activeDocument.selection.invert();
 					app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
 				}
@@ -1654,9 +1637,9 @@ try {
 				hipasslayer.merge();
 				app.activeDocument.selection.deselect();
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-				//spatter(10,15);
 				crystallizeFilter(3);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
+				
 			} else {
 				
 				// If artefacts == false, fill the whole layer with white
