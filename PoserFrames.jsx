@@ -1037,6 +1037,16 @@ function spatter(radius, smoothness) {
 	
 }
 
+// Crystalize
+
+function crystallizeFilter(crystallizeValue) {
+	var idcrystallize = stringIDToTypeID( "crystallize" );
+	var desc569 = new ActionDescriptor();
+	var idcellSize = stringIDToTypeID( "cellSize" );
+	desc569.putInteger( idcellSize, crystallizeValue );
+	executeAction(idcrystallize, desc569, DialogModes.NO);
+}
+
 
 // Run in recipe mode
 if (legacy == false ) {
@@ -1644,9 +1654,9 @@ try {
 				hipasslayer.merge();
 				app.activeDocument.selection.deselect();
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-				spatter(10,15);
+				//spatter(10,15);
+				crystallizeFilter(3);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
-				
 			} else {
 				
 				// If artefacts == false, fill the whole layer with white
@@ -1661,7 +1671,8 @@ try {
 			// Punches a hole in the mask layer with the shape of the mask
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 			app.activeDocument.selection.deselect();
-			masklayer.applyRipple(-20, RippleSize.MEDIUM);		
+			// Add small undulations to mask lines
+			masklayer.applyRipple(-20, RippleSize.SMALL);		
 		
 			if (eccentric == true) {
 				moveNeg_fancy();
