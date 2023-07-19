@@ -758,20 +758,22 @@ function edge_snap(extra) {
 		if (ratio < 1) {
 			// Landscape
 			var delta_x = 0;
-			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] + extra) * -1;
+			var delta_y = selection_bounds[1] - doc_height /2 + extra;
 		} else {
 			// Portrait
-			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] + extra) * -1;
+			var delta_x = selection_bounds[0] - doc_width / 2 + extra;
 			var delta_y = 0;
 		}
 	} else {
 		if (ratio > 1) {
 			// Portrait
 			var delta_x = 0;
-			var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] + extra) * -1;
+			//var delta_y = ( ( selection_bounds[3] - selection_bounds[1] ) / 2 + selection_bounds[1] + extra) * -1;
+			var delta_y = selection_bounds[1] - doc_height /2 + extra;
 		} else {
 			// Landscape
-			var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] + extra) * -1;
+			//var delta_x = ( ( selection_bounds[2] - selection_bounds[0] ) / 2 + selection_bounds[0] + extra) * -1;
+			var delta_x = selection_bounds[0] - doc_width / 2 + extra;
 			var delta_y = 0;
 		}
 	}
@@ -847,12 +849,14 @@ function filmBurn() {
 		app.activeDocument.selection.fill(myColor_light);
 	}
 	
+	
+	
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
 	
 	if (monochrome_burn == false) {
-		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
+		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*200, true);
 		edge_snap(0);
 		app.activeDocument.selection.fill(myColor_orange);
 	}
@@ -860,29 +864,13 @@ function filmBurn() {
 	// Make selection and fill with white
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*600, true);
-	edge_snap(0);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*400, true);
+	edge_snap(doc_scale*-100);
 	app.activeDocument.selection.fill(myColor_light);
 	
-	// Adding contrast towards burn edge
-	var contrastlayer = app.activeDocument.artLayers.add();
-	contrastlayer.name = "contrast";
-	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-	contrastlayer.opacity = 60;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*3, true);
-	edge_snap(0);
-	app.activeDocument.selection.fill(myColor_black);
-	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*240, true);
-	edge_snap(doc_scale*120);
-	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-
-	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
-	contrastlayer.merge();
-
 	// Make and invert outer selection and clear it, but feathered
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*60, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
 	edge_snap(doc_scale*9);
 	app.activeDocument.selection.invert();
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
@@ -903,20 +891,17 @@ function filmBurn() {
 	var tearlayer = app.activeDocument.artLayers.add();
 	tearlayer.name = "tear";
 	tearlayer.blendMode = BlendMode.COLORDODGE;
-	tearlayer.opacity = 100;
+	tearlayer.opacity = 40;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*18, true);
-	edge_snap(doc_scale*-3);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*4, true);
+	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_red);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*40, true);
-	edge_snap(doc_scale*60);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
+	edge_snap(doc_scale*-110);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	app.activeDocument.selection.deselect();
-	
-	app.foregroundColor = myColor_orange;
-	app.backgroundColor = myColor_red;
 	
 	if (thisFormat == "645") {
 		if (ratio > 1) {
@@ -932,27 +917,44 @@ function filmBurn() {
 		}
 	}
 	
-	tearlayer.applyAddNoise(30*doc_scale, NoiseDistribution.GAUSSIAN, true);
+	spatterFilter(6, 5);
 	tearlayer.applyGaussianBlur(doc_scale);
-	
 	tearlayer.merge();
 	
 	// Fading it to white
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*100, true);
-	edge_snap(doc_scale * 600);
-	burnlayer.adjustBrightnessContrast(20,0);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*200, true);
+	edge_snap(doc_scale * -1300);
+	burnlayer.adjustBrightnessContrast(generateRandomInteger(40, 50),0);
+	
+	// Adding contrast towards burn edge
+	var contrastlayer = app.activeDocument.artLayers.add();
+	contrastlayer.name = "contrast";
+	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
+	contrastlayer.opacity = 60;
+	
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*3, true);
+	edge_snap(0);
+	app.activeDocument.selection.fill(myColor_black);
+	
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*240, true);
+	edge_snap(doc_scale*100);
+	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	
+	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
+	
+	contrastlayer.merge();
 	
 	// Move layer
 	
 	if (thisFormat == "645") {
-		var min_movement = Math.round(0.5 * burn_width * 0.2);
-		var max_movement = Math.round(0.5 * burn_width * 0.6);
+		var min_movement = 0;
+		var max_movement = Math.round(0.1 * burn_width);
 	} else if (thisFormat == "67" || thisFormat == "square") {
 		var min_movement = 0;
-		var max_movement = Math.round(0.5 * burn_width * 0.7);
+		var max_movement = Math.round(0.2 * burn_width);
 	} else {
 		var min_movement = 0;
-		var max_movement = Math.round(0.2 * burn_width);
+		var max_movement = Math.round(0.4 * burn_width);
 	}	
 	
 	if (thisFormat == "645") {
