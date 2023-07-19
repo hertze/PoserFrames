@@ -903,49 +903,33 @@ function filmBurn() {
 	var tearlayer = app.activeDocument.artLayers.add();
 	tearlayer.name = "tear";
 	tearlayer.blendMode = BlendMode.COLORDODGE;
-	tearlayer.opacity = 80;
+	tearlayer.opacity = 100;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*18, true);
 	edge_snap(doc_scale*-3);
-	app.activeDocument.selection.fill(myColor_black);
+	app.activeDocument.selection.fill(myColor_red);
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*40, true);
 	edge_snap(doc_scale*60);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
-	app.activeDocument.selection.deselect();	
+	app.activeDocument.selection.deselect();
 	
-	if (negative_size > 6500) {
-		// 7800px
-		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(doc_scale*4);
-		tearlayer.adjustLevels(85,125,1,0,255);
-		tearlayer.applyGaussianBlur(doc_scale);
-	}
-	else if (negative_size > 5500) {
-		// 6000px
-		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(doc_scale*4);
-		tearlayer.adjustLevels(80,128,1,0,255);
-		tearlayer.applyGaussianBlur(doc_scale);
-	} else if (negative_size > 4500) {
-		// 4800 px
-		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(doc_scale*4);
-		tearlayer.adjustLevels(80,140,1,0,255);
-		tearlayer.applyGaussianBlur(doc_scale);
-	} else if (negative_size > 3500) {
-		// 3600px
-		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(doc_scale*4);
-		tearlayer.adjustLevels(80,145,1,0,255);
-		tearlayer.applyGaussianBlur(doc_scale*1.5);
+	app.foregroundColor = myColor_orange;
+	app.backgroundColor = myColor_red;
+	
+	if (thisFormat == "645") {
+		if (ratio > 1) {
+			horisontalGrainFilter(50, 50);
+		} else {
+			verticalGrainFilter(50, 50);
+		}
 	} else {
-		// 2000px
-		tearlayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
-		tearlayer.applyGaussianBlur(doc_scale);
-		tearlayer.adjustLevels(40,255,1,0,255);
-		tearlayer.applyGaussianBlur(doc_scale*3);
+		if (ratio > 1) {
+			verticalGrainFilter(50, 50);
+		} else {
+			horisontalGrainFilter(50, 50);
+		}
 	}
 	
 	tearlayer.merge();
@@ -965,7 +949,7 @@ function filmBurn() {
 		var max_movement = Math.round(0.5 * burn_width * 0.7);
 	} else {
 		var min_movement = 0;
-		var max_movement = Math.round(0.5 * burn_width);
+		var max_movement = Math.round(0.2 * burn_width);
 	}	
 	
 	if (thisFormat == "645") {
@@ -1036,6 +1020,50 @@ function spatterFilter(radiusValue, smoothnessValue) {
 	var idsmoothness = stringIDToTypeID( "smoothness" );
 	desc533.putInteger( idsmoothness, smoothnessValue );
 	executeAction( idGEfc, desc533, DialogModes.NO );
+	
+}
+
+// Horisontal grain
+
+function horisontalGrainFilter(intensity, contrast) {
+	
+	var idGEfc = charIDToTypeID( "GEfc" );
+	var desc220 = new ActionDescriptor();
+	var idGEfk = charIDToTypeID( "GEfk" );
+	var idGEft = charIDToTypeID( "GEft" );
+	var idgrain = stringIDToTypeID( "grain" );
+	desc220.putEnumerated( idGEfk, idGEft, idgrain );
+	var idintensity = stringIDToTypeID( "intensity" );
+	desc220.putInteger( idintensity, intensity );
+	var idcenter = stringIDToTypeID( "center" );
+	desc220.putInteger( idcenter, contrast );
+	var idgrainType = stringIDToTypeID( "grainType" );
+	var idgrainType = stringIDToTypeID( "grainType" );
+	var idgrainHorizontal = stringIDToTypeID( "grainHorizontal" );
+	desc220.putEnumerated( idgrainType, idgrainType, idgrainHorizontal );
+	executeAction( idGEfc, desc220, DialogModes.NO );
+	
+}
+
+// Vertical grain
+
+function verticalGrainFilter(intensity, contrast) {
+	
+	var idGEfc = charIDToTypeID( "GEfc" );
+	var desc248 = new ActionDescriptor();
+	var idGEfk = charIDToTypeID( "GEfk" );
+	var idGEft = charIDToTypeID( "GEft" );
+	var idgrain = stringIDToTypeID( "grain" );
+	desc248.putEnumerated( idGEfk, idGEft, idgrain );
+	var idintensity = stringIDToTypeID( "intensity" );
+	desc248.putInteger( idintensity, intensity );
+	var idcenter = stringIDToTypeID( "center" );
+	desc248.putInteger( idcenter, contrast );
+	var idgrainType = stringIDToTypeID( "grainType" );
+	var idgrainType = stringIDToTypeID( "grainType" );
+	var idgrainVertical = stringIDToTypeID( "grainVertical" );
+	desc248.putEnumerated( idgrainType, idgrainType, idgrainVertical );
+	executeAction( idGEfc, desc248, DialogModes.NO );
 	
 }
 
