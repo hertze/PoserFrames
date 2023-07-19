@@ -924,9 +924,12 @@ function filmBurn() {
 	tearlayer.merge();
 	
 	// Fading it to white
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*200, true);
-	edge_snap(doc_scale * -1300);
-	burnlayer.adjustBrightnessContrast(generateRandomInteger(40, 50),0);
+	try {
+		// Sometimes, when this white is positioned outside the image are, it throws a general Photoshop error. So we use a try clause.
+		app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*200, true);
+		edge_snap(doc_scale * -1300);
+		burnlayer.adjustBrightnessContrast(generateRandomInteger(40, 50),0);
+	} catch(error) {}
 	
 	// Adding contrast towards burn edge
 	var contrastlayer = app.activeDocument.artLayers.add();
