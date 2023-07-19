@@ -893,7 +893,7 @@ function filmBurn() {
 	tearlayer.blendMode = BlendMode.COLORDODGE;
 	tearlayer.opacity = 40;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*4, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*10, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_red);
 	
