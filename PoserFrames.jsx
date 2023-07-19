@@ -1021,14 +1021,22 @@ function filmBurn() {
 
 
 
-// Crystalize
+// Spatter 
 
-function crystallizeFilter(crystallizeValue) {
-	var idcrystallize = stringIDToTypeID( "crystallize" );
-	var desc569 = new ActionDescriptor();
-	var idcellSize = stringIDToTypeID( "cellSize" );
-	desc569.putInteger( idcellSize, crystallizeValue );
-	executeAction(idcrystallize, desc569, DialogModes.NO);
+function spatterFilter(radiusValue, smoothnessValue) {
+	
+	var idGEfc = charIDToTypeID( "GEfc" );
+	var desc533 = new ActionDescriptor();
+	var idGEfk = charIDToTypeID( "GEfk" );
+	var idGEft = charIDToTypeID( "GEft" );
+	var idspatter = stringIDToTypeID( "spatter" );
+	desc533.putEnumerated( idGEfk, idGEft, idspatter );
+	var idsprayRadius = stringIDToTypeID( "sprayRadius" );
+	desc533.putInteger( idsprayRadius, radiusValue );
+	var idsmoothness = stringIDToTypeID( "smoothness" );
+	desc533.putInteger( idsmoothness, smoothnessValue );
+	executeAction( idGEfc, desc533, DialogModes.NO );
+	
 }
 
 
@@ -1616,7 +1624,7 @@ try {
 					adjustSelection(); //Scales and centers the selection
 					
 					// Adds and edge to the subshadow			
-					app.activeDocument.selection.stroke(myColor_black, doc_scale*2, StrokeLocation.OUTSIDE, ColorBlendMode.COLORBURN, 100);
+					app.activeDocument.selection.stroke(myColor_black, doc_scale*3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
 					
 					app.activeDocument.selection.deselect(); // Apply noise to the whole layer
 					masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
@@ -1637,7 +1645,6 @@ try {
 				hipasslayer.merge();
 				app.activeDocument.selection.deselect();
 				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-				crystallizeFilter(3);
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
 			} else {
@@ -1669,10 +1676,17 @@ try {
 			
 			app.activeDocument.flatten(); // Flatten all layers
 			
+			// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
+			app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
+			decideRotation("mask");
+			adjustSelection();
+			app.activeDocument.selection.invert();
+			spatterFilter(2, 5);
+			
+			
 		} else {
 			
 			// CROP MODE
-			
 			
 			// Decide new document width
 			if (thisFormat == "35mm") {
