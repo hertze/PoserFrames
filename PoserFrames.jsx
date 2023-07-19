@@ -905,6 +905,7 @@ function filmBurn() {
 	
 	app.activeDocument.selection.deselect();
 	
+	// Adds texture to the edge
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			horisontalGrainFilter(50, 50);
@@ -918,9 +919,7 @@ function filmBurn() {
 			horisontalGrainFilter(50, 50);
 		}
 	}
-	
-	spatterFilter(6, 5);
-	tearlayer.applyGaussianBlur(doc_scale);
+	spatterFilter(15, 5);
 	tearlayer.merge();
 	
 	// Fading it to white
