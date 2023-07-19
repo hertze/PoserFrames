@@ -858,7 +858,7 @@ function filmBurn() {
 	createPath(thisorangeBurn, "orangeburn");
 	
 	if (monochrome_burn == false) {
-		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*200, true);
+		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
 		edge_snap(0);
 		app.activeDocument.selection.fill(myColor_orange);
 	}
@@ -866,8 +866,8 @@ function filmBurn() {
 	// Make selection and fill with white
 	var thislightBurn = lightburn[generateRandomInteger(0, lightburn.length)];
 	createPath(thislightBurn, "lightburn");
-	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*400, true);
-	edge_snap(doc_scale*-100);
+	app.activeDocument.pathItems.getByName('lightburn').makeSelection(doc_scale*600, true);
+	edge_snap(doc_scale*-200);
 	app.activeDocument.selection.fill(myColor_light);
 	
 	
