@@ -932,6 +932,9 @@ function filmBurn() {
 		}
 	}
 	
+	tearlayer.applyAddNoise(30*doc_scale, NoiseDistribution.GAUSSIAN, true);
+	tearlayer.applyGaussianBlur(doc_scale);
+	
 	tearlayer.merge();
 	
 	// Fading it to white
