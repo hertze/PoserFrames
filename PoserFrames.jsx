@@ -843,16 +843,20 @@ function filmBurn() {
 		}
 	}
 	
+	
 	// Color rectangle and blur the edge somewhat
 	app.activeDocument.selection.selectAll();
 	if (monochrome_burn == false) {
-		app.activeDocument.selection.fill(myColor_red);
+		if (generateRandomInteger(1, 3)<3) {
+			app.activeDocument.selection.fill(myColor_red);
+		} else {
+			app.activeDocument.selection.fill(myColor_orange);
+		}
 	} else {
 		app.activeDocument.selection.fill(myColor_light);
 	}
 	
-	
-	
+
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
 	createPath(thisorangeBurn, "orangeburn");
@@ -936,17 +940,17 @@ function filmBurn() {
 	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
 	contrastlayer.opacity = 60;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*3, true);
-	edge_snap(0);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
+	edge_snap(10);
 	app.activeDocument.selection.fill(myColor_black);
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*240, true);
-	edge_snap(doc_scale*100);
+	edge_snap(doc_scale*-100);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
-	
-	contrastlayer.merge();
+
+	//contrastlayer.merge();
 	
 	// Move layer
 	
@@ -981,6 +985,7 @@ function filmBurn() {
 		}
 	}
 	burnlayer.translate(movement_horisontal, movement_vertical);
+	contrastlayer.translate(movement_horisontal, movement_vertical);
 	
 	app.activeDocument.selection.selectAll();
 	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
