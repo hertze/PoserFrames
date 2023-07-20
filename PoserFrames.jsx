@@ -904,7 +904,7 @@ function filmBurn() {
 	app.activeDocument.selection.fill(myColor_red);
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
-	edge_snap(doc_scale*-110);
+	edge_snap(doc_scale*-150);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	app.activeDocument.selection.deselect();
@@ -938,7 +938,7 @@ function filmBurn() {
 	var contrastlayer = app.activeDocument.artLayers.add();
 	contrastlayer.name = "contrast";
 	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-	contrastlayer.opacity = 60;
+	contrastlayer.opacity = 20;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
 	edge_snap(10);
@@ -948,11 +948,7 @@ function filmBurn() {
 	edge_snap(doc_scale*-100);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
-	MoveLayerTo(contrastlayer, movement_horisontal, movement_vertical);
-
-	//contrastlayer.merge();
-	
-	// Move layer
+	// Move layers
 	
 	if (thisFormat == "645") {
 		var min_movement = 0;
