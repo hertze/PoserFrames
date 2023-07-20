@@ -899,7 +899,7 @@ function filmBurn() {
 	tearlayer.blendMode = BlendMode.COLORDODGE;
 	tearlayer.opacity = 40;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*10, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*8, true);
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_red);
 	
@@ -923,6 +923,7 @@ function filmBurn() {
 			horisontalGrainFilter(50, 50);
 		}
 	}
+	tearlayer.applyRipple(200, RippleSize.LARGE);
 	spatterFilter(15, 5);
 	tearlayer.merge();
 	
@@ -938,14 +939,14 @@ function filmBurn() {
 	var contrastlayer = app.activeDocument.artLayers.add();
 	contrastlayer.name = "contrast";
 	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-	contrastlayer.opacity = 20;
+	contrastlayer.opacity = 30;
 	
 	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
 	edge_snap(10);
 	app.activeDocument.selection.fill(myColor_black);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*240, true);
-	edge_snap(doc_scale*-100);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
+	edge_snap(doc_scale*-50);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	// Move layers
