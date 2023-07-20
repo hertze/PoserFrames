@@ -903,7 +903,7 @@ function filmBurn() {
 	edge_snap(0);
 	app.activeDocument.selection.fill(myColor_red);
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*80, true);
 	edge_snap(doc_scale*-150);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
