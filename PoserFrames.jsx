@@ -863,7 +863,7 @@ function filmBurn() {
 	createPath(thisorangeBurn, "orangeburn");
 	
 	if (monochrome_burn == false) {
-		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*300, true);
+		app.activeDocument.pathItems.getByName('orangeburn').makeSelection(doc_scale*100, true);
 		edge_snap(0);
 		app.activeDocument.selection.fill(myColor_orange);
 	}
@@ -885,11 +885,11 @@ function filmBurn() {
 	
 	if (negative_size > 6500) {
 		// 7800px
-		spatterFilter(25, 12);
+		spatterFilter(25, 10);
 	}
 	else if (negative_size > 5500) {
 		// 6000px
-		spatterFilter(25, 12);
+		spatterFilter(25, 10);
 		//app.activeDocument.activeLayer.applyGaussianBlur(doc_scale*2);
 	} else if (negative_size > 4500) {
 		// 4800 px
@@ -918,10 +918,10 @@ function filmBurn() {
 		var contrastlayer = app.activeDocument.artLayers.add();
 		contrastlayer.name = "contrast";
 		contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-		contrastlayer.opacity = 30;
+		contrastlayer.opacity = 40;
 		
 		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*10, true);
-		edge_snap(doc_scale*0);
+		edge_snap(0);
 		app.activeDocument.selection.fill(myColor_black);
 		
 		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
@@ -967,6 +967,8 @@ function filmBurn() {
 		contrastlayer.translate(movement_horisontal, movement_vertical);
 	}
 	
+	// Add some more organicness
+	burnlayer.adjustLevels(0,255,generateRandomInteger(10,30)*0.1,0,255);
 	
 	if (burn_at_opposite_edge == true) {
 		var layerPosition = burnlayer.bounds;
