@@ -855,8 +855,6 @@ function filmBurn() {
 	} else {
 		app.activeDocument.selection.fill(myColor_light);
 	}
-	
-	//app.activeDocument.activeLayer.applyAddNoise(Math.round(doc_scale), NoiseDistribution.GAUSSIAN, true);
 
 	// Make selection and fill with orange
 	var thisorangeBurn = orangeburn[generateRandomInteger(0, orangeburn.length)];
@@ -890,15 +888,12 @@ function filmBurn() {
 	else if (negative_size > 5500) {
 		// 6000px
 		spatterFilter(25, 10);
-		//app.activeDocument.activeLayer.applyGaussianBlur(doc_scale*2);
 	} else if (negative_size > 4500) {
 		// 4800 px
 		spatterFilter(20, 10);
-		//app.activeDocument.activeLayer.applyGaussianBlur(doc_scale*2);
 	} else if (negative_size > 3500) {
 		// 3600px
 		spatterFilter(15, 10);
-		//app.activeDocument.activeLayer.applyGaussianBlur(doc_scale*2);
 	} else {
 		// 2000px
 		spatterFilter(15, 10);
