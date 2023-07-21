@@ -918,7 +918,7 @@ function filmBurn() {
 		var contrastlayer = app.activeDocument.artLayers.add();
 		contrastlayer.name = "contrast";
 		contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-		contrastlayer.opacity = 40;
+		contrastlayer.opacity = 50;
 		
 		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*10, true);
 		edge_snap(0);
@@ -986,10 +986,32 @@ function filmBurn() {
 		} else {
 			if (ratio > 1) {
 				burnlayer.resize(undefined,-100);
-				burnlayer.translate(0, app.activeDocument.height - diff_y);			
+				burnlayer.translate(0, app.activeDocument.height - diff_y);
 			} else {
 				burnlayer.resize(-100,undefined);
-				burnlayer.translate(app.activeDocument.width - diff_x, 0);			
+				burnlayer.translate(app.activeDocument.width - diff_x, 0);	
+			}
+		}
+		
+		var layerPosition = contrastlayer.bounds;
+		var diff_x = layerPosition[2] - Math.abs(layerPosition[0]);
+		var diff_y = layerPosition[3] - Math.abs(layerPosition[1]);
+		
+		if (thisFormat == "645") {
+			if (ratio > 1) {
+				contrastlayer.resize(-100,undefined);
+				contrastlayer.translate(app.activeDocument.width - diff_x, 0);
+			} else {
+				contrastlayer.resize(undefined,-100);
+				contrastlayer.translate(0, app.activeDocument.height - diff_y);
+			}
+		} else {
+			if (ratio > 1) {
+				contrastlayer.resize(undefined,-100);
+				contrastlayer.translate(0, app.activeDocument.height - diff_y);	
+			} else {
+				contrastlayer.resize(-100,undefined);
+				contrastlayer.translate(app.activeDocument.width - diff_x, 0);		
 			}
 		}
 		
