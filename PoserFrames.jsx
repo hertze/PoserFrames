@@ -920,8 +920,8 @@ function filmBurn() {
 		contrastlayer.blendMode = BlendMode.SOFTLIGHT;
 		contrastlayer.opacity = 30;
 		
-		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
-		edge_snap(doc_scale*150);
+		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*10, true);
+		edge_snap(doc_scale*0);
 		app.activeDocument.selection.fill(myColor_black);
 		
 		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
