@@ -933,13 +933,13 @@ function filmBurn() {
 
 	if (thisFormat == "645") {
 		var min_movement = 0;
-		var max_movement = Math.round(0.1 * burn_width);
+		var max_movement = Math.round(0.2 * burn_width);
 	} else if (thisFormat == "67" || thisFormat == "square") {
 		var min_movement = 0;
-		var max_movement = Math.round(0.2 * burn_width);
+		var max_movement = Math.round(0.3 * burn_width);
 	} else {
 		var min_movement = 0;
-		var max_movement = Math.round(0.4 * burn_width);
+		var max_movement = Math.round(0.5 * burn_width);
 	}	
 	
 	if (thisFormat == "645") {
