@@ -896,35 +896,55 @@ function filmBurn() {
 		
 	var tearlayer = app.activeDocument.artLayers.add();
 	tearlayer.name = "tear";
-	tearlayer.blendMode = BlendMode.COLORDODGE;
+	tearlayer.blendMode = BlendMode.SOFTLIGHT;
 	tearlayer.opacity = 40;
 	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*8, true);
-	edge_snap(0);
-	app.activeDocument.selection.fill(myColor_red);
-	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*80, true);
-	edge_snap(doc_scale*-150);
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*5, true);
+	edge_snap(doc_scale*-20);
+	app.activeDocument.selection.fill(myColor_black);
+
+	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*70, true);
+	edge_snap(doc_scale*-120);
 	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	
 	app.activeDocument.selection.deselect();
-	
-	// Adds texture to the edge
-	if (thisFormat == "645") {
-		if (ratio > 1) {
-			horisontalGrainFilter(50, 50);
-		} else {
-			verticalGrainFilter(50, 50);
-		}
-	} else {
-		if (ratio > 1) {
-			verticalGrainFilter(50, 50);
-		} else {
-			horisontalGrainFilter(50, 50);
-		}
+	if (negative_size > 6500) {
+		// 7800px
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(doc_scale*4);
+		tearlayer.adjustLevels(85,125,1,0,255);
+		tearlayer.applyGaussianBlur(doc_scale);
 	}
-	tearlayer.applyRipple(200, RippleSize.LARGE);
+	else if (negative_size > 5500) {
+		// 6000px
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(doc_scale*4);
+		tearlayer.adjustLevels(80,128,1,0,255);
+		tearlayer.applyGaussianBlur(doc_scale);
+	} else if (negative_size > 4500) {
+		// 4800 px
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(doc_scale*4);
+		tearlayer.adjustLevels(80,140,1,0,255);
+		tearlayer.applyGaussianBlur(doc_scale);
+	} else if (negative_size > 3500) {
+		// 3600px
+		tearlayer.applyAddNoise(200, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(doc_scale*4);
+		tearlayer.adjustLevels(80,145,1,0,255);
+		tearlayer.applyGaussianBlur(doc_scale*1.5);
+	} else {
+		// 2000px
+		tearlayer.applyAddNoise(100, NoiseDistribution.GAUSSIAN, true);
+		tearlayer.applyGaussianBlur(doc_scale);
+		tearlayer.adjustLevels(40,255,1,0,255);
+		tearlayer.applyGaussianBlur(doc_scale*3);
+	}
+	
+	//tearlayer.applyRipple(200, RippleSize.LARGE);
 	spatterFilter(15, 5);
+	
+	throw("s");
 	tearlayer.merge();
 	
 	// Fading it to white
@@ -936,21 +956,22 @@ function filmBurn() {
 	} catch(error) {}
 	
 	// Adding contrast towards burn edge
-	var contrastlayer = app.activeDocument.artLayers.add();
-	contrastlayer.name = "contrast";
-	contrastlayer.blendMode = BlendMode.SOFTLIGHT;
-	contrastlayer.opacity = 30;
-	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
-	edge_snap(10);
-	app.activeDocument.selection.fill(myColor_black);
-	
-	app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*50, true);
-	edge_snap(doc_scale*-50);
-	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	
+	if (doc_scale > 0.65) {
+		var contrastlayer = app.activeDocument.artLayers.add();
+		contrastlayer.name = "contrast";
+		contrastlayer.blendMode = BlendMode.SOFTLIGHT;
+		contrastlayer.opacity = 30;
+		
+		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*30, true);
+		edge_snap(doc_scale*30);
+		app.activeDocument.selection.fill(myColor_black);
+		
+		app.activeDocument.pathItems.getByName('redburn').makeSelection(doc_scale*150, true);
+		edge_snap(doc_scale*10);
+		app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	}
 	// Move layers
-	
+
 	if (thisFormat == "645") {
 		var min_movement = 0;
 		var max_movement = Math.round(0.1 * burn_width);
@@ -981,11 +1002,16 @@ function filmBurn() {
 			var movement_vertical = 0;
 		}
 	}
-	burnlayer.translate(movement_horisontal, movement_vertical);
-	contrastlayer.translate(movement_horisontal, movement_vertical);
 	
-	app.activeDocument.selection.selectAll();
-	app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
+	burnlayer.translate(movement_horisontal, movement_vertical);
+	if (doc_scale > 0.65) {
+		contrastlayer.translate(movement_horisontal, movement_vertical);
+	}
+	
+	//app.activeDocument.selection.selectAll();
+	//app.activeDocument.selection.rotateBoundary((15-generateRandomInteger(1,15))/10, AnchorPosition.MIDDLECENTER);
+	
+	
 	
 	if (burn_at_opposite_edge == true) {
 		var layerPosition = burnlayer.bounds;
