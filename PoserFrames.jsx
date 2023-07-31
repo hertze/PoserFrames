@@ -697,7 +697,7 @@ function moveNeg_fancy() {
 				var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.008 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * 0.009 * thisDirection();
 			} else if (mask_variant_35mm == 3) {
-				var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.016 * -1 * thisDirection();
+				var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_width * 0.018 * -1 * thisDirection();
 				var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.011 * doc_height * 0.018 * thisDirection();
 			} else if (mask_variant_35mm == 2) {
 				var movement_horisontal = generateRandomInteger(movement_min, movement_max) * 0.015 * doc_width * 0.017 * -1 * thisDirection();
