@@ -68,10 +68,10 @@ var mask_flip_probaility = 20;
 <name>Poserframes</name> 
 <menu>automate</menu>
 <enableinfo>true</enableinfo>
-<eventid>f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3</eventid>
+<eventid>12116c93-b5f3-463f-90af-02d680e4fde6</eventid>
 <terminology><![CDATA[<< /Version 1
 					   /Events <<
-					   /f35c20c1-2a5c-45d2-98e2-fead0d2bc8c3 [(Poserframes) <<
+					   /12116c93-b5f3-463f-90af-02d680e4fde6 [(Poserframes) <<
 					   /recipe [(Recipe) /string]
 					   /savestatus [(Save) /boolean]
 					   >>]
