@@ -199,7 +199,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){3}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];(true;|false;)([1-6];){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){3}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 	
