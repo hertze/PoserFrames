@@ -1271,11 +1271,11 @@ myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
 
 // Half the gauge of these settings should be used
-border_width_35mm = border_width_35mm/2;
-border_width_645 = border_width_645/2;
-border_width_67 = border_width_67/2;
-border_width_45 = border_width_45/2;
-border_width_square = border_width_square/2;
+border_width_35mm = border_width_35mm/10;
+border_width_645 = border_width_645/10;
+border_width_67 = border_width_67/10;
+border_width_45 = border_width_45/10;
+border_width_square = border_width_square/10;
 
 
 //
