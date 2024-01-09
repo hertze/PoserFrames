@@ -18,7 +18,6 @@ var save = false;
 // General settings ----------------------------------------------------
 
 var fancy = true;
-var eccentric = false;
 
 // Settings for fancy borders
 
@@ -200,30 +199,29 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){3}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 	
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
 		fancy = (thisRecipe[0].toLowerCase() === "true");
-		eccentric = (thisRecipe[1].toLowerCase() === "true");
-		artifacts = (thisRecipe[2].toLowerCase() === "true");
-		mask_variant_35mm = thisRecipe[3];
-		mask_variant_645 = thisRecipe[4];
-		mask_variant_67 = thisRecipe[5];
-		mask_variant_45 = thisRecipe[6];
-		mask_variant_square = thisRecipe[7];
-		negative_variant_square = thisRecipe[8];
-		negative_variant_645 = thisRecipe[9];
-		matted_crop = (thisRecipe[10].toLowerCase() === "true");
-		border_width_35mm = parseInt(thisRecipe[11]);
-		border_width_645 = parseInt(thisRecipe[12]);
-		border_width_67 = parseInt(thisRecipe[13]);
-		border_width_45 = parseInt(thisRecipe[14]);
-		border_width_square = parseInt(thisRecipe[15]);
-		movement_min = parseInt(thisRecipe[16]);
-		movement_max = parseInt(thisRecipe[17]);
-		movement_direction = thisRecipe[18];
+		artifacts = (thisRecipe[1].toLowerCase() === "true");
+		mask_variant_35mm = thisRecipe[2];
+		mask_variant_645 = thisRecipe[3];
+		mask_variant_67 = thisRecipe[4];
+		mask_variant_45 = thisRecipe[5];
+		mask_variant_square = thisRecipe[6];
+		negative_variant_square = thisRecipe[7];
+		negative_variant_645 = thisRecipe[8];
+		matted_crop = (thisRecipe[9].toLowerCase() === "true");
+		border_width_35mm = parseInt(thisRecipe[10]);
+		border_width_645 = parseInt(thisRecipe[11]);
+		border_width_67 = parseInt(thisRecipe[12]);
+		border_width_45 = parseInt(thisRecipe[13]);
+		border_width_square = parseInt(thisRecipe[14]);
+		movement_min = parseInt(thisRecipe[15]);
+		movement_max = parseInt(thisRecipe[16]);
+		movement_direction = thisRecipe[17];
 	
 	} else {
 		
@@ -1406,7 +1404,7 @@ try {
 			// Add small undulations to mask lines
 			masklayer.applyRipple(-20, RippleSize.SMALL);		
 		
-			if (eccentric == true) {
+			if (movement_min > 0 && movement_max > 0) {
 				moveNeg_fancy();
 			}
 			
@@ -1491,8 +1489,8 @@ try {
 			
 			createBackdropLayer();
 			
-			if (eccentric == true) {
-				moveNeg();
+			if (movement_min > 0 && movement_max > 0) {
+				moveNeg_fancy();
 			}
 			
 			app.activeDocument.flatten(); // Flatten all layers
