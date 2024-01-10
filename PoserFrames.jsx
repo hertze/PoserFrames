@@ -1055,6 +1055,8 @@ var maskSquare = [];
 var shadowSquare = [];
 var subshadowSquare = [];
 
+// Negative
+
 
 if (negative_variant_square == 2) {
 	
@@ -1474,7 +1476,7 @@ try {
 			adjustSelection(); //Scales and centers the selection
 			
 			// For 645 we need to move the negative shape and not the entire layer
-			if (thisFormat == "645" && eccentric == true) {
+			if (thisFormat == "645" && movement_max + movement_min > 0) {
 				if (ratio > 1) {
 					var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00005 * doc_height * thisDirection();
 					app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
