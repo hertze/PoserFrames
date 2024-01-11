@@ -28,7 +28,6 @@ var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
 var mask_variant_square = 1;
-
 var negative_variant_square = 1;
 var negative_variant_645 = 1;
 
@@ -36,7 +35,6 @@ var negative_variant_645 = 1;
 // Settings for conservative (cropped) borders) ------------------------
 
 var matted_crop = true;
-
 var border_width_35mm = 2;
 var border_width_645 = 2;
 var border_width_67 = 2;
@@ -50,17 +48,13 @@ var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
-
 var movement_min = 10;
 var movement_max = 100;
 var movement_direction = "random";
-
 var mask_flip_probaility = 20;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
-
-
 
 /*
 // BEGIN__HARVEST_EXCEPTION_ZSTRING
@@ -84,14 +78,12 @@ var mask_flip_probaility = 20;
 
 function displayDialog(thisRecipe, saveStatus, runmode) {
 	// Display dialog box.
-	
 	var dialog = new Window("dialog");
 	dialog.text = "Poserframes";
 	dialog.orientation = "column";
 	dialog.alignChildren = ["left", "top"];
 	dialog.spacing = 10;
 	dialog.margins = 20;
-
 
 	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
 	if (runmode != "edit") {
@@ -114,7 +106,6 @@ function displayDialog(thisRecipe, saveStatus, runmode) {
 	}
 
 	var buttons = dialog.add( "group" );
-
 	var submit = buttons.add("button", undefined, undefined, { name: "submit" });
 	submit.text = "Use this recipe";
 	
@@ -156,7 +147,6 @@ function getRecipe() {
 			d.putString(stringIDToTypeID('recipe'), result.recipe);
 			d.putString(stringIDToTypeID('savestatus'), result.savestatus);
 			app.playbackParameters = d;		
-			
 			return result;
 		}
 	}
@@ -189,12 +179,9 @@ function getRecipe() {
 
 function processRecipe(runtimesettings) {
 	// Process the recipe and change settings
-	
 	var thisRecipe = runtimesettings.recipe;
 	var saveStatus = runtimesettings.savestatus;
-	
 	save = (saveStatus.toLowerCase() === "true");
-	
 	thisRecipe = thisRecipe.replace(/\s+/g, ""); // Removes spaces
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
@@ -202,7 +189,6 @@ function processRecipe(runtimesettings) {
 	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
-	
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
 		fancy = (thisRecipe[0].toLowerCase() === "true");
 		artifacts = (thisRecipe[1].toLowerCase() === "true");
@@ -222,23 +208,18 @@ function processRecipe(runtimesettings) {
 		movement_min = parseInt(thisRecipe[15]);
 		movement_max = parseInt(thisRecipe[16]);
 		movement_direction = thisRecipe[17];
-	
 	} else {
-		
 		executeScript = false;
 		alert("Sorry, but that recipe is faulty! Please check its syntax and its settings and then try again.");
-		
 	}
 }
 
 
 function saveClose() {
-	
 	var file_ending = app.activeDocument.name.split('.').pop().toLowerCase();
 	var fPath = app.activeDocument.path;
 	
 	if (file_ending == "tif" || file_ending == "tiff") {
-		
 		// Save out the image as tiff
 		var tiffFile = new File(fPath);
 		tiffSaveOptions = new TiffSaveOptions();
@@ -246,9 +227,7 @@ function saveClose() {
 		tiffSaveOptions.layers = false;
 		tiffSaveOptions.embedColorProfile = true;
 		app.activeDocument.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
-		
 	} else {
-	
 		// Save out the image as jpeg
 		var jpgFile = new File(fPath);
 		jpgSaveOptions = new JPEGSaveOptions();
@@ -257,22 +236,17 @@ function saveClose() {
 		jpgSaveOptions.matte = MatteType.NONE;
 		jpgSaveOptions.quality = 12;
 		app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
-		
 	}
-	
 	app.activeDocument.close();
-	
 }
 
 
 function generateRandomInteger(min, max) {
-	
 	// Generate a number between min and max, including max
 	return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function thisDirection() {
-	
 	// Randomly assign 1 or -1 for direction, unless random_direction is set to false.
 	if (movement_direction == "bottomleft") {
 		return -1;
@@ -317,7 +291,6 @@ function colorCheck() {
 }
 
 function createBackdropLayer() {
-	
 	// Create black backdrop and move to background
 	var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
 	var backdrop = app.activeDocument.artLayers.add();
@@ -328,7 +301,6 @@ function createBackdropLayer() {
 }
 
 function format(){
-	
 	// Determine format
 	if (doc_height > doc_width) {
 		if (doc_height/doc_width < 1.1) {
@@ -364,14 +336,11 @@ function format(){
 			var format = "35mm";
 		}
 	}
-
 	return format;
-	
 }
 
 function choosePath(pathKind) {
 	// Choosing the path
-	
 	if (thisFormat == "square") {
 		if (pathKind == "negative") {
 			var stagedPath = negativeSquare[generateRandomInteger(0, negativeSquare.length)];
@@ -427,21 +396,17 @@ function choosePath(pathKind) {
 			var stagedPath = mask35mm[generateRandomInteger(0, mask35mm.length)];
 		}
 	}
-	
 	if (typeof stagedPath !== 'undefined') {
 		return stagedPath;
 	} else {
 		return false;
 	}
-	
-	
 }
 
 function createPath(thisPath, pathName) {
 	// Build the path
 	var thisPathPointInfo = thisPath.split(";");
 	var thisPathPointInfoProperties = [];
-	
 	var p = [];
 	var pth = [];
 	
@@ -462,18 +427,15 @@ function createPath(thisPath, pathName) {
 
 		p[i].typename = thisPathPointInfoProperties[4];
 	}
-
 	pth[0] = new SubPathInfo();
 	pth[0].operation = ShapeOperation.SHAPEXOR;
 	pth[0].closed = true;
 	pth[0].entireSubPath = p;
 	app.activeDocument.pathItems.add(pathName, pth);
-	
 }
 
 
 function decideRotation(pathKind) {
-
 	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
@@ -501,7 +463,6 @@ function decideRotation(pathKind) {
 
 
 function adjustSelection(side) {
-	
 	if (side > 0) {
 		var scale = side / 3600;
 		app.activeDocument.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
@@ -514,21 +475,17 @@ function adjustSelection(side) {
 	var delta_x = app.activeDocument.width / 2 - middle_horisontal;
 	var delta_y = app.activeDocument.height / 2 - middle_vertical;
 	app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(delta_y, "px"));
-	
 }
 
 function MoveLayerTo(fLayer,fX,fY) {
-
-  var Position = fLayer.bounds;
-  Position[0] = fX - Position[0];
-  Position[1] = fY - Position[1];
-  fLayer.translate(-Position[0],-Position[1]);
-  
+  	var Position = fLayer.bounds;
+  	Position[0] = fX - Position[0];
+  	Position[1] = fY - Position[1];
+  	fLayer.translate(-Position[0],-Position[1]);
 }
 
 function moveNeg() {
 	// Calculate the movement of the negative layer
-			
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
@@ -580,7 +537,6 @@ function moveNeg() {
 
 function moveNeg_fancy() {
 	// Calculate the movement of the negative layer
-			
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
@@ -727,11 +683,8 @@ function moveNeg_fancy() {
 }
 
 
-
-// Spatter 
-
 function spatterFilter(radiusValue, smoothnessValue) {
-	
+	// Spatter filter
 	var idGEfc = charIDToTypeID( "GEfc" );
 	var desc533 = new ActionDescriptor();
 	var idGEfk = charIDToTypeID( "GEfk" );
@@ -743,20 +696,16 @@ function spatterFilter(radiusValue, smoothnessValue) {
 	var idsmoothness = stringIDToTypeID( "smoothness" );
 	desc533.putInteger( idsmoothness, smoothnessValue );
 	executeAction( idGEfc, desc533, DialogModes.NO );
-	
 }
 
 
 // Run in recipe mode
 if (legacy == false ) {
-	
 	var executeScript = true;
 	var isCancelled = false;
 	var runtimesettings = getRecipe();
-	
 	//isCancelled ? 'cancel' : undefined
 	if (runtimesettings.recipe != "none") { processRecipe(runtimesettings); }
-
 }
 
 
@@ -1162,13 +1111,11 @@ if (mask_variant_45 == 2) {
 
 app.preferences.rulerUnits = Units.PIXELS;
 app.displayDialogs = DialogModes.NO;
-
 app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
 
 var doc_height = app.activeDocument.height;
 var doc_width = app.activeDocument.width;
 var ratio = doc_height / doc_width;
-
 var thisFormat = format();
 
 // Calculate feathering
@@ -1254,11 +1201,8 @@ border_width_square = border_width_square/10;
 //
 
 try {
-	
 	if (executeScript == true || legacy == true) {
-	
 		// Creates paths
-	
 		createPath(choosePath("negative"), "negative"); // Choose a negative and draw the path
 		if (fancy == true) { createPath(choosePath("mask"), "mask"); } // Choose a mask and draw the path
 		
@@ -1270,9 +1214,7 @@ try {
 		
 		
 		if (fancy == true) {
-			
 			// FANCY MODE
-			
 			if (ratio > 1) {
 				app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
 			} else {
@@ -1305,16 +1247,13 @@ try {
 					app.activeDocument.selection.selectAll();
 					app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color		
 				}
-				
 				if (thisShadow != false ) {
 					app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
 					decideRotation("shadow");
 					adjustSelection();
 					app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
 				}
-				
 				if (thisSubshadow != false ) {
-					
 					// Creates inverted subshadow layer for white fill
 					app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale*4, true);
 					decideRotation("subshadow");
@@ -1345,11 +1284,9 @@ try {
 				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
 				
 			} else {
-				
 				// If artefacts == false, fill the whole layer with white
 				app.activeDocument.selection.selectAll();
 				app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
-				
 			}
 			
 			app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
@@ -1373,12 +1310,8 @@ try {
 			adjustSelection();
 			app.activeDocument.selection.invert();
 			spatterFilter(2, 5);
-			
-			
 		} else {
-			
 			// CROP MODE
-			
 			// Decide new document width
 			if (thisFormat == "35mm") {
 				if (ratio > 1) {
@@ -1447,7 +1380,7 @@ try {
 			createBackdropLayer();
 			
 			if (movement_max + movement_min > 0) {
-				moveNeg_fancy();
+				moveNeg();
 			}
 			
 			app.activeDocument.flatten(); // Flatten all layers
@@ -1471,7 +1404,6 @@ try {
 		if (save == true ) { saveClose(); }
 		
 		// ALL DONE!
-	
 	}
 	
 } catch (e) { alert(e); }
