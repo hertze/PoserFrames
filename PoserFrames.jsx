@@ -1295,8 +1295,6 @@ try {
 			// Punches a hole in the mask layer with the shape of the mask
 			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 			app.activeDocument.selection.deselect();
-			// Add small undulations to mask lines
-			masklayer.applyRipple(-20, RippleSize.SMALL);		
 		
 			if (movement_max + movement_min > 0) {
 				moveNeg_fancy();
