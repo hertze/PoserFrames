@@ -494,7 +494,7 @@ function moveNeg() {
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_645 * 0.008 + doc_height * 0.003 * thisDirection();
+			var movement_vertical = generateRandomInteger(movement_min, movement_max) * 0.01 * doc_height * border_width_645 * 0.01 + doc_height * 0.003 * thisDirection();
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
