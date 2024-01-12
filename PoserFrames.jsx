@@ -1366,10 +1366,10 @@ try {
 			// For 645 we need to move the negative shape and not the entire layer
 			if (thisFormat == "645" && movement_max + movement_min > 0) {
 				if (ratio > 1) {
-					var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00005 * doc_height * thisDirection();
+					var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
 					app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
 				} else {
-					var delta_x = generateRandomInteger(movement_min, movement_max) * 0.00005 * doc_height * thisDirection();
+					var delta_x = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
 					app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
 				}
 			}
