@@ -1385,13 +1385,6 @@ border_width_67 = border_width_67/10;
 border_width_45 = border_width_45/10;
 border_width_square = border_width_square/10;
 
-// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
-	var rotate_mask = true;
-} else {
-	var rotate_mask = false;
-}
-
 //
 // MAIN ROUTINE
 //
@@ -1403,6 +1396,13 @@ try {
 		const loadedpaths = loadPaths();
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
+		
+		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
+		if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
+			var rotate_mask = true;
+		} else {
+			var rotate_mask = false;
+		}
 		
 		if (fancy == true) {
 			// FANCY MODE
