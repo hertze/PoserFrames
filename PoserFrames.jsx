@@ -1294,6 +1294,98 @@ function run_fancy() {
 	
 }
 
+function run_crop() {
+	
+	// Randomly decide if the scanner mask should be flipped (but not for 4x5)
+	if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
+		var rotate_mask = true;
+	} else {
+		var rotate_mask = false;
+	}
+	
+	// Decide new document width
+	if (thisFormat == "35mm") {
+		if (ratio > 1) {
+			var finished_width = border_width_35mm + 100;
+			var finished_height = border_width_35mm / ratio + 100;
+		} else {
+			var finished_width = border_width_35mm * ratio + 100;
+			var finished_height = border_width_35mm + 100;
+		}
+	} else if (thisFormat == "645") {
+		if (ratio > 1) {
+			var finished_width = border_width_645 + 100;
+			var finished_height = 100;
+		} else {
+			var finished_width = 100;
+			var finished_height = border_width_645 + 100;
+		}
+	} else if (thisFormat == "67") {
+		if (ratio > 1) {
+			var finished_width = border_width_67 + 100;
+			var finished_height = border_width_67 / ratio + 100;
+		} else {
+			var finished_width = border_width_67 * ratio + 100;
+			var finished_height = border_width_67 + 100;
+		}
+	} else if (thisFormat == "45") {
+		if (ratio > 1) {
+			var finished_width = 100.5;
+			var finished_height = border_width_45 / ratio + 100;
+		} else {
+			var finished_width = border_width_45 * ratio + 100;
+			var finished_height = 100.5;
+		}
+	} else if (thisFormat == "square") {
+		if (ratio > 1) {
+			var finished_width = border_width_square + 100;
+			var finished_height = border_width_square / ratio + 100;
+		} else {
+			var finished_width = border_width_square * ratio + 100;
+			var finished_height = border_width_square + 100;
+		}
+	}
+	
+	// Crop canvas to new size
+	app.activeDocument.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
+	
+	// Creates the negative layer content
+	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+	decideRotation("negative", rotate_mask);
+	adjustSelection(); //Scales and centers the selection
+	
+	// For 645 we need to move the negative shape and not the entire layer
+	if (thisFormat == "645" && movement_max + movement_min > 0) {
+		if (ratio > 1) {
+			var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
+			app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
+		} else {
+			var delta_x = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
+			app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
+		}
+	}
+	
+	app.activeDocument.selection.invert(); // Invert selection
+	app.activeDocument.selection.fill(myColor_black); // Fill with black
+	
+	createBackdropLayer();
+	
+	if (movement_max + movement_min > 0) {
+		moveNeg();
+	}
+	
+	app.activeDocument.flatten(); // Flatten all layers
+				
+	if (matted_crop == true) {
+		backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
+		if (ratio > 1) {
+			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+		} else {
+			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+		}
+	}
+	
+}
 
 //
 // MAIN ROUTINE
@@ -1314,92 +1406,15 @@ try {
 		
 		if (fancy == true) {
 			// FANCY MODE
-			
 			run_fancy();
-			
 		} else {
 			// CROP MODE
-			// Decide new document width
-			if (thisFormat == "35mm") {
-				if (ratio > 1) {
-					var finished_width = border_width_35mm + 100;
-					var finished_height = border_width_35mm / ratio + 100;
-				} else {
-					var finished_width = border_width_35mm * ratio + 100;
-					var finished_height = border_width_35mm + 100;
-				}
-			} else if (thisFormat == "645") {
-				if (ratio > 1) {
-					var finished_width = border_width_645 + 100;
-					var finished_height = 100;
-				} else {
-					var finished_width = 100;
-					var finished_height = border_width_645 + 100;
-				}
-			} else if (thisFormat == "67") {
-				if (ratio > 1) {
-					var finished_width = border_width_67 + 100;
-					var finished_height = border_width_67 / ratio + 100;
-				} else {
-					var finished_width = border_width_67 * ratio + 100;
-					var finished_height = border_width_67 + 100;
-				}
-			} else if (thisFormat == "45") {
-				if (ratio > 1) {
-					var finished_width = 100.5;
-					var finished_height = border_width_45 / ratio + 100;
-				} else {
-					var finished_width = border_width_45 * ratio + 100;
-					var finished_height = 100.5;
-				}
-			} else if (thisFormat == "square") {
-				if (ratio > 1) {
-					var finished_width = border_width_square + 100;
-					var finished_height = border_width_square / ratio + 100;
-				} else {
-					var finished_width = border_width_square * ratio + 100;
-					var finished_height = border_width_square + 100;
-				}
-			}
 			
-			// Crop canvas to new size
-			app.activeDocument.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
+			run_crop();
 			
-			// Creates the negative layer content
-			app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-			decideRotation("negative", rotate_mask);
-			adjustSelection(); //Scales and centers the selection
 			
-			// For 645 we need to move the negative shape and not the entire layer
-			if (thisFormat == "645" && movement_max + movement_min > 0) {
-				if (ratio > 1) {
-					var delta_y = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
-					app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
-				} else {
-					var delta_x = generateRandomInteger(movement_min, movement_max) * 0.00015 * doc_height * thisDirection();
-					app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
-				}
-			}
 			
-			app.activeDocument.selection.invert(); // Invert selection
-			app.activeDocument.selection.fill(myColor_black); // Fill with black
 			
-			createBackdropLayer();
-			
-			if (movement_max + movement_min > 0) {
-				moveNeg();
-			}
-			
-			app.activeDocument.flatten(); // Flatten all layers
-			
-			if (matted_crop == true) {
-				backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
-				if (ratio > 1) {
-					app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
-				} else {
-					app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
-				}
-			}
 		}
 	
 		// Clean up
