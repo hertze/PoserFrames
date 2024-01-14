@@ -891,6 +891,14 @@ function cleanup() {
 }
 
 
+// Run in recipe mode. This must be executed here, so mask variants are known before we get into the library.
+if (legacy == false ) {
+	var executeScript = true;
+	var isCancelled = false;
+	var runtimesettings = getRecipe();
+	if (runtimesettings.recipe != "none") { processRecipe(runtimesettings); }
+}
+
 // PATH LIBRARY ------------------------------------------------------
 
 
@@ -1290,14 +1298,6 @@ if (mask_variant_45 == 2) {
 
 
 // Initial properties, settings and calculations
-
-// Run in recipe mode
-if (legacy == false ) {
-	var executeScript = true;
-	var isCancelled = false;
-	var runtimesettings = getRecipe();
-	if (runtimesettings.recipe != "none") { processRecipe(runtimesettings); }
-}
 
 app.preferences.rulerUnits = Units.PIXELS;
 app.displayDialogs = DialogModes.NO;
