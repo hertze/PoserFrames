@@ -208,7 +208,7 @@ function processRecipe(runtimesettings) {
 		movement_direction = thisRecipe[17];
 	} else {
 		executeScript = false;
-		alert("Sorry, but that recipe is faulty! Please check its syntax and its settings and then try again.");
+		alert("Sorry, but that recipe is faulty! Please check it's syntax and it's settings and then try again.");
 	}
 }
 
