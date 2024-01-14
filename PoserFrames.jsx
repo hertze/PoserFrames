@@ -687,13 +687,6 @@ function run_fancy() {
 		app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
 	}
 	
-	// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-	if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
-		var rotate_mask = true;
-	} else {
-		var rotate_mask = false;
-	}
-	
 	// Creates the negative layer content
 	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
 	decideRotation("negative");
@@ -778,13 +771,6 @@ function run_fancy() {
 }
 
 function run_crop() {
-	
-	// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-	if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
-		var rotate_mask = true;
-	} else {
-		var rotate_mask = false;
-	}
 	
 	// Decide new document width
 	if (thisFormat == "35mm") {
@@ -1399,6 +1385,12 @@ border_width_67 = border_width_67/10;
 border_width_45 = border_width_45/10;
 border_width_square = border_width_square/10;
 
+// Randomly decide if the scanner mask should be flipped (but not for 4x5)
+if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
+	var rotate_mask = true;
+} else {
+	var rotate_mask = false;
+}
 
 //
 // MAIN ROUTINE
