@@ -435,7 +435,7 @@ function createPath(thisPath, pathName) {
 }
 
 
-function decideRotation(pathKind) {
+function decideRotation(pathKind, rotate_mask) {
 	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
 	if (app.activeDocument.height > app.activeDocument.width ) {
 		// Portrait
@@ -1196,6 +1196,105 @@ border_width_45 = border_width_45/10;
 border_width_square = border_width_square/10;
 
 
+function run_fancy() {
+	
+	if (ratio > 1) {
+		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+	} else {
+		app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+	}
+	
+	// Randomly decide if the scanner mask should be flipped (but not for 4x5)
+	if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
+		var rotate_mask = true;
+	} else {
+		var rotate_mask = false;
+	}
+	
+	// Creates the negative layer content
+	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+	decideRotation("negative");
+	adjustSelection(); //Scales and centers the selection
+	app.activeDocument.selection.invert(); // Invert selection
+	app.activeDocument.selection.fill(myColor_black); // Fill with black
+	
+	createBackdropLayer();
+	
+	// Creates mask layer
+	var masklayer = app.activeDocument.artLayers.add();
+	masklayer.name = "mask"; // Names mask layer.
+	
+	if (artifacts == true) {
+					
+					if (thisSubshadow != false ) {
+						app.activeDocument.selection.selectAll();
+						app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color		
+					}
+					if (thisShadow != false ) {
+						app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
+						decideRotation("shadow", rotate_mask);
+						adjustSelection();
+						app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
+					}
+					if (thisSubshadow != false ) {
+						// Creates inverted subshadow layer for white fill
+						app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale*4, true);
+						decideRotation("subshadow", rotate_mask );
+						adjustSelection(); //Scales and centers the selection
+						
+						// Adds and edge to the subshadow			
+						app.activeDocument.selection.stroke(myColor_black, doc_scale*3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
+						
+						app.activeDocument.selection.deselect(); // Apply noise to the whole layer
+						masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+						masklayer.applyGaussianBlur(doc_scale*10);
+				
+						app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
+						decideRotation("subshadow", rotate_mask);
+						adjustSelection(); //Scales and centers the selection
+						app.activeDocument.selection.invert();
+						app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
+					}
+					
+					// Adds a more organic look to the artefacts layer
+					var hipasslayer = masklayer.duplicate();
+					hipasslayer.name = "hipass";
+					hipasslayer.blendMode = BlendMode.OVERLAY;
+					hipasslayer.applyHighPass(doc_scale);			
+					hipasslayer.merge();
+					app.activeDocument.selection.deselect();
+					masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
+					masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
+					
+				} else {
+					// If artefacts == false, fill the whole layer with white
+					app.activeDocument.selection.selectAll();
+					app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
+				}
+				
+				app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
+				decideRotation("mask", rotate_mask);
+				adjustSelection(); //Scales and centers the selection
+				// Punches a hole in the mask layer with the shape of the mask
+				app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+				app.activeDocument.selection.deselect();
+			
+				if (movement_max + movement_min > 0) {
+					moveNeg_fancy();
+				}
+				
+				app.activeDocument.flatten(); // Flatten all layers
+				
+				// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
+				app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
+				decideRotation("mask", rotate_mask);
+				adjustSelection();
+				app.activeDocument.selection.invert();
+				spatterFilter(2, 5);
+	
+}
+
+
 //
 // MAIN ROUTINE
 //
@@ -1215,99 +1314,9 @@ try {
 		
 		if (fancy == true) {
 			// FANCY MODE
-			if (ratio > 1) {
-				app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
-			} else {
-				app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
-			}
 			
-			// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-			if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
-				var rotate_mask = true;
-			} else {
-				var rotate_mask = false;
-			}
+			run_fancy();
 			
-			// Creates the negative layer content
-			app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-			decideRotation("negative");
-			adjustSelection(); //Scales and centers the selection
-			app.activeDocument.selection.invert(); // Invert selection
-			app.activeDocument.selection.fill(myColor_black); // Fill with black
-			
-			createBackdropLayer();
-		
-			// Creates mask layer
-			var masklayer = app.activeDocument.artLayers.add();
-			masklayer.name = "mask"; // Names mask layer.
-			
-			if (artifacts == true) {
-				
-				if (thisSubshadow != false ) {
-					app.activeDocument.selection.selectAll();
-					app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color		
-				}
-				if (thisShadow != false ) {
-					app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
-					decideRotation("shadow");
-					adjustSelection();
-					app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
-				}
-				if (thisSubshadow != false ) {
-					// Creates inverted subshadow layer for white fill
-					app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale*4, true);
-					decideRotation("subshadow");
-					adjustSelection(); //Scales and centers the selection
-					
-					// Adds and edge to the subshadow			
-					app.activeDocument.selection.stroke(myColor_black, doc_scale*3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
-					
-					app.activeDocument.selection.deselect(); // Apply noise to the whole layer
-					masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-					masklayer.applyGaussianBlur(doc_scale*10);
-			
-					app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
-					decideRotation("subshadow");
-					adjustSelection(); //Scales and centers the selection
-					app.activeDocument.selection.invert();
-					app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
-				}
-				
-				// Adds a more organic look to the artefacts layer
-				var hipasslayer = masklayer.duplicate();
-				hipasslayer.name = "hipass";
-				hipasslayer.blendMode = BlendMode.OVERLAY;
-				hipasslayer.applyHighPass(doc_scale);			
-				hipasslayer.merge();
-				app.activeDocument.selection.deselect();
-				masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-				masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
-				
-			} else {
-				// If artefacts == false, fill the whole layer with white
-				app.activeDocument.selection.selectAll();
-				app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
-			}
-			
-			app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-			decideRotation("mask");
-			adjustSelection(); //Scales and centers the selection
-			// Punches a hole in the mask layer with the shape of the mask
-			app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-			app.activeDocument.selection.deselect();
-		
-			if (movement_max + movement_min > 0) {
-				moveNeg_fancy();
-			}
-			
-			app.activeDocument.flatten(); // Flatten all layers
-			
-			// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-			app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
-			decideRotation("mask");
-			adjustSelection();
-			app.activeDocument.selection.invert();
-			spatterFilter(2, 5);
 		} else {
 			// CROP MODE
 			// Decide new document width
@@ -1358,7 +1367,7 @@ try {
 			
 			// Creates the negative layer content
 			app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-			decideRotation("negative");
+			decideRotation("negative", rotate_mask);
 			adjustSelection(); //Scales and centers the selection
 			
 			// For 645 we need to move the negative shape and not the entire layer
