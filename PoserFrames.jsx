@@ -35,11 +35,11 @@ var negative_variant_645 = 1;
 // Settings for conservative (cropped) borders) ------------------------
 
 var matted_crop = true;
-var border_width_35mm = 2;
-var border_width_645 = 2;
-var border_width_67 = 2;
-var border_width_45 = 2;
-var border_width_square = 2;
+var border_width_35mm = 20;
+var border_width_645 = 20;
+var border_width_67 = 20;
+var border_width_45 = 20;
+var border_width_square = 20;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
