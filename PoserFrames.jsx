@@ -1396,22 +1396,31 @@ function cleanup() {
 	if (save == true ) { saveClose(); }
 }
 
+function loadPaths() {
+	// Creates paths
+	createPath(choosePath("negative"), "negative"); // Choose a negative and draw the path
+	if (fancy == true) { createPath(choosePath("mask"), "mask"); } // Choose a mask and draw the path
+	var thisSubshadow = choosePath("subshadow");
+	if (thisSubshadow != false && fancy == true && artifacts == true) { createPath(thisSubshadow, "subshadow"); }
+	var thisShadow = choosePath("shadow");
+	if (thisShadow != false && fancy == true && artifacts == true) { createPath(thisShadow, "shadow"); }
+	return {
+		subshadow: thisSubshadow,
+		shadow: thisShadow
+	}
+}
+
 //
 // MAIN ROUTINE
 //
 
 try {
 	if (executeScript == true || legacy == true) {
-		// Creates paths
-		createPath(choosePath("negative"), "negative"); // Choose a negative and draw the path
-		if (fancy == true) { createPath(choosePath("mask"), "mask"); } // Choose a mask and draw the path
 		
-		var thisSubshadow = choosePath("subshadow");
-		if (thisSubshadow != false && fancy == true && artifacts == true) { createPath(thisSubshadow, "subshadow"); }
-		
-		var thisShadow = choosePath("shadow");
-		if (thisShadow != false && fancy == true && artifacts == true) { createPath(thisShadow, "shadow"); }
-		
+		// Load paths
+		const loadedpaths = loadPaths();
+		var thisSubshadow = loadedpaths.subshadow;
+		var thisShadow = loadedpaths.shadow;
 		
 		if (fancy == true) {
 			// FANCY MODE
