@@ -1387,6 +1387,15 @@ function run_crop() {
 	
 }
 
+function cleanup() {
+	app.activeDocument.selection.deselect();
+	app.activeDocument.pathItems.getByName('negative').remove();
+	if (fancy == true) { app.activeDocument.pathItems.getByName('mask').remove(); }
+	if (thisSubshadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
+	if (thisShadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('shadow').remove(); }
+	if (save == true ) { saveClose(); }
+}
+
 //
 // MAIN ROUTINE
 //
@@ -1409,21 +1418,11 @@ try {
 			run_fancy();
 		} else {
 			// CROP MODE
-			
 			run_crop();
-			
-			
-			
-			
 		}
 	
 		// Clean up
-		app.activeDocument.selection.deselect();
-		app.activeDocument.pathItems.getByName('negative').remove();
-		if (fancy == true) { app.activeDocument.pathItems.getByName('mask').remove(); }
-		if (thisSubshadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
-		if (thisShadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('shadow').remove(); }
-		if (save == true ) { saveClose(); }
+		cleanup();
 		
 		// ALL DONE!
 	}
