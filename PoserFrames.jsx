@@ -770,7 +770,7 @@ function run_fancy() {
 				decideRotation("mask", rotate_mask);
 				adjustSelection();
 				app.activeDocument.selection.invert();
-				spatterFilter(2, 5);
+				spatterFilter(3, 5);
 	
 }
 
