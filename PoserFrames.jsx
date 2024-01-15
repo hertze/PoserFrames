@@ -476,36 +476,36 @@ function moveNeg() {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_645 * 0.008 + doc_width * 0.003) * thisDirection();
+			var movement_horisontal = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_645 * 0.006 + doc_width * 0.003) * thisDirection();
 			var movement_vertical = 0; // For 645 we need to move the selection instead in vertical axis.
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * border_width_645 * 0.01 + doc_height * 0.003 * thisDirection();
+			var movement_vertical = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * border_width_645 * 0.006 + doc_height * 0.003) * thisDirection();
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
 		// Portrait
-		var movement_horisontal = -1 * (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_67 * 0.008 + doc_width * 0.002) * thisDirection();
+		var movement_horisontal = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_67 * 0.008 + doc_width * 0.002) * thisDirection();
 		var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * border_width_67 / ratio * 0.01 * thisDirection();
 	} else {
 		// Landscape
-		var movement_horisontal = -1 * (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_67 * ratio * 0.008) * thisDirection();
-		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * border_width_67 * doc_height * 0.005 + doc_height * 0.012 * thisDirection();
+		var movement_horisontal = (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_67 * ratio * 0.008) * thisDirection();
+		var movement_vertical = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * border_width_67 * doc_height * 0.008 + doc_height * 0.002) * thisDirection();
 	}
 	} else if (thisFormat == "45") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = -1 * (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.0025) * thisDirection();
+			var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.01 * thisDirection();
 			var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * border_width_45 / ratio * 0.01 * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = -1 * (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_45 * ratio * 0.01) * thisDirection();
-			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.0025 * thisDirection();
+			var movement_horisontal = (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_45 * ratio * 0.01) * thisDirection();
+			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.01 * thisDirection();
 		}
 	} else if (thisFormat == "square" ) {
-		var movement_horisontal = -1 * (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_square * 0.008 + doc_width * 0.005) * thisDirection();
-		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * border_width_square * 0.015 + doc_height * 0.004 * thisDirection();
+		var movement_horisontal = (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_square * 0.008 + doc_width * 0.005) * thisDirection();
+		var movement_vertical = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * border_width_square * 0.008 + doc_height * 0.005) * thisDirection();
 	} else {
 		if (ratio > 1) {
 			// Portrait
