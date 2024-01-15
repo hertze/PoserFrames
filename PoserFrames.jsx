@@ -48,8 +48,10 @@ var feather_factor_35mm = 1200;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
-var movement_min = 10;
-var movement_max = 100;
+var movement_min_long = 10;
+var movement_max_long = 100;
+var movement_min_short = 10;
+var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
 
@@ -184,7 +186,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
