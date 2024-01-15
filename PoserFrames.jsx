@@ -186,7 +186,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomleft|topright|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -223,9 +223,9 @@ function generateRandomInteger(min, max) {
 
 function thisDirection() {
 	// Randomly assign 1 or -1 for direction, unless random_direction is set to false.
-	if (movement_direction == "bottomleft") {
+	if (movement_direction == "bottomright") {
 		return -1;
-	} else if (movement_direction == "topright") {
+	} else if (movement_direction == "topleft") {
 		return 1;
 	} else {
 		if (Math.floor(Math.random() * 100) < 30) {
@@ -830,10 +830,10 @@ function run_crop() {
 	// For 645 we need to move the negative shape and not the entire layer
 	if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
 		if (ratio > 1) {
-			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * 0.00015 * doc_height * thisDirection();
+			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * -0.00015 * doc_height * thisDirection();
 			app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
 		} else {
-			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * 0.00015 * doc_height * thisDirection();
+			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * -0.00015 * doc_height * thisDirection();
 			app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
 		}
 	}
