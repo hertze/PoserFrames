@@ -476,12 +476,12 @@ function moveNeg() {
 	if (thisFormat == "645") {
 		if (ratio > 1) {
 			// Portrait
-			var movement_horisontal = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_645 * 0.006 + doc_width * 0.003) * thisDirection();
+			var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_width * border_width_645 * 0.006 + doc_width * 0.003 ) * thisDirection();
 			var movement_vertical = 0; // For 645 we need to move the selection instead in vertical axis.
 		} else {
 			// Landscape
 			var movement_horisontal = 0;
-			var movement_vertical = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * border_width_645 * 0.006 + doc_height * 0.003) * thisDirection();
+			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_645 * 0.006 + doc_height * 0.003 ) * thisDirection();
 		}
 	} else if (thisFormat == "67") {
 	if (ratio > 1) {
