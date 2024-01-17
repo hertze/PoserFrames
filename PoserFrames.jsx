@@ -511,6 +511,7 @@ function moveNeg() {
 			// Portrait
 			var movement_horisontal = (generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * border_width_35mm * 0.01 + doc_width * 0.0015) * thisDirection();
 			var movement_vertical = (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * border_width_35mm / ratio * 0.008 + doc_height * 0.002) * thisDirection();
+			alert(generateRandomInteger(movement_min_short, movement_max_short));
 		} else {
 			// Landscape
 			var movement_horisontal = (generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_35mm * ratio * 0.008 + doc_width * 0.002) * thisDirection();
@@ -770,7 +771,7 @@ function run_fancy() {
 				decideRotation("mask", rotate_mask);
 				adjustSelection();
 				app.activeDocument.selection.invert();
-				spatterFilter(3, 5);
+				spatterFilter(2, 4);
 	
 }
 
