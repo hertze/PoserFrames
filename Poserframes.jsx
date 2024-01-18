@@ -41,6 +41,8 @@ var border_width_67 = 20;
 var border_width_45 = 20;
 var border_width_square = 20;
 
+var short_side_factor = 200;
+
 
 // Hic sunt dracones (advanced user settings) --------------------------
 
@@ -487,10 +489,10 @@ function moveNeg() {
 	if (ratio > 1) {
 		// Portrait
 		var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_width * border_width_67 * 0.008 + doc_width * 0.003 ) * thisDirection();
-		var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_height * border_width_67 / ratio * 0.008 + doc_height * 0.003 ) * thisDirection();
+		var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_height * border_width_67 * short_side_factor / ratio * 0.008 + doc_height * 0.003 ) * thisDirection();
 	} else {
 		// Landscape
-		var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_67 * ratio * 0.008 + doc_width * 0.003) * thisDirection();
+		var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_67 * short_side_factor * ratio * 0.008 + doc_width * 0.003) * thisDirection();
 		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( border_width_67 * doc_height * 0.008 + doc_height * 0.003 ) * thisDirection();
 	}
 	} else if (thisFormat == "45") {
@@ -505,15 +507,15 @@ function moveNeg() {
 		}
 	} else if (thisFormat == "square" ) {
 		var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_square * 0.008 + doc_width * 0.01 ) * thisDirection();
-		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_square * 0.008 + doc_height * 0.01 ) * thisDirection();
+		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_square * short_side_factor * 0.008 + doc_height * 0.01 ) * thisDirection();
 	} else {
 		if (ratio > 1) {
 			// Portrait
 			var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_width * border_width_35mm * 0.01 + doc_width * 0.0015 ) * thisDirection();
-			var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_height * border_width_35mm / ratio * 0.008 + doc_height * 0.002 ) * thisDirection();
+			var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_height * border_width_35mm * short_side_factor / ratio * 0.008 + doc_height * 0.002 ) * thisDirection();
 		} else {
 			// Landscape
-			var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_35mm * ratio * 0.008 + doc_width * 0.002) * thisDirection();
+			var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_35mm * short_side_factor * ratio * 0.008 + doc_width * 0.002) * thisDirection();
 			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_35mm * 0.01 + doc_height * 0.0015 ) * thisDirection();
 		}
 	}
@@ -775,14 +777,16 @@ function run_fancy() {
 }
 
 function run_crop() {
+	// Convert to decimal factor
+	short_side_factor = short_side_factor * 0.01;
 	
 	// Decide new document width
 	if (thisFormat == "35mm") {
 		if (ratio > 1) {
 			var finished_width = border_width_35mm + 100;
-			var finished_height = border_width_35mm / ratio + 100;
+			var finished_height = border_width_35mm * short_side_factor / ratio + 100;
 		} else {
-			var finished_width = border_width_35mm * ratio + 100;
+			var finished_width = border_width_35mm * short_side_factor * ratio + 100;
 			var finished_height = border_width_35mm + 100;
 		}
 	} else if (thisFormat == "645") {
@@ -796,9 +800,9 @@ function run_crop() {
 	} else if (thisFormat == "67") {
 		if (ratio > 1) {
 			var finished_width = border_width_67 + 100;
-			var finished_height = border_width_67 / ratio + 100;
+			var finished_height = border_width_67 * short_side_factor / ratio + 100;
 		} else {
-			var finished_width = border_width_67 * ratio + 100;
+			var finished_width = border_width_67 * short_side_factor * ratio + 100;
 			var finished_height = border_width_67 + 100;
 		}
 	} else if (thisFormat == "45") {
@@ -810,13 +814,8 @@ function run_crop() {
 			var finished_height = 100.5;
 		}
 	} else if (thisFormat == "square") {
-		if (ratio > 1) {
-			var finished_width = border_width_square + 100;
-			var finished_height = border_width_square / ratio + 100;
-		} else {
-			var finished_width = border_width_square * ratio + 100;
-			var finished_height = border_width_square + 100;
-		}
+		var finished_width = border_width_square + 100;
+		var finished_height = border_width_square * short_side_factor + 100;
 	}
 	
 	// Crop canvas to new size
