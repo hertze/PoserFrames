@@ -187,7 +187,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-3][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -506,8 +506,8 @@ function moveNeg() {
 			var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.01 * thisDirection();
 		}
 	} else if (thisFormat == "square" ) {
-		var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_square * 0.008 + doc_width * 0.01 ) * thisDirection();
-		var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_square * short_side_factor * 0.008 + doc_height * 0.01 ) * thisDirection();
+		var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * ( doc_height * border_width_square * 0.008 + doc_height * 0.01 ) * thisDirection();
+		var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * ( doc_width * border_width_square * short_side_factor * 0.008 + doc_width * 0.01 ) * thisDirection();	
 	} else {
 		if (ratio > 1) {
 			// Portrait
