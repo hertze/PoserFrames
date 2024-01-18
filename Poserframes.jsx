@@ -40,8 +40,7 @@ var border_width_645 = 20;
 var border_width_67 = 20;
 var border_width_45 = 20;
 var border_width_square = 20;
-
-var short_side_factor = 200;
+var short_side_factor = 100;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -188,7 +187,7 @@ function processRecipe(runtimesettings) {
 	thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
 	
 	// Check recipe against syntax
-	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$', 'gm');
+	const regex = new RegExp('^(true;|false;){2}[1-7];[1-4];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-3][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$', 'gm');
 	
 	if (regex.exec(thisRecipe) !== null) {
 		thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -207,11 +206,12 @@ function processRecipe(runtimesettings) {
 		border_width_67 = parseInt(thisRecipe[12]);
 		border_width_45 = parseInt(thisRecipe[13]);
 		border_width_square = parseInt(thisRecipe[14]);
-		movement_min_long = parseInt(thisRecipe[15]);
-		movement_max_long = parseInt(thisRecipe[16]);
-		movement_min_short = parseInt(thisRecipe[17]);
-		movement_max_short = parseInt(thisRecipe[18]);
-		movement_direction = thisRecipe[19];
+		short_side_factor =  parseInt(thisRecipe[15]);
+		movement_min_long = parseInt(thisRecipe[16]);
+		movement_max_long = parseInt(thisRecipe[17]);
+		movement_min_short = parseInt(thisRecipe[18]);
+		movement_max_short = parseInt(thisRecipe[19]);
+		movement_direction = thisRecipe[20];
 	} else {
 		executeScript = false;
 		alert("Sorry, but that recipe is faulty! Please check it's syntax and it's settings and then try again.");
