@@ -532,7 +532,7 @@ function moveNeg_fancy() {
 				var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.02  * thisDirection();
 				var movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.004 * thisDirection();
 			} else if (mask_variant_645 == 4) {
-				var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.018 * thisDirection();
+				var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.028 * thisDirection();
 				var movement_vertical = 0;
 			} else if (mask_variant_645 == 3) {
 				var movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.006 * thisDirection();
@@ -551,7 +551,7 @@ function moveNeg_fancy() {
 				var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.02 * thisDirection();
 			} else if (mask_variant_645 == 4) {
 				var movement_horisontal = 0;
-				var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.018 * thisDirection();
+				var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.028 * thisDirection();
 			} else if (mask_variant_645 == 3) {
 				var movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.004 * thisDirection();
 				var movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.006 * thisDirection();
