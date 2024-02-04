@@ -1,6 +1,6 @@
 // P O S E R F R A M E S
 //
-// Version 3.3
+// Version 3.3.1
 //
 // by Joakim Hertze (www.hertze.se)
 //
@@ -13,6 +13,7 @@
 
 var legacy = false;
 var save = false;
+var force_8_bit = true;
 
 
 // General settings ----------------------------------------------------
@@ -780,12 +781,15 @@ function run_fancy() {
 				app.activeDocument.flatten(); // Flatten all layers
 				
 				// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-				app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
-				decideRotation("mask", rotate_mask);
-				adjustSelection();
-				app.activeDocument.selection.invert();
-				spatterFilter(2, 4);
-	
+				if (app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
+					app.activeDocument.bitsPerChannel = BitsPerChannelType.EIGHT;
+					app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
+					decideRotation("mask", rotate_mask);
+					adjustSelection();
+					app.activeDocument.selection.invert();
+					spatterFilter(2, 4);
+				}
+			
 }
 
 function run_crop() {
