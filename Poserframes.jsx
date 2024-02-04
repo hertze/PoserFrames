@@ -36,6 +36,7 @@ var negative_variant_645 = 1;
 // Settings for conservative (cropped) borders) ------------------------
 
 var matted_crop = true;
+var matted_border_size = 10;
 var border_width_35mm = 20;
 var border_width_645 = 20;
 var border_width_67 = 20;
@@ -867,9 +868,9 @@ function run_crop() {
 	if (matted_crop == true) {
 		backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
 		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+			app.activeDocument.resizeCanvas(UnitValue(100 + matted_border_size,"%"), UnitValue(matted_border_size / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
 		} else {
-			app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+			app.activeDocument.resizeCanvas(UnitValue(matted_border_size * ratio + 100,"%"), UnitValue(matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER);
 		}
 	}
 	
