@@ -300,99 +300,92 @@ function format(){
 }
 
 function choosePath(pathKind) {
-	// Choosing the path
+	var stagedPath;
 	if (thisFormat == "square") {
 		if (pathKind == "negative") {
-			var stagedPath = negativeSquare[generateRandomInteger(0, negativeSquare.length)];
-		} else if (pathKind == "subshadow") {
-			if (subshadowSquare.length > 0) { var stagedPath = subshadowSquare[generateRandomInteger(0, subshadowSquare.length)]; }
-		} else if (pathKind == "shadow") {
-			if (shadowSquare.length > 0) { var stagedPath = shadowSquare[generateRandomInteger(0, shadowSquare.length)]; }
+			stagedPath = negativeSquare[generateRandomInteger(0, negativeSquare.length)];
+		} else if (pathKind == "subshadow" && subshadowSquare.length > 0) {
+			stagedPath = subshadowSquare[generateRandomInteger(0, subshadowSquare.length)];
+		} else if (pathKind == "shadow" && shadowSquare.length > 0) {
+			stagedPath = shadowSquare[generateRandomInteger(0, shadowSquare.length)];
 		} else {
-			var stagedPath = maskSquare[generateRandomInteger(0, maskSquare.length)];
+			stagedPath = maskSquare[generateRandomInteger(0, maskSquare.length)];
 		}
-	} 
-	else if (thisFormat == "67") {
+	} else if (thisFormat == "67") {
 		if (pathKind == "negative") {
-			var stagedPath = negative67[generateRandomInteger(0, negative67.length)];
-		} else if (pathKind == "subshadow") {
-			if (subshadow67.length > 0) { var stagedPath = subshadow67[generateRandomInteger(0, subshadow67.length)]; }
-		} else if (pathKind == "shadow") {
-			if (shadow67.length > 0) { var stagedPath = shadow67[generateRandomInteger(0, shadow67.length)]; }
+			stagedPath = negative67[generateRandomInteger(0, negative67.length)];
+		} else if (pathKind == "subshadow" && subshadow67.length > 0) {
+			stagedPath = subshadow67[generateRandomInteger(0, subshadow67.length)];
+		} else if (pathKind == "shadow" && shadow67.length > 0) {
+			stagedPath = shadow67[generateRandomInteger(0, shadow67.length)];
 		} else {
-			var stagedPath = mask67[generateRandomInteger(0, mask67.length)];
+			stagedPath = mask67[generateRandomInteger(0, mask67.length)];
+		}
+	} else if (thisFormat == "45") {
+		if (pathKind == "negative") {
+			stagedPath = negative45[generateRandomInteger(0, negative45.length)];
+		} else if (pathKind == "subshadow" && subshadow45.length > 0) {
+			stagedPath = subshadow45[generateRandomInteger(0, subshadow45.length)];
+		} else if (pathKind == "shadow" && shadow45.length > 0) {
+			stagedPath = shadow45[generateRandomInteger(0, shadow45.length)];
+		} else {
+			stagedPath = mask45[generateRandomInteger(0, mask45.length)];
+		}
+	} else if (thisFormat == "645") {
+		if (pathKind == "negative") {
+			stagedPath = negative645[generateRandomInteger(0, negative645.length)];
+		} else if (pathKind == "subshadow" && subshadow645.length > 0) {
+			stagedPath = subshadow645[generateRandomInteger(0, subshadow645.length)];
+		} else if (pathKind == "shadow" && shadow645.length > 0) {
+			stagedPath = shadow645[generateRandomInteger(0, shadow645.length)];
+		} else {
+			stagedPath = mask645[generateRandomInteger(0, mask645.length)];
+		}
+	} else if (thisFormat == "35mm") {
+		if (pathKind == "negative") {
+			stagedPath = negative35mm[generateRandomInteger(0, negative35mm.length)];
+		} else if (pathKind == "subshadow" && subshadow35mm.length > 0) {
+			stagedPath = subshadow35mm[generateRandomInteger(0, subshadow35mm.length)];
+		} else if (pathKind == "shadow" && shadow35mm.length > 0) {
+			stagedPath = shadow35mm[generateRandomInteger(0, shadow35mm.length)];
+		} else {
+			stagedPath = mask35mm[generateRandomInteger(0, mask35mm.length)];
 		}
 	}
-	else if (thisFormat == "45") {
-		if (pathKind == "negative") {
-			var stagedPath = negative45[generateRandomInteger(0, negative45.length)];
-		} else if (pathKind == "subshadow") {
-			if (subshadow45.length > 0) { var stagedPath = subshadow45[generateRandomInteger(0, subshadow45.length)]; }
-		} else if (pathKind == "shadow") {
-			if (shadow45.length > 0) { var stagedPath = shadow45[generateRandomInteger(0, shadow45.length)]; }
-		} else {
-			var stagedPath = mask45[generateRandomInteger(0, mask45.length)];
-		}
-	} 
-	else if (thisFormat == "645") {
-		if (pathKind == "negative") {
-			var stagedPath = negative645[generateRandomInteger(0, negative645.length)];
-		} else if (pathKind == "subshadow") {
-			if (subshadow645.length > 0) { var stagedPath = subshadow645[generateRandomInteger(0, subshadow645.length)]; }
-		} else if (pathKind == "shadow") {
-			if (shadow645.length > 0) { var stagedPath = shadow645[generateRandomInteger(0, shadow645.length)]; }
-		} else {
-			var stagedPath = mask645[generateRandomInteger(0, mask645.length)];
-		}
-	}
-	else if (thisFormat == "35mm") {
-		if (pathKind == "negative") {
-			var stagedPath = negative35mm[generateRandomInteger(0, negative35mm.length)];
-		} else if (pathKind == "subshadow") {
-			if (subshadow35mm.length > 0) { var stagedPath = subshadow35mm[generateRandomInteger(0, subshadow35mm.length)]; }
-		} else if (pathKind == "shadow") {
-			if (shadow35mm.length > 0) {var stagedPath = shadow35mm[generateRandomInteger(0, shadow35mm.length)]; }
-		} else {
-			var stagedPath = mask35mm[generateRandomInteger(0, mask35mm.length)];
-		}
-	}
-	if (typeof stagedPath !== 'undefined') {
-		return stagedPath;
-	} else {
-		return false;
-	}
+	return (stagedPath !== undefined) ? stagedPath : false;
 }
 
 function createPath(thisPath, pathName) {
-	// Build the path
 	var thisPathPointInfo = thisPath.split(";");
-	var thisPathPointInfoProperties = [];
 	var p = [];
 	var pth = [];
 	
 	for (var i = 0; i < thisPathPointInfo.length; i++ ) {
-		thisPathPointInfoProperties = thisPathPointInfo[i].split(" "); // Splitta thisPathPointInfo i dess properties
-		
-		p[i] = new PathPointInfo();
-		p[i].kind = thisPathPointInfoProperties[0];
-	
+		var thisPathPointInfoProperties = thisPathPointInfo[i].split(" ");
 		var anchorString = thisPathPointInfoProperties[1].split(",");
-		p[i].anchor = [anchorString[0]*1, anchorString[1]*1];
-		
 		var leftDirectionString = thisPathPointInfoProperties[2].split(",");
-		p[i].leftDirection = [leftDirectionString[0]*1, leftDirectionString[1]*1];
-		
 		var rightDirectionString = thisPathPointInfoProperties[3].split(",");
-		p[i].rightDirection = [rightDirectionString[0]*1, rightDirectionString[1]*1];
-
-		p[i].typename = thisPathPointInfoProperties[4];
+		
+		var pathPoint = new PathPointInfo();
+		pathPoint.kind = thisPathPointInfoProperties[0];
+		pathPoint.anchor = [parseFloat(anchorString[0]), parseFloat(anchorString[1])];
+		pathPoint.leftDirection = [parseFloat(leftDirectionString[0]), parseFloat(leftDirectionString[1])];
+		pathPoint.rightDirection = [parseFloat(rightDirectionString[0]), parseFloat(rightDirectionString[1])];
+		pathPoint.typename = thisPathPointInfoProperties[4];
+		
+		p.push(pathPoint);
 	}
-	pth[0] = new SubPathInfo();
-	pth[0].operation = ShapeOperation.SHAPEXOR;
-	pth[0].closed = true;
-	pth[0].entireSubPath = p;
+	
+	var subPath = new SubPathInfo();
+	subPath.operation = ShapeOperation.SHAPEXOR;
+	subPath.closed = true;
+	subPath.entireSubPath = p;
+	
+	pth.push(subPath);
+	
 	app.activeDocument.pathItems.add(pathName, pth);
 }
+
 
 function loadPaths() {
 	// Creates paths
