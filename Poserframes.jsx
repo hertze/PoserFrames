@@ -18,7 +18,7 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 
 // Settings for fancy borders
 
@@ -750,19 +750,19 @@ function moveNeg_fancy() {
 }
 
 function spatterFilter(radiusValue, smoothnessValue) {
-	// Spatter filter
-	var idGEfc = charIDToTypeID( "GEfc" );
-	var desc533 = new ActionDescriptor();
-	var idGEfk = charIDToTypeID( "GEfk" );
-	var idGEft = charIDToTypeID( "GEft" );
-	var idspatter = stringIDToTypeID( "spatter" );
-	desc533.putEnumerated( idGEfk, idGEft, idspatter );
-	var idsprayRadius = stringIDToTypeID( "sprayRadius" );
-	desc533.putInteger( idsprayRadius, radiusValue );
-	var idsmoothness = stringIDToTypeID( "smoothness" );
-	desc533.putInteger( idsmoothness, smoothnessValue );
-	executeAction( idGEfc, desc533, DialogModes.NO );
+	// Spatter filter ID
+	var spatterFilterID = stringIDToTypeID("spatter");
+
+	// Create action descriptor
+	var actionDescriptor = new ActionDescriptor();
+	actionDescriptor.putEnumerated(charIDToTypeID("GEfk"), charIDToTypeID("GEft"), spatterFilterID);
+	actionDescriptor.putInteger(stringIDToTypeID("sprayRadius"), radiusValue);
+	actionDescriptor.putInteger(stringIDToTypeID("smoothness"), smoothnessValue);
+
+	// Execute action
+	executeAction(charIDToTypeID("GEfc"), actionDescriptor, DialogModes.NO);
 }
+
 
 function run_fancy() {
 	
@@ -847,7 +847,7 @@ function run_fancy() {
 				app.activeDocument.flatten(); // Flatten all layers
 				
 				// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-				if (app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
+				if (app.activeDocument.bitsPerChannel == BitsPerChannelType.EIGHT || app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
 					app.activeDocument.bitsPerChannel = BitsPerChannelType.EIGHT;
 					app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
 					decideRotation("mask", rotate_mask);
@@ -863,41 +863,57 @@ function run_crop() {
 	short_side_factor = short_side_factor * 0.01;
 	
 	// Decide new document width
-	if (thisFormat == "35mm") {
-		if (ratio > 1) {
-			var finished_width = border_width_35mm + 100;
-			var finished_height = border_width_35mm * short_side_factor / ratio + 100;
-		} else {
-			var finished_width = border_width_35mm * short_side_factor * ratio + 100;
-			var finished_height = border_width_35mm + 100;
-		}
-	} else if (thisFormat == "645") {
-		if (ratio > 1) {
-			var finished_width = border_width_645 + 100;
-			var finished_height = 100;
-		} else {
-			var finished_width = 100;
-			var finished_height = border_width_645 + 100;
-		}
-	} else if (thisFormat == "67") {
-		if (ratio > 1) {
-			var finished_width = border_width_67 + 100;
-			var finished_height = border_width_67 * short_side_factor / ratio + 100;
-		} else {
-			var finished_width = border_width_67 * short_side_factor * ratio + 100;
-			var finished_height = border_width_67 + 100;
-		}
-	} else if (thisFormat == "45") {
-		if (ratio > 1) {
-			var finished_width = 100.5;
-			var finished_height = border_width_45 / ratio + 100;
-		} else {
-			var finished_width = border_width_45 * ratio + 100;
-			var finished_height = 100.5;
-		}
-	} else if (thisFormat == "square") {
-		var finished_width = border_width_square + 100;
-		var finished_height = border_width_square * short_side_factor + 100;
+	var finished_width = 100;
+	var finished_height = 100;
+	
+	switch (thisFormat) {
+		case "35mm":
+			if (ratio > 1) {
+				finished_width = border_width_35mm + 100;
+				finished_height = border_width_35mm * short_side_factor / ratio + 100;
+			} else {
+				finished_width = border_width_35mm * short_side_factor * ratio + 100;
+				finished_height = border_width_35mm + 100;
+			}
+			break;
+	
+		case "645":
+			if (ratio > 1) {
+				finished_width = border_width_645 + 100;
+				finished_height = 100;
+			} else {
+				finished_width = 100;
+				finished_height = border_width_645 + 100;
+			}
+			break;
+	
+		case "67":
+			if (ratio > 1) {
+				finished_width = border_width_67 + 100;
+				finished_height = border_width_67 * short_side_factor / ratio + 100;
+			} else {
+				finished_width = border_width_67 * short_side_factor * ratio + 100;
+				finished_height = border_width_67 + 100;
+			}
+			break;
+	
+		case "45":
+			if (ratio > 1) {
+				finished_width = 100.5;
+				finished_height = border_width_45 / ratio + 100;
+			} else {
+				finished_width = border_width_45 * ratio + 100;
+				finished_height = 100.5;
+			}
+			break;
+	
+		case "square":
+			finished_width = border_width_square + 100;
+			finished_height = border_width_square * short_side_factor + 100;
+			break;
+	
+		default:
+			break;
 	}
 	
 	// Crop canvas to new size
