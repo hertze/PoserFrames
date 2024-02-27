@@ -420,31 +420,37 @@ function createBackdropLayer() {
 	backdrop.moveAfter(imageLayer);
 }
 
-function decideRotation(pathKind, rotate_mask) {
-	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // How much random rotation to add, between -0.1 and 0.1 deg.
-	if (app.activeDocument.height > app.activeDocument.width ) {
-		// Portrait
-		if (pathKind == "negative") {
-			// Only negative should have random rotation or 180 flip.
-			if (generateRandomInteger(1, 4) > 2 && thisFormat != "45") {
+function decideRotation(pathKind, rotateMask) {
+	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // Random rotation between -0.1 and 0.1 deg.
+	
+	if (app.activeDocument.height > app.activeDocument.width) {
+		// Portrait orientation
+		if (pathKind === "negative") {
+			// Random rotation or 180 flip for negative paths (if not in "45" format)
+			if (generateRandomInteger(1, 4) > 2 && thisFormat !== "45") {
 				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
 				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
 			}
-		} else if (rotate_mask == true) {	
+		} else if (rotateMask) {
+			// Rotate mask
 			app.activeDocument.selection.rotateBoundary(270, AnchorPosition.MIDDLECENTER);
 		} else {
+			// Rotate non-negative path
 			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
-		// Landscape
-		if (pathKind == "negative") {
+		// Landscape orientation
+		if (pathKind === "negative") {
+			// Random rotation for negative paths
 			app.activeDocument.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-		} else if (rotate_mask == true) {
-			app.activeDocument.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);	
-		} 
+		} else if (rotateMask) {
+			// Rotate mask
+			app.activeDocument.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);    
+		}
 	}
 }
+
 
 function adjustSelection(side) {
 	if (side > 0) {
