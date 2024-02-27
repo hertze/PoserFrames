@@ -389,17 +389,26 @@ function createPath(thisPath, pathName) {
 
 function loadPaths() {
 	// Creates paths
-	createPath(choosePath("negative"), "negative"); // Choose a negative and draw the path
-	if (fancy == true) { createPath(choosePath("mask"), "mask"); } // Choose a mask and draw the path
+	var negativePath = choosePath("negative");
+	createPath(negativePath, "negative");
+
+	if (fancy && choosePath("mask")) {
+		createPath(choosePath("mask"), "mask");
+	}
 	var thisSubshadow = choosePath("subshadow");
-	if (thisSubshadow != false && fancy == true && artifacts == true) { createPath(thisSubshadow, "subshadow"); }
+	if (thisSubshadow && fancy && artifacts) {
+		createPath(thisSubshadow, "subshadow");
+	}
 	var thisShadow = choosePath("shadow");
-	if (thisShadow != false && fancy == true && artifacts == true) { createPath(thisShadow, "shadow"); }
+	if (thisShadow && fancy && artifacts) {
+		createPath(thisShadow, "shadow");
+	}
 	return {
 		subshadow: thisSubshadow,
 		shadow: thisShadow
-	}
+	};
 }
+
 
 function createBackdropLayer() {
 	// Create black backdrop and move to background
