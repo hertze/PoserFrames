@@ -271,41 +271,32 @@ function colorCheck() {
 
 function format(){
 	// Determine format
-	if (doc_height > doc_width) {
-		if (doc_height/doc_width < 1.1) {
-			var format = "square";
+	var aspectRatio = doc_height / doc_width;
+	if (aspectRatio > 1) {
+		if (aspectRatio < 1.1) {
+			return "square";
+		} else if (aspectRatio < 1.2) {
+			return "67";
+		} else if (aspectRatio < 1.3) {
+			return "45";
+		} else if (aspectRatio < 1.4) {
+			return "645";
+		} else {
+			return "35mm";
 		}
-		else if (doc_height/doc_width > 1.1 && doc_height/doc_width < 1.2) {
-			var format = "67";
-		}
-		else if (doc_height/doc_width > 1.2 && doc_height/doc_width < 1.3) {
-			var format = "45";
-		}
-		else if (doc_height/doc_width > 1.3 && doc_height/doc_width < 1.4) {
-			var format = "645";
-		}
-		else {
-			var format = "35mm";
-		}
-	}
-	else {
-		if (doc_width/doc_height < 1.1) {
-			var format = "square";
-		}
-		else if (doc_width/doc_height > 1.1 && doc_width/doc_height < 1.2) {
-			var format = "67";
-		}
-		else if (doc_width/doc_height > 1.2 && doc_width/doc_height < 1.3) {
-			var format = "45";
-		}
-		else if (doc_width/doc_height > 1.3 && doc_width/doc_height < 1.4) {
-			var format = "645";
-		}
-		else {
-			var format = "35mm";
+	} else {
+		if (1 / aspectRatio < 1.1) {
+			return "square";
+		} else if (1 / aspectRatio < 1.2) {
+			return "67";
+		} else if (1 / aspectRatio < 1.3) {
+			return "45";
+		} else if (1 / aspectRatio < 1.4) {
+			return "645";
+		} else {
+			return "35mm";
 		}
 	}
-	return format;
 }
 
 function choosePath(pathKind) {
