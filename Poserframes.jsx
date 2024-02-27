@@ -785,76 +785,71 @@ function run_fancy() {
 	var masklayer = app.activeDocument.artLayers.add();
 	masklayer.name = "mask"; // Names mask layer.
 	
-	if (artifacts == true) {
-					
-					if (thisSubshadow != false ) {
-						app.activeDocument.selection.selectAll();
-						app.activeDocument.selection.fill(myColor_subshadow); // Fill the selection with subshadow color		
-					}
-					if (thisShadow != false ) {
-						app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true); // Make selection from path
-						decideRotation("shadow", rotate_mask);
-						adjustSelection();
-						app.activeDocument.selection.fill(myColor_shadow); // Fill the selection with shadow color
-					}
-					if (thisSubshadow != false ) {
-						// Creates inverted subshadow layer for white fill
-						app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale*4, true);
-						decideRotation("subshadow", rotate_mask );
-						adjustSelection(); //Scales and centers the selection
-						
-						// Adds and edge to the subshadow			
-						app.activeDocument.selection.stroke(myColor_black, doc_scale*3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
-						
-						app.activeDocument.selection.deselect(); // Apply noise to the whole layer
-						masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-						masklayer.applyGaussianBlur(doc_scale*10);
-				
-						app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
-						decideRotation("subshadow", rotate_mask);
-						adjustSelection(); //Scales and centers the selection
-						app.activeDocument.selection.invert();
-						app.activeDocument.selection.fill(myColor_white); // Fill outside of the shadow with white.	
-					}
-					
-					// Adds a more organic look to the artefacts layer
-					var hipasslayer = masklayer.duplicate();
-					hipasslayer.name = "hipass";
-					hipasslayer.blendMode = BlendMode.OVERLAY;
-					hipasslayer.applyHighPass(doc_scale);			
-					hipasslayer.merge();
-					app.activeDocument.selection.deselect();
-					masklayer.adjustLevels(0,249,generateRandomInteger(10,30)*0.01,0,255);
-					masklayer.applyGaussianBlur(feather*generateRandomInteger(5,10)*0.1);
-					
-				} else {
-					// If artefacts == false, fill the whole layer with white
-					app.activeDocument.selection.selectAll();
-					app.activeDocument.selection.fill(myColor_white); // Fill the layer with white
-				}
-				
-				app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
-				decideRotation("mask", rotate_mask);
-				adjustSelection(); //Scales and centers the selection
-				// Punches a hole in the mask layer with the shape of the mask
-				app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	switch (artifacts) {
+		case true:
+			if (thisSubshadow != false) {
+				app.activeDocument.selection.selectAll();
+				app.activeDocument.selection.fill(myColor_subshadow);
+			}
+			if (thisShadow != false) {
+				app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true);
+				decideRotation("shadow", rotate_mask);
+				adjustSelection();
+				app.activeDocument.selection.fill(myColor_shadow);
+			}
+			if (thisSubshadow != false) {
+				app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale * 4, true);
+				decideRotation("subshadow", rotate_mask);
+				adjustSelection();
+				app.activeDocument.selection.stroke(myColor_black, doc_scale * 3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
 				app.activeDocument.selection.deselect();
-			
-				if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
-					moveNeg_fancy();
-				}
-				
-				app.activeDocument.flatten(); // Flatten all layers
-				
-				// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-				if (app.activeDocument.bitsPerChannel == BitsPerChannelType.EIGHT || app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
-					app.activeDocument.bitsPerChannel = BitsPerChannelType.EIGHT;
-					app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
-					decideRotation("mask", rotate_mask);
-					adjustSelection();
-					app.activeDocument.selection.invert();
-					spatterFilter(2, 4);
-				}
+				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+				masklayer.applyGaussianBlur(doc_scale * 10);
+				app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
+				decideRotation("subshadow", rotate_mask);
+				adjustSelection();
+				app.activeDocument.selection.invert();
+				app.activeDocument.selection.fill(myColor_white);
+			}
+			var hipasslayer = masklayer.duplicate();
+			hipasslayer.name = "hipass";
+			hipasslayer.blendMode = BlendMode.OVERLAY;
+			hipasslayer.applyHighPass(doc_scale);
+			hipasslayer.merge();
+			app.activeDocument.selection.deselect();
+			masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
+			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
+			break;
+	
+		default:
+			app.activeDocument.selection.selectAll();
+			app.activeDocument.selection.fill(myColor_white);
+			break;
+	}
+	
+	
+	app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
+	decideRotation("mask", rotate_mask);
+	adjustSelection(); //Scales and centers the selection
+	// Punches a hole in the mask layer with the shape of the mask
+	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	app.activeDocument.selection.deselect();
+	
+	if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
+		moveNeg_fancy();
+	}
+	
+	app.activeDocument.flatten(); // Flatten all layers
+	
+	// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
+	if (app.activeDocument.bitsPerChannel == BitsPerChannelType.EIGHT || app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
+		app.activeDocument.bitsPerChannel = BitsPerChannelType.EIGHT;
+		app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
+		decideRotation("mask", rotate_mask);
+		adjustSelection();
+		app.activeDocument.selection.invert();
+		spatterFilter(2, 4);
+	}
 			
 }
 
