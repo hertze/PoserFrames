@@ -1,6 +1,6 @@
 // P O S E R F R A M E S
 //
-// Version 3.3.1
+// Version 3.3.2
 //
 // by Joakim Hertze (www.hertze.se)
 //
@@ -269,7 +269,6 @@ function colorCheck() {
 	}
 }
 
-
 function format(){
 	// Determine format
 	var aspectRatio = doc.height / doc.width;
@@ -302,114 +301,132 @@ function format(){
 
 function choosePath(pathKind) {
 	var stagedPath;
+
 	if (thisFormat == "square") {
 		if (pathKind == "negative") {
-			stagedPath = negativeSquare[generateRandomInteger(0, negativeSquare.length)];
+			stagedPath = chooseRandomPath(negativeSquare);
 		} else if (pathKind == "subshadow" && subshadowSquare.length > 0) {
-			stagedPath = subshadowSquare[generateRandomInteger(0, subshadowSquare.length)];
+			stagedPath = chooseRandomPath(subshadowSquare);
 		} else if (pathKind == "shadow" && shadowSquare.length > 0) {
-			stagedPath = shadowSquare[generateRandomInteger(0, shadowSquare.length)];
+			stagedPath = chooseRandomPath(shadowSquare);
 		} else {
-			stagedPath = maskSquare[generateRandomInteger(0, maskSquare.length)];
+			stagedPath = chooseRandomPath(maskSquare);
 		}
 	} else if (thisFormat == "67") {
 		if (pathKind == "negative") {
-			stagedPath = negative67[generateRandomInteger(0, negative67.length)];
+			stagedPath = chooseRandomPath(negative67);
 		} else if (pathKind == "subshadow" && subshadow67.length > 0) {
-			stagedPath = subshadow67[generateRandomInteger(0, subshadow67.length)];
+			stagedPath = chooseRandomPath(subshadow67);
 		} else if (pathKind == "shadow" && shadow67.length > 0) {
-			stagedPath = shadow67[generateRandomInteger(0, shadow67.length)];
+			stagedPath = chooseRandomPath(shadow67);
 		} else {
-			stagedPath = mask67[generateRandomInteger(0, mask67.length)];
+			stagedPath = chooseRandomPath(mask67);
 		}
 	} else if (thisFormat == "45") {
 		if (pathKind == "negative") {
-			stagedPath = negative45[generateRandomInteger(0, negative45.length)];
+			stagedPath = chooseRandomPath(negative45);
 		} else if (pathKind == "subshadow" && subshadow45.length > 0) {
-			stagedPath = subshadow45[generateRandomInteger(0, subshadow45.length)];
+			stagedPath = chooseRandomPath(subshadow45);
 		} else if (pathKind == "shadow" && shadow45.length > 0) {
-			stagedPath = shadow45[generateRandomInteger(0, shadow45.length)];
+			stagedPath = chooseRandomPath(shadow45);
 		} else {
-			stagedPath = mask45[generateRandomInteger(0, mask45.length)];
+			stagedPath = chooseRandomPath(mask45);
 		}
 	} else if (thisFormat == "645") {
 		if (pathKind == "negative") {
-			stagedPath = negative645[generateRandomInteger(0, negative645.length)];
+			stagedPath = chooseRandomPath(negative645);
 		} else if (pathKind == "subshadow" && subshadow645.length > 0) {
-			stagedPath = subshadow645[generateRandomInteger(0, subshadow645.length)];
+			stagedPath = chooseRandomPath(subshadow645);
 		} else if (pathKind == "shadow" && shadow645.length > 0) {
-			stagedPath = shadow645[generateRandomInteger(0, shadow645.length)];
+			stagedPath = chooseRandomPath(shadow645);
 		} else {
-			stagedPath = mask645[generateRandomInteger(0, mask645.length)];
+			stagedPath = chooseRandomPath(mask645);
 		}
 	} else if (thisFormat == "35mm") {
 		if (pathKind == "negative") {
-			stagedPath = negative35mm[generateRandomInteger(0, negative35mm.length)];
+			stagedPath = chooseRandomPath(negative35mm);
 		} else if (pathKind == "subshadow" && subshadow35mm.length > 0) {
-			stagedPath = subshadow35mm[generateRandomInteger(0, subshadow35mm.length)];
+			stagedPath = chooseRandomPath(subshadow35mm);
 		} else if (pathKind == "shadow" && shadow35mm.length > 0) {
-			stagedPath = shadow35mm[generateRandomInteger(0, shadow35mm.length)];
+			stagedPath = chooseRandomPath(shadow35mm);
 		} else {
-			stagedPath = mask35mm[generateRandomInteger(0, mask35mm.length)];
+			stagedPath = chooseRandomPath(mask35mm);
 		}
 	}
+
 	return (stagedPath !== undefined) ? stagedPath : false;
 }
 
-function createPath(thisPath, pathName) {
-	var thisPathPointInfo = thisPath.split(";");
-	var p = [];
-	var pth = [];
-	
-	for (var i = 0; i < thisPathPointInfo.length; i++ ) {
-		var thisPathPointInfoProperties = thisPathPointInfo[i].split(" ");
-		var anchorString = thisPathPointInfoProperties[1].split(",");
-		var leftDirectionString = thisPathPointInfoProperties[2].split(",");
-		var rightDirectionString = thisPathPointInfoProperties[3].split(",");
-		
-		var pathPoint = new PathPointInfo();
-		pathPoint.kind = thisPathPointInfoProperties[0];
-		pathPoint.anchor = [parseFloat(anchorString[0]), parseFloat(anchorString[1])];
-		pathPoint.leftDirection = [parseFloat(leftDirectionString[0]), parseFloat(leftDirectionString[1])];
-		pathPoint.rightDirection = [parseFloat(rightDirectionString[0]), parseFloat(rightDirectionString[1])];
-		pathPoint.typename = thisPathPointInfoProperties[4];
-		
-		p.push(pathPoint);
+function chooseRandomPath(pathArray) {
+	if (pathArray && pathArray.length > 0) {
+		var randomIndex = Math.floor(Math.random() * pathArray.length);
+		return pathArray[randomIndex];
 	}
-	
-	var subPath = new SubPathInfo();
-	subPath.operation = ShapeOperation.SHAPEXOR;
-	subPath.closed = true;
-	subPath.entireSubPath = p;
-	
-	pth.push(subPath);
-	
-	doc.pathItems.add(pathName, pth);
+	return undefined;
 }
 
+function createPath(thisPath, pathName) {
+	var pathPoints = thisPath.split(";");
+	var pathPointInfos = [];
+
+	for (var i = 0; i < pathPoints.length; i++) {
+		var pointInfo = pathPoints[i].split(" ");
+		var anchor = pointInfo[1].split(",");
+		var leftDirection = pointInfo[2].split(",");
+		var rightDirection = pointInfo[3].split(",");
+
+		var pathPoint = new PathPointInfo();
+		pathPoint.kind = pointInfo[0];
+		pathPoint.anchor = [parseFloat(anchor[0]), parseFloat(anchor[1])];
+		pathPoint.leftDirection = [parseFloat(leftDirection[0]), parseFloat(leftDirection[1])];
+		pathPoint.rightDirection = [parseFloat(rightDirection[0]), parseFloat(rightDirection[1])];
+		pathPoint.pointType = pointInfo[4];
+
+		pathPointInfos.push(pathPoint);
+	}
+
+	var subPathInfo = new SubPathInfo();
+	subPathInfo.operation = ShapeOperation.SHAPEXOR;
+	subPathInfo.closed = true;
+	subPathInfo.entireSubPath = pathPointInfos;
+
+	app.activeDocument.pathItems.add(pathName, [subPathInfo]);
+}
 
 function loadPaths() {
-	// Creates paths
+	var thisSubshadow = null;
+	var thisShadow = null;
+
+	// Create negative path
 	var negativePath = choosePath("negative");
 	createPath(negativePath, "negative");
 
-	if (fancy && choosePath("mask")) {
-		createPath(choosePath("mask"), "mask");
+	// Check if fancy mode is enabled and choose mask path
+	if (fancy) {
+		var maskPath = choosePath("mask");
+		if (maskPath) {
+			createPath(maskPath, "mask");
+		}
 	}
-	var thisSubshadow = choosePath("subshadow");
-	if (thisSubshadow && fancy && artifacts) {
-		createPath(thisSubshadow, "subshadow");
-	}
-	var thisShadow = choosePath("shadow");
-	if (thisShadow && fancy && artifacts) {
-		createPath(thisShadow, "shadow");
-	}
-	return {
-		subshadow: thisSubshadow,
-		shadow: thisShadow
-	};
-}
 
+	// Check if fancy mode and artifacts are enabled to create subshadow path
+	if (fancy && artifacts) {
+		thisSubshadow = choosePath("subshadow");
+		if (thisSubshadow) {
+			createPath(thisSubshadow, "subshadow");
+		}
+	}
+
+	// Check if fancy mode and artifacts are enabled to create shadow path
+	if (fancy && artifacts) {
+		thisShadow = choosePath("shadow");
+		if (thisShadow) {
+			createPath(thisShadow, "shadow");
+		}
+	}
+
+	return { subshadow: thisSubshadow, shadow: thisShadow };
+}
 
 function createBackdropLayer() {
 	// Create black backdrop and move to background
@@ -422,13 +439,13 @@ function createBackdropLayer() {
 }
 
 function decideRotation(pathKind, rotateMask) {
-	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // Random rotation between -0.1 and 0.1 deg.
-	
+	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+
 	if (doc.height > doc.width) {
 		// Portrait orientation
 		if (pathKind === "negative") {
 			// Random rotation or 180 flip for negative paths (if not in "45" format)
-			if (generateRandomInteger(1, 4) > 2 && thisFormat !== "45") {
+			if (Math.random() > 0.5 && thisFormat !== "45") {
 				doc.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
 				doc.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
@@ -447,7 +464,7 @@ function decideRotation(pathKind, rotateMask) {
 			doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
 		} else if (rotateMask) {
 			// Rotate mask
-			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);    
+			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
 		}
 	}
 }
