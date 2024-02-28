@@ -244,7 +244,7 @@ function colorCheck() {
 	var do_bw = false;
 	var do_color = false;
 
-	var doc_keywords = app.activeDocument.info.keywords;
+	var doc_keywords = doc.info.keywords;
 
 	for (var a in doc_keywords) {
 		if (doc_keywords[a].toString().match(/bw/i)) {
@@ -260,7 +260,7 @@ function colorCheck() {
 	} else if (do_color) {
 		return "color";
 	} else {
-		var theSampler = app.activeDocument.colorSamplers.add([Math.abs(app.activeDocument.width / 2), Math.abs(app.activeDocument.height / 2)]);
+		var theSampler = doc.colorSamplers.add([Math.abs(doc.width / 2), Math.abs(doc.height / 2)]);
 		if (theSampler.color.rgb.red === theSampler.color.rgb.green && theSampler.color.rgb.green === theSampler.color.rgb.blue) {
 			return "bw";
 		} else {
@@ -384,7 +384,7 @@ function createPath(thisPath, pathName) {
 	
 	pth.push(subPath);
 	
-	app.activeDocument.pathItems.add(pathName, pth);
+	doc.pathItems.add(pathName, pth);
 }
 
 
@@ -413,41 +413,41 @@ function loadPaths() {
 
 function createBackdropLayer() {
 	// Create black backdrop and move to background
-	var imageLayer = app.activeDocument.activeLayer; // Save first layer to variable
-	var backdrop = app.activeDocument.artLayers.add();
+	var imageLayer = doc.activeLayer; // Save first layer to variable
+	var backdrop = doc.artLayers.add();
 	backdrop.name = "backdrop"; // Names backdrop layer
-	app.activeDocument.selection.selectAll();
-	app.activeDocument.selection.fill(myColor_black); // Fill the layer with black
+	doc.selection.selectAll();
+	doc.selection.fill(myColor_black); // Fill the layer with black
 	backdrop.moveAfter(imageLayer);
 }
 
 function decideRotation(pathKind, rotateMask) {
 	var randRotation = generateRandomInteger(1, 11) / 10 * 0.2 - 0.1; // Random rotation between -0.1 and 0.1 deg.
 	
-	if (app.activeDocument.height > app.activeDocument.width) {
+	if (doc.height > doc.width) {
 		// Portrait orientation
 		if (pathKind === "negative") {
 			// Random rotation or 180 flip for negative paths (if not in "45" format)
 			if (generateRandomInteger(1, 4) > 2 && thisFormat !== "45") {
-				app.activeDocument.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
+				doc.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
-				app.activeDocument.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
+				doc.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
 			}
 		} else if (rotateMask) {
 			// Rotate mask
-			app.activeDocument.selection.rotateBoundary(270, AnchorPosition.MIDDLECENTER);
+			doc.selection.rotateBoundary(270, AnchorPosition.MIDDLECENTER);
 		} else {
 			// Rotate non-negative path
-			app.activeDocument.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
+			doc.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
 		}
 	} else {
 		// Landscape orientation
 		if (pathKind === "negative") {
 			// Random rotation for negative paths
-			app.activeDocument.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+			doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
 		} else if (rotateMask) {
 			// Rotate mask
-			app.activeDocument.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);    
+			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);    
 		}
 	}
 }
@@ -464,21 +464,21 @@ function adjustSelection(side) {
 	}
 	
 	// Resize the selection boundary
-	app.activeDocument.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
+	doc.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
 
 	// Get the bounds of the selection
-	var selectionBounds = app.activeDocument.selection.bounds;
+	var selectionBounds = doc.selection.bounds;
 
 	// Calculate the middle horizontal and vertical positions of the selection
 	var middleHorizontal = (selectionBounds[2] - selectionBounds[0]) / 2 + selectionBounds[0];
 	var middleVertical = (selectionBounds[3] - selectionBounds[1]) / 2 + selectionBounds[1];
 
 	// Calculate the delta values to translate the selection to the center of the document
-	var deltaX = app.activeDocument.width / 2 - middleHorizontal;
-	var deltaY = app.activeDocument.height / 2 - middleVertical;
+	var deltaX = doc.width / 2 - middleHorizontal;
+	var deltaY = doc.height / 2 - middleVertical;
 
 	// Translate the selection boundary
-	app.activeDocument.selection.translateBoundary(UnitValue(deltaX, "px"), UnitValue(deltaY, "px"));
+	doc.selection.translateBoundary(UnitValue(deltaX, "px"), UnitValue(deltaY, "px"));
 }
 
 
@@ -539,7 +539,7 @@ function moveNeg() {
 	}
 
 	// Move the negative layer
-	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
+	MoveLayerTo(doc.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
 }
 
 
@@ -747,7 +747,7 @@ function moveNeg_fancy() {
 	}
 
 	// Move the negative layer
-	MoveLayerTo(app.activeDocument.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
+	MoveLayerTo(doc.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
 }
 
 function spatterFilter(radiusValue, smoothnessValue) {
@@ -768,87 +768,87 @@ function spatterFilter(radiusValue, smoothnessValue) {
 function run_fancy() {
 	
 	if (ratio > 1) {
-		app.activeDocument.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+		doc.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
 	} else {
-		app.activeDocument.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+		doc.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
 	}
 	
 	// Creates the negative layer content
-	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+	doc.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
 	decideRotation("negative");
 	adjustSelection(); //Scales and centers the selection
-	app.activeDocument.selection.invert(); // Invert selection
-	app.activeDocument.selection.fill(myColor_black); // Fill with black
+	doc.selection.invert(); // Invert selection
+	doc.selection.fill(myColor_black); // Fill with black
 	
 	createBackdropLayer();
 	
 	// Creates mask layer
-	var masklayer = app.activeDocument.artLayers.add();
+	var masklayer = doc.artLayers.add();
 	masklayer.name = "mask"; // Names mask layer.
 	
 	switch (artifacts) {
 		case true:
 			if (thisSubshadow != false) {
-				app.activeDocument.selection.selectAll();
-				app.activeDocument.selection.fill(myColor_subshadow);
+				doc.selection.selectAll();
+				doc.selection.fill(myColor_subshadow);
 			}
 			if (thisShadow != false) {
-				app.activeDocument.pathItems.getByName('shadow').makeSelection(feather * 2.5, true);
+				doc.pathItems.getByName('shadow').makeSelection(feather * 2.5, true);
 				decideRotation("shadow", rotate_mask);
 				adjustSelection();
-				app.activeDocument.selection.fill(myColor_shadow);
+				doc.selection.fill(myColor_shadow);
 			}
 			if (thisSubshadow != false) {
-				app.activeDocument.pathItems.getByName('subshadow').makeSelection(doc_scale * 4, true);
+				doc.pathItems.getByName('subshadow').makeSelection(doc_scale * 4, true);
 				decideRotation("subshadow", rotate_mask);
 				adjustSelection();
-				app.activeDocument.selection.stroke(myColor_black, doc_scale * 3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
-				app.activeDocument.selection.deselect();
+				doc.selection.stroke(myColor_black, doc_scale * 3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
+				doc.selection.deselect();
 				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
 				masklayer.applyGaussianBlur(doc_scale * 10);
-				app.activeDocument.pathItems.getByName('subshadow').makeSelection(0, true);
+				doc.pathItems.getByName('subshadow').makeSelection(0, true);
 				decideRotation("subshadow", rotate_mask);
 				adjustSelection();
-				app.activeDocument.selection.invert();
-				app.activeDocument.selection.fill(myColor_white);
+				doc.selection.invert();
+				doc.selection.fill(myColor_white);
 			}
 			var hipasslayer = masklayer.duplicate();
 			hipasslayer.name = "hipass";
 			hipasslayer.blendMode = BlendMode.OVERLAY;
 			hipasslayer.applyHighPass(doc_scale);
 			hipasslayer.merge();
-			app.activeDocument.selection.deselect();
+			doc.selection.deselect();
 			masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
 			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
 			break;
 	
 		default:
-			app.activeDocument.selection.selectAll();
-			app.activeDocument.selection.fill(myColor_white);
+			doc.selection.selectAll();
+			doc.selection.fill(myColor_white);
 			break;
 	}
 	
 	
-	app.activeDocument.pathItems.getByName('mask').makeSelection(feather, true);
+	doc.pathItems.getByName('mask').makeSelection(feather, true);
 	decideRotation("mask", rotate_mask);
 	adjustSelection(); //Scales and centers the selection
 	// Punches a hole in the mask layer with the shape of the mask
-	app.activeDocument.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	app.activeDocument.selection.deselect();
+	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	doc.selection.deselect();
 	
 	if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
 		moveNeg_fancy();
 	}
 	
-	app.activeDocument.flatten(); // Flatten all layers
+	doc.flatten(); // Flatten all layers
 	
 	// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-	if (app.activeDocument.bitsPerChannel == BitsPerChannelType.EIGHT || app.activeDocument.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit == true) {
-		app.activeDocument.bitsPerChannel = BitsPerChannelType.EIGHT;
-		app.activeDocument.pathItems.getByName('mask').makeSelection(feather*2, true);
+	if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
+		doc.bitsPerChannel = BitsPerChannelType.EIGHT;
+		doc.pathItems.getByName('mask').makeSelection(feather*2, true);
 		decideRotation("mask", rotate_mask);
 		adjustSelection();
-		app.activeDocument.selection.invert();
+		doc.selection.invert();
 		spatterFilter(2, 4);
 	}
 			
@@ -913,10 +913,10 @@ function run_crop() {
 	}
 	
 	// Crop canvas to new size
-	app.activeDocument.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
+	doc.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
 	
 	// Creates the negative layer content
-	app.activeDocument.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
+	doc.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
 	decideRotation("negative", rotate_mask);
 	adjustSelection(); //Scales and centers the selection
 	
@@ -924,15 +924,15 @@ function run_crop() {
 	if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
 		if (ratio > 1) {
 			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc_height * thisDirection();
-			app.activeDocument.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
+			doc.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
 		} else {
 			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc_height * thisDirection();
-			app.activeDocument.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
+			doc.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
 		}
 	}
 	
-	app.activeDocument.selection.invert(); // Invert selection
-	app.activeDocument.selection.fill(myColor_black); // Fill with black
+	doc.selection.invert(); // Invert selection
+	doc.selection.fill(myColor_black); // Fill with black
 	
 	createBackdropLayer();
 	
@@ -940,22 +940,22 @@ function run_crop() {
 		moveNeg();
 	}
 	
-	app.activeDocument.flatten(); // Flatten all layers
+	doc.flatten(); // Flatten all layers
 				
 	if (matted_crop == true) {
 		backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
 		if (ratio > 1) {
-			app.activeDocument.resizeCanvas(UnitValue(100 + matted_border_size,"%"), UnitValue(matted_border_size / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+			doc.resizeCanvas(UnitValue(100 + matted_border_size,"%"), UnitValue(matted_border_size / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
 		} else {
-			app.activeDocument.resizeCanvas(UnitValue(matted_border_size * ratio + 100,"%"), UnitValue(matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER);
+			doc.resizeCanvas(UnitValue(matted_border_size * ratio + 100,"%"), UnitValue(matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER);
 		}
 	}
 	
 }
 
 function saveClose() {
-	var file_ending = app.activeDocument.name.split('.').pop().toLowerCase();
-	var fPath = app.activeDocument.path;
+	var file_ending = doc.name.split('.').pop().toLowerCase();
+	var fPath = doc.path;
 	
 	if (file_ending == "tif" || file_ending == "tiff") {
 		// Save out the image as tiff
@@ -964,7 +964,7 @@ function saveClose() {
 		tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
 		tiffSaveOptions.layers = false;
 		tiffSaveOptions.embedColorProfile = true;
-		app.activeDocument.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
+		doc.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
 	} else {
 		// Save out the image as jpeg
 		var jpgFile = new File(fPath);
@@ -973,17 +973,17 @@ function saveClose() {
 		jpgSaveOptions.embedColorProfile = true;
 		jpgSaveOptions.matte = MatteType.NONE;
 		jpgSaveOptions.quality = 12;
-		app.activeDocument.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
+		doc.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
 	}
-	app.activeDocument.close();
+	doc.close();
 }
 
 function cleanup() {
-	app.activeDocument.selection.deselect();
-	app.activeDocument.pathItems.getByName('negative').remove();
-	if (fancy == true) { app.activeDocument.pathItems.getByName('mask').remove(); }
-	if (thisSubshadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('subshadow').remove(); }
-	if (thisShadow != false && fancy == true && artifacts == true) { app.activeDocument.pathItems.getByName('shadow').remove(); }
+	doc.selection.deselect();
+	doc.pathItems.getByName('negative').remove();
+	if (fancy == true) { doc.pathItems.getByName('mask').remove(); }
+	if (thisSubshadow != false && fancy == true && artifacts == true) { doc.pathItems.getByName('subshadow').remove(); }
+	if (thisShadow != false && fancy == true && artifacts == true) { doc.pathItems.getByName('shadow').remove(); }
 	if (save == true ) { saveClose(); }
 }
 
@@ -1420,12 +1420,13 @@ if (mask_variant_45 == 2) {
 
 // Initial properties, settings and calculations
 
+var doc = app.activeDocument;
 app.preferences.rulerUnits = Units.PIXELS;
 app.displayDialogs = DialogModes.NO;
-app.activeDocument.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
+doc.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
 
-var doc_height = app.activeDocument.height;
-var doc_width = app.activeDocument.width;
+var doc_height = doc.height;
+var doc_width = doc.width;
 var ratio = doc_height / doc_width;
 var thisFormat = format();
 
@@ -1463,9 +1464,9 @@ if (ratio > 1) {
 var doc_scale = negative_size.value / 3600;
 
 // Sets up existing image layer
-app.activeDocument.activeLayer.isBackgroundLayer = false; // Unlocks background layer
-var negativelayer = app.activeDocument.activeLayer;
-app.activeDocument.activeLayer.name = "negative"; // Names background layer
+doc.activeLayer.isBackgroundLayer = false; // Unlocks background layer
+var negativelayer = doc.activeLayer;
+doc.activeLayer.name = "negative"; // Names background layer
 
 // Colors
 var myColor_white = new SolidColor();  
