@@ -272,7 +272,7 @@ function colorCheck() {
 
 function format(){
 	// Determine format
-	var aspectRatio = doc_height / doc_width;
+	var aspectRatio = doc.height / doc.width;
 	if (aspectRatio > 1) {
 		if (aspectRatio < 1.1) {
 			return "square";
@@ -496,44 +496,44 @@ function moveNeg() {
 	switch (thisFormat) {
 		case "645":
 			if (ratio > 1) {
-				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_width * border_width_645 * 0.006 + doc_width * 0.003);
+				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_645 * 0.006 + doc.width * 0.003);
 			} else {
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_height * border_width_645 * 0.006 + doc_height * 0.003);
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.height * border_width_645 * 0.006 + doc.height * 0.003);
 			}
 			break;
 
 		case "67":
 			if (ratio > 1) {
-				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_width * border_width_67 * 0.008 + doc_width * 0.003);
-				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc_height * border_width_67 * short_side_factor / ratio * 0.008 + doc_height * 0.003);
+				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_67 * 0.008 + doc.width * 0.003);
+				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.height * border_width_67 * short_side_factor / ratio * 0.008 + doc.height * 0.003);
 			} else {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc_width * border_width_67 * short_side_factor * ratio * 0.008 + doc_width * 0.003);
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (border_width_67 * doc_height * 0.008 + doc_height * 0.003);
+				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.width * border_width_67 * short_side_factor * ratio * 0.008 + doc.width * 0.003);
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (border_width_67 * doc.height * 0.008 + doc.height * 0.003);
 			}
 			break;
 
 		case "45":
 			if (ratio > 1) {
-				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.01;
-				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * border_width_45 / ratio * 0.01;
+				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.01;
+				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * border_width_45 / ratio * 0.01;
 			} else {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * border_width_45 * ratio * 0.01;
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.01;
+				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * border_width_45 * ratio * 0.01;
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.01;
 			}
 			break;
 
 		case "square":
-			movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_height * border_width_square * 0.008 + doc_height * 0.01);
-			movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc_width * border_width_square * short_side_factor * 0.008 + doc_width * 0.01);
+			movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.height * border_width_square * 0.008 + doc.height * 0.01);
+			movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.width * border_width_square * short_side_factor * 0.008 + doc.width * 0.01);
 			break;
 
 		default:
 			if (ratio > 1) {
-				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_width * border_width_35mm * 0.01 + doc_width * 0.0015);
-				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc_height * border_width_35mm * short_side_factor / ratio * 0.008 + doc_height * 0.002);
+				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_35mm * 0.01 + doc.width * 0.0015);
+				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.height * border_width_35mm * short_side_factor / ratio * 0.008 + doc.height * 0.002);
 			} else {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc_width * border_width_35mm * short_side_factor * ratio * 0.008 + doc_width * 0.002);
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc_height * border_width_35mm * 0.01 + doc_height * 0.0015);
+				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.width * border_width_35mm * short_side_factor * ratio * 0.008 + doc.width * 0.002);
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.height * border_width_35mm * 0.01 + doc.height * 0.0015);
 			}
 			break;
 	}
@@ -552,47 +552,47 @@ function moveNeg_fancy() {
 				// Portrait
 				switch (mask_variant_645) {
 					case 5:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.02 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.004 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
 					case 4:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.028 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.028 * thisDirection();
 						movement_vertical = 0;
 						break;
 					case 3:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.006 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.004 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.008 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.004 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.008 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.022 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.004 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.022 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 				}
 			} else {
 				// Landscape
 				switch (mask_variant_645) {
 					case 5:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.004 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.02 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					case 4:
 						movement_horisontal = 0;
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.028 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.028 * thisDirection();
 						break;
 					case 3:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.004 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.006 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.006 * thisDirection();
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.004 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.008 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.004 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.022 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.022 * thisDirection();
 				}
 			}
 			break;
@@ -603,30 +603,30 @@ function moveNeg_fancy() {
 				switch (mask_variant_67) {
 					case 3:
 						movement_horisontal = 0;
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.018 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.018 * thisDirection();
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.006 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.005 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.005 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.02 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.005 * doc_height * 0.028 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.005 * doc.height * 0.028 * thisDirection();
 				}
 			} else {
 				// Landscape
 				switch (mask_variant_67) {
 					case 3:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.018 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.018 * thisDirection();
 						movement_vertical = 0;
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.005 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.007 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.005 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.007 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.005 * doc_width * 0.028 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.02 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.005 * doc.width * 0.028 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 				}
 			}
 			break;
@@ -635,20 +635,20 @@ function moveNeg_fancy() {
 			if (ratio > 1) {
 				// Portrait
 				if (mask_variant_45 == 2) {
-					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.005 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.006 * thisDirection();
+					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.005 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.006 * thisDirection();
 				} else {
-					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.006 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.01 * thisDirection();
+					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.01 * thisDirection();
 				}
 			} else {
 				// Landscape
 				if (mask_variant_45 == 2) {
-					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.015 * doc_width * 0.006 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.005 * thisDirection();
+					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.015 * doc.width * 0.006 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.005 * thisDirection();
 				} else {
-					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.01 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.006 * thisDirection();
+					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.01 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.006 * thisDirection();
 				}
 			}
 			break;
@@ -656,13 +656,13 @@ function moveNeg_fancy() {
 		case "square":
 			if (mask_variant_square == 3) {
 				movement_horisontal = 0;
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.018 * thisDirection();
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
 			} else if (mask_variant_square == 2) {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.008 * thisDirection();
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.01 * thisDirection();
+				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.01 * thisDirection();
 			} else {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.016 * thisDirection();
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.018 * thisDirection();
+				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.016 * thisDirection();
+				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
 			}
 			break;
 		
@@ -671,71 +671,71 @@ function moveNeg_fancy() {
 				// Portrait
 				switch (mask_variant_35mm) {
 					case 8:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.02 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.03 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.03 * thisDirection();
 						break;
 					case 7:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.021 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.021 * thisDirection();
 						movement_vertical = 0;
 						break;
 					case 6:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.008 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.008 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.008 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
 					case 5:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.016 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.012 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.016 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.012 * thisDirection();
 						break;
 					case 4:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.009 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.009 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.009 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.009 * thisDirection();
 						break;
 					case 3:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.018 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.025 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.018 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.025 * thisDirection();
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.02 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.013 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.013 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_width * 0.018 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_height * 0.012 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.018 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.012 * thisDirection();
 				}
 			} else {
 				// Landscape
 				switch (mask_variant_35mm) {
 					case 8:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.03 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.02 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.03 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					case 7:
 						movement_horisontal = 0;
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.021 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.021 * thisDirection();
 						break;
 					case 6:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.008 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.008 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
 					case 5:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.012 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.016 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.012 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.016 * thisDirection();
 						break;
 					case 4:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.009 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.009 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.009 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.009 * thisDirection();
 						break;
 					case 3:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.025 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.018 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.025 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
 						break;
 					case 2:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.013 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.02 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.013 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					default:
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc_width * 0.012 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc_height * 0.018 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.012 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
 				}
 			}
 			break;
@@ -913,7 +913,7 @@ function run_crop() {
 	}
 	
 	// Crop canvas to new size
-	doc.resizeCanvas(UnitValue(finished_width / 100 * doc_width ,"px"), UnitValue(finished_height / 100 * doc_height, "px"), AnchorPosition.MIDDLECENTER);
+	doc.resizeCanvas(UnitValue(finished_width / 100 * doc.width ,"px"), UnitValue(finished_height / 100 * doc.height, "px"), AnchorPosition.MIDDLECENTER);
 	
 	// Creates the negative layer content
 	doc.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
@@ -923,10 +923,10 @@ function run_crop() {
 	// For 645 we need to move the negative shape and not the entire layer
 	if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
 		if (ratio > 1) {
-			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc_height * thisDirection();
+			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
 			doc.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
 		} else {
-			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc_height * thisDirection();
+			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
 			doc.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
 		}
 	}
@@ -1425,39 +1425,37 @@ app.preferences.rulerUnits = Units.PIXELS;
 app.displayDialogs = DialogModes.NO;
 doc.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
 
-var doc_height = doc.height;
-var doc_width = doc.width;
-var ratio = doc_height / doc_width;
+var ratio = doc.height / doc.width;
 var thisFormat = format();
 
 // Calculate feathering
 if (ratio > 1) {
 	if (thisFormat == "35mm") {
-		var feather = doc_width / feather_factor_35mm;
+		var feather = doc.width / feather_factor_35mm;
 	} else if (thisFormat == "645") {
-		var feather = doc_width / feather_factor_645;
+		var feather = doc.width / feather_factor_645;
 	} else if (thisFormat == "45") {
-		var feather = doc_width / feather_factor_45;
+		var feather = doc.width / feather_factor_45;
 	} else {
-		var feather = doc_width / feather_factor_67_square;
+		var feather = doc.width / feather_factor_67_square;
 	}
 } else {
 	if (thisFormat == "35mm") {
-		var feather = doc_height / feather_factor_35mm;
+		var feather = doc.height / feather_factor_35mm;
 	} else if (thisFormat == "645") {
-		var feather = doc_height / feather_factor_645;
+		var feather = doc.height / feather_factor_645;
 	} else if (thisFormat == "45") {
-		var feather = doc_height / feather_factor_45;
+		var feather = doc.height / feather_factor_45;
 	} else {
-		var feather = doc_height / feather_factor_67_square;
+		var feather = doc.height / feather_factor_67_square;
 	}
 }
 
 // Decide the shortest side
 if (ratio > 1) {
-	var negative_size = doc_width;
+	var negative_size = doc.width;
 } else {
-	var negative_size = doc_height;
+	var negative_size = doc.height;
 }
 
 // Scale
@@ -1469,36 +1467,31 @@ var negativelayer = doc.activeLayer;
 doc.activeLayer.name = "negative"; // Names background layer
 
 // Colors
-var myColor_white = new SolidColor();  
+var myColor_white = new SolidColor();
+var myColor_black = new SolidColor();
+var myColor_shadow = new SolidColor();
+var myColor_subshadow = new SolidColor();
+ 
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
 myColor_white.rgb.blue = 255;
 
-if (colorCheck() == "color") {
-	var myColor_black = new SolidColor();  
-	myColor_black.rgb.red = generateRandomInteger(1, 6); 
-	myColor_black.rgb.green = generateRandomInteger(1, 6);  
-	myColor_black.rgb.blue = generateRandomInteger(1, 6);
-	
-	var myColor_shadow = new SolidColor();
-	myColor_shadow.hsb.hue = 32;
-	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
-} else {
-	var myColor_black = new SolidColor();
-	myColor_black.hsb.hue = 0;
-	myColor_black.hsb.saturation = 0;
-	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
-	
-	var myColor_shadow = new SolidColor();  
-	myColor_shadow.hsb.hue = 0;
-	myColor_shadow.hsb.saturation = 0;
-	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
-}
-var myColor_subshadow = new SolidColor();
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
+
+if (colorCheck() == "color") {
+	myColor_black.rgb.red = generateRandomInteger(1, 6);
+	myColor_black.rgb.green = generateRandomInteger(1, 6);
+	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+
+	myColor_shadow.hsb.hue = 32;
+	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+	myColor_shadow.hsb.brightness = generateRandomInteger(85, 90);
+} else {
+	myColor_black.hsb.brightness = generateRandomInteger(1, 6);
+	myColor_shadow.hsb.brightness = generateRandomInteger(70, 80);
+}
 
 // Half the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
