@@ -1484,7 +1484,6 @@ var negativelayer = doc.activeLayer;
 doc.activeLayer.name = "negative"; // Names background layer
 
 // Colors
-// Colors
 var myColor_white = new SolidColor();
 var myColor_black = new SolidColor(); 
 var myColor_shadow = new SolidColor();
