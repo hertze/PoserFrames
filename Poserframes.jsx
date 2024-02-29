@@ -1484,31 +1484,37 @@ var negativelayer = doc.activeLayer;
 doc.activeLayer.name = "negative"; // Names background layer
 
 // Colors
+// Colors
 var myColor_white = new SolidColor();
-var myColor_black = new SolidColor();
+var myColor_black = new SolidColor(); 
 var myColor_shadow = new SolidColor();
 var myColor_subshadow = new SolidColor();
- 
+
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
 myColor_white.rgb.blue = 255;
 
+if (colorCheck() == "color") {
+	myColor_black.rgb.red = generateRandomInteger(1, 6); 
+	myColor_black.rgb.green = generateRandomInteger(1, 6);  
+	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+	
+	myColor_shadow.hsb.hue = 32;
+	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+} else {
+	myColor_black.hsb.hue = 0;
+	myColor_black.hsb.saturation = 0;
+	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
+	 
+	myColor_shadow.hsb.hue = 0;
+	myColor_shadow.hsb.saturation = 0;
+	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
+}
+
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
-
-if (colorCheck() == "color") {
-	myColor_black.rgb.red = generateRandomInteger(1, 6);
-	myColor_black.rgb.green = generateRandomInteger(1, 6);
-	myColor_black.rgb.blue = generateRandomInteger(1, 6);
-
-	myColor_shadow.hsb.hue = 32;
-	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-	myColor_shadow.hsb.brightness = generateRandomInteger(85, 90);
-} else {
-	myColor_black.hsb.brightness = generateRandomInteger(1, 6);
-	myColor_shadow.hsb.brightness = generateRandomInteger(70, 80);
-}
 
 // Half the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
