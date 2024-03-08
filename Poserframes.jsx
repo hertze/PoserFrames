@@ -568,19 +568,19 @@ function moveNeg_fancy() {
 			if (ratio > 1) {
 				// Portrait
 				switch (mask_variant_645) {
-					case 5:
+					case "5":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
-					case 4:
+					case "4":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.028 * thisDirection();
 						movement_vertical = 0;
 						break;
-					case 3:
+					case "3":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.008 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.004 * thisDirection();
 						break;
@@ -591,19 +591,19 @@ function moveNeg_fancy() {
 			} else {
 				// Landscape
 				switch (mask_variant_645) {
-					case 5:
+					case "5":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
-					case 4:
+					case "4":
 						movement_horisontal = 0;
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.028 * thisDirection();
 						break;
-					case 3:
+					case "3":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.006 * thisDirection();
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.004 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
@@ -618,11 +618,11 @@ function moveNeg_fancy() {
 			if (ratio > 1) {
 				// Portrait
 				switch (mask_variant_67) {
-					case 3:
+					case "3":
 						movement_horisontal = 0;
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.018 * thisDirection();
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.005 * thisDirection();
 						break;
@@ -633,11 +633,11 @@ function moveNeg_fancy() {
 			} else {
 				// Landscape
 				switch (mask_variant_67) {
-					case 3:
+					case "3":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.018 * thisDirection();
 						movement_vertical = 0;
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.005 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.007 * thisDirection();
 						break;
@@ -687,31 +687,31 @@ function moveNeg_fancy() {
 			if (ratio > 1) {
 				// Portrait
 				switch (mask_variant_35mm) {
-					case 8:
+					case "8":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.03 * thisDirection();
 						break;
-					case 7:
+					case "7":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.021 * thisDirection();
 						movement_vertical = 0;
 						break;
-					case 6:
+					case "6":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.008 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
-					case 5:
+					case "5":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.016 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.012 * thisDirection();
 						break;
-					case 4:
+					case "4":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.009 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.009 * thisDirection();
 						break;
-					case 3:
+					case "3":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.018 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.025 * thisDirection();
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.013 * thisDirection();
 						break;
@@ -722,31 +722,31 @@ function moveNeg_fancy() {
 			} else {
 				// Landscape
 				switch (mask_variant_35mm) {
-					case 8:
+					case "8":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.03 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
-					case 7:
+					case "7":
 						movement_horisontal = 0;
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.021 * thisDirection();
 						break;
-					case 6:
+					case "6":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.008 * thisDirection();
 						break;
-					case 5:
+					case "5":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.012 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.016 * thisDirection();
 						break;
-					case 4:
+					case "4":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.009 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.009 * thisDirection();
 						break;
-					case 3:
+					case "3":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.025 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
 						break;
-					case 2:
+					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.013 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
