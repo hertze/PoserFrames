@@ -650,36 +650,44 @@ function moveNeg_fancy() {
 		
 		case "45":
 			if (ratio > 1) {
-				// Portrait
-				if (mask_variant_45 == 2) {
-					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.005 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.006 * thisDirection();
-				} else {
-					movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.01 * thisDirection();
+				switch (mask_variant_45) {
+					case "2":
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.005 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.006 * thisDirection();
+						break;
+					default:
+						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.006 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.01 * thisDirection();
+						break;
 				}
 			} else {
-				// Landscape
-				if (mask_variant_45 == 2) {
-					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.015 * doc.width * 0.006 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.005 * thisDirection();
-				} else {
-					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.01 * thisDirection();
-					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.006 * thisDirection();
+				switch (mask_variant_45) {
+					case "2":
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.015 * doc.width * 0.006 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.005 * thisDirection();
+						break;
+					default:
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.01 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.006 * thisDirection();
+						break;
 				}
 			}
 			break;
 		
 		case "square":
-			if (mask_variant_square == 3) {
-				movement_horisontal = 0;
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
-			} else if (mask_variant_square == 2) {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.01 * thisDirection();
-			} else {
-				movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.016 * thisDirection();
-				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
+			switch (mask_variant_square) {
+				case "3":
+					movement_horisontal = 0;
+					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
+					break;
+				case "2":
+					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.01 * thisDirection();
+					break;
+				default:
+					movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.016 * thisDirection();
+					movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.018 * thisDirection();
+					break;
 			}
 			break;
 		
