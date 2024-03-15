@@ -827,7 +827,7 @@ function run_fancy() {
 				doc.pathItems.getByName('subshadow').makeSelection(doc_scale * 4, true);
 				decideRotation("subshadow", rotate_mask);
 				adjustSelection();
-				doc.selection.stroke(myColor_black, doc_scale * 3, StrokeLocation.OUTSIDE, ColorBlendMode.DARKEN, 30);
+				//doc.selection.stroke(myColor_black, doc_scale * 3, StrokeLocation.CENTER, ColorBlendMode.DARKEN, 30);
 				doc.selection.deselect();
 				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
 				masklayer.applyGaussianBlur(doc_scale * 10);
@@ -845,8 +845,28 @@ function run_fancy() {
 			doc.selection.deselect();
 			masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
 			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
+			
+			
+			// Duplicate the original layer
+			var edgemask = masklayer.duplicate();
+			
+			// Apply blend mode to the edgemask layer
+			edgemask.blendMode = BlendMode.OVERLAY;
+			
+			// Apply motion blur to the edgemask layer
+			edgemask.applyMotionBlur(0, doc_scale * 50);
+			
+			// Apply high pass filter to the edgemask layer
+			edgemask.applyHighPass(Math.round(doc_scale*5));
+			//edgemask.adjustBrightnessContrast(0, -50);
+			
+			//throw new Error('stop');
+			
+			edgemask.merge();
+				
+			
 			break;
-	
+		
 		default:
 			doc.selection.selectAll();
 			doc.selection.fill(myColor_white);
