@@ -57,6 +57,7 @@ var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
+var blue_artefacts_odds = 70;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
@@ -853,7 +854,6 @@ function run_fancy() {
 			doc.selection.deselect();
 			masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
 			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
-						
 			break;
 		
 		default:
@@ -1515,7 +1515,7 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.green = generateRandomInteger(1, 6);  
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 	
-	if (generateRandomInteger(1, 100) > 70) {
+	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = 180;
 		myColor_shadow.hsb.saturation = generateRandomInteger(3, 5);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
