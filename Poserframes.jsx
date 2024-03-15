@@ -1,6 +1,6 @@
 // P O S E R F R A M E S
 //
-// Version 3.3.3
+// Version 3.4.0
 //
 // by Joakim Hertze (www.hertze.se)
 //
@@ -1013,12 +1013,23 @@ function saveClose() {
 }
 
 function cleanup() {
-	doc.selection.deselect();
-	doc.pathItems.getByName('negative').remove();
-	if (fancy == true) { doc.pathItems.getByName('mask').remove(); }
-	if (thisSubshadow != false && fancy == true && artifacts == true) { doc.pathItems.getByName('subshadow').remove(); }
-	if (thisShadow != false && fancy == true && artifacts == true) { doc.pathItems.getByName('shadow').remove(); }
-	if (save == true ) { saveClose(); }
+    doc.selection.deselect();
+    doc.pathItems.getByName('negative').remove();
+
+    if (fancy) {
+        doc.pathItems.getByName('mask').remove();
+    }
+    if (fancy && artifacts) {
+        if (thisSubshadow) {
+            doc.pathItems.getByName('subshadow').remove();
+        }
+        if (thisShadow) {
+            doc.pathItems.getByName('shadow').remove();
+        }
+    }
+    if (save) {
+        saveClose();
+    }
 }
 
 
@@ -1501,10 +1512,10 @@ var negativelayer = doc.activeLayer;
 doc.activeLayer.name = "negative"; // Names background layer
 
 // Colors
-var myColor_white = new SolidColor();
-var myColor_black = new SolidColor(); 
-var myColor_shadow = new SolidColor();
-var myColor_subshadow = new SolidColor();
+const myColor_white = new SolidColor();
+const myColor_black = new SolidColor(); 
+const myColor_shadow = new SolidColor();
+const myColor_subshadow = new SolidColor();
 
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
