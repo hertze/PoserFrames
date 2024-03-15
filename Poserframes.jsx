@@ -792,199 +792,177 @@ function spatterFilter(radiusValue, smoothnessValue) {
 
 
 function run_fancy() {
-	
-	if (ratio > 1) {
-		doc.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
-	} else {
-		doc.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
-	}
-	
-	// Creates the negative layer content
-	doc.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-	decideRotation("negative");
-	adjustSelection(); //Scales and centers the selection
-	doc.selection.invert(); // Invert selection
-	doc.selection.fill(myColor_black); // Fill with black
-	
-	createBackdropLayer();
-	
-	// Creates mask layer
-	var masklayer = doc.artLayers.add();
-	masklayer.name = "mask"; // Names mask layer.
-	
-	switch (artifacts) {
-		case true:
-			if (thisSubshadow != false) {
-				doc.selection.selectAll();
-				doc.selection.fill(myColor_subshadow);
-			}
-			if (thisShadow != false) {
-				doc.pathItems.getByName('shadow').makeSelection(feather * 2.5, true);
-				decideRotation("shadow", rotate_mask);
-				adjustSelection();
-				doc.selection.fill(myColor_shadow);
-			}
-			if (thisSubshadow != false) {
-				var subshadowPath = doc.pathItems.getByName('subshadow');
-				subshadowPath.makeSelection(doc_scale * 4, true);
-				decideRotation("subshadow", rotate_mask);
-				adjustSelection();
-				doc.selection.deselect();
-				
-				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(doc_scale * 10);
-				
-				var edgemask = masklayer.duplicate();
-				edgemask.blendMode = BlendMode.VIVIDLIGHT;
-				edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-				edgemask.applyHighPass(Math.round(doc_scale * 10));
-				edgemask.merge();
-				
-				subshadowPath.makeSelection(0, true);
-				decideRotation("subshadow", rotate_mask);
-				adjustSelection();
-				doc.selection.invert();
-				doc.selection.fill(myColor_white);
-			}
-			var hipasslayer = masklayer.duplicate();
-			hipasslayer.name = "hipass";
-			hipasslayer.blendMode = BlendMode.OVERLAY;
-			hipasslayer.applyHighPass(doc_scale);
-			hipasslayer.merge();
-			doc.selection.deselect();
-			masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
-			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
-			break;
-		
-		default:
-			doc.selection.selectAll();
-			doc.selection.fill(myColor_white);
-			break;
-	}
-	
-	
-	doc.pathItems.getByName('mask').makeSelection(feather, true);
-	decideRotation("mask", rotate_mask);
-	adjustSelection(); //Scales and centers the selection
-	// Punches a hole in the mask layer with the shape of the mask
-	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	doc.selection.deselect();
-	
-	if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
-		moveNeg_fancy();
-	}
-	
-	doc.flatten(); // Flatten all layers
-	
-	// Roughen blend artefacts edges,outer mask edges and image edges for more realistic effect
-	if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
-		doc.bitsPerChannel = BitsPerChannelType.EIGHT;
-		doc.pathItems.getByName('mask').makeSelection(feather*2, true);
-		decideRotation("mask", rotate_mask);
-		adjustSelection();
-		doc.selection.invert();
-		spatterFilter(2, 4);
-	}
-			
+    if (ratio > 1) {
+        doc.resizeCanvas(UnitValue(110,"%"), UnitValue(10 / ratio + 100,"%"), AnchorPosition.MIDDLECENTER);
+    } else {
+        doc.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
+    }
+
+    var negativePath = doc.pathItems.getByName('negative');
+    negativePath.makeSelection(feather, true);
+    decideRotation("negative");
+    adjustSelection();
+    doc.selection.invert();
+    doc.selection.fill(myColor_black);
+
+    createBackdropLayer();
+
+    var masklayer = doc.artLayers.add();
+    masklayer.name = "mask";
+
+    var shadowPath = thisShadow ? doc.pathItems.getByName('shadow') : null;
+    var subshadowPath = thisSubshadow ? doc.pathItems.getByName('subshadow') : null;
+
+    switch (artifacts) {
+        case true:
+            if (thisSubshadow) {
+                doc.selection.selectAll();
+                doc.selection.fill(myColor_subshadow);
+            }
+            if (thisShadow) {
+                shadowPath.makeSelection(feather * 2.5, true);
+                decideRotation("shadow", rotate_mask);
+                adjustSelection();
+                doc.selection.fill(myColor_shadow);
+            }
+            if (thisSubshadow) {
+                subshadowPath.makeSelection(doc_scale * 4, true);
+                decideRotation("subshadow", rotate_mask);
+                adjustSelection();
+                doc.selection.deselect();
+
+                masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+                masklayer.applyGaussianBlur(doc_scale * 10);
+
+                var edgemask = masklayer.duplicate();
+                edgemask.blendMode = BlendMode.VIVIDLIGHT;
+                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+                edgemask.applyHighPass(Math.round(doc_scale * 10));
+                edgemask.merge();
+
+                subshadowPath.makeSelection(0, true);
+                decideRotation("subshadow", rotate_mask);
+                adjustSelection();
+                doc.selection.invert();
+                doc.selection.fill(myColor_white);
+            }
+            var hipasslayer = masklayer.duplicate();
+            hipasslayer.name = "hipass";
+            hipasslayer.blendMode = BlendMode.OVERLAY;
+            hipasslayer.applyHighPass(doc_scale);
+            hipasslayer.merge();
+            doc.selection.deselect();
+            masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
+            masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
+            break;
+
+        default:
+            doc.selection.selectAll();
+            doc.selection.fill(myColor_white);
+            break;
+    }
+
+    var maskPath = doc.pathItems.getByName('mask');
+    maskPath.makeSelection(feather, true);
+    decideRotation("mask", rotate_mask);
+    adjustSelection();
+    doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+    doc.selection.deselect();
+
+    if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
+        moveNeg_fancy();
+    }
+
+    doc.flatten();
+
+    if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
+        doc.bitsPerChannel = BitsPerChannelType.EIGHT;
+        maskPath.makeSelection(feather*2, true);
+        decideRotation("mask", rotate_mask);
+        adjustSelection();
+        doc.selection.invert();
+        spatterFilter(2, 4);
+    }
 }
 
 function run_crop() {
-	// Convert to decimal factor
-	short_side_factor = short_side_factor * 0.01;
-	
-	// Decide new document width
-	var finished_width = 100;
-	var finished_height = 100;
-	
+    // Convert to decimal factor
+    short_side_factor *= 0.01;
+
+    // Decide new document width
+    var finished_width = 100;
+    var finished_height = 100;
+    var border_width;
+
+    switch (thisFormat) {
+        case "35mm":
+            border_width = border_width_35mm;
+            break;
+        case "645":
+            border_width = border_width_645;
+            break;
+        case "67":
+            border_width = border_width_67;
+            break;
+        case "45":
+            border_width = border_width_45;
+            break;
+        case "square":
+            border_width = border_width_square;
+            break;
+        default:
+            break;
+    }
+
 	switch (thisFormat) {
-		case "35mm":
-			if (ratio > 1) {
-				finished_width = border_width_35mm + 100;
-				finished_height = border_width_35mm * short_side_factor / ratio + 100;
-			} else {
-				finished_width = border_width_35mm * short_side_factor * ratio + 100;
-				finished_height = border_width_35mm + 100;
-			}
-			break;
-	
-		case "645":
-			if (ratio > 1) {
-				finished_width = border_width_645 + 100;
-				finished_height = 100;
-			} else {
-				finished_width = 100;
-				finished_height = border_width_645 + 100;
-			}
-			break;
-	
-		case "67":
-			if (ratio > 1) {
-				finished_width = border_width_67 + 100;
-				finished_height = border_width_67 * short_side_factor / ratio + 100;
-			} else {
-				finished_width = border_width_67 * short_side_factor * ratio + 100;
-				finished_height = border_width_67 + 100;
-			}
-			break;
-	
-		case "45":
-			if (ratio > 1) {
-				finished_width = 100.5;
-				finished_height = border_width_45 / ratio + 100;
-			} else {
-				finished_width = border_width_45 * ratio + 100;
-				finished_height = 100.5;
-			}
-			break;
-	
 		case "square":
-			finished_width = border_width_square + 100;
-			finished_height = border_width_square * short_side_factor + 100;
+			finished_width = border_width + 100;
+			finished_height = border_width * short_side_factor + 100;
 			break;
-	
+		case "645":
+			finished_width = ratio > 1 ? border_width + 100 : 100;
+			finished_height = ratio > 1 ? 100 : border_width + 100;
+			break;
+		case "45":
+			finished_width = ratio > 1 ? 100.5 : border_width * ratio + 100;
+			finished_height = ratio > 1 ? border_width / ratio + 100 : 100.5;
+			break;
 		default:
+			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
+			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
 			break;
 	}
-	
-	// Crop canvas to new size
-	doc.resizeCanvas(UnitValue(finished_width / 100 * doc.width ,"px"), UnitValue(finished_height / 100 * doc.height, "px"), AnchorPosition.MIDDLECENTER);
-	
-	// Creates the negative layer content
-	doc.pathItems.getByName('negative').makeSelection(feather, true); // Make selection from path
-	decideRotation("negative", rotate_mask);
-	adjustSelection(); //Scales and centers the selection
-	
-	// For 645 we need to move the negative shape and not the entire layer
-	if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
-		if (ratio > 1) {
-			var delta_y = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
-			doc.selection.translateBoundary(UnitValue(0, "px"), UnitValue(delta_y, "px"));
-		} else {
-			var delta_x = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
-			doc.selection.translateBoundary(UnitValue(delta_x, "px"), UnitValue(0, "px"));
-		}
-	}
-	
-	doc.selection.invert(); // Invert selection
-	doc.selection.fill(myColor_black); // Fill with black
-	
-	createBackdropLayer();
-	
-	if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
-		moveNeg();
-	}
-	
-	doc.flatten(); // Flatten all layers
-				
-	if (matted_crop == true) {
-		backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
-		if (ratio > 1) {
-			doc.resizeCanvas(UnitValue(100 + matted_border_size,"%"), UnitValue(matted_border_size / ratio + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
-		} else {
-			doc.resizeCanvas(UnitValue(matted_border_size * ratio + 100,"%"), UnitValue(matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER);
-		}
-	}
-	
+
+    // Crop canvas to new size
+    doc.resizeCanvas(UnitValue(finished_width / 100 * doc.width ,"px"), UnitValue(finished_height / 100 * doc.height, "px"), AnchorPosition.MIDDLECENTER);
+
+    // Creates the negative layer content
+    var negativePath = doc.pathItems.getByName('negative');
+    negativePath.makeSelection(feather, true); // Make selection from path
+    decideRotation("negative", rotate_mask);
+    adjustSelection(); //Scales and centers the selection
+
+    // For 645 we need to move the negative shape and not the entire layer
+    if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
+        var delta = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
+        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+    }
+
+    doc.selection.invert(); // Invert selection
+    doc.selection.fill(myColor_black); // Fill with black
+
+    createBackdropLayer();
+
+    if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
+        moveNeg();
+    }
+
+    doc.flatten(); // Flatten all layers
+
+    if (matted_crop == true) {
+        backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
+        doc.resizeCanvas(UnitValue(ratio > 1 ? 100 + matted_border_size : matted_border_size * ratio + 100,"%"), UnitValue(ratio > 1 ? matted_border_size / ratio + 100 : matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+    }
 }
 
 function saveClose() {
