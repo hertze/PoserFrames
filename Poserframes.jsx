@@ -1515,9 +1515,15 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.green = generateRandomInteger(1, 6);  
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 	
-	myColor_shadow.hsb.hue = 32;
-	myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-	myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+	if (generateRandomInteger(1, 100) > 70) {
+		myColor_shadow.hsb.hue = 180;
+		myColor_shadow.hsb.saturation = generateRandomInteger(3, 5);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
+	} else {
+		myColor_shadow.hsb.hue = 32;
+		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+	}
 } else {
 	myColor_black.hsb.hue = 0;
 	myColor_black.hsb.saturation = 0;
