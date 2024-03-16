@@ -57,7 +57,7 @@ var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
-var blue_artefacts_odds = 1;
+var blue_artefacts_odds = 70;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
