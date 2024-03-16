@@ -810,12 +810,12 @@ function run_fancy() {
                 adjustSelection();
                 doc.selection.deselect();
 
-                masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+               	masklayer.applyAddNoise(10, NoiseDistribution.GAUSSIAN, true);
                 masklayer.applyGaussianBlur(doc_scale * 12);
 	
                 var edgemask = masklayer.duplicate();
-                edgemask.blendMode = BlendMode.VIVIDLIGHT;
-                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
+                edgemask.blendMode = BlendMode.HARDLIGHT;
+                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
                 edgemask.applyHighPass(Math.round(doc_scale * 20));
                 edgemask.merge();
 
