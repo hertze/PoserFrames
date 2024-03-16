@@ -57,7 +57,7 @@ var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
-var blue_artefacts_odds = 70;
+var blue_artefacts_odds = 1;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
@@ -812,9 +812,7 @@ function run_fancy() {
 
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
                 masklayer.applyGaussianBlur(doc_scale * 10);
-				
-				//throw new Error("This is a test error");
-
+	
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.VIVIDLIGHT;
                 edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
@@ -1479,11 +1477,11 @@ if (colorCheck() == "color") {
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = 180;
 		myColor_shadow.hsb.saturation = generateRandomInteger(3, 5);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
 	} else {
 		myColor_shadow.hsb.hue = 32;
 		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 90);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 95);
 	}
 } else {
 	myColor_black.hsb.hue = 0;
