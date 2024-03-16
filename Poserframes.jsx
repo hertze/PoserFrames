@@ -815,8 +815,9 @@ function run_fancy() {
 	
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.HARDLIGHT;
-                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
-                edgemask.applyHighPass(Math.round(doc_scale * 20));
+                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
+                edgemask.applyHighPass(Math.round(doc_scale * 8));
+				edgemask.adjustBrightnessContrast(0, 70);
                 edgemask.merge();
 
                 subshadowPath.makeSelection(0, true);
