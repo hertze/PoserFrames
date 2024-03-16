@@ -270,34 +270,23 @@ function colorCheck() {
 	}
 }
 
-function format(){
-	// Determine format
-	var aspectRatio = doc.height / doc.width;
-	if (aspectRatio > 1) {
-		if (aspectRatio < 1.1) {
-			return "square";
-		} else if (aspectRatio < 1.2) {
-			return "67";
-		} else if (aspectRatio < 1.3) {
-			return "45";
-		} else if (aspectRatio < 1.4) {
-			return "645";
-		} else {
-			return "35mm";
-		}
-	} else {
-		if (1 / aspectRatio < 1.1) {
-			return "square";
-		} else if (1 / aspectRatio < 1.2) {
-			return "67";
-		} else if (1 / aspectRatio < 1.3) {
-			return "45";
-		} else if (1 / aspectRatio < 1.4) {
-			return "645";
-		} else {
-			return "35mm";
-		}
-	}
+function format() {
+    var aspectRatio = doc.height / doc.width;
+    if (aspectRatio < 1) {
+        aspectRatio = 1 / aspectRatio;
+    }
+
+    if (aspectRatio < 1.1) {
+        return "square";
+    } else if (aspectRatio < 1.2) {
+        return "67";
+    } else if (aspectRatio < 1.3) {
+        return "45";
+    } else if (aspectRatio < 1.4) {
+        return "645";
+    } else {
+        return "35mm";
+    }
 }
 
 function choosePath(pathKind) {
@@ -472,31 +461,25 @@ function decideRotation(pathKind, rotateMask) {
 
 
 function adjustSelection(side) {
-	var scale;
-	if (side > 0) {
-		// Calculate scale based on the side length
-		scale = side / 3600;
-	} else {
-		// Use default scale if side length is not positive
-		scale = doc_scale;
-	}
-	
-	// Resize the selection boundary
-	doc.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
+    // Use conditional operator for direct assignment
+    var scale = side > 0 ? side / 3600 : doc_scale;
 
-	// Get the bounds of the selection
-	var selectionBounds = doc.selection.bounds;
+    // Resize the selection boundary
+    doc.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
 
-	// Calculate the middle horizontal and vertical positions of the selection
-	var middleHorizontal = (selectionBounds[2] - selectionBounds[0]) / 2 + selectionBounds[0];
-	var middleVertical = (selectionBounds[3] - selectionBounds[1]) / 2 + selectionBounds[1];
+    // Get the bounds of the selection
+    var selectionBounds = doc.selection.bounds;
 
-	// Calculate the delta values to translate the selection to the center of the document
-	var deltaX = doc.width / 2 - middleHorizontal;
-	var deltaY = doc.height / 2 - middleVertical;
+    // Calculate the middle horizontal and vertical positions of the selection
+    var middleHorizontal = (selectionBounds[2] - selectionBounds[0]) / 2 + selectionBounds[0];
+    var middleVertical = (selectionBounds[3] - selectionBounds[1]) / 2 + selectionBounds[1];
 
-	// Translate the selection boundary
-	doc.selection.translateBoundary(UnitValue(deltaX, "px"), UnitValue(deltaY, "px"));
+    // Calculate the delta values to translate the selection to the center of the document
+    var deltaX = doc.width / 2 - middleHorizontal;
+    var deltaY = doc.height / 2 - middleVertical;
+
+    // Translate the selection boundary
+    doc.selection.translateBoundary(UnitValue(deltaX, "px"), UnitValue(deltaY, "px"));
 }
 
 
