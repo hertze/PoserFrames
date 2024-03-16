@@ -810,16 +810,9 @@ function run_fancy() {
                 adjustSelection();
                 doc.selection.deselect();
 
-               	masklayer.applyAddNoise(10, NoiseDistribution.GAUSSIAN, true);
+               	masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
                 masklayer.applyGaussianBlur(doc_scale * 12);
 	
-                var edgemask = masklayer.duplicate();
-                edgemask.blendMode = BlendMode.HARDLIGHT;
-                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
-                edgemask.applyHighPass(Math.round(doc_scale * 8));
-				edgemask.adjustBrightnessContrast(0, 70);
-                edgemask.merge();
-
                 subshadowPath.makeSelection(0, true);
                 decideRotation("subshadow", rotate_mask);
                 adjustSelection();
@@ -834,6 +827,14 @@ function run_fancy() {
             doc.selection.deselect();
             masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
             masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
+
+			var edgemask = masklayer.duplicate();
+			edgemask.blendMode = BlendMode.HARDLIGHT;
+			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
+			edgemask.applyHighPass(Math.round(doc_scale * 8));
+			edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 20));
+			edgemask.merge();
+
             break;
 
         default:
