@@ -1431,27 +1431,23 @@ var ratio = doc.height / doc.width;
 var thisFormat = format();
 
 // Calculate feathering
-if (ratio > 1) {
-	if (thisFormat == "35mm") {
-		var feather = doc.width / feather_factor_35mm;
-	} else if (thisFormat == "645") {
-		var feather = doc.width / feather_factor_645;
-	} else if (thisFormat == "45") {
-		var feather = doc.width / feather_factor_45;
-	} else {
-		var feather = doc.width / feather_factor_67_square;
-	}
-} else {
-	if (thisFormat == "35mm") {
-		var feather = doc.height / feather_factor_35mm;
-	} else if (thisFormat == "645") {
-		var feather = doc.height / feather_factor_645;
-	} else if (thisFormat == "45") {
-		var feather = doc.height / feather_factor_45;
-	} else {
-		var feather = doc.height / feather_factor_67_square;
-	}
+var feather_factor;
+switch (thisFormat) {
+    case "35mm":
+        feather_factor = feather_factor_35mm;
+        break;
+    case "645":
+        feather_factor = feather_factor_645;
+        break;
+    case "45":
+        feather_factor = feather_factor_45;
+        break;
+    default:
+        feather_factor = feather_factor_67_square;
+        break;
 }
+
+var feather = (ratio > 1 ? doc.width : doc.height) / feather_factor;
 
 // Decide the shortest side
 if (ratio > 1) {
