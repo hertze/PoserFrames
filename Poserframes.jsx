@@ -24,7 +24,7 @@ var fancy = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -812,11 +812,13 @@ function run_fancy() {
 
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
                 masklayer.applyGaussianBlur(doc_scale * 10);
+				
+				//throw new Error("This is a test error");
 
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.VIVIDLIGHT;
-                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-                edgemask.applyHighPass(Math.round(doc_scale * 10));
+                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
+                edgemask.applyHighPass(Math.round(doc_scale * 20));
                 edgemask.merge();
 
                 subshadowPath.makeSelection(0, true);
@@ -1446,15 +1448,10 @@ switch (thisFormat) {
         feather_factor = feather_factor_67_square;
         break;
 }
-
 var feather = (ratio > 1 ? doc.width : doc.height) / feather_factor;
 
 // Decide the shortest side
-if (ratio > 1) {
-	var negative_size = doc.width;
-} else {
-	var negative_size = doc.height;
-}
+var negative_size = ratio > 1 ? doc.width : doc.height;
 
 // Scale
 var doc_scale = negative_size.value / 3600;
@@ -1502,7 +1499,7 @@ myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
 myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
 
-// Half the gauge of these settings should be used
+// Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
 border_width_645 = border_width_645/10;
 border_width_67 = border_width_67/10;
