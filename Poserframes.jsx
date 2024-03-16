@@ -811,7 +811,7 @@ function run_fancy() {
                 doc.selection.deselect();
 
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-                masklayer.applyGaussianBlur(doc_scale * 10);
+                masklayer.applyGaussianBlur(doc_scale * 12);
 	
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.VIVIDLIGHT;
@@ -1480,7 +1480,7 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
 	} else {
 		myColor_shadow.hsb.hue = 32;
-		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+		myColor_shadow.hsb.saturation = generateRandomInteger(15, 23);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 95);
 	}
 } else {
