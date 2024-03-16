@@ -227,18 +227,14 @@ function generateRandomInteger(min, max) {
 }
 
 function thisDirection() {
-	// Randomly assign 1 or -1 for direction, unless random_direction is set to false.
-	if (movement_direction == "bottomright") {
-		return -1;
-	} else if (movement_direction == "topleft") {
-		return 1;
-	} else {
-		if (Math.floor(Math.random() * 100) < 30) {
-			return -1;
-		} else {
-			return 1;
-		}
-	}
+    switch (movement_direction) {
+        case "bottomright":
+            return -1;
+        case "topleft":
+            return 1;
+        default:
+            return Math.random() < 0.3 ? -1 : 1;
+    }
 }
 
 function colorCheck() {
