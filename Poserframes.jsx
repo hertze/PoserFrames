@@ -1480,12 +1480,18 @@ if (colorCheck() == "color") {
 	
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = 180;
-		myColor_shadow.hsb.saturation = generateRandomInteger(3, 5);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
+		var brightnessRange = 70 - 60;
+		var saturationRange = 3 - 5;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
+		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = 32;
-		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 90);
+		myColor_shadow.hsb.brightness = generateRandomInteger(75, 90);
+		var brightnessRange = 90 - 75;
+		var saturationRange = 25 - 15;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
+		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	}
 } else {
 	myColor_black.hsb.hue = 0;
@@ -1498,7 +1504,7 @@ if (colorCheck() == "color") {
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
+myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.2;
 myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.2, 100);
 
 // Lessen the gauge of these settings should be used
