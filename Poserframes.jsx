@@ -805,21 +805,20 @@ function run_fancy() {
                 doc.selection.fill(myColor_shadow);
             }
             if (thisSubshadow) {
-                subshadowPath.makeSelection(doc_scale * 4, true);
-                decideRotation("subshadow", rotate_mask);
-                adjustSelection();
-                doc.selection.deselect();
-
-               	masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-                masklayer.applyGaussianBlur(doc_scale * 12);
-	
+                masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+                //masklayer.applyGaussianBlur(doc_scale * 12);
+				
                 subshadowPath.makeSelection(0, true);
                 decideRotation("subshadow", rotate_mask);
                 adjustSelection();
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
+				
 				doc.selection.invert();
-				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
+				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+
+				doc.selection.invert();
+				doc.selection.fill(myColor_white);
             }
             var hipasslayer = masklayer.duplicate();
             hipasslayer.name = "hipass";
