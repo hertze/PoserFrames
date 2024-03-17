@@ -19,6 +19,7 @@ var force_8_bit = true;
 // General settings ----------------------------------------------------
 
 var fancy = true;
+var halation = true;
 
 // Settings for fancy borders
 
@@ -854,8 +855,10 @@ function run_fancy() {
     doc.selection.invert();
     doc.selection.fill(myColor_black);
 
-	var delta = 0;
-	renderHalation(negativePath, delta, randRotation, flip);
+	if (halation) {
+		var delta = 0;
+		renderHalation(negativePath, delta, randRotation, flip);
+	}
 
     createBackdropLayer();
 
@@ -1010,7 +1013,9 @@ function run_crop() {
     doc.selection.invert(); // Invert selection
     doc.selection.fill(myColor_black); // Fill with black
 
-	renderHalation(negativePath, delta, randRotation, flip);
+	if (halation) {
+		renderHalation(negativePath, delta, randRotation, flip);
+	}
 
     createBackdropLayer();
 
