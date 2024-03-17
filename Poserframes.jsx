@@ -18,7 +18,7 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 
 // Settings for fancy borders
 
@@ -769,6 +769,69 @@ function spatterFilter(radiusValue, smoothnessValue) {
 	executeAction(charIDToTypeID("GEfc"), actionDescriptor, DialogModes.NO);
 }
 
+function colorOverlay(myColor) {
+
+	var desc = new ActionDescriptor();
+	var ref = new ActionReference();
+	ref.putProperty(stringIDToTypeID("property"), stringIDToTypeID("layerEffects"));
+	ref.putEnumerated(stringIDToTypeID("layer"), stringIDToTypeID("ordinal"), stringIDToTypeID("targetEnum"));
+	desc.putReference(stringIDToTypeID("null"), ref);
+
+	var desc2 = new ActionDescriptor();
+	var desc3 = new ActionDescriptor();
+	desc3.putBoolean(stringIDToTypeID("enabled"), true);
+	desc3.putBoolean(stringIDToTypeID("present"), true);
+	desc3.putBoolean(stringIDToTypeID("showInDialog"), true);
+	desc3.putEnumerated(stringIDToTypeID("mode"), stringIDToTypeID("blendMode"), stringIDToTypeID("multiply"));
+
+	var desc4 = new ActionDescriptor();
+	desc4.putDouble(stringIDToTypeID("red"), myColor.rgb.red);
+	desc4.putDouble(stringIDToTypeID("grain"), myColor.rgb.green);
+	desc4.putDouble(stringIDToTypeID("blue"), myColor.rgb.blue);
+	desc3.putObject(stringIDToTypeID("color"), stringIDToTypeID("RGBColor"), desc4);
+
+	desc3.putUnitDouble(stringIDToTypeID("opacity"), stringIDToTypeID("percentUnit"), 100.000000);
+	desc2.putObject(stringIDToTypeID("solidFill"), stringIDToTypeID("solidFill"), desc3);
+	desc2.putUnitDouble(stringIDToTypeID("scale"), stringIDToTypeID("percentUnit"), 416.666667);
+	desc.putObject(stringIDToTypeID("to"), stringIDToTypeID("layerEffects"), desc2);
+
+	executeAction(stringIDToTypeID("set"), desc, DialogModes.NO);
+}
+
+
+function rasterizeLayer() {
+	var desc = new ActionDescriptor();
+	var ref = new ActionReference();
+	ref.putEnumerated(stringIDToTypeID("layer"), stringIDToTypeID("ordinal"), stringIDToTypeID("targetEnum"));
+	desc.putReference(stringIDToTypeID("null"), ref);
+	desc.putEnumerated(stringIDToTypeID("what"), stringIDToTypeID("rasterizeItem"), stringIDToTypeID("layerStyle"));
+	executeAction(stringIDToTypeID("rasterizeLayer"), desc, DialogModes.NO);
+}
+
+function renderHalation(negativePath) {
+
+	var halationlayer = negativelayer.duplicate();
+	halationlayer.name = "halation";
+	doc.activeLayer = halationlayer;
+	doc.selection.deselect();
+
+	halationlayer.threshold(235);
+	colorOverlay(myColor_halation);
+	rasterizeLayer();
+
+	halationlayer.applyGaussianBlur(Math.round(doc_scale*15));
+
+	negativePath.makeSelection(feather, true);
+    decideRotation("negative");
+    adjustSelection();
+
+	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	doc.selection.deselect();
+	
+	halationlayer.blendMode = BlendMode.SCREEN;
+	halationlayer.merge();
+
+}
 
 function run_fancy() {
     if (ratio > 1) {
@@ -783,6 +846,8 @@ function run_fancy() {
     adjustSelection();
     doc.selection.invert();
     doc.selection.fill(myColor_black);
+
+	renderHalation(negativePath);
 
     createBackdropLayer();
 
@@ -932,6 +997,8 @@ function run_crop() {
 
     doc.selection.invert(); // Invert selection
     doc.selection.fill(myColor_black); // Fill with black
+
+	renderHalation(negativePath);
 
     createBackdropLayer();
 
@@ -1467,6 +1534,7 @@ const myColor_white = new SolidColor();
 const myColor_black = new SolidColor(); 
 const myColor_shadow = new SolidColor();
 const myColor_subshadow = new SolidColor();
+const myColor_halation = new SolidColor();
 
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
@@ -1476,6 +1544,10 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.red = generateRandomInteger(1, 6); 
 	myColor_black.rgb.green = generateRandomInteger(1, 6);  
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+
+	myColor_halation.rgb.red = 255;
+	myColor_halation.rgb.green = 225;
+	myColor_halation.rgb.blue = 180;
 	
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(180, 185);
@@ -1496,6 +1568,10 @@ if (colorCheck() == "color") {
 	myColor_black.hsb.hue = 0;
 	myColor_black.hsb.saturation = 0;
 	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
+
+	myColor_halation.rgb.red = 255;
+	myColor_halation.rgb.green = 255;
+	myColor_halation.rgb.blue = 255;
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
