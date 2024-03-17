@@ -424,8 +424,7 @@ function createBackdropLayer() {
 	backdrop.moveAfter(imageLayer);
 }
 
-function decideRotation(pathKind, rotateMask) {
-	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+function doRotation(randRotation, pathKind, rotateMask) {
 
 	if (doc.height > doc.width) {
 		// Portrait orientation
@@ -808,7 +807,7 @@ function rasterizeLayer() {
 	executeAction(stringIDToTypeID("rasterizeLayer"), desc, DialogModes.NO);
 }
 
-function renderHalation(negativePath, delta) {
+function renderHalation(negativePath, delta, randRotation) {
 
     var halationlayer = negativelayer.duplicate();
     halationlayer.name = "halation";
@@ -825,9 +824,8 @@ function renderHalation(negativePath, delta) {
     var curves = halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
+	doRotation(randRotation, "negative");
     adjustSelection();
-
-	throw new Error("Error: Halation layer not found");
 
 	if (delta != 0) {
 		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
@@ -851,13 +849,14 @@ function run_fancy() {
 
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true);
-    decideRotation("negative");
+	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+    doRotation(randRotation, "negative");
     adjustSelection();
     doc.selection.invert();
     doc.selection.fill(myColor_black);
 
 	var delta = 0;
-	renderHalation(negativePath, delta);
+	renderHalation(negativePath, delta, randRotation);
 
     createBackdropLayer();
 
@@ -875,7 +874,7 @@ function run_fancy() {
             }
             if (thisShadow) {
                 shadowPath.makeSelection(feather * 2.5, true);
-                decideRotation("shadow", rotate_mask);
+                doRotation(randRotation, "shadow", rotate_mask);
                 adjustSelection();
                 doc.selection.fill(myColor_shadow);
             }
@@ -883,7 +882,7 @@ function run_fancy() {
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
                 
                 subshadowPath.makeSelection(0, true);
-                decideRotation("subshadow", rotate_mask);
+                doRotation(randRotation, "subshadow", rotate_mask);
                 adjustSelection();
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
@@ -921,7 +920,7 @@ function run_fancy() {
 
     var maskPath = doc.pathItems.getByName('mask');
     maskPath.makeSelection(feather, true);
-    decideRotation("mask", rotate_mask);
+    doRotation(randRotation, "mask", rotate_mask);
     adjustSelection();
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
@@ -935,7 +934,7 @@ function run_fancy() {
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
         maskPath.makeSelection(feather*2, true);
-        decideRotation("mask", rotate_mask);
+        doRotation(randRotation, "mask", rotate_mask);
         adjustSelection();
         doc.selection.invert();
         spatterFilter(2, 4);
@@ -996,7 +995,8 @@ function run_crop() {
     // Creates the negative layer content
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true); // Make selection from path
-    decideRotation("negative", rotate_mask);
+	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+    doRotation(randRotation, "negative", rotate_mask);
     adjustSelection(); //Scales and centers the selection
 
     // For 645 we need to move the negative shape and not the entire layer
@@ -1009,7 +1009,7 @@ function run_crop() {
     doc.selection.invert(); // Invert selection
     doc.selection.fill(myColor_black); // Fill with black
 
-	renderHalation(negativePath, delta);
+	renderHalation(negativePath, delta, randRotation);
 
     createBackdropLayer();
 
