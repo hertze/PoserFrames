@@ -24,7 +24,7 @@ var fancy = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 2;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -806,8 +806,7 @@ function run_fancy() {
             }
             if (thisSubshadow) {
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-                //masklayer.applyGaussianBlur(doc_scale * 12);
-				
+                
                 subshadowPath.makeSelection(0, true);
                 decideRotation("subshadow", rotate_mask);
                 adjustSelection();
@@ -815,7 +814,7 @@ function run_fancy() {
                 doc.selection.fill(myColor_white);
 				
 				doc.selection.invert();
-				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * generateRandomInteger(40, 80));
 
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
@@ -1487,9 +1486,9 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(30, 34);
-		myColor_shadow.hsb.brightness = generateRandomInteger(65, 85);
-		var brightnessRange = 85 - 65;
-		var saturationRange = 50 - 40;
+		myColor_shadow.hsb.brightness = generateRandomInteger(75, 95);
+		var brightnessRange = 95 - 75;
+		var saturationRange = 30 - 20;
 		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	}
@@ -1504,8 +1503,8 @@ if (colorCheck() == "color") {
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.15;
-myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.15, 98);
+myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
+myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.5, 100);
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
