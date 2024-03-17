@@ -815,16 +815,17 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     doc.activeLayer = halationlayer;
     doc.selection.deselect();
 
-    halationlayer.threshold(235);
+    halationlayer.threshold(245);
     colorOverlay(myColor_halation);
     rasterizeLayer();
 
     halationlayer.applyGaussianBlur(Math.round(doc_scale*15));
-    halationlayer.adjustCurves([[0, 0], [128, 200], [255, 255]]);
+    halationlayer.adjustCurves([[0, 0], [65, 120], [175, 220], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
 	doRotation(randRotation, flip, "negative");
     adjustSelection();
+	doc.selection.contract(new UnitValue(feather, 'px'));
 
 	if (delta != 0) {
 		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
