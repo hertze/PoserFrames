@@ -35,7 +35,7 @@ var negative_variant_645 = 1;
 
 // Settings for conservative (cropped) borders) ------------------------
 
-var matted_crop = true;
+var matted_crop = false;
 var matted_border_size = 10;
 var border_width_35mm = 20;
 var border_width_645 = 20;
@@ -424,13 +424,13 @@ function createBackdropLayer() {
 	backdrop.moveAfter(imageLayer);
 }
 
-function doRotation(randRotation, pathKind, rotateMask) {
+function doRotation(randRotation, flip, pathKind, rotateMask) {
 
 	if (doc.height > doc.width) {
 		// Portrait orientation
 		if (pathKind === "negative") {
 			// Random rotation or 180 flip for negative paths (if not in "45" format)
-			if (Math.random() > 0.5 && thisFormat !== "45") {
+			if (flip) {
 				doc.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
 			} else {
 				doc.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
@@ -807,24 +807,22 @@ function rasterizeLayer() {
 	executeAction(stringIDToTypeID("rasterizeLayer"), desc, DialogModes.NO);
 }
 
-function renderHalation(negativePath, delta, randRotation) {
+function renderHalation(negativePath, delta, randRotation, flip) {
 
     var halationlayer = negativelayer.duplicate();
     halationlayer.name = "halation";
     doc.activeLayer = halationlayer;
     doc.selection.deselect();
 
-    halationlayer.threshold(245);
+    halationlayer.threshold(235);
     colorOverlay(myColor_halation);
     rasterizeLayer();
 
-    halationlayer.applyGaussianBlur(Math.round(doc_scale*20));
-
-	// Adjust the curve to brighten the image
-    var curves = halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
+    halationlayer.applyGaussianBlur(Math.round(doc_scale*15));
+    halationlayer.adjustCurves([[0, 0], [128, 200], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
-	doRotation(randRotation, "negative");
+	doRotation(randRotation, flip, "negative");
     adjustSelection();
 
 	if (delta != 0) {
@@ -835,7 +833,6 @@ function renderHalation(negativePath, delta, randRotation) {
     doc.selection.deselect();
 
     halationlayer.blendMode = BlendMode.SCREEN;
-
 	halationlayer.merge();
 
 }
@@ -847,16 +844,18 @@ function run_fancy() {
         doc.resizeCanvas(UnitValue(10 * ratio + 100,"%"), UnitValue(110,"%"), AnchorPosition.MIDDLECENTER);
     }
 
+	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+	var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true);
-	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
-    doRotation(randRotation, "negative");
+    doRotation(randRotation, flip, "negative");
     adjustSelection();
     doc.selection.invert();
     doc.selection.fill(myColor_black);
 
 	var delta = 0;
-	renderHalation(negativePath, delta, randRotation);
+	renderHalation(negativePath, delta, randRotation, flip);
 
     createBackdropLayer();
 
@@ -874,7 +873,7 @@ function run_fancy() {
             }
             if (thisShadow) {
                 shadowPath.makeSelection(feather * 2.5, true);
-                doRotation(randRotation, "shadow", rotate_mask);
+                doRotation(randRotation, flip, "shadow", rotate_mask);
                 adjustSelection();
                 doc.selection.fill(myColor_shadow);
             }
@@ -882,7 +881,7 @@ function run_fancy() {
                 masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
                 
                 subshadowPath.makeSelection(0, true);
-                doRotation(randRotation, "subshadow", rotate_mask);
+                doRotation(randRotation, flip, "subshadow", rotate_mask);
                 adjustSelection();
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
@@ -920,7 +919,7 @@ function run_fancy() {
 
     var maskPath = doc.pathItems.getByName('mask');
     maskPath.makeSelection(feather, true);
-    doRotation(randRotation, "mask", rotate_mask);
+    doRotation(randRotation, flip, "mask", rotate_mask);
     adjustSelection();
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
@@ -934,7 +933,7 @@ function run_fancy() {
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
         maskPath.makeSelection(feather*2, true);
-        doRotation(randRotation, "mask", rotate_mask);
+        doRotation(randRotation, flip, "mask", rotate_mask);
         adjustSelection();
         doc.selection.invert();
         spatterFilter(2, 4);
@@ -989,14 +988,16 @@ function run_crop() {
 			break;
 	}
 
+	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+	var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+
     // Crop canvas to new size
     doc.resizeCanvas(UnitValue(finished_width / 100 * doc.width ,"px"), UnitValue(finished_height / 100 * doc.height, "px"), AnchorPosition.MIDDLECENTER);
 
     // Creates the negative layer content
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true); // Make selection from path
-	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
-    doRotation(randRotation, "negative", rotate_mask);
+    doRotation(randRotation, flip, "negative", rotate_mask);
     adjustSelection(); //Scales and centers the selection
 
     // For 645 we need to move the negative shape and not the entire layer
@@ -1009,7 +1010,7 @@ function run_crop() {
     doc.selection.invert(); // Invert selection
     doc.selection.fill(myColor_black); // Fill with black
 
-	renderHalation(negativePath, delta, randRotation);
+	renderHalation(negativePath, delta, randRotation, flip);
 
     createBackdropLayer();
 
