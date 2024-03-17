@@ -1481,11 +1481,11 @@ if (colorCheck() == "color") {
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = 180;
 		myColor_shadow.hsb.saturation = generateRandomInteger(3, 5);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
 	} else {
 		myColor_shadow.hsb.hue = 32;
-		myColor_shadow.hsb.saturation = generateRandomInteger(15, 23);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(85, 95);
+		myColor_shadow.hsb.saturation = generateRandomInteger(15, 25);
+		myColor_shadow.hsb.brightness =  generateRandomInteger(75, 90);
 	}
 } else {
 	myColor_black.hsb.hue = 0;
@@ -1499,7 +1499,7 @@ if (colorCheck() == "color") {
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-myColor_subshadow.hsb.brightness = generateRandomInteger(90, 100);
+myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.2, 100);
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
