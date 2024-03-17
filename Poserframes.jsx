@@ -18,7 +18,7 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 
 // Settings for fancy borders
 
@@ -808,32 +808,36 @@ function rasterizeLayer() {
 	executeAction(stringIDToTypeID("rasterizeLayer"), desc, DialogModes.NO);
 }
 
-function renderHalation(negativePath) {
+function renderHalation(negativePath, delta) {
 
-	var halationlayer = negativelayer.duplicate();
-	halationlayer.name = "halation";
-	doc.activeLayer = halationlayer;
-	doc.selection.deselect();
+    var halationlayer = negativelayer.duplicate();
+    halationlayer.name = "halation";
+    doc.activeLayer = halationlayer;
+    doc.selection.deselect();
 
-	halationlayer.threshold(245);
-	colorOverlay(myColor_halation);
-	rasterizeLayer();
+    halationlayer.threshold(245);
+    colorOverlay(myColor_halation);
+    rasterizeLayer();
 
-	halationlayer.applyGaussianBlur(Math.round(doc_scale*12));
+    halationlayer.applyGaussianBlur(Math.round(doc_scale*20));
 
-	negativePath.makeSelection(feather, true);
-    decideRotation("negative");
+	// Adjust the curve to brighten the image
+    var curves = halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
+
+    negativePath.makeSelection(feather, true);
     adjustSelection();
 
-	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	doc.selection.deselect();
+	throw new Error("Error: Halation layer not found");
 
-	var halationlayerCopy = halationlayer.duplicate();
-    halationlayerCopy.name = "halation copy";
-	halationlayerCopy.blendMode = BlendMode.SCREEN;
-    halationlayerCopy.merge();
-	
-	halationlayer.blendMode = BlendMode.SCREEN;
+	if (delta != 0) {
+		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+	}
+
+    doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+    doc.selection.deselect();
+
+    halationlayer.blendMode = BlendMode.SCREEN;
+
 	halationlayer.merge();
 
 }
@@ -852,7 +856,8 @@ function run_fancy() {
     doc.selection.invert();
     doc.selection.fill(myColor_black);
 
-	renderHalation(negativePath);
+	var delta = 0;
+	renderHalation(negativePath, delta);
 
     createBackdropLayer();
 
@@ -995,15 +1000,16 @@ function run_crop() {
     adjustSelection(); //Scales and centers the selection
 
     // For 645 we need to move the negative shape and not the entire layer
+	var delta = 0;
     if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
-        var delta = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
+        delta = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
         doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
     }
 
     doc.selection.invert(); // Invert selection
     doc.selection.fill(myColor_black); // Fill with black
 
-	renderHalation(negativePath);
+	renderHalation(negativePath, delta);
 
     createBackdropLayer();
 
@@ -1012,6 +1018,7 @@ function run_crop() {
     }
 
     doc.flatten(); // Flatten all layers
+	
 
     if (matted_crop == true) {
         backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
