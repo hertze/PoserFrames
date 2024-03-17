@@ -816,9 +816,16 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     halationlayer.name = "halation";
 	var halationlayerTwo = halationlayer.duplicate();
     halationlayerTwo.name = "halation two";
+	var halationlayerThree = halationlayerTwo.duplicate();
+    halationlayerThree.name = "halation two";
 
 	halationlayer.threshold(250);
-	halationlayerTwo.threshold(235);
+	halationlayerTwo.threshold(245);
+	halationlayerThree.threshold(235);
+
+	doc.activeLayer = halationlayerThree;
+    colorOverlay(myColor_halation_glow);
+    rasterizeLayer();
 
 	doc.activeLayer = halationlayerTwo;
     colorOverlay(myColor_halation);
@@ -829,7 +836,11 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     rasterizeLayer();
 
     halationlayer.applyGaussianBlur(Math.round(doc_scale*30));
-	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*10));
+	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*15));
+	halationlayerThree.applyGaussianBlur(Math.round(doc_scale*10));
+
+	halationlayerThree.blendMode = BlendMode.SCREEN;
+	halationlayerThree.merge();
 
 	halationlayerTwo.blendMode = BlendMode.SCREEN;
 	halationlayerTwo.merge();
@@ -839,7 +850,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     negativePath.makeSelection(feather, true);
 	doRotation(randRotation, flip, "negative");
     adjustSelection();
-	doc.selection.contract(new UnitValue(feather, 'px'));
+	doc.selection.contract(new UnitValue(feather*2, 'px'));
 
 	if (delta != 0) {
 		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
@@ -1568,6 +1579,7 @@ const myColor_black = new SolidColor();
 const myColor_shadow = new SolidColor();
 const myColor_subshadow = new SolidColor();
 const myColor_halation = new SolidColor();
+const myColor_halation_glow = new SolidColor();
 
 myColor_white.rgb.red = 255;  
 myColor_white.rgb.green = 255;  
@@ -1581,6 +1593,10 @@ if (colorCheck() == "color") {
 	myColor_halation.rgb.red = 255;
 	myColor_halation.rgb.green = 225;
 	myColor_halation.rgb.blue = 180;
+
+	myColor_halation_glow.rgb.red = 255;
+	myColor_halation_glow.rgb.green = 100;
+	myColor_halation_glow.rgb.blue = 0;
 	
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(180, 185);
@@ -1605,6 +1621,10 @@ if (colorCheck() == "color") {
 	myColor_halation.rgb.red = 255;
 	myColor_halation.rgb.green = 255;
 	myColor_halation.rgb.blue = 255;
+
+	myColor_halation_glow.rgb.red = 200;
+	myColor_halation_glow.rgb.green = 200;
+	myColor_halation_glow.rgb.blue = 200;
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
