@@ -818,15 +818,18 @@ function run_fancy() {
                 adjustSelection();
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
+				doc.selection.invert();
+				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
             }
             var hipasslayer = masklayer.duplicate();
             hipasslayer.name = "hipass";
             hipasslayer.blendMode = BlendMode.OVERLAY;
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
-            doc.selection.deselect();
+            //doc.selection.deselect();
             masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
-            masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
+			doc.selection.deselect();
+			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
 
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
