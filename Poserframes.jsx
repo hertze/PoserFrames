@@ -835,8 +835,8 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     colorOverlay(myColor_halation);
     rasterizeLayer();
 
-    halationlayer.applyGaussianBlur(Math.round(doc_scale*30));
-	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*15));
+    halationlayer.applyGaussianBlur(Math.round(doc_scale*40));
+	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*20));
 	halationlayerThree.applyGaussianBlur(Math.round(doc_scale*10));
 
 	halationlayerThree.blendMode = BlendMode.SCREEN;
