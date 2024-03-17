@@ -825,8 +825,8 @@ function run_fancy() {
             hipasslayer.blendMode = BlendMode.OVERLAY;
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
-            //doc.selection.deselect();
-            masklayer.adjustLevels(0, 249, generateRandomInteger(10, 30) * 0.01, 0, 255);
+			doc.selection.deselect();
+            masklayer.adjustLevels(0, 249, generateRandomInteger(10, 80) * 0.01, 0, 255);
 			doc.selection.deselect();
 			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
 
@@ -1479,17 +1479,17 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 	
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
-		myColor_shadow.hsb.hue = 180;
+		myColor_shadow.hsb.hue = generateRandomInteger(180, 185);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
 		var brightnessRange = 70 - 60;
-		var saturationRange = 3 - 5;
+		var saturationRange = 1 - 3;
 		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	} else {
-		myColor_shadow.hsb.hue = 32;
-		myColor_shadow.hsb.brightness = generateRandomInteger(75, 90);
-		var brightnessRange = 90 - 75;
-		var saturationRange = 25 - 15;
+		myColor_shadow.hsb.hue = generateRandomInteger(30, 34);
+		myColor_shadow.hsb.brightness = generateRandomInteger(65, 85);
+		var brightnessRange = 85 - 65;
+		var saturationRange = 50 - 40;
 		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	}
@@ -1504,8 +1504,8 @@ if (colorCheck() == "color") {
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.2;
-myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.2, 100);
+myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.15;
+myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.15, 98);
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
