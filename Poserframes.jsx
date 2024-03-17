@@ -815,11 +815,11 @@ function renderHalation(negativePath) {
 	doc.activeLayer = halationlayer;
 	doc.selection.deselect();
 
-	halationlayer.threshold(235);
+	halationlayer.threshold(245);
 	colorOverlay(myColor_halation);
 	rasterizeLayer();
 
-	halationlayer.applyGaussianBlur(Math.round(doc_scale*15));
+	halationlayer.applyGaussianBlur(Math.round(doc_scale*12));
 
 	negativePath.makeSelection(feather, true);
     decideRotation("negative");
@@ -827,6 +827,11 @@ function renderHalation(negativePath) {
 
 	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
 	doc.selection.deselect();
+
+	var halationlayerCopy = halationlayer.duplicate();
+    halationlayerCopy.name = "halation copy";
+	halationlayerCopy.blendMode = BlendMode.SCREEN;
+    halationlayerCopy.merge();
 	
 	halationlayer.blendMode = BlendMode.SCREEN;
 	halationlayer.merge();
