@@ -810,17 +810,31 @@ function rasterizeLayer() {
 
 function renderHalation(negativePath, delta, randRotation, flip) {
 
+	doc.selection.deselect();
+
     var halationlayer = negativelayer.duplicate();
     halationlayer.name = "halation";
-    doc.activeLayer = halationlayer;
-    doc.selection.deselect();
+	var halationlayerTwo = halationlayer.duplicate();
+    halationlayerTwo.name = "halation two";
 
-    halationlayer.threshold(245);
+	halationlayer.threshold(250);
+	halationlayerTwo.threshold(235);
+
+	doc.activeLayer = halationlayerTwo;
     colorOverlay(myColor_halation);
     rasterizeLayer();
 
-    halationlayer.applyGaussianBlur(Math.round(doc_scale*15));
-    halationlayer.adjustCurves([[0, 0], [65, 120], [175, 220], [255, 255]]);
+    doc.activeLayer = halationlayer;
+    colorOverlay(myColor_halation);
+    rasterizeLayer();
+
+    halationlayer.applyGaussianBlur(Math.round(doc_scale*30));
+	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*10));
+
+	halationlayerTwo.blendMode = BlendMode.SCREEN;
+	halationlayerTwo.merge();
+
+    halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
 	doRotation(randRotation, flip, "negative");
