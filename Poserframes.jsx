@@ -1607,20 +1607,30 @@ if (colorCheck() == "color") {
 	myColor_halation_glow.rgb.green = 100;
 	myColor_halation_glow.rgb.blue = 0;
 	
+	var minBrightness, maxBrightness, brightnessRange, minSaturation, maxSaturation, saturationRange, scaledBrightness;
+
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
-		var brightnessRange = 70 - 60;
-		var saturationRange = 4 - 2;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 60) / brightnessRange;
-		myColor_shadow.hsb.saturation = 2 + (scaledBrightness * saturationRange);
+		minBrightness = 60;
+		maxBrightness = 70;
+		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
+		brightnessRange = maxBrightness - minBrightness;
+		minSaturation = 2;
+		maxSaturation = 4;
+		saturationRange = maxSaturation - minSaturation;
+		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
+		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		myColor_shadow.hsb.brightness = generateRandomInteger(85, 95);
-		var brightnessRange = 95 - 85;
-		var saturationRange = 20 - 15;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 85) / brightnessRange;
-		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
+		minBrightness = 85;
+		maxBrightness = 95;
+		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
+		brightnessRange = maxBrightness - minBrightness;
+		minSaturation = 15;
+		maxSaturation = 20;
+		saturationRange = maxSaturation - minSaturation;
+		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
+		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
 	}
 } else {
 	myColor_black.hsb.hue = 0;
