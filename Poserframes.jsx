@@ -18,14 +18,14 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var halation = true;
 
 // Settings for fancy borders
 
 var artifacts = true;
 
-var mask_variant_35mm = 2;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -924,6 +924,10 @@ function run_fancy() {
 			edgemask.applyHighPass(Math.round(doc_scale * 8));
 			edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 20));
 			edgemask.merge();
+
+			subshadowPath.makeSelection(feather, true);
+			doc.selection.invert();
+			doc.selection.fill(myColor_white);
 
             break;
 
