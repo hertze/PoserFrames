@@ -834,12 +834,12 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 		halationLayers[i-1].merge();
 	}
 
-	halationLayers[4].adjustCurves([[0, 0], [128, 180], [255, 255]]);
+	//halationLayers[4].adjustCurves([[0, 0], [128, 180], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
     adjustSelection();
-    doc.selection.contract(new UnitValue(feather*1.5, 'px'));
+    doc.selection.contract(new UnitValue(feather*2, 'px'));
 
     if (delta != 0) {
         doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
