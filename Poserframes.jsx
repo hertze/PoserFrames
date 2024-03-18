@@ -884,10 +884,12 @@ function run_fancy() {
     switch (artifacts) {
         case true:
             if (thisSubshadow) {
+				// Background fill with subshadow color
                 doc.selection.selectAll();
                 doc.selection.fill(myColor_subshadow);
             }
             if (thisShadow) {
+				// Add shadow
                 shadowPath.makeSelection(feather * 2.5, true);
                 doRotation(randRotation, flip, "shadow", rotate_mask);
                 adjustSelection();
@@ -898,21 +900,27 @@ function run_fancy() {
 
 				// Add noise and blur it
 				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(doc_scale*10);
+				masklayer.applyGaussianBlur(doc_scale*8);
 
+				// Fill the outside of the subshadow with white, invert the selection back
                 subshadowPath.makeSelection(0, true);
                 doRotation(randRotation, flip, "subshadow", rotate_mask);
                 adjustSelection();
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
-				
-				doc.selection.invert();
+				doc.selection.deselect();
+
+				//doc.selection.invert();
 				//doc.selection.deselect();
-				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 30);
+				//masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 30);
 
 				//doc.selection.invert();
 				//doc.selection.fill(myColor_white);
+
+				// You still have an active selection at this stage
+
             }
+			// Duplicate layer and use leves and highpass to increase contrast
             var hipasslayer = masklayer.duplicate();
             hipasslayer.name = "hipass";
             hipasslayer.blendMode = BlendMode.OVERLAY;
@@ -920,16 +928,16 @@ function run_fancy() {
             hipasslayer.merge();
 			doc.selection.deselect();
             masklayer.adjustLevels(0, 249, generateRandomInteger(10, 80) * 0.01, 0, 255);
-			//doc.selection.deselect();
-			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
 
+			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
-			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 100);
+			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 60);
 			edgemask.applyHighPass(Math.round(doc_scale * 8));
-			edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 20));
+			//edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 20));
 			edgemask.merge();
 
+			// Fill the outside again with white
 			subshadowPath.makeSelection(feather, true);
 			doRotation(randRotation, flip, "subshadow", rotate_mask);
             adjustSelection();
