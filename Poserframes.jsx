@@ -1601,8 +1601,8 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 
 	myColor_halation.rgb.red = 255;
-	myColor_halation.rgb.green = 225;
-	myColor_halation.rgb.blue = 180;
+	myColor_halation.rgb.green = 253;
+	myColor_halation.rgb.blue = 249;
 
 	myColor_halation_glow.rgb.red = 255;
 	myColor_halation_glow.rgb.green = 100;
