@@ -815,7 +815,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     var halationLayers = [];
     var thresholds = [252, 252, 245, 245, 235];
     var colors = [myColor_halation, myColor_halation_glow, myColor_halation, myColor_halation_glow, myColor_halation_glow];
-    var blurs = [40, 50, 10, 20, 10];
+    var blurs = [40, 60, 10, 20, 10];
 
 	for (var i = 0; i < 5; i++) {
 		var layer = negativelayer.duplicate();
@@ -828,13 +828,17 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 		layer.applyGaussianBlur(Math.round(doc_scale * blurs[i]));
 	}
 
+	// Set blend mode for first layer
+	halationLayers[0].blendMode = BlendMode.SCREEN;
+
 	for (var i = 1; i < halationLayers.length; i++) {
 		halationLayers[i].blendMode = BlendMode.SCREEN;
 		doc.activeLayer = halationLayers[i-1]; // Make the layer at index i-1 the active layer
 		halationLayers[i-1].merge();
 	}
 
-	halationLayers[4].adjustCurves([[0, 0], [128, 150], [255, 255]]);
+	// Curve to brighten the brightest parts
+	halationLayers[4].adjustCurves([[0, 0], [40, 45], [85, 110], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
@@ -847,8 +851,8 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
-
     halationLayers[4].merge();
+
 }
 
 function run_fancy() {
@@ -918,7 +922,7 @@ function run_fancy() {
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
 			doc.selection.deselect();
-            masklayer.adjustLevels(0, 249, generateRandomInteger(10, 80) * 0.01, 0, 255);
+            masklayer.adjustLevels(0, 249, generateRandomInteger(20, 80) * 0.01, 0, 255);
 
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
@@ -1601,19 +1605,19 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 
 	myColor_halation.rgb.red = 255;
-	myColor_halation.rgb.green = 253;
-	myColor_halation.rgb.blue = 249;
+	myColor_halation.rgb.green = 250;
+	myColor_halation.rgb.blue = 235;
 
 	myColor_halation_glow.rgb.red = 255;
-	myColor_halation_glow.rgb.green = 100;
+	myColor_halation_glow.rgb.green = 50;
 	myColor_halation_glow.rgb.blue = 0;
 	
 	var minBrightness, maxBrightness, brightnessRange, minSaturation, maxSaturation, saturationRange, scaledBrightness;
 
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 70;
-		maxBrightness = 80;
+		minBrightness = 75;
+		maxBrightness = 85;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 2;
@@ -1653,7 +1657,7 @@ if (colorCheck() == "color") {
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.5, 100);
+myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.8, 100);
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
