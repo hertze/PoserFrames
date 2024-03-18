@@ -839,7 +839,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
     adjustSelection();
-    doc.selection.contract(new UnitValue(feather*2, 'px'));
+    doc.selection.contract(new UnitValue(feather*1.5, 'px'));
 
     if (delta != 0) {
         doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
