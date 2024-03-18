@@ -924,7 +924,7 @@ function run_fancy() {
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
-			edgemask.applyHighPass(Math.round(doc_scale * 8));
+			edgemask.applyHighPass(Math.round(doc_scale * 6.5));
 			edgemask.merge();
 
 			// Fill the outside again with white
