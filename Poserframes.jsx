@@ -1612,8 +1612,8 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 60;
-		maxBrightness = 70;
+		minBrightness = 70;
+		maxBrightness = 80;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 2;
