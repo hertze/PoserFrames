@@ -892,11 +892,11 @@ function run_fancy() {
                 doRotation(randRotation, flip, "shadow", rotate_mask);
                 adjustSelection();
                 doc.selection.fill(myColor_shadow);
-            }
-            if (thisSubshadow) {
-                masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
+				doc.selection.deselect();
+				masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
 				masklayer.applyGaussianBlur(doc_scale*8);
-                
+            }
+            if (thisSubshadow) { 
                 subshadowPath.makeSelection(0, true);
                 doRotation(randRotation, flip, "subshadow", rotate_mask);
                 adjustSelection();
@@ -1611,15 +1611,15 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
 		var brightnessRange = 70 - 60;
-		var saturationRange = 1 - 3;
+		var saturationRange = 4 - 2;
 		var scaledBrightness = (myColor_shadow.hsb.brightness - 60) / brightnessRange;
-		myColor_shadow.hsb.saturation = 1 + (scaledBrightness * saturationRange);
+		myColor_shadow.hsb.saturation = 2 + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		myColor_shadow.hsb.brightness = generateRandomInteger(80, 95);
-		var brightnessRange = 95 - 80;
+		myColor_shadow.hsb.brightness = generateRandomInteger(85, 95);
+		var brightnessRange = 95 - 85;
 		var saturationRange = 20 - 15;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 80) / brightnessRange;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 85) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	}
 } else {
