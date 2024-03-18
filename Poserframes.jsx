@@ -18,7 +18,7 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var halation = true;
 
 // Settings for fancy borders
@@ -1007,8 +1007,20 @@ function run_crop() {
 	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
 	var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
 
-    // Crop canvas to new size
-    doc.resizeCanvas(UnitValue(finished_width / 100 * doc.width ,"px"), UnitValue(finished_height / 100 * doc.height, "px"), AnchorPosition.MIDDLECENTER);
+    // Calculate the new dimensions
+	var newWidth = finished_width / 100 * doc.width;
+	var newHeight = finished_height / 100 * doc.height;
+
+	// Store the new dimensions
+	var resizedWidth = UnitValue(newWidth ,"px");
+	var resizedHeight = UnitValue(newHeight, "px");
+
+	// Calculate the final dimensions
+	var finalWidth = (ratio > 1 ? 100 + matted_border_size : matted_border_size * ratio + 100) / 100 * resizedWidth;
+	var finalHeight = (ratio > 1 ? matted_border_size / ratio + 100 : matted_border_size + 100) / 100 * resizedHeight;
+
+	// Resize the canvas
+	doc.resizeCanvas(UnitValue(finalWidth,"px"), UnitValue(finalHeight,"px"), AnchorPosition.MIDDLECENTER);
 
     // Creates the negative layer content
     var negativePath = doc.pathItems.getByName('negative');
@@ -1036,13 +1048,16 @@ function run_crop() {
         moveNeg();
     }
 
-    doc.flatten(); // Flatten all layers
-	
+	doc.resizeCanvas(resizedWidth, resizedHeight, AnchorPosition.MIDDLECENTER);
 
-    if (matted_crop == true) {
+	doc.flatten(); // Flatten all layers
+
+	if (matted_crop == true) {
         backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
         doc.resizeCanvas(UnitValue(ratio > 1 ? 100 + matted_border_size : matted_border_size * ratio + 100,"%"), UnitValue(ratio > 1 ? matted_border_size / ratio + 100 : matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
     }
+	
+
 }
 
 function saveClose() {
