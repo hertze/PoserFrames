@@ -910,15 +910,6 @@ function run_fancy() {
                 doc.selection.fill(myColor_white);
 				doc.selection.deselect();
 
-				//doc.selection.invert();
-				//doc.selection.deselect();
-				//masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 30);
-
-				//doc.selection.invert();
-				//doc.selection.fill(myColor_white);
-
-				// You still have an active selection at this stage
-
             }
 			// Duplicate layer and use leves and highpass to increase contrast
             var hipasslayer = masklayer.duplicate();
@@ -932,7 +923,7 @@ function run_fancy() {
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
-			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 60);
+			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
 			edgemask.applyHighPass(Math.round(doc_scale * 8));
 			//edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 20));
 			edgemask.merge();
