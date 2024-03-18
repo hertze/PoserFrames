@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 2;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -926,9 +926,10 @@ function run_fancy() {
 			edgemask.merge();
 
 			subshadowPath.makeSelection(feather, true);
+			doRotation(randRotation, flip, "subshadow", rotate_mask);
+            adjustSelection();
 			doc.selection.invert();
 			doc.selection.fill(myColor_white);
-
             break;
 
         default:
