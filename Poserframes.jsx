@@ -1606,18 +1606,18 @@ if (colorCheck() == "color") {
 	myColor_halation_glow.rgb.blue = 0;
 	
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
-		myColor_shadow.hsb.hue = generateRandomInteger(180, 185);
+		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
 		var brightnessRange = 70 - 60;
-		var saturationRange = 1 - 3;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
+		var saturationRange = 1 - 2;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 70) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	} else {
-		myColor_shadow.hsb.hue = generateRandomInteger(30, 34);
-		myColor_shadow.hsb.brightness = generateRandomInteger(75, 95);
-		var brightnessRange = 95 - 75;
-		var saturationRange = 30 - 20;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 75) / brightnessRange;
+		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
+		myColor_shadow.hsb.brightness = generateRandomInteger(80, 95);
+		var brightnessRange = 95 - 80;
+		var saturationRange = 20 - 15;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 80) / brightnessRange;
 		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
 	}
 } else {
