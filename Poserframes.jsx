@@ -815,7 +815,19 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     var halationLayers = [];
     var thresholds = [252, 252, 245, 245, 235];
     var colors = [myColor_halation, myColor_halation_glow, myColor_halation, myColor_halation_glow, myColor_halation_glow];
-    var blurs = [40, 60, 10, 20, 10];
+    var blurs;
+
+	switch (thisFormat) {
+		case "35mm":
+			blurs = [40, 60, 10, 20, 10];
+			break;
+		case "645":
+			blurs = [21, 32, 6, 12, 6];
+			break;
+		default:
+			blurs = [16, 24, 4, 8, 4];
+			break;
+	}
 
 	for (var i = 0; i < 5; i++) {
 		var layer = negativelayer.duplicate();
