@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 2;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -893,10 +893,13 @@ function run_fancy() {
                 adjustSelection();
                 doc.selection.fill(myColor_shadow);
 				doc.selection.deselect();
-				masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(doc_scale*8);
             }
-            if (thisSubshadow) { 
+            if (thisSubshadow) {
+
+				// Add noise and blur it
+				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+				masklayer.applyGaussianBlur(doc_scale*10);
+
                 subshadowPath.makeSelection(0, true);
                 doRotation(randRotation, flip, "subshadow", rotate_mask);
                 adjustSelection();
