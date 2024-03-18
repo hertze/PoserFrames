@@ -810,76 +810,45 @@ function rasterizeLayer() {
 
 function renderHalation(negativePath, delta, randRotation, flip) {
 
-	doc.selection.deselect();
+    doc.selection.deselect();
 
-    var halationlayer = negativelayer.duplicate();
-    halationlayer.name = "halation";
-	var halationlayerTwo = halationlayer.duplicate();
-	var halationlayerThree = halationlayerTwo.duplicate();
-	var halationlayerFour = halationlayerThree.duplicate();
-	var halationlayerFive = halationlayerFour.duplicate();
+    var halationLayers = [];
+    var thresholds = [252, 252, 245, 245, 235];
+    var colors = [myColor_halation, myColor_halation_glow, myColor_halation, myColor_halation_glow, myColor_halation_glow];
+    var blurs = [40, 50, 10, 20, 10];
 
-	halationlayer.threshold(250);
-	halationlayerTwo.threshold(250);
-	halationlayerThree.threshold(245);
-	halationlayerFour.threshold(245);
-	halationlayerFive.threshold(235);
+	for (var i = 0; i < 5; i++) {
+		var layer = negativelayer.duplicate();
+		layer.name = "halation" + (i + 1);
+		halationLayers.push(layer);
+		layer.threshold(thresholds[i]);
+		doc.activeLayer = layer;
+		colorOverlay(colors[i]);
+		rasterizeLayer();
+		layer.applyGaussianBlur(Math.round(doc_scale * blurs[i]));
+	}
 
-	doc.activeLayer = halationlayer;
-    colorOverlay(myColor_halation);
-    rasterizeLayer();
+	for (var i = 1; i < halationLayers.length; i++) {
+		halationLayers[i].blendMode = BlendMode.SCREEN;
+		doc.activeLayer = halationLayers[i-1]; // Make the layer at index i-1 the active layer
+		halationLayers[i-1].merge();
+	}
 
-	doc.activeLayer = halationlayerTwo;
-    colorOverlay(myColor_halation_glow);
-    rasterizeLayer();
-
-	doc.activeLayer = halationlayerThree;
-    colorOverlay(myColor_halation);
-    rasterizeLayer();
-
-	doc.activeLayer = halationlayerFour;
-    colorOverlay(myColor_halation_glow);
-    rasterizeLayer();
-	
-	doc.activeLayer = halationlayerFive;
-    colorOverlay(myColor_halation_glow);
-    rasterizeLayer();
-
-    halationlayer.applyGaussianBlur(Math.round(doc_scale*30));
-	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*40));
-	halationlayerThree.applyGaussianBlur(Math.round(doc_scale*10));
-	halationlayerFour.applyGaussianBlur(Math.round(doc_scale*20));
-	halationlayerFive.applyGaussianBlur(Math.round(doc_scale*10));
-
-	halationlayerFive.blendMode = BlendMode.SCREEN;
-	halationlayerFive.merge();
-
-	halationlayerFour.blendMode = BlendMode.SCREEN;
-	halationlayerFour.merge();
-	
-	halationlayerThree.blendMode = BlendMode.SCREEN;
-	halationlayerThree.merge();
-
-	halationlayerTwo.blendMode = BlendMode.SCREEN;
-	halationlayerTwo.merge();
-
-    //halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
+	halationLayers[4].adjustCurves([[0, 0], [128, 180], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
-	doRotation(randRotation, flip, "negative");
+    doRotation(randRotation, flip, "negative");
     adjustSelection();
-	doc.selection.contract(new UnitValue(feather*2, 'px'));
+    doc.selection.contract(new UnitValue(feather*2, 'px'));
 
-	if (delta != 0) {
-		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
-	}
+    if (delta != 0) {
+        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+    }
 
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
-    halationlayer.blendMode = BlendMode.SCREEN;
-	halationlayer.merge();
-
+    halationLayers[4].merge();
 }
 
 function run_fancy() {
