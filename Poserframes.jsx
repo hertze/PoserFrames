@@ -894,7 +894,8 @@ function run_fancy() {
                 doc.selection.fill(myColor_shadow);
             }
             if (thisSubshadow) {
-                masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
+                masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
+				masklayer.applyGaussianBlur(doc_scale*8);
                 
                 subshadowPath.makeSelection(0, true);
                 doRotation(randRotation, flip, "subshadow", rotate_mask);
@@ -903,10 +904,11 @@ function run_fancy() {
                 doc.selection.fill(myColor_white);
 				
 				doc.selection.invert();
-				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * generateRandomInteger(40, 80));
+				//doc.selection.deselect();
+				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 30);
 
-				doc.selection.invert();
-				doc.selection.fill(myColor_white);
+				//doc.selection.invert();
+				//doc.selection.fill(myColor_white);
             }
             var hipasslayer = masklayer.duplicate();
             hipasslayer.name = "hipass";
@@ -915,7 +917,7 @@ function run_fancy() {
             hipasslayer.merge();
 			doc.selection.deselect();
             masklayer.adjustLevels(0, 249, generateRandomInteger(10, 80) * 0.01, 0, 255);
-			doc.selection.deselect();
+			//doc.selection.deselect();
 			masklayer.applyGaussianBlur(feather * generateRandomInteger(5, 10) * 0.1);
 
 			var edgemask = masklayer.duplicate();
@@ -1609,9 +1611,9 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		myColor_shadow.hsb.brightness =  generateRandomInteger(60, 70);
 		var brightnessRange = 70 - 60;
-		var saturationRange = 1 - 2;
-		var scaledBrightness = (myColor_shadow.hsb.brightness - 70) / brightnessRange;
-		myColor_shadow.hsb.saturation = 15 + (scaledBrightness * saturationRange);
+		var saturationRange = 1 - 3;
+		var scaledBrightness = (myColor_shadow.hsb.brightness - 60) / brightnessRange;
+		myColor_shadow.hsb.saturation = 1 + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
 		myColor_shadow.hsb.brightness = generateRandomInteger(80, 95);
