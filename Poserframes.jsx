@@ -815,37 +815,55 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     var halationlayer = negativelayer.duplicate();
     halationlayer.name = "halation";
 	var halationlayerTwo = halationlayer.duplicate();
-    halationlayerTwo.name = "halation two";
 	var halationlayerThree = halationlayerTwo.duplicate();
-    halationlayerThree.name = "halation two";
+	var halationlayerFour = halationlayerThree.duplicate();
+	var halationlayerFive = halationlayerFour.duplicate();
 
 	halationlayer.threshold(250);
-	halationlayerTwo.threshold(245);
-	halationlayerThree.threshold(235);
+	halationlayerTwo.threshold(250);
+	halationlayerThree.threshold(245);
+	halationlayerFour.threshold(245);
+	halationlayerFive.threshold(235);
 
-	doc.activeLayer = halationlayerThree;
-    colorOverlay(myColor_halation_glow);
+	doc.activeLayer = halationlayer;
+    colorOverlay(myColor_halation);
     rasterizeLayer();
 
 	doc.activeLayer = halationlayerTwo;
+    colorOverlay(myColor_halation_glow);
+    rasterizeLayer();
+
+	doc.activeLayer = halationlayerThree;
     colorOverlay(myColor_halation);
     rasterizeLayer();
 
-    doc.activeLayer = halationlayer;
-    colorOverlay(myColor_halation);
+	doc.activeLayer = halationlayerFour;
+    colorOverlay(myColor_halation_glow);
+    rasterizeLayer();
+	
+	doc.activeLayer = halationlayerFive;
+    colorOverlay(myColor_halation_glow);
     rasterizeLayer();
 
-    halationlayer.applyGaussianBlur(Math.round(doc_scale*40));
-	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*20));
+    halationlayer.applyGaussianBlur(Math.round(doc_scale*30));
+	halationlayerTwo.applyGaussianBlur(Math.round(doc_scale*40));
 	halationlayerThree.applyGaussianBlur(Math.round(doc_scale*10));
+	halationlayerFour.applyGaussianBlur(Math.round(doc_scale*20));
+	halationlayerFive.applyGaussianBlur(Math.round(doc_scale*10));
 
+	halationlayerFive.blendMode = BlendMode.SCREEN;
+	halationlayerFive.merge();
+
+	halationlayerFour.blendMode = BlendMode.SCREEN;
+	halationlayerFour.merge();
+	
 	halationlayerThree.blendMode = BlendMode.SCREEN;
 	halationlayerThree.merge();
 
 	halationlayerTwo.blendMode = BlendMode.SCREEN;
 	halationlayerTwo.merge();
 
-    halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
+    //halationlayer.adjustCurves([[0, 0], [128, 180], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
 	doRotation(randRotation, flip, "negative");
