@@ -855,7 +855,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
     adjustSelection();
-    doc.selection.contract(new UnitValue(feather*2, 'px'));
+    doc.selection.contract(new UnitValue(feather*2.5, 'px'));
 
     if (delta != 0) {
         doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
@@ -1654,13 +1654,13 @@ if (colorCheck() == "color") {
 	myColor_black.hsb.saturation = 0;
 	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
 
-	myColor_halation.rgb.red = 255;
-	myColor_halation.rgb.green = 255;
-	myColor_halation.rgb.blue = 255;
+	myColor_halation.rgb.red = 243;
+	myColor_halation.rgb.green = 230;
+	myColor_halation.rgb.blue = 230;
 
-	myColor_halation_glow.rgb.red = 200;
-	myColor_halation_glow.rgb.green = 200;
-	myColor_halation_glow.rgb.blue = 200;
+	myColor_halation_glow.rgb.red = 150;
+	myColor_halation_glow.rgb.green = 150;
+	myColor_halation_glow.rgb.blue = 150;
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
