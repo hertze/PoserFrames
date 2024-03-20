@@ -913,7 +913,6 @@ function run_fancy() {
 				doc.selection.deselect();
             }
             if (thisSubshadow) {
-
 				// Add noise and blur it
 				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
 				masklayer.applyGaussianBlur(doc_scale*8);
@@ -929,11 +928,9 @@ function run_fancy() {
             }
 			// Duplicate layer and use leves and highpass to increase contrast
             var hipasslayer = masklayer.duplicate();
-            hipasslayer.name = "hipass";
             hipasslayer.blendMode = BlendMode.OVERLAY;
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
-			doc.selection.deselect();
             masklayer.adjustLevels(0, 249, generateRandomInteger(20, 80) * 0.01, 0, 255);
 
 			// Blur perpendicular to short edge and use high pass to contrast edges
