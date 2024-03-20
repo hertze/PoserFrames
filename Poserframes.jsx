@@ -1661,7 +1661,7 @@ if (colorCheck() == "color") {
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
-	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 80);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(80, 95);
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
