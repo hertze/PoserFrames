@@ -58,7 +58,7 @@ var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
-var blue_artefacts_odds = 70;
+var blue_artefacts_odds = 80;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
@@ -931,13 +931,14 @@ function run_fancy() {
             hipasslayer.blendMode = BlendMode.OVERLAY;
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
-            masklayer.adjustLevels(0, 249, generateRandomInteger(20, 80) * 0.01, 0, 255);
+            masklayer.adjustLevels(0, 249, generateRandomInteger(30, 90) * 0.01, 0, 255);
 
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
 			edgemask.applyHighPass(Math.round(doc_scale * 6.5));
+			edgemask.adjustBrightnessContrast(0,10);
 			edgemask.merge();
 
 			// Fill the outside again with white
@@ -1625,8 +1626,8 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 75;
-		maxBrightness = 85;
+		minBrightness = 100;
+		maxBrightness = 99;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 2;
@@ -1636,7 +1637,7 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minBrightness = 85;
+		minBrightness = 100;
 		maxBrightness = 95;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
