@@ -914,8 +914,8 @@ function run_fancy() {
             }
             if (thisSubshadow) {
 				// Add noise and blur it
-				masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(doc_scale*8);
+				masklayer.applyAddNoise(18, NoiseDistribution.GAUSSIAN, true);
+				masklayer.applyGaussianBlur(doc_scale*6);
 
 				// Fill the outside of the subshadow with white, invert the selection back
                 subshadowPath.makeSelection(0, true);
@@ -937,8 +937,8 @@ function run_fancy() {
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
-			edgemask.applyHighPass(Math.round(doc_scale * 6.5));
-			edgemask.adjustBrightnessContrast(0,10);
+			edgemask.applyHighPass(Math.round(doc_scale * 8));
+			edgemask.adjustBrightnessContrast(0,generateRandomInteger(30, 50));
 			edgemask.merge();
 
 			// Fill the outside again with white
