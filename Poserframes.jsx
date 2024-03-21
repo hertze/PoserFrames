@@ -931,7 +931,7 @@ function run_fancy() {
             hipasslayer.blendMode = BlendMode.OVERLAY;
             hipasslayer.applyHighPass(doc_scale);
             hipasslayer.merge();
-            masklayer.adjustLevels(0, 249, generateRandomInteger(30, 90) * 0.01, 0, 255);
+            masklayer.adjustLevels(0, 249, generateRandomInteger(30, 150) * 0.01, 0, 255);
 
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
