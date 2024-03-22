@@ -913,7 +913,7 @@ function run_fancy() {
             }
             
 			// Add noise and blur it
-			masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
+			masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
 			masklayer.applyGaussianBlur(doc_scale*10);
 			masklayer.adjustBrightnessContrast(0, 20);
 
@@ -931,22 +931,24 @@ function run_fancy() {
 			doc.selection.invert();
 			doc.selection.expand(doc_scale * 20);
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+			edgemask.applyGaussianBlur(doc_scale * 2);
 			doc.selection.contract(doc_scale * 20);
 
 			doc.selection.invert();
-			doc.selection.contract(doc_scale * 10);
-			edgemask.applyGaussianBlur(doc_scale * 5);
-			doc.selection.expand(doc_scale * 10);
 
 			doc.selection.expand(doc_scale * 20);
-			edgemask.applyHighPass(Math.round(doc_scale * 8));
+			edgemask.applyHighPass(Math.round(doc_scale * 10));
+			edgemask.adjustBrightnessContrast(0, 20);
 			doc.selection.contract(doc_scale * 20);
 			edgemask.merge();
 
 			// Fill the outside again with white
 			doc.selection.invert();
 			doc.selection.expand(doc_scale * 10);
-			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 20);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 4);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 8);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 16);
+			masklayer.applyGaussianBlur(doc_scale * 2);
 			doc.selection.contract(doc_scale * 10);
 			doc.selection.fill(myColor_white);
 			doc.selection.deselect();
