@@ -913,8 +913,9 @@ function run_fancy() {
             }
             
 			// Add noise and blur it
-			masklayer.applyAddNoise(18, NoiseDistribution.GAUSSIAN, true);
-			masklayer.applyGaussianBlur(doc_scale*6);
+			masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
+			masklayer.applyGaussianBlur(doc_scale*10);
+			masklayer.adjustBrightnessContrast(0, 20);
 
 			// Fill the outside of the subshadow with white, invert the selection back
 			subshadowPath.makeSelection(0, true);
@@ -922,32 +923,33 @@ function run_fancy() {
 			adjustSelection();
 			doc.selection.invert();
 			doc.selection.fill(myColor_white);
-			doc.selection.deselect();
-
-			// Duplicate layer and use leves and highpass to increase contrast
-            var hipasslayer = masklayer.duplicate();
-            hipasslayer.blendMode = BlendMode.OVERLAY;
-            hipasslayer.applyHighPass(doc_scale);
-            hipasslayer.merge();
-            masklayer.adjustLevels(0, 249, generateRandomInteger(30, 150) * 0.01, 0, 255);
+			doc.selection.invert();
 
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
-			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
-			edgemask.applyHighPass(Math.round(doc_scale * 6,5));
-			edgemask.adjustBrightnessContrast(0,generateRandomInteger(30, 60));
+			doc.selection.invert();
+			doc.selection.expand(doc_scale * 20);
+			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+			doc.selection.contract(doc_scale * 20);
+
+			doc.selection.invert();
+			doc.selection.contract(doc_scale * 10);
+			edgemask.applyGaussianBlur(doc_scale * 5);
+			doc.selection.expand(doc_scale * 10);
+
+			doc.selection.expand(doc_scale * 20);
+			edgemask.applyHighPass(Math.round(doc_scale * 8));
+			doc.selection.contract(doc_scale * 20);
 			edgemask.merge();
 
 			// Fill the outside again with white
-			subshadowPath.makeSelection(feather, true);
-			doRotation(randRotation, flip, "subshadow", rotate_mask);
-            adjustSelection();
 			doc.selection.invert();
-			doc.selection.expand(doc_scale * 20);
-			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
-			doc.selection.contract(doc_scale * 20);
+			doc.selection.expand(doc_scale * 10);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 20);
+			doc.selection.contract(doc_scale * 10);
 			doc.selection.fill(myColor_white);
+			doc.selection.deselect();
             break;
 
         default:
@@ -1627,8 +1629,8 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 100;
-		maxBrightness = 99;
+		minBrightness = 85;
+		maxBrightness = 100;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 2;
@@ -1638,8 +1640,8 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minBrightness = 100;
-		maxBrightness = 95;
+		minBrightness = 70;
+		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 15;
