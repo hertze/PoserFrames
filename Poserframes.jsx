@@ -899,11 +899,10 @@ function run_fancy() {
 
     switch (artifacts) {
         case true:
-            if (thisSubshadow) {
-				// Background fill with subshadow color
-                doc.selection.selectAll();
-                doc.selection.fill(myColor_subshadow);
-            }
+			// Background fill with subshadow color
+			doc.selection.selectAll();
+			doc.selection.fill(myColor_subshadow);
+            
             if (thisShadow) {
 				// Add shadow
                 shadowPath.makeSelection(feather * 2.5, true);
@@ -912,20 +911,19 @@ function run_fancy() {
                 doc.selection.fill(myColor_shadow);
 				doc.selection.deselect();
             }
-            if (thisSubshadow) {
-				// Add noise and blur it
-				masklayer.applyAddNoise(18, NoiseDistribution.GAUSSIAN, true);
-				masklayer.applyGaussianBlur(doc_scale*6);
+            
+			// Add noise and blur it
+			masklayer.applyAddNoise(18, NoiseDistribution.GAUSSIAN, true);
+			masklayer.applyGaussianBlur(doc_scale*6);
 
-				// Fill the outside of the subshadow with white, invert the selection back
-                subshadowPath.makeSelection(0, true);
-                doRotation(randRotation, flip, "subshadow", rotate_mask);
-                adjustSelection();
-                doc.selection.invert();
-                doc.selection.fill(myColor_white);
-				doc.selection.deselect();
+			// Fill the outside of the subshadow with white, invert the selection back
+			subshadowPath.makeSelection(0, true);
+			doRotation(randRotation, flip, "subshadow", rotate_mask);
+			adjustSelection();
+			doc.selection.invert();
+			doc.selection.fill(myColor_white);
+			doc.selection.deselect();
 
-            }
 			// Duplicate layer and use leves and highpass to increase contrast
             var hipasslayer = masklayer.duplicate();
             hipasslayer.blendMode = BlendMode.OVERLAY;
