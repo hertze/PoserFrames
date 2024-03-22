@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -937,8 +937,8 @@ function run_fancy() {
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 90);
-			edgemask.applyHighPass(Math.round(doc_scale * 8));
-			edgemask.adjustBrightnessContrast(0,generateRandomInteger(30, 50));
+			edgemask.applyHighPass(Math.round(doc_scale * 6,5));
+			edgemask.adjustBrightnessContrast(0,generateRandomInteger(30, 60));
 			edgemask.merge();
 
 			// Fill the outside again with white
@@ -946,6 +946,9 @@ function run_fancy() {
 			doRotation(randRotation, flip, "subshadow", rotate_mask);
             adjustSelection();
 			doc.selection.invert();
+			doc.selection.expand(doc_scale * 20);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
+			doc.selection.contract(doc_scale * 20);
 			doc.selection.fill(myColor_white);
             break;
 
