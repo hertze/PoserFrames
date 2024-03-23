@@ -1684,30 +1684,16 @@ border_width_square = border_width_square/10;
 
 try {
 	if (executeScript == true || legacy == true) {
-		
 		// Load paths
 		const loadedpaths = loadPaths();
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
-		
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-		if (generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45") {
-			var rotate_mask = true;
-		} else {
-			var rotate_mask = false;
-		}
-		
-		if (fancy == true) {
-			// FANCY MODE
-			run_fancy();
-		} else {
-			// CROP MODE
-			run_crop();
-		}
-	
+		var rotate_mask = generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45";
+		// Run fancy or crop
+		fancy ? run_fancy() : run_crop();
 		// Clean up
 		cleanup();
-		
 		// ALL DONE!
 	}
 	
