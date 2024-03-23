@@ -931,7 +931,7 @@ function run_fancy() {
 			edgemask.applyHighPass(Math.round(doc_scale * 10));
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
 			masklayer.applyGaussianBlur(doc_scale*5);
-			edgemask.adjustBrightnessContrast(0, 20);
+			edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
 			edgemask.merge();
 
 			// Fill the outside again with white, soften edges in one direction
