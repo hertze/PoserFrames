@@ -934,8 +934,7 @@ function run_fancy() {
 			edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
 			edgemask.merge();
 
-			// Fill the outside again with white, soften edges in one direction
-			doc.selection.invert();
+			// Soften edges in one direction
 			doc.selection.expand(doc_scale * 10);
 			doc.selection.feather(doc_scale * 40);
 			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 25);
