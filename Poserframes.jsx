@@ -928,30 +928,21 @@ function run_fancy() {
 			// Blur perpendicular to short edge and use high pass to contrast edges
 			var edgemask = masklayer.duplicate();
 			edgemask.blendMode = BlendMode.HARDLIGHT;
-			doc.selection.invert();
-			doc.selection.expand(doc_scale * 20);
-			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-			doc.selection.contract(doc_scale * 20);
-
-			doc.selection.invert();
-
-			doc.selection.expand(doc_scale * 20);
 			edgemask.applyHighPass(Math.round(doc_scale * 10));
-			masklayer.applyAddNoise(10, NoiseDistribution.GAUSSIAN, true);
-			masklayer.applyGaussianBlur(doc_scale);
+			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
+			masklayer.applyGaussianBlur(doc_scale*5);
 			edgemask.adjustBrightnessContrast(0, 20);
-			doc.selection.contract(doc_scale * 20);
 			edgemask.merge();
 
-			// Fill the outside again with white
+			// Fill the outside again with white, soften edges in one direction
 			doc.selection.invert();
 			doc.selection.expand(doc_scale * 10);
-			doc.selection.feather(doc_scale * 30);
+			doc.selection.feather(doc_scale * 40);
 			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 25);
 			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
 			doc.selection.contract(doc_scale * 10);
 
-
+			// Fill the outside with white again
 			subshadowPath.makeSelection(0, true);
 			doRotation(randRotation, flip, "subshadow", rotate_mask);
 			adjustSelection();
