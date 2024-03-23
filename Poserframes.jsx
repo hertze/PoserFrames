@@ -58,7 +58,7 @@ var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probaility = 20;
-var blue_artefacts_odds = 80;
+var blue_artefacts_odds = 20;
 
 
 // DO NOT EDIT BELOW THIS LINE -----------------------------------------
@@ -1625,7 +1625,7 @@ if (colorCheck() == "color") {
 	
 	var minBrightness, maxBrightness, brightnessRange, minSaturation, maxSaturation, saturationRange, scaledBrightness;
 
-	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
+	if (generateRandomInteger(1, 100) < blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		minBrightness = 80;
 		maxBrightness = 100;
