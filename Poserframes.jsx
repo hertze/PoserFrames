@@ -913,9 +913,9 @@ function run_fancy() {
             }
             
 			// Add noise and blur it
-			masklayer.applyAddNoise(15, NoiseDistribution.GAUSSIAN, true);
-			masklayer.applyGaussianBlur(doc_scale*10);
-			masklayer.adjustBrightnessContrast(0, 20);
+			masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
+			masklayer.applyGaussianBlur(doc_scale*5);
+			masklayer.adjustBrightnessContrast(5, 20);
 
 			// Fill the outside of the subshadow with white, invert the selection back
 			subshadowPath.makeSelection(0, true);
@@ -931,13 +931,14 @@ function run_fancy() {
 			doc.selection.invert();
 			doc.selection.expand(doc_scale * 20);
 			edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-			edgemask.applyGaussianBlur(doc_scale * 2);
 			doc.selection.contract(doc_scale * 20);
 
 			doc.selection.invert();
 
 			doc.selection.expand(doc_scale * 20);
 			edgemask.applyHighPass(Math.round(doc_scale * 10));
+			masklayer.applyAddNoise(10, NoiseDistribution.GAUSSIAN, true);
+			masklayer.applyGaussianBlur(doc_scale);
 			edgemask.adjustBrightnessContrast(0, 20);
 			doc.selection.contract(doc_scale * 20);
 			edgemask.merge();
@@ -945,11 +946,16 @@ function run_fancy() {
 			// Fill the outside again with white
 			doc.selection.invert();
 			doc.selection.expand(doc_scale * 10);
-			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 4);
-			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 8);
-			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 16);
-			masklayer.applyGaussianBlur(doc_scale * 2);
+			doc.selection.feather(doc_scale * 30);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 25);
+			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
 			doc.selection.contract(doc_scale * 10);
+
+
+			subshadowPath.makeSelection(0, true);
+			doRotation(randRotation, flip, "subshadow", rotate_mask);
+			adjustSelection();
+			doc.selection.invert();
 			doc.selection.fill(myColor_white);
 			doc.selection.deselect();
             break;
