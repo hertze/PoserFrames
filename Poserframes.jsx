@@ -1668,7 +1668,7 @@ if (colorCheck() == "color") {
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.8, 100);
+myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.5, 100);
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
