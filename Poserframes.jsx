@@ -1627,7 +1627,7 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) > blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 85;
+		minBrightness = 80;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
@@ -1642,8 +1642,8 @@ if (colorCheck() == "color") {
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
-		minSaturation = 15;
-		maxSaturation = 20;
+		minSaturation = 20;
+		maxSaturation = 25;
 		saturationRange = maxSaturation - minSaturation;
 		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
 		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
@@ -1663,7 +1663,7 @@ if (colorCheck() == "color") {
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
-	myColor_shadow.hsb.brightness =  generateRandomInteger(80, 95);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(80, 99);
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
