@@ -819,13 +819,13 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 
 	switch (thisFormat) {
 		case "35mm":
-			blurs = [40, 60, 10, 20, 10];
+			blurs = [20, 60, 8, 16, 5];
 			break;
 		case "645":
-			blurs = [21, 32, 6, 12, 6];
+			blurs = [11, 33, 5, 10, 3];
 			break;
 		default:
-			blurs = [16, 24, 4, 8, 4];
+			blurs = [8, 16, 4, 8, 3];
 			break;
 	}
 
@@ -850,7 +850,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 	}
 
 	// Curve to brighten the brightest parts
-	halationLayers[4].adjustCurves([[0, 0], [40, 45], [85, 110], [255, 255]]);
+	//halationLayers[4].adjustCurves([[0, 0], [40, 45], [85, 110], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
@@ -864,6 +864,8 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
     halationLayers[4].merge();
+
+	//throw new Error("Halation rendering done");
 
 }
 
@@ -1615,12 +1617,12 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.green = generateRandomInteger(1, 6);  
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 
-	myColor_halation.rgb.red = 255;
-	myColor_halation.rgb.green = 250;
-	myColor_halation.rgb.blue = 235;
+	myColor_halation.rgb.red = 50;
+	myColor_halation.rgb.green = 10;
+	myColor_halation.rgb.blue = 5;
 
 	myColor_halation_glow.rgb.red = 255;
-	myColor_halation_glow.rgb.green = 50;
+	myColor_halation_glow.rgb.green = 0;
 	myColor_halation_glow.rgb.blue = 0;
 	
 	var minBrightness, maxBrightness, brightnessRange, minSaturation, maxSaturation, saturationRange, scaledBrightness;
@@ -1653,13 +1655,13 @@ if (colorCheck() == "color") {
 	myColor_black.hsb.saturation = 0;
 	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
 
-	myColor_halation.rgb.red = 243;
-	myColor_halation.rgb.green = 230;
-	myColor_halation.rgb.blue = 230;
+	myColor_halation.rgb.red = 200;
+	myColor_halation.rgb.green = 200;
+	myColor_halation.rgb.blue = 200;
 
-	myColor_halation_glow.rgb.red = 150;
-	myColor_halation_glow.rgb.green = 150;
-	myColor_halation_glow.rgb.blue = 150;
+	myColor_halation_glow.rgb.red = 100;
+	myColor_halation_glow.rgb.green = 100;
+	myColor_halation_glow.rgb.blue = 100;
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
