@@ -849,10 +849,15 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 		halationLayers[i-1].merge();
 	}
 
+	//throw new Error("Test");
+
+	// Curve to brighten the brightest parts
+	halationLayers[4].adjustCurves([[0, 0], [65, 80], [190, 150], [255, 255]]);
+
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
     adjustSelection();
-    doc.selection.contract(new UnitValue(feather*2.5, 'px'));
+    doc.selection.contract(new UnitValue(feather, 'px'));
 
     if (delta != 0) {
         doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
