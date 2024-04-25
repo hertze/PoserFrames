@@ -862,8 +862,6 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     doc.selection.deselect();
     halationLayers[4].merge();
 
-	//throw new Error("Halation rendering done");
-
 }
 
 function run_fancy() {
