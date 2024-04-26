@@ -1655,13 +1655,13 @@ if (colorCheck() == "color") {
 	myColor_black.hsb.saturation = 0;
 	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
 
-	myColor_halation.rgb.red = 200;
-	myColor_halation.rgb.green = 200;
-	myColor_halation.rgb.blue = 200;
+	myColor_halation.rgb.red = 240;
+	myColor_halation.rgb.green = 240;
+	myColor_halation.rgb.blue = 240;
 
-	myColor_halation_glow.rgb.red = 100;
-	myColor_halation_glow.rgb.green = 100;
-	myColor_halation_glow.rgb.blue = 100;
+	myColor_halation_glow.rgb.red = 150;
+	myColor_halation_glow.rgb.green = 150;
+	myColor_halation_glow.rgb.blue = 150;
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
