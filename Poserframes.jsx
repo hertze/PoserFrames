@@ -1,6 +1,6 @@
 // P O S E R F R A M E S
 //
-// Version 3.4.0
+// Version 3.4.1
 //
 // by Joakim Hertze (www.hertze.se)
 //
