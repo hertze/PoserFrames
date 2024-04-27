@@ -813,7 +813,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
     doc.selection.deselect();
 
     var halationLayers = [];
-    var thresholds = [252, 252, 245, 245, 235];
+    var thresholds = [250, 250, 245, 245, 235];
     var colors = [myColor_halation, myColor_halation_glow, myColor_halation, myColor_halation_glow, myColor_halation_glow];
     var blurs;
 
@@ -852,7 +852,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 	//throw new Error("Test");
 
 	// Curve to brighten the brightest parts
-	halationLayers[4].adjustCurves([[0, 0], [65, 80], [190, 150], [255, 255]]);
+	halationLayers[4].adjustCurves([[0, 0], [65, 80], [generateRandomInteger(180, 190), 150], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
