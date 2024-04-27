@@ -849,9 +849,7 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 		halationLayers[i-1].merge();
 	}
 
-	//throw new Error("Test");
-
-	// Curve to brighten the brightest parts
+	// Curve to darken the brightest parts
 	halationLayers[4].adjustCurves([[0, 0], [65, 80], [generateRandomInteger(180, 190), 150], [255, 255]]);
 
     negativePath.makeSelection(feather, true);
