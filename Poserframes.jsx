@@ -941,10 +941,11 @@ function run_fancy() {
 			masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
 			doc.selection.contract(doc_scale * 10);
 
-			// Fill the outside with white again
+			// Add noise and fill the outside with white again
 			subshadowPath.makeSelection(0, true);
 			doRotation(randRotation, flip, "subshadow", rotate_mask);
 			adjustSelection();
+			masklayer.applyAddNoise(doc_scale*2, NoiseDistribution.GAUSSIAN, true);
 			doc.selection.invert();
 			doc.selection.fill(myColor_white);
 			doc.selection.deselect();
