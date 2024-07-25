@@ -849,9 +849,6 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 		halationLayers[i-1].merge();
 	}
 
-	// Curve to darken the brightest parts
-	halationLayers[4].adjustCurves([[0, 0], [65, 80], [generateRandomInteger(180, 190), 150], [255, 255]]);
-
     negativePath.makeSelection(feather, true);
     doRotation(randRotation, flip, "negative");
     adjustSelection();
@@ -863,6 +860,9 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
+
+	throw new Error("Stop execution");
+
     halationLayers[4].merge();
 
 }
@@ -1616,11 +1616,11 @@ if (colorCheck() == "color") {
 	myColor_black.rgb.green = generateRandomInteger(1, 6);  
 	myColor_black.rgb.blue = generateRandomInteger(1, 6);
 
-	myColor_halation.rgb.red = 50;
-	myColor_halation.rgb.green = 10;
-	myColor_halation.rgb.blue = 5;
+	myColor_halation.rgb.red = 45;
+	myColor_halation.rgb.green = 8;
+	myColor_halation.rgb.blue = 4;
 
-	myColor_halation_glow.rgb.red = 255;
+	myColor_halation_glow.rgb.red = 180;
 	myColor_halation_glow.rgb.green = 0;
 	myColor_halation_glow.rgb.blue = 0;
 	
