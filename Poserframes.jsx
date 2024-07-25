@@ -829,41 +829,37 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 			break;
 	}
 
+	// Create a composite layer at the beginning
+	var compositeLayer = doc.artLayers.add();
+	compositeLayer.name = "Composite Halation";
+
 	for (var i = 0; i < 5; i++) {
 		var layer = negativelayer.duplicate();
 		layer.name = "halation" + (i + 1);
-		halationLayers.push(layer);
 		layer.threshold(thresholds[i]);
-		doc.activeLayer = layer;
+		doc.activeLayer = layer; // Make the duplicated layer the active layer
 		colorOverlay(colors[i]);
 		rasterizeLayer();
 		layer.applyGaussianBlur(Math.round(doc_scale * blurs[i]));
+		layer.blendMode = BlendMode.SCREEN;
+
+		// Ensure compositeLayer is directly below the current layer for merging
+		doc.activeLayer = compositeLayer; // Make the compositeLayer the active layer
+		var mergedLayer = layer.merge(); // Merge the current layer down into the compositeLayer
 	}
 
-	// Set blend mode for first layer
-	halationLayers[0].blendMode = BlendMode.SCREEN;
+	negativePath.makeSelection(feather, true);
+	doRotation(randRotation, flip, "negative");
+	adjustSelection();
+	doc.selection.contract(new UnitValue(feather, 'px'));
 
-	for (var i = 1; i < halationLayers.length; i++) {
-		halationLayers[i].blendMode = BlendMode.SCREEN;
-		doc.activeLayer = halationLayers[i-1]; // Make the layer at index i-1 the active layer
-		halationLayers[i-1].merge();
+	if (delta != 0) {
+		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
 	}
 
-    negativePath.makeSelection(feather, true);
-    doRotation(randRotation, flip, "negative");
-    adjustSelection();
-    doc.selection.contract(new UnitValue(feather, 'px'));
-
-    if (delta != 0) {
-        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
-    }
-
-    doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-    doc.selection.deselect();
-
-	throw new Error("Stop execution");
-
-    halationLayers[4].merge();
+	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	doc.selection.deselect();
+	compositeLayer.merge();
 
 }
 
