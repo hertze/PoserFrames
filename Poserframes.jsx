@@ -881,8 +881,6 @@ function run_fancy() {
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
 
-	throw new Error("This is a test error");
-
 	if (halation) {
 		delta = 0;
 		renderHalation(negativePath, delta, randRotation, flip);
