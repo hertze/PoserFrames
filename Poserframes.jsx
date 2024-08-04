@@ -879,7 +879,8 @@ function run_fancy() {
     adjustSelection();
     doc.selection.invert();
 
-	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
+	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true); // Supposed to be false, but that causes issues on Intel machines.
+
 
 	if (halation) {
 		delta = 0;
