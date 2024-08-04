@@ -878,10 +878,15 @@ function run_fancy() {
     doRotation(randRotation, flip, "negative");
     adjustSelection();
     doc.selection.invert();
-    doc.selection.fill(myColor_black);
+
+		alert("Invert selection");
+
+    doc.selection.fill(myColor_black, ColorBlendMode.NORMAL);
+
+		alert("Invert selection");
 
 	if (halation) {
-		var delta = 0;
+		delta = 0;
 		renderHalation(negativePath, delta, randRotation, flip);
 	}
 
