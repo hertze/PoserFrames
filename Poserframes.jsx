@@ -879,11 +879,9 @@ function run_fancy() {
     adjustSelection();
     doc.selection.invert();
 
-		alert("Invert selection");
+	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
 
-    doc.selection.fill(myColor_black, ColorBlendMode.NORMAL);
-
-		alert("Invert selection");
+	throw new Error("This is a test error");
 
 	if (halation) {
 		delta = 0;
@@ -1061,7 +1059,7 @@ function run_crop() {
     }
 
     doc.selection.invert(); // Invert selection
-    doc.selection.fill(myColor_black); // Fill with black
+    doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
 
 	if (halation) {
 		renderHalation(negativePath, delta, randRotation, flip);
