@@ -527,14 +527,6 @@ function createBackdropLayer() {
 	backdrop.moveAfter(imageLayer);
 }
 
-
-function MoveLayerTo(fLayer,fX,fY) {
-  	var Position = fLayer.bounds;
-  	Position[0] = fX - Position[0];
-  	Position[1] = fY - Position[1];
-  	fLayer.translate(-Position[0],-Position[1]);
-}
-
 function moveNeg() {
 	var movement_horisontal = 0;
 	var movement_vertical = 0;
@@ -585,7 +577,7 @@ function moveNeg() {
 	}
 
 	// Move the negative layer
-	MoveLayerTo(doc.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
+	negativelayer.translate(movement_horisontal, movement_vertical);
 }
 
 
@@ -801,7 +793,7 @@ function moveNeg_fancy() {
 	}
 
 	// Move the negative layer
-	MoveLayerTo(doc.artLayers.getByName("negative"), movement_horisontal, movement_vertical);
+	negativelayer.translate(movement_horisontal, movement_vertical);
 }
 
 function spatterFilter(radiusValue, smoothnessValue) {
