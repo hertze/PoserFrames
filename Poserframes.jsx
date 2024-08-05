@@ -363,9 +363,6 @@ function createPath(thisPath, pathName) {
     var minX = Infinity;
     var minY = Infinity;
 
-    // Check if the document is in portrait orientation
-    var isPortrait = doc.height > doc.width;
-
     // First pass to find the minimum x and y coordinates after rotation (if needed)
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
@@ -478,32 +475,32 @@ function createBackdropLayer() {
 
 function doRotation(randRotation, flip, pathKind, rotateMask) {
 
-	if (doc.height > doc.width) {
-		// Portrait orientation
-		if (pathKind === "negative") {
-			// Random rotation or 180 flip for negative paths (if not in "45" format)
-			if (flip) {
-				doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
-			} else {
-				doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-			}
-		} else if (rotateMask) {
-			// Rotate mask
-			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-		} else {
-			// Rotate non-negative path
-			doc.selection.rotateBoundary(0, AnchorPosition.MIDDLECENTER);
-		}
-	} else {
-		// Landscape orientation
-		if (pathKind === "negative") {
-			// Random rotation for negative paths
-			doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-		} else if (rotateMask) {
-			// Rotate mask
-			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-		}
-	}
+    // Handle portrait orientation
+    if (isPortrait) {
+        if (pathKind === "negative") {
+            // Random rotation or 180 flip for negative paths
+            if (flip) {
+                doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
+            } else {
+                doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+            }
+        } else if (rotateMask) {
+            // Rotate mask
+            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
+        } else {
+            // Rotate non-negative path
+            doc.selection.rotateBoundary(0, AnchorPosition.MIDDLECENTER);
+        }
+    } else {
+        // Handle landscape orientation
+        if (pathKind === "negative") {
+            // Random rotation for negative paths
+            doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+        } else if (rotateMask) {
+            // Rotate mask
+            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
+        }
+    }
 }
 
 
@@ -1624,6 +1621,9 @@ var negative_size = ratio > 1 ? doc.width : doc.height;
 
 // Scale
 var doc_scale = negative_size.value / 3600;
+
+// Check if the document is in portrait orientation
+var isPortrait = doc.height > doc.width;
 
 // Sets up existing image layer
 doc.activeLayer.isBackgroundLayer = false; // Unlocks background layer
