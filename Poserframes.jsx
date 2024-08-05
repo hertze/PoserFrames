@@ -1,6 +1,6 @@
 // P O S E R F R A M E S
 //
-// Version 3.4.2
+// Version 3.5.0
 //
 // by Joakim Hertze (www.hertze.se)
 //
@@ -286,6 +286,7 @@ function format() {
 }
 
 function choosePath(pathKind) {
+	// This function selects a path from the library based on the format and path kind
     var stagedPath;
 
 	function chooseRandomPath(pathArray) {
@@ -295,7 +296,6 @@ function choosePath(pathKind) {
 		}
 		return undefined;
 	}
-
     function chooseOptionalPath(pathArray) {
         return (pathArray && pathArray.length > 0) ? chooseRandomPath(pathArray) : undefined;
     }
@@ -356,6 +356,8 @@ function choosePath(pathKind) {
 }
 
 function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask) {
+	// This renders the stored path into a path object, resizes, rotates and centers it.
+
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
     var doc = app.activeDocument;
@@ -483,6 +485,8 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
 }
 
 function loadPaths() {
+	// This draws upon choosePath and createPath to load the paths into the document
+
 	var thisSubshadow = null;
 	var thisShadow = null;
 
