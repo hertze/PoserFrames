@@ -356,31 +356,64 @@ function chooseRandomPath(pathArray) {
 }
 
 function createPath(thisPath, pathName) {
-	var pathPoints = thisPath.split(";");
-	var pathPointInfos = [];
+    var pathPoints = thisPath.split(";");
+    var pathPointInfos = [];
+    var doc = app.activeDocument;
 
-	for (var i = 0; i < pathPoints.length; i++) {
-		var pointInfo = pathPoints[i].split(" ");
-		var anchor = pointInfo[1].split(",");
-		var leftDirection = pointInfo[2].split(",");
-		var rightDirection = pointInfo[3].split(",");
+    var minX = Infinity;
+    var minY = Infinity;
 
-		var pathPoint = new PathPointInfo();
-		pathPoint.kind = pointInfo[0];
-		pathPoint.anchor = [parseFloat(anchor[0]), parseFloat(anchor[1])];
-		pathPoint.leftDirection = [parseFloat(leftDirection[0]), parseFloat(leftDirection[1])];
-		pathPoint.rightDirection = [parseFloat(rightDirection[0]), parseFloat(rightDirection[1])];
-		pathPoint.pointType = pointInfo[4];
+    // First pass to find the minimum x and y coordinates
+    for (var i = 0; i < pathPoints.length; i++) {
+        var pointInfo = pathPoints[i].split(" ");
+        var anchor = pointInfo[1].split(",");
+        var anchorX = parseFloat(anchor[0]) * doc_scale;
+        var anchorY = parseFloat(anchor[1]) * doc_scale;
 
-		pathPointInfos.push(pathPoint);
-	}
+        if (anchorX < minX) minX = anchorX;
+        if (anchorY < minY) minY = anchorY;
+    }
 
-	var subPathInfo = new SubPathInfo();
-	subPathInfo.operation = ShapeOperation.SHAPEXOR;
-	subPathInfo.closed = true;
-	subPathInfo.entireSubPath = pathPointInfos;
+    // Second pass to create path points with adjusted coordinates
+    for (var i = 0; i < pathPoints.length; i++) {
+        var pointInfo = pathPoints[i].split(" ");
+        var anchor = pointInfo[1].split(",");
+        var leftDirection = pointInfo[2].split(",");
+        var rightDirection = pointInfo[3].split(",");
 
-	app.activeDocument.pathItems.add(pathName, [subPathInfo]);
+        var pathPoint = new PathPointInfo();
+        pathPoint.kind = pointInfo[0];
+
+        // Scale the points
+        var anchorX = parseFloat(anchor[0]) * doc_scale;
+        var anchorY = parseFloat(anchor[1]) * doc_scale;
+        var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale;
+        var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
+        var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
+        var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
+
+        // Adjust the points to align with the document's top left corner
+        anchorX -= minX;
+        anchorY -= minY;
+        leftDirectionX -= minX;
+        leftDirectionY -= minY;
+        rightDirectionX -= minX;
+        rightDirectionY -= minY;
+
+        pathPoint.anchor = [anchorX, anchorY];
+        pathPoint.leftDirection = [leftDirectionX, leftDirectionY];
+        pathPoint.rightDirection = [rightDirectionX, rightDirectionY];
+        pathPoint.pointType = pointInfo[4];
+
+        pathPointInfos.push(pathPoint);
+    }
+
+    var subPathInfo = new SubPathInfo();
+    subPathInfo.operation = ShapeOperation.SHAPEXOR;
+    subPathInfo.closed = true;
+    subPathInfo.entireSubPath = pathPointInfos;
+
+    doc.pathItems.add(pathName, [subPathInfo]);
 }
 
 function loadPaths() {
@@ -459,12 +492,8 @@ function doRotation(randRotation, flip, pathKind, rotateMask) {
 }
 
 
-function adjustSelection(side) {
-    // Use conditional operator for direct assignment
-    var scale = side > 0 ? side / 3600 : doc_scale;
-
-    // Resize the selection boundary
-    doc.selection.resizeBoundary(scale * 100, scale * 100, AnchorPosition.TOPLEFT);
+function adjustSelection() {
+    var doc = app.activeDocument;
 
     // Get the bounds of the selection
     var selectionBounds = doc.selection.bounds;
