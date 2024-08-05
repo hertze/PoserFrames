@@ -348,14 +348,14 @@ function choosePath(pathKind) {
 }
 
 function chooseRandomPath(pathArray) {
-	if (pathArray && pathArray.length > 0) {
-		var randomIndex = Math.floor(Math.random() * pathArray.length);
-		return pathArray[randomIndex];
-	}
-	return undefined;
+    if (pathArray && pathArray.length > 0) {
+        var randomIndex = Math.floor(Math.random() * pathArray.length);
+        return pathArray[randomIndex];
+    }
+    return undefined;
 }
 
-function createPath(thisPath, pathName) {
+function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask) {
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
     var doc = app.activeDocument;
@@ -411,6 +411,28 @@ function createPath(thisPath, pathName) {
         rotatedLeftDirectionY -= minY;
         rotatedRightDirectionX -= minX;
         rotatedRightDirectionY -= minY;
+
+        // Apply additional rotation if needed
+        if (pathKind === "negative") {
+            var angle = flip ? 180 + randRotation : randRotation;
+            var radians = angle * (Math.PI / 180);
+
+            rotatedAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
+            rotatedAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
+            rotatedLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
+            rotatedLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
+            rotatedRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
+            rotatedRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+        } else if (rotateMask) {
+            var radians = 180 * (Math.PI / 180);
+
+            rotatedAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
+            rotatedAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
+            rotatedLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
+            rotatedLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
+            rotatedRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
+            rotatedRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+        }
 
         pathPoint.anchor = [rotatedAnchorX, rotatedAnchorY];
         pathPoint.leftDirection = [rotatedLeftDirectionX, rotatedLeftDirectionY];
@@ -471,55 +493,6 @@ function createBackdropLayer() {
 	doc.selection.selectAll();
 	doc.selection.fill(myColor_black); // Fill the layer with black
 	backdrop.moveAfter(imageLayer);
-}
-
-function doRotation(randRotation, flip, pathKind, rotateMask) {
-
-    // Handle portrait orientation
-    if (isPortrait) {
-        if (pathKind === "negative") {
-            // Random rotation or 180 flip for negative paths
-            if (flip) {
-                doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
-            } else {
-                doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-            }
-        } else if (rotateMask) {
-            // Rotate mask
-            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-        } else {
-            // Rotate non-negative path
-            doc.selection.rotateBoundary(0, AnchorPosition.MIDDLECENTER);
-        }
-    } else {
-        // Handle landscape orientation
-        if (pathKind === "negative") {
-            // Random rotation for negative paths
-            doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-        } else if (rotateMask) {
-            // Rotate mask
-            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-        }
-    }
-}
-
-
-function adjustSelection() {
-    var doc = app.activeDocument;
-
-    // Get the bounds of the selection
-    var selectionBounds = doc.selection.bounds;
-
-    // Calculate the middle horizontal and vertical positions of the selection
-    var middleHorizontal = (selectionBounds[2] - selectionBounds[0]) / 2 + selectionBounds[0];
-    var middleVertical = (selectionBounds[3] - selectionBounds[1]) / 2 + selectionBounds[1];
-
-    // Calculate the delta values to translate the selection to the center of the document
-    var deltaX = doc.width / 2 - middleHorizontal;
-    var deltaY = doc.height / 2 - middleVertical;
-
-    // Translate the selection boundary
-    doc.selection.translateBoundary(UnitValue(deltaX, "px"), UnitValue(deltaY, "px"));
 }
 
 
@@ -893,8 +866,8 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 	}
 
 	negativePath.makeSelection(feather, true);
-	doRotation(randRotation, flip, "negative");
-	adjustSelection();
+	//doRotation(randRotation, flip, "negative");
+	//adjustSelection();
 	doc.selection.contract(new UnitValue(feather, 'px'));
 
 	if (delta != 0) {
@@ -919,8 +892,8 @@ function run_fancy() {
 
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true);
-    doRotation(randRotation, flip, "negative");
-    adjustSelection();
+    //doRotation(randRotation, flip, "negative");
+    //adjustSelection();
     doc.selection.invert();
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true); // Supposed to be false, but that causes issues on Intel machines.
@@ -948,8 +921,8 @@ function run_fancy() {
 			// Add shadow if thisShadow exists
 			if (thisShadow) {
 				shadowPath.makeSelection(feather * 2.5, true);
-				doRotation(randRotation, flip, "shadow", rotate_mask);
-				adjustSelection();
+				//doRotation(randRotation, flip, "shadow", rotate_mask);
+				//adjustSelection();
 				doc.selection.fill(myColor_shadow);
 				doc.selection.deselect();
 			}
@@ -964,8 +937,8 @@ function run_fancy() {
 			// Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
 			if (thisSubshadow) {
 				subshadowPath.makeSelection(0, true);
-				doRotation(randRotation, flip, "subshadow", rotate_mask);
-				adjustSelection();
+				//randRotation, flip, "subshadow", rotate_mask);
+				//adjustSelection();
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
 				doc.selection.invert();
@@ -991,8 +964,8 @@ function run_fancy() {
 				// Add noise and fill the outside with white again
 				var path = thisSubshadow ? subshadowPath : shadowPath;
 				path.makeSelection(0, true);
-				doRotation(randRotation, flip, thisSubshadow ? "subshadow" : "shadow", rotate_mask);
-				adjustSelection();
+				//doRotation(randRotation, flip, thisSubshadow ? "subshadow" : "shadow", rotate_mask);
+				//adjustSelection();
 				masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
@@ -1009,8 +982,8 @@ function run_fancy() {
 
     var maskPath = doc.pathItems.getByName('mask');
     maskPath.makeSelection(feather, true);
-    doRotation(randRotation, flip, "mask", rotate_mask);
-    adjustSelection();
+    //doRotation(randRotation, flip, "mask", rotate_mask);
+    //adjustSelection();
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
@@ -1023,8 +996,8 @@ function run_fancy() {
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
         maskPath.makeSelection(feather*2, true);
-        doRotation(randRotation, flip, "mask", rotate_mask);
-        adjustSelection();
+        //doRotation(randRotation, flip, "mask", rotate_mask);
+        //adjustSelection();
         doc.selection.invert();
         spatterFilter(2, 4);
     }
@@ -1099,8 +1072,8 @@ function run_crop() {
     // Creates the negative layer content
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true); // Make selection from path
-    doRotation(randRotation, flip, "negative", rotate_mask);
-    adjustSelection(); //Scales and centers the selection
+    //doRotation(randRotation, flip, "negative", rotate_mask);
+    //adjustSelection(); //Scales and centers the selection
 
     // For 645 we need to move the negative shape and not the entire layer
 	var delta = 0;
