@@ -362,8 +362,10 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
 
     var minX = Infinity;
     var minY = Infinity;
+    var maxX = -Infinity;
+    var maxY = -Infinity;
 
-    // First pass to find the minimum x and y coordinates after rotation (if needed)
+    // First pass to find the minimum and maximum x and y coordinates after rotation (if needed)
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
         var anchor = pointInfo[1].split(",");
@@ -376,7 +378,21 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
 
         if (rotatedAnchorX < minX) minX = rotatedAnchorX;
         if (rotatedAnchorY < minY) minY = rotatedAnchorY;
+        if (rotatedAnchorX > maxX) maxX = rotatedAnchorX;
+        if (rotatedAnchorY > maxY) maxY = rotatedAnchorY;
     }
+
+    // Calculate the center of the path
+    var pathCenterX = (minX + maxX) / 2;
+    var pathCenterY = (minY + maxY) / 2;
+
+    // Calculate the center of the document
+    var docCenterX = doc.width.as("px") / 2;
+    var docCenterY = doc.height.as("px") / 2;
+
+    // Calculate the translation needed to center the path in the document
+    var translateX = docCenterX - pathCenterX;
+    var translateY = docCenterY - pathCenterY;
 
     // Second pass to create path points with adjusted coordinates
     for (var i = 0; i < pathPoints.length; i++) {
@@ -386,7 +402,7 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
         var rightDirection = pointInfo[3].split(",");
 
         var pathPoint = new PathPointInfo();
-        pathPoint.kind = pointInfo[0];
+        pathPoint.kind = PointKind.CORNERPOINT; // Correct enumeration value
 
         // Scale the points
         var anchorX = parseFloat(anchor[0]) * doc_scale;
@@ -404,46 +420,62 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
         var rotatedRightDirectionX = isPortrait ? rightDirectionY : rightDirectionX;
         var rotatedRightDirectionY = isPortrait ? -rightDirectionX : rightDirectionY;
 
-        // Adjust the points to align with the document's top left corner
-        rotatedAnchorX -= minX;
-        rotatedAnchorY -= minY;
-        rotatedLeftDirectionX -= minX;
-        rotatedLeftDirectionY -= minY;
-        rotatedRightDirectionX -= minX;
-        rotatedRightDirectionY -= minY;
-
         // Apply additional rotation if needed
         if (pathKind === "negative") {
             var angle = flip ? 180 + randRotation : randRotation;
             var radians = angle * (Math.PI / 180);
 
-            rotatedAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
-            rotatedAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
-            rotatedLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
-            rotatedLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
-            rotatedRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
-            rotatedRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+            var tempAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
+            var tempAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
+            rotatedAnchorX = tempAnchorX;
+            rotatedAnchorY = tempAnchorY;
+
+            var tempLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
+            var tempLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
+            rotatedLeftDirectionX = tempLeftDirectionX;
+            rotatedLeftDirectionY = tempLeftDirectionY;
+
+            var tempRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
+            var tempRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+            rotatedRightDirectionX = tempRightDirectionX;
+            rotatedRightDirectionY = tempRightDirectionY;
         } else if (rotateMask) {
             var radians = 180 * (Math.PI / 180);
 
-            rotatedAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
-            rotatedAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
-            rotatedLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
-            rotatedLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
-            rotatedRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
-            rotatedRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+            var tempAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
+            var tempAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
+            rotatedAnchorX = tempAnchorX;
+            rotatedAnchorY = tempAnchorY;
+
+            var tempLeftDirectionX = rotatedLeftDirectionX * Math.cos(radians) - rotatedLeftDirectionY * Math.sin(radians);
+            var tempLeftDirectionY = rotatedLeftDirectionX * Math.sin(radians) + rotatedLeftDirectionY * Math.cos(radians);
+            rotatedLeftDirectionX = tempLeftDirectionX;
+            rotatedLeftDirectionY = tempLeftDirectionY;
+
+            var tempRightDirectionX = rotatedRightDirectionX * Math.cos(radians) - rotatedRightDirectionY * Math.sin(radians);
+            var tempRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
+            rotatedRightDirectionX = tempRightDirectionX;
+            rotatedRightDirectionY = tempRightDirectionY;
         }
+
+        // Translate the points to center the path in the document
+        rotatedAnchorX += translateX;
+        rotatedAnchorY += translateY;
+        rotatedLeftDirectionX += translateX;
+        rotatedLeftDirectionY += translateY;
+        rotatedRightDirectionX += translateX;
+        rotatedRightDirectionY += translateY;
 
         pathPoint.anchor = [rotatedAnchorX, rotatedAnchorY];
         pathPoint.leftDirection = [rotatedLeftDirectionX, rotatedLeftDirectionY];
         pathPoint.rightDirection = [rotatedRightDirectionX, rotatedRightDirectionY];
-        pathPoint.pointType = pointInfo[4];
+        pathPoint.pointType = PointKind.CORNERPOINT; // Correct enumeration value
 
         pathPointInfos.push(pathPoint);
     }
 
     var subPathInfo = new SubPathInfo();
-    subPathInfo.operation = ShapeOperation.SHAPEXOR;
+    subPathInfo.operation = ShapeOperation.SHAPEXOR; // Correct enumeration value
     subPathInfo.closed = true;
     subPathInfo.entireSubPath = pathPointInfos;
 
