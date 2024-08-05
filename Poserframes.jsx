@@ -355,7 +355,7 @@ function choosePath(pathKind) {
     return (stagedPath !== undefined) ? stagedPath : false;
 }
 
-function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask) {
+function createPath(thisPath, pathName, pathKind) {
 	// This renders the stored path into a path object, resizes, rotates and centers it.
 
     var pathPoints = thisPath.split(";");
@@ -422,7 +422,7 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
         var rotatedRightDirectionX = isPortrait ? rightDirectionY : rightDirectionX;
         var rotatedRightDirectionY = isPortrait ? -rightDirectionX : rightDirectionY;
 
-        // Apply additional rotation if needed
+        // Apply additional rotation of negative if needed
         if (pathKind === "negative") {
             var angle = flip ? 180 + randRotation : randRotation;
             var radians = angle * (Math.PI / 180);
@@ -441,8 +441,11 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
             var tempRightDirectionY = rotatedRightDirectionX * Math.sin(radians) + rotatedRightDirectionY * Math.cos(radians);
             rotatedRightDirectionX = tempRightDirectionX;
             rotatedRightDirectionY = tempRightDirectionY;
-        } else if (rotateMask) {
-            var radians = 180 * (Math.PI / 180);
+        }
+		// Apply additional rotation of mask if needed
+        if (pathKind === "mask" && rotateMask || pathKind === "shadow" && rotateMask || pathKind === "subshadow" && rotateMask) {
+            var angle = 180;
+            var radians = angle * (Math.PI / 180);
 
             var tempAnchorX = rotatedAnchorX * Math.cos(radians) - rotatedAnchorY * Math.sin(radians);
             var tempAnchorY = rotatedAnchorX * Math.sin(radians) + rotatedAnchorY * Math.cos(radians);
@@ -482,6 +485,7 @@ function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask
     subPathInfo.entireSubPath = pathPointInfos;
 
     doc.pathItems.add(pathName, [subPathInfo]);
+
 }
 
 function loadPaths() {
@@ -915,9 +919,6 @@ function run_fancy() {
         doc.resizeCanvas(UnitValue(10 * ratio + 100, "%"), UnitValue(110, "%"), AnchorPosition.MIDDLECENTER);
     }
 
-    var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
-    var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
-
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true);
     doc.selection.invert();
@@ -930,6 +931,8 @@ function run_fancy() {
     }
 
     createBackdropLayer();
+
+	//throw new Error("This is a test error");
 
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
@@ -1066,9 +1069,6 @@ function run_crop() {
 			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
 			break;
 	}
-
-	var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
-	var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
 
     // Calculate the new dimensions
 	var newWidth = finished_width / 100 * doc.width;
@@ -1703,12 +1703,15 @@ border_width_square = border_width_square/10;
 
 try {
 	if (executeScript == true || legacy == true) {
+		var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
+		var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+		//var rotateMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
+		var rotateMask = true;
 		// Load paths
 		const loadedpaths = loadPaths();
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-		var rotate_mask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
 		// Clean up
