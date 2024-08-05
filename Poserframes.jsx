@@ -288,6 +288,14 @@ function format() {
 function choosePath(pathKind) {
     var stagedPath;
 
+	function chooseRandomPath(pathArray) {
+		if (pathArray && pathArray.length > 0) {
+			var randomIndex = Math.floor(Math.random() * pathArray.length);
+			return pathArray[randomIndex];
+		}
+		return undefined;
+	}
+
     function chooseOptionalPath(pathArray) {
         return (pathArray && pathArray.length > 0) ? chooseRandomPath(pathArray) : undefined;
     }
@@ -345,14 +353,6 @@ function choosePath(pathKind) {
     }
 
     return (stagedPath !== undefined) ? stagedPath : false;
-}
-
-function chooseRandomPath(pathArray) {
-    if (pathArray && pathArray.length > 0) {
-        var randomIndex = Math.floor(Math.random() * pathArray.length);
-        return pathArray[randomIndex];
-    }
-    return undefined;
 }
 
 function createPath(thisPath, pathName, randRotation, flip, pathKind, rotateMask) {
