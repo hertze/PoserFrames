@@ -363,15 +363,22 @@ function createPath(thisPath, pathName) {
     var minX = Infinity;
     var minY = Infinity;
 
-    // First pass to find the minimum x and y coordinates
+    // Check if the document is in portrait orientation
+    var isPortrait = doc.height > doc.width;
+
+    // First pass to find the minimum x and y coordinates after rotation (if needed)
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
         var anchor = pointInfo[1].split(",");
         var anchorX = parseFloat(anchor[0]) * doc_scale;
         var anchorY = parseFloat(anchor[1]) * doc_scale;
 
-        if (anchorX < minX) minX = anchorX;
-        if (anchorY < minY) minY = anchorY;
+        // Rotate anchor point 90 degrees clockwise if in portrait orientation
+        var rotatedAnchorX = isPortrait ? anchorY : anchorX;
+        var rotatedAnchorY = isPortrait ? -anchorX : anchorY;
+
+        if (rotatedAnchorX < minX) minX = rotatedAnchorX;
+        if (rotatedAnchorY < minY) minY = rotatedAnchorY;
     }
 
     // Second pass to create path points with adjusted coordinates
@@ -392,17 +399,25 @@ function createPath(thisPath, pathName) {
         var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
         var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
 
-        // Adjust the points to align with the document's top left corner
-        anchorX -= minX;
-        anchorY -= minY;
-        leftDirectionX -= minX;
-        leftDirectionY -= minY;
-        rightDirectionX -= minX;
-        rightDirectionY -= minY;
+        // Rotate the points 90 degrees clockwise if in portrait orientation
+        var rotatedAnchorX = isPortrait ? anchorY : anchorX;
+        var rotatedAnchorY = isPortrait ? -anchorX : anchorY;
+        var rotatedLeftDirectionX = isPortrait ? leftDirectionY : leftDirectionX;
+        var rotatedLeftDirectionY = isPortrait ? -leftDirectionX : leftDirectionY;
+        var rotatedRightDirectionX = isPortrait ? rightDirectionY : rightDirectionX;
+        var rotatedRightDirectionY = isPortrait ? -rightDirectionX : rightDirectionY;
 
-        pathPoint.anchor = [anchorX, anchorY];
-        pathPoint.leftDirection = [leftDirectionX, leftDirectionY];
-        pathPoint.rightDirection = [rightDirectionX, rightDirectionY];
+        // Adjust the points to align with the document's top left corner
+        rotatedAnchorX -= minX;
+        rotatedAnchorY -= minY;
+        rotatedLeftDirectionX -= minX;
+        rotatedLeftDirectionY -= minY;
+        rotatedRightDirectionX -= minX;
+        rotatedRightDirectionY -= minY;
+
+        pathPoint.anchor = [rotatedAnchorX, rotatedAnchorY];
+        pathPoint.leftDirection = [rotatedLeftDirectionX, rotatedLeftDirectionY];
+        pathPoint.rightDirection = [rotatedRightDirectionX, rotatedRightDirectionY];
         pathPoint.pointType = pointInfo[4];
 
         pathPointInfos.push(pathPoint);
@@ -462,33 +477,22 @@ function createBackdropLayer() {
 }
 
 function doRotation(randRotation, flip, pathKind, rotateMask) {
+    var doc = app.activeDocument;
+    var isPortrait = doc.height > doc.width;
 
-	if (doc.height > doc.width) {
-		// Portrait orientation
-		if (pathKind === "negative") {
-			// Random rotation or 180 flip for negative paths (if not in "45" format)
-			if (flip) {
-				doc.selection.rotateBoundary(270 + randRotation, AnchorPosition.MIDDLECENTER);
-			} else {
-				doc.selection.rotateBoundary(90 + randRotation, AnchorPosition.MIDDLECENTER);
-			}
-		} else if (rotateMask) {
-			// Rotate mask
-			doc.selection.rotateBoundary(270, AnchorPosition.MIDDLECENTER);
-		} else {
-			// Rotate non-negative path
-			doc.selection.rotateBoundary(90, AnchorPosition.MIDDLECENTER);
-		}
-	} else {
-		// Landscape orientation
-		if (pathKind === "negative") {
-			// Random rotation for negative paths
-			doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-		} else if (rotateMask) {
-			// Rotate mask
-			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-		}
-	}
+    if (isPortrait) {
+        if (pathKind === "negative") {
+            // Random rotation or 180 flip for negative paths (if not in "45" format)
+            if (flip) {
+                doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
+            } else {
+                doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+            }
+        } else if (rotateMask) {
+            // Rotate mask
+            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
+        }
+    }
 }
 
 
@@ -913,6 +917,8 @@ function run_fancy() {
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true); // Supposed to be false, but that causes issues on Intel machines.
 
+
+	throw new Error("This is a test error");
 
 	if (halation) {
 		delta = 0;
