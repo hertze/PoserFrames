@@ -477,22 +477,33 @@ function createBackdropLayer() {
 }
 
 function doRotation(randRotation, flip, pathKind, rotateMask) {
-    var doc = app.activeDocument;
-    var isPortrait = doc.height > doc.width;
 
-    if (isPortrait) {
-        if (pathKind === "negative") {
-            // Random rotation or 180 flip for negative paths (if not in "45" format)
-            if (flip) {
-                doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
-            } else {
-                doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
-            }
-        } else if (rotateMask) {
-            // Rotate mask
-            doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
-        }
-    }
+	if (doc.height > doc.width) {
+		// Portrait orientation
+		if (pathKind === "negative") {
+			// Random rotation or 180 flip for negative paths (if not in "45" format)
+			if (flip) {
+				doc.selection.rotateBoundary(180 + randRotation, AnchorPosition.MIDDLECENTER);
+			} else {
+				doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+			}
+		} else if (rotateMask) {
+			// Rotate mask
+			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
+		} else {
+			// Rotate non-negative path
+			doc.selection.rotateBoundary(0, AnchorPosition.MIDDLECENTER);
+		}
+	} else {
+		// Landscape orientation
+		if (pathKind === "negative") {
+			// Random rotation for negative paths
+			doc.selection.rotateBoundary(randRotation, AnchorPosition.MIDDLECENTER);
+		} else if (rotateMask) {
+			// Rotate mask
+			doc.selection.rotateBoundary(180, AnchorPosition.MIDDLECENTER);
+		}
+	}
 }
 
 
@@ -916,9 +927,6 @@ function run_fancy() {
     doc.selection.invert();
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true); // Supposed to be false, but that causes issues on Intel machines.
-
-
-	throw new Error("This is a test error");
 
 	if (halation) {
 		delta = 0;
