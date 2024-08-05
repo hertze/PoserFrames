@@ -945,8 +945,6 @@ function run_fancy() {
 			// Add shadow if thisShadow exists
 			if (thisShadow) {
 				shadowPath.makeSelection(feather * 2.5, true);
-				//doRotation(randRotation, flip, "shadow", rotate_mask);
-				//adjustSelection();
 				doc.selection.fill(myColor_shadow);
 				doc.selection.deselect();
 			}
@@ -961,8 +959,6 @@ function run_fancy() {
 			// Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
 			if (thisSubshadow) {
 				subshadowPath.makeSelection(0, true);
-				//randRotation, flip, "subshadow", rotate_mask);
-				//adjustSelection();
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
 				doc.selection.invert();
@@ -988,8 +984,6 @@ function run_fancy() {
 				// Add noise and fill the outside with white again
 				var path = thisSubshadow ? subshadowPath : shadowPath;
 				path.makeSelection(0, true);
-				//doRotation(randRotation, flip, thisSubshadow ? "subshadow" : "shadow", rotate_mask);
-				//adjustSelection();
 				masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
@@ -1006,8 +1000,6 @@ function run_fancy() {
 
     var maskPath = doc.pathItems.getByName('mask');
     maskPath.makeSelection(feather, true);
-    //doRotation(randRotation, flip, "mask", rotate_mask);
-    //adjustSelection();
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
@@ -1020,8 +1012,6 @@ function run_fancy() {
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
         maskPath.makeSelection(feather*2, true);
-        //doRotation(randRotation, flip, "mask", rotate_mask);
-        //adjustSelection();
         doc.selection.invert();
         spatterFilter(2, 4);
     }
@@ -1096,8 +1086,6 @@ function run_crop() {
     // Creates the negative layer content
     var negativePath = doc.pathItems.getByName('negative');
     negativePath.makeSelection(feather, true); // Make selection from path
-    //doRotation(randRotation, flip, "negative", rotate_mask);
-    //adjustSelection(); //Scales and centers the selection
 
     // For 645 we need to move the negative shape and not the entire layer
 	var delta = 0;
