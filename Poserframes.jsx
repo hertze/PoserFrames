@@ -898,19 +898,15 @@ function run_fancy() {
     var shadowPath = thisShadow ? doc.pathItems.getByName('shadow') : null;
     var subshadowPath = thisSubshadow ? doc.pathItems.getByName('subshadow') : null;
 
-  	switch (artifacts) {
+	switch (artifacts) {
 		case true:
 			doc.selection.selectAll();
 	
-			if (thisSubshadow) {
-				// Background fill with subshadow color
-				doc.selection.fill(myColor_subshadow);
-			} else {
-				doc.selection.fill(myColor_white);
-			}
+			// Background fill with subshadow color or white
+			doc.selection.fill(thisSubshadow ? myColor_subshadow : myColor_white);
 	
+			// Add shadow if thisShadow exists
 			if (thisShadow) {
-				// Add shadow
 				shadowPath.makeSelection(feather * 2.5, true);
 				doRotation(randRotation, flip, "shadow", rotate_mask);
 				adjustSelection();
@@ -918,15 +914,15 @@ function run_fancy() {
 				doc.selection.deselect();
 			}
 	
+			// Add noise and blur if either thisShadow or thisSubshadow exists
 			if (thisShadow || thisSubshadow) {
-				// Add noise and blur it
 				masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
 				masklayer.applyGaussianBlur(doc_scale * 5);
 				masklayer.adjustBrightnessContrast(5, 20);
 			}
 	
+			// Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
 			if (thisSubshadow) {
-				// Fill the outside of the subshadow with white, invert the selection back
 				subshadowPath.makeSelection(0, true);
 				doRotation(randRotation, flip, "subshadow", rotate_mask);
 				adjustSelection();
@@ -944,29 +940,19 @@ function run_fancy() {
 				masklayer.applyGaussianBlur(doc_scale * 5);
 				edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
 				edgemask.merge();
-			}
-	
-			if (thisShadow || thisSubshadow) {
+			
 				// Soften edges in one direction
 				doc.selection.expand(doc_scale * 10);
 				doc.selection.feather(doc_scale * 40);
 				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 25);
 				masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
 				doc.selection.contract(doc_scale * 10);
-			}
-	
-			// Add noise and fill the outside with white again
-			if (thisSubshadow) {
-				subshadowPath.makeSelection(0, true);
-				doRotation(randRotation, flip, "subshadow", rotate_mask);
+			
+				// Add noise and fill the outside with white again
+				var path = thisSubshadow ? subshadowPath : shadowPath;
+				path.makeSelection(0, true);
+				doRotation(randRotation, flip, thisSubshadow ? "subshadow" : "shadow", rotate_mask);
 				adjustSelection();
-			} else if (thisShadow) {
-				shadowPath.makeSelection(0, true);
-				doRotation(randRotation, flip, "shadow", rotate_mask);
-				adjustSelection();
-			}
-	
-			if (thisShadow || thisSubshadow) {
 				masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
 				doc.selection.invert();
 				doc.selection.fill(myColor_white);
