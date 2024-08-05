@@ -84,61 +84,57 @@ var blue_artefacts_odds = 20;
 
 
 function displayDialog(thisRecipe, saveStatus, runmode) {
-	// Display dialog box.
-	var dialog = new Window("dialog");
-	dialog.text = "Poserframes";
-	dialog.orientation = "column";
-	dialog.alignChildren = ["left", "top"];
-	dialog.spacing = 10;
-	dialog.margins = 20;
+    // Display dialog box.
+    var dialog = new Window("dialog");
+    dialog.text = "Poserframes";
+    dialog.orientation = "column";
+    dialog.alignChildren = ["left", "top"];
+    dialog.spacing = 10;
+    dialog.margins = 20;
 
-	dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
-	if (runmode != "edit") {
-		dialog.statictext1.text = "Paste your recipe here:";
-	} else {
-		dialog.statictext1.text = "Edit your recipe here:";
-	}
-	dialog.statictext1.alignment = ["fill", "top"];
+    dialog.statictext1 = dialog.add("statictext", undefined, undefined, { name: "label" });
+    if (runmode != "edit") {
+        dialog.statictext1.text = "Paste your recipe here:";
+    } else {
+        dialog.statictext1.text = "Edit your recipe here:";
+    }
+    dialog.statictext1.alignment = ["fill", "top"];
 
-	dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
-	dialog.edittext1.alignment = ["fill", "top"];
-	dialog.edittext1.size = [500, 50];
-	dialog.edittext1.text = thisRecipe ? thisRecipe : '';
-	
-	dialog.savestatus = dialog.add("checkbox", undefined, "Save and close when done");
-	if (saveStatus !== undefined) {
-		dialog.savestatus.value = (saveStatus.toLowerCase() === "true");
-	} else {
-		dialog.savestatus.value
-	}
+    dialog.edittext1 = dialog.add("edittext", undefined, undefined, { multiline: true });
+    dialog.edittext1.alignment = ["fill", "top"];
+    dialog.edittext1.size = [500, 50];
+    dialog.edittext1.text = thisRecipe ? thisRecipe : '';
+    
+    dialog.savestatus = dialog.add("checkbox", undefined, "Save and close when done");
+    dialog.savestatus.value = (saveStatus !== undefined) ? (saveStatus.toLowerCase() === "true") : false;
 
-	var buttons = dialog.add( "group" );
-	var submit = buttons.add("button", undefined, undefined, { name: "submit" });
-	submit.text = "Use this recipe";
-	
-	submit.onClick = function () {
-		thisRecipe = dialog.edittext1.text;
-		saveStatus = dialog.savestatus.value.toString();
-		dialog.close();
-	};
-	
-	if (runmode != "edit") {
-		var without = buttons.add("button", undefined, undefined, { name: "without" });
-		without.text = "Use default settings";
-		
-		without.onClick = function () {
-			thisRecipe = "none";
-			saveStatus = false;
-			dialog.close();
-		};
-	}
-	
-	dialog.show();
+    var buttons = dialog.add("group");
+    var submit = buttons.add("button", undefined, undefined, { name: "submit" });
+    submit.text = "Use this recipe";
+    
+    submit.onClick = function () {
+        thisRecipe = dialog.edittext1.text;
+        saveStatus = dialog.savestatus.value.toString();
+        dialog.close();
+    };
+    
+    if (runmode != "edit") {
+        var without = buttons.add("button", undefined, undefined, { name: "without" });
+        without.text = "Use default settings";
+        
+        without.onClick = function () {
+            thisRecipe = "none";
+            saveStatus = false;
+            dialog.close();
+        };
+    }
+    
+    dialog.show();
 
-	return {
-		"recipe": thisRecipe,
-		"savestatus": saveStatus
-	};
+    return {
+        "recipe": thisRecipe,
+        "savestatus": saveStatus
+    };
 }
 
 function getRecipe() {
