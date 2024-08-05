@@ -57,7 +57,7 @@ var movement_max_long = 100;
 var movement_min_short = 10;
 var movement_max_short = 100;
 var movement_direction = "random";
-var mask_flip_probaility = 20;
+var mask_flip_probability = 20;
 var blue_artefacts_odds = 20;
 
 
@@ -1688,7 +1688,7 @@ try {
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-		var rotate_mask = generateRandomInteger(1, 100) < mask_flip_probaility && thisFormat != "45";
+		var rotate_mask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
 		// Clean up
