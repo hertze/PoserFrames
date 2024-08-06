@@ -381,6 +381,7 @@ function createPath(thisPath, pathName) {
     subPathInfo.entireSubPath = pathPointInfos;
 
     app.activeDocument.pathItems.add(pathName, [subPathInfo]);
+
 }
 
 
