@@ -876,7 +876,7 @@ function run_fancy() {
     negativePath.makeSelection(feather, true);
     doc.selection.invert();
 
-    doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true); // Supposed to be false, but that causes issues on Intel machines. Experimenting with linearburn instead of normal.
+    doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true); // Supposed to be false, but that causes issues on Intel machines. Experimenting with linearburn
 
     if (halation) {
         delta = 0;
@@ -884,8 +884,6 @@ function run_fancy() {
     }
 
     createBackdropLayer();
-
-	//throw new Error("This is a test error");
 
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
@@ -1541,9 +1539,9 @@ myColor_white.rgb.green = 255;
 myColor_white.rgb.blue = 255;
 
 if (colorCheck() == "color") {
-	myColor_black.rgb.red = generateRandomInteger(1, 6); 
-	myColor_black.rgb.green = generateRandomInteger(1, 6);  
-	myColor_black.rgb.blue = generateRandomInteger(1, 6);
+	myColor_black.rgb.red = 0; 
+	myColor_black.rgb.green = 0;  
+	myColor_black.rgb.blue = 0;
 
 	myColor_halation.rgb.red = 45;
 	myColor_halation.rgb.green = 8;
@@ -1581,7 +1579,7 @@ if (colorCheck() == "color") {
 } else {
 	myColor_black.hsb.hue = 0;
 	myColor_black.hsb.saturation = 0;
-	myColor_black.hsb.brightness =  generateRandomInteger(1, 6);
+	myColor_black.hsb.brightness =  0;
 
 	myColor_halation.rgb.red = 240;
 	myColor_halation.rgb.green = 240;
@@ -1613,6 +1611,7 @@ border_width_square = border_width_square/10;
 //
 
 try {
+
 	if (executeScript == true || legacy == true) {
 		// Random negative rotation between -0.01 and 0.01 degrees
 		var randRotation = (Math.random() * 0.2 - 0.1) * 0.1;
