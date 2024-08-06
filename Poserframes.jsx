@@ -381,7 +381,7 @@ function createPath(thisPath, pathName) {
             angle += 180;
         }
     } else {
-        if (rotateMask) {
+        if (flipMask) {
             angle += 180;
         }
     }
@@ -1681,7 +1681,7 @@ try {
 		// Flip the negative shape in half the case
 		var flipNegative = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-		var rotateMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
+		var flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Load paths
 		const loadedpaths = loadPaths();
 		var thisSubshadow = loadedpaths.subshadow;
