@@ -48,7 +48,7 @@ var short_side_factor = 100;
 
 // Hic sunt dracones (advanced user settings) --------------------------
 
-var feather_factor_35mm = 1200;
+var feather_factor_35mm = 1000;
 var feather_factor_645 = 1800;
 var feather_factor_67_square = 2400;
 var feather_factor_45 = 5400;
@@ -813,7 +813,6 @@ function rasterizeLayer() {
 }
 
 function renderHalation(negativePath, delta) {
-
     doc.selection.deselect();
 
     var halationLayers = [];
@@ -821,47 +820,56 @@ function renderHalation(negativePath, delta) {
     var colors = [myColor_halation, myColor_halation_glow, myColor_halation, myColor_halation_glow, myColor_halation_glow];
     var blurs;
 
-	switch (thisFormat) {
-		case "35mm":
-			blurs = [20, 60, 8, 16, 5];
-			break;
-		case "645":
-			blurs = [11, 33, 5, 10, 3];
-			break;
-		default:
-			blurs = [8, 16, 4, 8, 3];
-			break;
-	}
+    switch (thisFormat) {
+        case "35mm":
+            blurs = [20, 60, 8, 16, 5];
+            break;
+        case "645":
+            blurs = [11, 33, 5, 10, 3];
+            break;
+        default:
+            blurs = [8, 16, 4, 8, 3];
+            break;
+    }
 
-	// Create a composite layer at the beginning
-	var compositeLayer = doc.artLayers.add();
-	compositeLayer.name = "Composite Halation";
+    // Create a composite layer at the beginning
+    var compositeLayer = doc.artLayers.add();
+    compositeLayer.name = "Composite Halation";
 
-	for (var i = 0; i < 5; i++) {
-		var layer = negativelayer.duplicate();
-		layer.name = "halation" + (i + 1);
-		layer.threshold(thresholds[i]);
-		doc.activeLayer = layer; // Make the duplicated layer the active layer
-		colorOverlay(colors[i]);
-		rasterizeLayer();
-		layer.applyGaussianBlur(Math.round(doc_scale * blurs[i]));
-		layer.blendMode = BlendMode.SCREEN;
+    for (var i = 0; i < 5; i++) {
+        // Duplicate the negativelayer to avoid modifying the original
+        var layer = negativelayer.duplicate();
+        layer.name = "halation" + (i + 1);
 
-		// Ensure compositeLayer is directly below the current layer for merging
-		doc.activeLayer = compositeLayer; // Make the compositeLayer the active layer
-		var mergedLayer = layer.merge(); // Merge the current layer down into the compositeLayer
-	}
+        // Move the duplicated layer above the compositeLayer
+        layer.move(compositeLayer, ElementPlacement.PLACEBEFORE);
 
-	negativePath.makeSelection(feather, true);
-	doc.selection.contract(new UnitValue(feather, 'px'));
+        layer.threshold(thresholds[i]);
+        doc.activeLayer = layer; // Make the duplicated layer the active layer
+        colorOverlay(colors[i]);
+        rasterizeLayer();
+        layer.applyGaussianBlur(Math.round(doc_scale * blurs[i]));
+        layer.blendMode = BlendMode.SCREEN;
 
-	if (delta != 0) {
-		doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
-	}
+        // Merge the current layer down into the compositeLayer
+        doc.activeLayer = compositeLayer; // Make the compositeLayer the active layer
+        compositeLayer = layer.merge(); // Merge and update the compositeLayer
+    }
 
-	doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
-	doc.selection.deselect();
-	compositeLayer.merge();
+    // Make a selection from the negativePath
+    negativePath.makeSelection(feather, true);
+    doc.selection.contract(new UnitValue(feather, 'px'));
+
+    if (delta != 0) {
+        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+    }
+
+    // Fill the selection with black color in clear blend mode
+    doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+
+    // Deselect the selection and merge the composite layer
+    doc.selection.deselect();
+    compositeLayer.merge();
 
 }
 
@@ -1048,7 +1056,7 @@ function run_crop() {
     }
 
     doc.selection.invert(); // Invert selection
-    doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
+    doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true);
 
 	if (halation) {
 		renderHalation(negativePath, delta);
