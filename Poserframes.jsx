@@ -49,9 +49,9 @@ var short_side_factor = 100;
 // Hic sunt dracones (advanced user settings) --------------------------
 
 var feather_factor_35mm = 1000;
-var feather_factor_645 = 1800;
-var feather_factor_67_square = 2400;
-var feather_factor_45 = 5400;
+var feather_factor_645 = 1600;
+var feather_factor_67_square = 2200;
+var feather_factor_45 = 5200;
 var movement_min_long = 10;
 var movement_max_long = 100;
 var movement_min_short = 10;
