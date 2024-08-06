@@ -357,18 +357,19 @@ function choosePath(pathKind) {
 
 
 function createPath(thisPath, pathName) {
+
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
 
-	// Helper function to rotate a point around the origin
-	function rotatePoint(x, y, angleRad) {
-		var cosTheta = Math.cos(angleRad);
-		var sinTheta = Math.sin(angleRad);
-		return [
-			x * cosTheta - y * sinTheta,
-			x * sinTheta + y * cosTheta
-		];
-	}
+    // Helper function to rotate a point around the origin
+    function rotatePoint(x, y, angleRad) {
+        var cosTheta = Math.cos(angleRad);
+        var sinTheta = Math.sin(angleRad);
+        return [
+            x * cosTheta - y * sinTheta,
+            x * sinTheta + y * cosTheta
+        ];
+    }
 
     // Determine the base angle
     var angle = isPortrait ? 90 : 0;
@@ -387,6 +388,9 @@ function createPath(thisPath, pathName) {
 
     // Convert angle to radians for rotation calculations
     var angleRad = angle * (Math.PI / 180);
+
+    // Variables to calculate bounding box
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
 
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
@@ -407,6 +411,12 @@ function createPath(thisPath, pathName) {
         var rotatedLeftDirection = rotatePoint(leftDirectionX, leftDirectionY, angleRad);
         var rotatedRightDirection = rotatePoint(rightDirectionX, rightDirectionY, angleRad);
 
+        // Update bounding box
+        minX = Math.min(minX, rotatedAnchor[0], rotatedLeftDirection[0], rotatedRightDirection[0]);
+        minY = Math.min(minY, rotatedAnchor[1], rotatedLeftDirection[1], rotatedRightDirection[1]);
+        maxX = Math.max(maxX, rotatedAnchor[0], rotatedLeftDirection[0], rotatedRightDirection[0]);
+        maxY = Math.max(maxY, rotatedAnchor[1], rotatedLeftDirection[1], rotatedRightDirection[1]);
+
         // Build the path point
         var pathPoint = new PathPointInfo();
         pathPoint.kind = pointInfo[0];
@@ -416,6 +426,32 @@ function createPath(thisPath, pathName) {
         pathPoint.pointType = pointInfo[4];
 
         pathPointInfos.push(pathPoint);
+    }
+
+    // Calculate the center of the bounding box
+    var centerX = (minX + maxX) / 2;
+    var centerY = (minY + maxY) / 2;
+
+    // Get the document's width and height
+    var docWidth = app.activeDocument.width.as("px");
+    var docHeight = app.activeDocument.height.as("px");
+
+    // Calculate the document's center point
+    var docCenterX = docWidth / 2;
+    var docCenterY = docHeight / 2;
+
+    // Calculate translation needed to center the path
+    var translateX = docCenterX - centerX;
+    var translateY = docCenterY - centerY;
+
+    // Apply translation to all path points
+    for (var i = 0; i < pathPointInfos.length; i++) {
+        pathPointInfos[i].anchor[0] += translateX;
+        pathPointInfos[i].anchor[1] += translateY;
+        pathPointInfos[i].leftDirection[0] += translateX;
+        pathPointInfos[i].leftDirection[1] += translateY;
+        pathPointInfos[i].rightDirection[0] += translateX;
+        pathPointInfos[i].rightDirection[1] += translateY;
     }
 
     var subPathInfo = new SubPathInfo();
