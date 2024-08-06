@@ -377,7 +377,7 @@ function createPath(thisPath, pathName) {
     // Adjust the angle based on pathName and global variables
     if (pathName === "negative") {
         angle += randRotation;
-        if (flip) {
+        if (flipNegative) {
             angle += 180;
         }
     } else {
@@ -832,7 +832,7 @@ function rasterizeLayer() {
 	executeAction(stringIDToTypeID("rasterizeLayer"), desc, DialogModes.NO);
 }
 
-function renderHalation(negativePath, delta, randRotation, flip) {
+function renderHalation(negativePath, delta) {
 
     doc.selection.deselect();
 
@@ -873,8 +873,6 @@ function renderHalation(negativePath, delta, randRotation, flip) {
 	}
 
 	negativePath.makeSelection(feather, true);
-	//doRotation(randRotation, flip, "negative");
-	//adjustSelection();
 	doc.selection.contract(new UnitValue(feather, 'px'));
 
 	if (delta != 0) {
@@ -902,7 +900,7 @@ function run_fancy() {
 
     if (halation) {
         delta = 0;
-        renderHalation(negativePath, delta, randRotation, flip);
+        renderHalation(negativePath, delta);
     }
 
     createBackdropLayer();
@@ -1075,7 +1073,7 @@ function run_crop() {
     doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true);
 
 	if (halation) {
-		renderHalation(negativePath, delta, randRotation, flip);
+		renderHalation(negativePath, delta);
 	}
 
     createBackdropLayer();
@@ -1678,14 +1676,16 @@ border_width_square = border_width_square/10;
 
 try {
 	if (executeScript == true || legacy == true) {
-		var randRotation = (Math.random() * 0.2 - 0.1) * 0.1; // Random rotation between -0.01 and 0.01 degrees
-		var flip = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+		// Random negative rotation between -0.01 and 0.01 degrees
+		var randRotation = (Math.random() * 0.2 - 0.1) * 0.1;
+		// Flip the negative shape in half the case
+		var flipNegative = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
 		var rotateMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Load paths
 		const loadedpaths = loadPaths();
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
-		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
 		// Clean up
