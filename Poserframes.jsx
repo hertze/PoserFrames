@@ -876,7 +876,7 @@ function run_fancy() {
     negativePath.makeSelection(feather, true);
     doc.selection.invert();
 
-    doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 100, true); // Supposed to be false, but that causes issues on Intel machines.
+    doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true); // Supposed to be false, but that causes issues on Intel machines. Experimenting with linearburn instead of normal.
 
     if (halation) {
         delta = 0;
