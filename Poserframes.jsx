@@ -1538,10 +1538,11 @@ myColor_white.rgb.red = 255;
 myColor_white.rgb.green = 255;  
 myColor_white.rgb.blue = 255;
 
+myColor_black.rgb.red = 0; 
+myColor_black.rgb.green = 0;  
+myColor_black.rgb.blue = 0;
+
 if (colorCheck() == "color") {
-	myColor_black.rgb.red = 0; 
-	myColor_black.rgb.green = 0;  
-	myColor_black.rgb.blue = 0;
 
 	myColor_halation.rgb.red = 45;
 	myColor_halation.rgb.green = 8;
@@ -1577,9 +1578,6 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
 	}
 } else {
-	myColor_black.hsb.hue = 0;
-	myColor_black.hsb.saturation = 0;
-	myColor_black.hsb.brightness =  0;
 
 	myColor_halation.rgb.red = 240;
 	myColor_halation.rgb.green = 240;
