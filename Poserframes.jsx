@@ -355,7 +355,6 @@ function chooseLibraryPath(pathKind) {
     return (stagedPath !== undefined) ? stagedPath : false;
 }
 
-
 function buildPathFromPoints(thisPath, pathName) {
 
     var pathPoints = thisPath.split(";");
@@ -462,7 +461,6 @@ function buildPathFromPoints(thisPath, pathName) {
     app.activeDocument.pathItems.add(pathName, [subPathInfo]);
 }
 
-
 function loadAllPathsToDocument() {
 	// This draws upon chooseLibraryPath and buildPathFromPoints to construct the paths and put them into the document
 
@@ -562,7 +560,6 @@ function moveNeg() {
 	// Move the negative layer
 	negativelayer.translate(movement_horisontal, movement_vertical);
 }
-
 
 function moveNeg_fancy() {
 	var movement_horisontal, movement_vertical;
@@ -821,7 +818,6 @@ function colorOverlay(myColor) {
 
 	executeAction(stringIDToTypeID("set"), desc, DialogModes.NO);
 }
-
 
 function rasterizeLayer() {
 	var desc = new ActionDescriptor();
