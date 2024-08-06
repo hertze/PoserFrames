@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 3;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -496,7 +496,6 @@ function loadPaths() {
 			createPath(thisShadow, "shadow");
 		}
 	}
-	throw new Error("This is a test error");
 	
 	return { subshadow: thisSubshadow, shadow: thisShadow };
 }
