@@ -356,41 +356,9 @@ function choosePath(pathKind) {
 }
 
 function createPath(thisPath, pathName) {
-    // This renders the stored path into a path object, resizes, rotates and centers it.
-
-    rotateMask = true;
-
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
-    var doc = app.activeDocument;
 
-    var minX = Infinity;
-    var minY = Infinity;
-    var maxX = -Infinity;
-    var maxY = -Infinity;
-
-    // First pass to find the minimum and maximum x and y coordinates
-    for (var i = 0; i < pathPoints.length; i++) {
-        var pointInfo = pathPoints[i].split(" ");
-        var anchor = pointInfo[1].split(",");
-        var anchorX = parseFloat(anchor[0]) * doc_scale;
-        var anchorY = parseFloat(anchor[1]) * doc_scale;
-
-        // Rotate anchor point 90 degrees clockwise if in portrait orientation
-        var rotatedAnchorX = isPortrait ? anchorY : anchorX;
-        var rotatedAnchorY = isPortrait ? -anchorX : anchorY;
-
-        if (rotatedAnchorX < minX) minX = rotatedAnchorX;
-        if (rotatedAnchorY < minY) minY = rotatedAnchorY;
-        if (rotatedAnchorX > maxX) maxX = rotatedAnchorX;
-        if (rotatedAnchorY > maxY) maxY = rotatedAnchorY;
-    }
-
-    // Calculate the center of the document
-    var docCenterX = doc.width.as("px") / 2;
-    var docCenterY = doc.height.as("px") / 2;
-
-    // Second pass to create path points with adjusted coordinates
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
         var anchor = pointInfo[1].split(",");
@@ -398,103 +366,21 @@ function createPath(thisPath, pathName) {
         var rightDirection = pointInfo[3].split(",");
 
         var pathPoint = new PathPointInfo();
-        pathPoint.kind = PointKind.CORNERPOINT; // Correct enumeration value
-
-        // Scale the points
-        var anchorX = parseFloat(anchor[0]) * doc_scale;
-        var anchorY = parseFloat(anchor[1]) * doc_scale;
-        var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale;
-        var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
-        var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
-        var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
-
-		// Calculate the center of the path
-		var pathCenterX = (minX + maxX) / 2;
-		var pathCenterY = (minY + maxY) / 2;
-
-        // Rotate the points 90 degrees clockwise if in portrait orientation
-        var rotatedAnchorX = isPortrait ? anchorY : anchorX;
-        var rotatedAnchorY = isPortrait ? -anchorX : anchorY;
-        var rotatedLeftDirectionX = isPortrait ? leftDirectionY : leftDirectionX;
-        var rotatedLeftDirectionY = isPortrait ? -leftDirectionX : leftDirectionY;
-        var rotatedRightDirectionX = isPortrait ? rightDirectionY : rightDirectionX;
-        var rotatedRightDirectionY = isPortrait ? -rightDirectionX : rightDirectionY;
-
-        // Function to create a rotation matrix
-        function createRotationMatrix(angle) {
-            var radians = angle * (Math.PI / 180);
-            return [
-                [Math.cos(radians), -Math.sin(radians)],
-                [Math.sin(radians), Math.cos(radians)]
-            ];
-        }
-
-        // Function to apply a rotation matrix to a point
-        function applyMatrixToPoint(matrix, x, y) {
-            return {
-                x: x * matrix[0][0] + y * matrix[0][1],
-                y: x * matrix[1][0] + y * matrix[1][1]
-            };
-        }
-
-        if (pathName === "negative") {
-            var angle = flip ? 180 + randRotation : randRotation;
-            var rotationMatrix = createRotationMatrix(angle);
-
-            var rotatedAnchor = applyMatrixToPoint(rotationMatrix, rotatedAnchorX, rotatedAnchorY);
-            rotatedAnchorX = rotatedAnchor.x;
-            rotatedAnchorY = rotatedAnchor.y;
-
-            var rotatedLeftDirection = applyMatrixToPoint(rotationMatrix, rotatedLeftDirectionX, rotatedLeftDirectionY);
-            rotatedLeftDirectionX = rotatedLeftDirection.x;
-            rotatedLeftDirectionY = rotatedLeftDirection.y;
-
-            var rotatedRightDirection = applyMatrixToPoint(rotationMatrix, rotatedRightDirectionX, rotatedRightDirectionY);
-            rotatedRightDirectionX = rotatedRightDirection.x;
-            rotatedRightDirectionY = rotatedRightDirection.y;
-
-        } else if (rotateMask) {
-            var angle = 180;
-            var rotationMatrix = createRotationMatrix(angle);
-
-            // Rotate anchor point
-            var rotatedAnchor = applyMatrixToPoint(rotationMatrix, rotatedAnchorX, rotatedAnchorY);
-            rotatedAnchorX = rotatedAnchor.x;
-            rotatedAnchorY = rotatedAnchor.y;
-
-            // Rotate left direction point
-            var rotatedLeftDirection = applyMatrixToPoint(rotationMatrix, rotatedLeftDirectionX, rotatedLeftDirectionY);
-            rotatedLeftDirectionX = rotatedLeftDirection.x;
-            rotatedLeftDirectionY = rotatedLeftDirection.y;
-
-            // Rotate right direction point
-            var rotatedRightDirection = applyMatrixToPoint(rotationMatrix, rotatedRightDirectionX, rotatedRightDirectionY);
-            rotatedRightDirectionX = rotatedRightDirection.x;
-            rotatedRightDirectionY = rotatedRightDirection.y;
-        }
-
-        // Translate the points to center the path in the document
-        rotatedAnchorX += (docCenterX - pathCenterX);
-        rotatedAnchorY += (docCenterY - pathCenterY);
-        rotatedLeftDirectionX += (docCenterX - pathCenterX);
-        rotatedLeftDirectionY += (docCenterY - pathCenterY);
-        rotatedRightDirectionX += (docCenterX - pathCenterX);
-        rotatedRightDirectionY += (docCenterY - pathCenterY);
-
-        pathPoint.anchor = [rotatedAnchorX, rotatedAnchorY];
-        pathPoint.leftDirection = [rotatedLeftDirectionX, rotatedLeftDirectionY];
-        pathPoint.rightDirection = [rotatedRightDirectionX, rotatedRightDirectionY];
-        pathPoint.pointType = PointKind.CORNERPOINT; // Correct enumeration value
+        pathPoint.kind = pointInfo[0];
+        pathPoint.anchor = [parseFloat(anchor[0]), parseFloat(anchor[1])];
+        pathPoint.leftDirection = [parseFloat(leftDirection[0]), parseFloat(leftDirection[1])];
+        pathPoint.rightDirection = [parseFloat(rightDirection[0]), parseFloat(rightDirection[1])];
+        pathPoint.pointType = pointInfo[4];
 
         pathPointInfos.push(pathPoint);
     }
 
     var subPathInfo = new SubPathInfo();
-    subPathInfo.operation = ShapeOperation.SHAPEXOR; // Correct enumeration value
+    subPathInfo.operation = ShapeOperation.SHAPEXOR;
     subPathInfo.closed = true;
     subPathInfo.entireSubPath = pathPointInfos;
 
-    doc.pathItems.add(pathName, [subPathInfo]);
+    app.activeDocument.pathItems.add(pathName, [subPathInfo]);
 }
 
 
@@ -531,7 +417,8 @@ function loadPaths() {
 			createPath(thisShadow, "shadow");
 		}
 	}
-
+	throw new Error("This is a test error");
+	
 	return { subshadow: thisSubshadow, shadow: thisShadow };
 }
 
