@@ -285,7 +285,7 @@ function format() {
     }
 }
 
-function choosePath(pathKind) {
+function chooseLibraryPath(pathKind) {
 	// This function selects a path from the library based on the format and path kind
     var stagedPath;
 
@@ -356,7 +356,7 @@ function choosePath(pathKind) {
 }
 
 
-function createPath(thisPath, pathName) {
+function buildPathFromPoints(thisPath, pathName) {
 
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
@@ -463,37 +463,37 @@ function createPath(thisPath, pathName) {
 }
 
 
-function loadPaths() {
-	// This draws upon choosePath and createPath to load the paths into the document
+function loadAllPathsToDocument() {
+	// This draws upon chooseLibraryPath and buildPathFromPoints to construct the paths and put them into the document
 
 	var thisSubshadow = null;
 	var thisShadow = null;
 
 	// Create negative path
-	var negativePath = choosePath("negative");
-	createPath(negativePath, "negative");
+	var negativePath = chooseLibraryPath("negative");
+	buildPathFromPoints(negativePath, "negative");
 
 	// Check if fancy mode is enabled and choose mask path
 	if (fancy) {
-		var maskPath = choosePath("mask");
+		var maskPath = chooseLibraryPath("mask");
 		if (maskPath) {
-			createPath(maskPath, "mask");
+			buildPathFromPoints(maskPath, "mask");
 		}
 	}
 
 	// Check if fancy mode and artifacts are enabled to create subshadow path
 	if (fancy && artifacts) {
-		thisSubshadow = choosePath("subshadow");
+		thisSubshadow = chooseLibraryPath("subshadow");
 		if (thisSubshadow) {
-			createPath(thisSubshadow, "subshadow");
+			buildPathFromPoints(thisSubshadow, "subshadow");
 		}
 	}
 
 	// Check if fancy mode and artifacts are enabled to create shadow path
 	if (fancy && artifacts) {
-		thisShadow = choosePath("shadow");
+		thisShadow = chooseLibraryPath("shadow");
 		if (thisShadow) {
-			createPath(thisShadow, "shadow");
+			buildPathFromPoints(thisShadow, "shadow");
 		}
 	}
 	
@@ -1683,7 +1683,7 @@ try {
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
 		var flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Load paths
-		const loadedpaths = loadPaths();
+		const loadedpaths = loadAllPathsToDocument();
 		var thisSubshadow = loadedpaths.subshadow;
 		var thisShadow = loadedpaths.shadow;
 		// Run fancy or crop
