@@ -355,9 +355,38 @@ function choosePath(pathKind) {
     return (stagedPath !== undefined) ? stagedPath : false;
 }
 
+
 function createPath(thisPath, pathName) {
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
+
+	// Helper function to rotate a point around the origin
+	function rotatePoint(x, y, angleRad) {
+		var cosTheta = Math.cos(angleRad);
+		var sinTheta = Math.sin(angleRad);
+		return [
+			x * cosTheta - y * sinTheta,
+			x * sinTheta + y * cosTheta
+		];
+	}
+
+    // Determine the base angle
+    var angle = isPortrait ? 90 : 0;
+
+    // Adjust the angle based on pathName and global variables
+    if (pathName === "negative") {
+        angle += randRotation;
+        if (flip) {
+            angle += 180;
+        }
+    } else {
+        if (rotateMask) {
+            angle += 180;
+        }
+    }
+
+    // Convert angle to radians for rotation calculations
+    var angleRad = angle * (Math.PI / 180);
 
     for (var i = 0; i < pathPoints.length; i++) {
         var pointInfo = pathPoints[i].split(" ");
@@ -373,11 +402,17 @@ function createPath(thisPath, pathName) {
         var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
         var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
 
+        // Perform rotation
+        var rotatedAnchor = rotatePoint(anchorX, anchorY, angleRad);
+        var rotatedLeftDirection = rotatePoint(leftDirectionX, leftDirectionY, angleRad);
+        var rotatedRightDirection = rotatePoint(rightDirectionX, rightDirectionY, angleRad);
+
+        // Build the path point
         var pathPoint = new PathPointInfo();
         pathPoint.kind = pointInfo[0];
-        pathPoint.anchor = [anchorX, anchorY];
-        pathPoint.leftDirection = [leftDirectionX, leftDirectionY];
-        pathPoint.rightDirection = [rightDirectionX, rightDirectionY];
+        pathPoint.anchor = rotatedAnchor;
+        pathPoint.leftDirection = rotatedLeftDirection;
+        pathPoint.rightDirection = rotatedRightDirection;
         pathPoint.pointType = pointInfo[4];
 
         pathPointInfos.push(pathPoint);
