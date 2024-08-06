@@ -365,11 +365,19 @@ function createPath(thisPath, pathName) {
         var leftDirection = pointInfo[2].split(",");
         var rightDirection = pointInfo[3].split(",");
 
+        // Scale the points
+        var anchorX = parseFloat(anchor[0]) * doc_scale;
+        var anchorY = parseFloat(anchor[1]) * doc_scale;
+        var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale;
+        var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
+        var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
+        var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
+
         var pathPoint = new PathPointInfo();
         pathPoint.kind = pointInfo[0];
-        pathPoint.anchor = [parseFloat(anchor[0]), parseFloat(anchor[1])];
-        pathPoint.leftDirection = [parseFloat(leftDirection[0]), parseFloat(leftDirection[1])];
-        pathPoint.rightDirection = [parseFloat(rightDirection[0]), parseFloat(rightDirection[1])];
+        pathPoint.anchor = [anchorX, anchorY];
+        pathPoint.leftDirection = [leftDirectionX, leftDirectionY];
+        pathPoint.rightDirection = [rightDirectionX, rightDirectionY];
         pathPoint.pointType = pointInfo[4];
 
         pathPointInfos.push(pathPoint);
@@ -381,7 +389,6 @@ function createPath(thisPath, pathName) {
     subPathInfo.entireSubPath = pathPointInfos;
 
     app.activeDocument.pathItems.add(pathName, [subPathInfo]);
-
 }
 
 
