@@ -357,32 +357,25 @@ function chooseLibraryPath(pathKind) {
 
 function buildPathFromPoints(thisPath, pathName) {
 
-// Calculate the aspect ratio of the document
-var docAspectRatio = isPortrait ? doc.height / doc.width : doc.width / doc.height;
-var formatAspectRatio;
+	// Calculate the aspect ratio of the document
+	var docAspectRatio = isPortrait ? doc.height / doc.width : doc.width / doc.height;
+	
+	// Define a dictionary for format aspect ratios
+	var formatAspectRatios = {
+		"645": 6 / 4.5,
+		"67": 7 / 6,
+		"45": 5 / 4,
+		"square": 1,
+		"default": 3 / 2
+	};
+	
+	// Determine the aspect ratio of the path based on thisFormat
+	var formatAspectRatio = formatAspectRatios[thisFormat] || formatAspectRatios["default"];
+	
+	// Calculate the stretch factor needed to match the document's aspect ratio
+	var stretch = docAspectRatio / formatAspectRatio;
 
-// Determine the aspect ratio of the path based on thisFormat
-switch (thisFormat) {
-	case "645":
-		formatAspectRatio = 6 / 4.5;
-		break;
-	case "67":
-		formatAspectRatio = 7 / 6;
-		break;
-	case "45":
-		formatAspectRatio = 5 / 4;
-		break;
-	case "square":
-		formatAspectRatio = 1;
-		break;
-	default:
-		formatAspectRatio = 3 / 2;
-		break;
-}
-
-// Calculate the stretch factor needed to match the document's aspect ratio
-var stretch = docAspectRatio / formatAspectRatio;
-
+	// Split the path into individual points
 
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
