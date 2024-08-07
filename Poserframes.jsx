@@ -357,6 +357,33 @@ function chooseLibraryPath(pathKind) {
 
 function buildPathFromPoints(thisPath, pathName) {
 
+// Calculate the aspect ratio of the document
+var docAspectRatio = isPortrait ? doc.height / doc.width : doc.width / doc.height;
+var formatAspectRatio;
+
+// Determine the aspect ratio of the path based on thisFormat
+switch (thisFormat) {
+	case "645":
+		formatAspectRatio = 6 / 4.5;
+		break;
+	case "67":
+		formatAspectRatio = 7 / 6;
+		break;
+	case "45":
+		formatAspectRatio = 5 / 4;
+		break;
+	case "square":
+		formatAspectRatio = 1;
+		break;
+	default:
+		formatAspectRatio = 3 / 2;
+		break;
+}
+
+// Calculate the stretch factor needed to match the document's aspect ratio
+var stretch = docAspectRatio / formatAspectRatio;
+
+
     var pathPoints = thisPath.split(";");
     var pathPointInfos = [];
 
@@ -397,13 +424,24 @@ function buildPathFromPoints(thisPath, pathName) {
         var leftDirection = pointInfo[2].split(",");
         var rightDirection = pointInfo[3].split(",");
 
-        // Scale the points
-        var anchorX = parseFloat(anchor[0]) * doc_scale;
-        var anchorY = parseFloat(anchor[1]) * doc_scale;
-        var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale;
-        var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
-        var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale;
-        var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
+		if (isPortrait) {
+			// Scale and adjust the points for portrait images
+			var anchorX = parseFloat(anchor[0]) * doc_scale * stretch;
+			var anchorY = parseFloat(anchor[1]) * doc_scale;
+			var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale * stretch;
+			var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
+			var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale * stretch;
+			var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
+		} else {
+			// Scale and adjust the points for landscape images
+			var anchorX = parseFloat(anchor[0]) * doc_scale * stretch;
+			var anchorY = parseFloat(anchor[1]) * doc_scale;
+			var leftDirectionX = parseFloat(leftDirection[0]) * doc_scale * stretch;
+			var leftDirectionY = parseFloat(leftDirection[1]) * doc_scale;
+			var rightDirectionX = parseFloat(rightDirection[0]) * doc_scale * stretch;
+			var rightDirectionY = parseFloat(rightDirection[1]) * doc_scale;
+		}
+
 
         // Perform rotation
         var rotatedAnchor = rotatePoint(anchorX, anchorY, angleRad);
@@ -494,7 +532,7 @@ function loadAllPathsToDocument() {
 			buildPathFromPoints(thisShadow, "shadow");
 		}
 	}
-	
+
 	return { subshadow: thisSubshadow, shadow: thisShadow };
 }
 
