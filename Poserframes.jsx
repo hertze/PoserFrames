@@ -909,7 +909,7 @@ function run_fancy() {
             // Add shadow if thisShadow exists
             if (thisShadow) {
                 shadowPath.makeSelection(feather * 2.5, true);
-                doc.selection.fill(myColor_shadow, ColorBlendMode.LINEARBURN);
+                doc.selection.fill(myColor_shadow, ColorBlendMode.DARKEN);
                 doc.selection.deselect();
             }
 
