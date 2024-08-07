@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 10;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -925,7 +925,7 @@ function run_fancy() {
             // Add shadow if thisShadow exists
             if (thisShadow) {
                 shadowPath.makeSelection(feather * 2.5, true);
-                doc.selection.fill(myColor_shadow, ColorBlendMode.LINEARBURN);
+                doc.selection.fill(myColor_shadow, ColorBlendMode.DARKEN);
                 doc.selection.deselect();
             }
 
