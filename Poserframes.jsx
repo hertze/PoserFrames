@@ -686,7 +686,7 @@ function moveNeg_fancy() {
 						break;
 					case "7":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.02 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * 0.022 * thisDirection();
 						break;
 					case "6":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.008 * thisDirection();
@@ -720,7 +720,7 @@ function moveNeg_fancy() {
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					case "7":
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.022 * thisDirection();
 						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					case "6":
