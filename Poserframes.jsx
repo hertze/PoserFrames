@@ -25,7 +25,7 @@ var halation = true;
 
 var artifacts = true;
 
-var mask_variant_35mm = 10;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -53,9 +53,9 @@ var feather_factor_645 = 1600;
 var feather_factor_67_square = 2200;
 var feather_factor_45 = 5200;
 var movement_min_long = 0;
-var movement_max_long = 100;
+var movement_max_long = 0;
 var movement_min_short = 0;
-var movement_max_short = 100;
+var movement_max_short = 0;
 var movement_direction = "random";
 var mask_flip_probability = 20;
 var blue_artefacts_odds = 20;
@@ -925,7 +925,7 @@ function run_fancy() {
             // Add shadow if thisShadow exists
             if (thisShadow) {
                 shadowPath.makeSelection(feather * 2.5, true);
-                doc.selection.fill(myColor_shadow, ColorBlendMode.DARKEN);
+                doc.selection.fill(myColor_shadow, ColorBlendMode.LINEARBURN);
                 doc.selection.deselect();
             }
 
@@ -1605,18 +1605,18 @@ if (colorCheck() == "color") {
 		maxSaturation = 4;
 		saturationRange = maxSaturation - minSaturation;
 		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
-		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
+		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
 		minBrightness = 70;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
-		minSaturation = 20;
-		maxSaturation = 25;
+		minSaturation = 16;
+		maxSaturation = 20;
 		saturationRange = maxSaturation - minSaturation;
 		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
-		myColor_shadow.hsb.saturation = minSaturation + (scaledBrightness * saturationRange);
+		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	}
 } else {
 
@@ -1634,8 +1634,8 @@ if (colorCheck() == "color") {
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = myColor_shadow.hsb.saturation / 1.5;
-myColor_subshadow.hsb.brightness = Math.min(myColor_shadow.hsb.brightness * 1.5, 100);
+myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 2));
+myColor_subshadow.hsb.brightness = myColor_shadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.3));
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
