@@ -966,7 +966,7 @@ function run_fancy() {
                 path.makeSelection(0, true);
                 masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
                 doc.selection.invert();
-                doc.selection.fill(myColor_white);
+                doc.selection.fill(myColor_white, ColorBlendMode.LINEARDODGE);
                 doc.selection.deselect();
             }
 
