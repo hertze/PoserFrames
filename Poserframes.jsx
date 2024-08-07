@@ -948,7 +948,7 @@ function run_fancy() {
                 // Blur perpendicular to short edge and use high pass to contrast edges
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.HARDLIGHT;
-                edgemask.applyHighPass(Math.round(doc_scale * 10));
+                edgemask.applyHighPass(Math.round(doc_scale * 20));
                 edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
                 masklayer.applyGaussianBlur(doc_scale * 5);
                 edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
@@ -963,10 +963,10 @@ function run_fancy() {
 
                 // Add noise and fill the outside with white again
                 var path = thisSubshadow ? subshadowPath : shadowPath;
-                path.makeSelection(0, true);
+                path.makeSelection(feather, true);
                 masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
                 doc.selection.invert();
-                doc.selection.fill(myColor_white, ColorBlendMode.LINEARDODGE);
+                doc.selection.fill(myColor_white, ColorBlendMode.VIVIDLIGHT);
                 doc.selection.deselect();
             }
 
