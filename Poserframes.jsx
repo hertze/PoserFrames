@@ -1036,33 +1036,27 @@ function run_crop() {
     // Decide new document width
     var finished_width = 100;
     var finished_height = 100;
-    var border_width;
-
+	
 	switch (thisFormat) {
 		case "35mm":
-			border_width = border_width_35mm;
-			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
-			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
+			finished_width = ratio > 1 ? border_width_35mm + 100 : border_width_35mm * short_side_factor * ratio + 100;
+			finished_height = ratio > 1 ? border_width_35mm * short_side_factor / ratio + 100 : border_width_35mm + 100;
 			break;
 		case "645":
-			border_width = border_width_645;
-			finished_width = ratio > 1 ? border_width + 100 : 100;
-			finished_height = ratio > 1 ? 100 : border_width + 100;
+			finished_width = ratio > 1 ? border_width_645 + 100 : 100;
+			finished_height = ratio > 1 ? 100 : border_width_645 + 100;
 			break;
 		case "67":
-			border_width = border_width_67;
-			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
-			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
+			finished_width = ratio > 1 ? border_width_67 + 100 : border_width_67 * short_side_factor * ratio + 100;
+			finished_height = ratio > 1 ? border_width_67 * short_side_factor / ratio + 100 : border_width_67 + 100;
 			break;
 		case "45":
-			border_width = border_width_45;
-			finished_width = ratio > 1 ? 100.5 : border_width * ratio + 100;
-			finished_height = ratio > 1 ? border_width / ratio + 100 : 100.5;
+			finished_width = ratio > 1 ? 100.5 : border_width_45 * ratio + 100;
+			finished_height = ratio > 1 ? border_width_45 / ratio + 100 : 100.5;
 			break;
 		case "square":
-			border_width = border_width_square;
-			finished_width = border_width + 100;
-			finished_height = border_width * short_side_factor + 100;
+			finished_width = border_width_square + 100;
+			finished_height = border_width_square * short_side_factor + 100;
 			break;
 		default:
 			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
