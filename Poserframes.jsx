@@ -540,8 +540,7 @@ function createBackdropLayer() {
 }
 
 function moveNeg() {
-	var movement_horisontal = 0;
-	var movement_vertical = 0;
+	var movement_horisontal, movement_vertical;
 
 	switch (thisFormat) {
 		case "645":
