@@ -938,24 +938,20 @@ function run_fancy() {
         doc.resizeCanvas(UnitValue(10 * ratio + 100, "%"), UnitValue(110, "%"), AnchorPosition.MIDDLECENTER);
     }
 
-    var negativePath = doc.pathItems.getByName('negative');
-    negativePath.makeSelection(feather, true);
+    thisNegative.makeSelection(feather, true);
     doc.selection.invert();
 
     doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true); // Supposed to be false, but that causes issues on Intel machines. Experimenting with linearburn
 
     if (halation) {
         delta = 0;
-        renderHalation(negativePath, delta);
+        renderHalation(thisNegative, delta);
     }
 
     createBackdropLayer();
 
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
-
-    var shadowPath = thisShadow ? doc.pathItems.getByName('shadow') : null;
-    var subshadowPath = thisSubshadow ? doc.pathItems.getByName('subshadow') : null;
 
     switch (artifacts) {
         case true:
@@ -966,7 +962,7 @@ function run_fancy() {
 
             // Add shadow if thisShadow exists
             if (thisShadow) {
-                shadowPath.makeSelection(feather * 2.5, true);
+                thisShadow.makeSelection(feather * 2.5, true);
                 doc.selection.fill(myColor_shadow, ColorBlendMode.LINEARBURN);
                 doc.selection.deselect();
             }
@@ -980,7 +976,7 @@ function run_fancy() {
 
             // Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
             if (thisSubshadow) {
-                subshadowPath.makeSelection(0, true);
+                thisSubshadow.makeSelection(0, true);
                 doc.selection.invert();
                 doc.selection.fill(myColor_white);
                 doc.selection.invert();
@@ -1004,7 +1000,7 @@ function run_fancy() {
                 doc.selection.contract(doc_scale * 10);
 
                 // Add noise and fill the outside with white again
-                var path = thisSubshadow ? subshadowPath : shadowPath;
+                var path = thisSubshadow ? thisSubshadow : thisShadow;
                 path.makeSelection(0, true);
                 masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
                 doc.selection.invert();
@@ -1020,8 +1016,7 @@ function run_fancy() {
             break;
     }
 
-    var maskPath = doc.pathItems.getByName('mask');
-    maskPath.makeSelection(feather, true);
+    thisMask.makeSelection(feather, true);
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
@@ -1033,7 +1028,7 @@ function run_fancy() {
 
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
-        maskPath.makeSelection(feather * 2, true);
+        thisMask.makeSelection(feather * 2, true);
         doc.selection.invert();
         spatterFilter(2, 4);
     }
@@ -1090,8 +1085,7 @@ function run_crop() {
 	doc.resizeCanvas(UnitValue(finalWidth,"px"), UnitValue(finalHeight,"px"), AnchorPosition.MIDDLECENTER);
 
     // Creates the negative layer content
-    var negativePath = doc.pathItems.getByName('negative');
-    negativePath.makeSelection(feather, true); // Make selection from path
+    thisNegative.makeSelection(feather, true); // Make selection from path
 
     // For 645 we need to move the negative shape and not the entire layer
 	var delta = 0;
@@ -1679,11 +1673,12 @@ try {
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
 		var flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Load paths
+		// Load all existing paths
 		const loadedpaths = loadAllPathsToDocument();
-		const thisSubshadow = loadedpaths.subshadow;
-		const thisShadow = loadedpaths.shadow;
-		const thisMask = loadedpaths.mask;
-		const thisNegative = loadedpaths.negative;
+		const thisSubshadow = loadedpaths.subshadow ? loadedpaths.subshadow : null;
+		const thisShadow = loadedpaths.shadow ? loadedpaths.shadow : null;
+		const thisMask = loadedpaths.mask ? loadedpaths.mask : null;
+		const thisNegative = loadedpaths.negative ? loadedpaths.negative : null;
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
 		// Clean up
