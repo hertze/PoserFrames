@@ -982,7 +982,7 @@ function run_fancy() {
                 edgemask.blendMode = BlendMode.HARDLIGHT;
                 edgemask.applyHighPass(Math.round(doc_scale * 20));
                 edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-                masklayer.applyGaussianBlur(doc_scale * 5);
+				edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 5);
                 edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
                 edgemask.merge();
 
