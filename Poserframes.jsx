@@ -1147,11 +1147,11 @@ function saveClose() {
 	var fPath = doc.path;
 	
 	if (file_ending == "tif" || file_ending == "tiff") {
-		// Save out the image as tiff
+		// Create a TIFF file reference
 		var tiffFile = new File(fPath);
-		tiffSaveOptions = new TiffSaveOptions();
-		tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
-		tiffSaveOptions.layers = false;
+		var tiffSaveOptions = new TiffSaveOptions();
+		tiffSaveOptions.imageCompression = TIFFEncoding.NONE;  // No compression to avoid issues
+		tiffSaveOptions.layers = true;  // This will ensure that layer transparency is preserved
 		tiffSaveOptions.embedColorProfile = true;
 		doc.saveAs(tiffFile, tiffSaveOptions, false, Extension.LOWERCASE);
 	} else {
@@ -1164,7 +1164,7 @@ function saveClose() {
 		jpgSaveOptions.quality = 12;
 		doc.saveAs(jpgFile, jpgSaveOptions, false, Extension.LOWERCASE);
 	}
-	doc.close();
+	doc.close(SaveOptions.DONOTSAVECHANGES);
 }
 
 function cleanup() {
