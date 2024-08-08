@@ -1666,23 +1666,29 @@ border_width_square = border_width_square/10;
 try {
 
 	if (executeScript == true || legacy == true) {
+
 		// Random negative rotation between -0.01 and 0.01 degrees
-		var randRotation = (Math.random() * 0.2 - 0.1) * 0.1;
+		const randRotation = (Math.random() * 0.2 - 0.1) * 0.1;
+
 		// Flip the negative shape in half the case
-		var flipNegative = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+		const flipNegative = Math.random() > 0.5 && thisFormat !== "45" ? true : false;
+
 		// Randomly decide if the scanner mask should be flipped (but not for 4x5)
-		var flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
-		// Load paths
+		const flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
+		
 		// Load all existing paths
 		const loadedpaths = loadAllPathsToDocument();
 		const thisSubshadow = loadedpaths.subshadow ? loadedpaths.subshadow : null;
 		const thisShadow = loadedpaths.shadow ? loadedpaths.shadow : null;
 		const thisMask = loadedpaths.mask ? loadedpaths.mask : null;
 		const thisNegative = loadedpaths.negative ? loadedpaths.negative : null;
+
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
+
 		// Clean up
 		cleanup();
+
 		// ALL DONE!
 	}
 	
