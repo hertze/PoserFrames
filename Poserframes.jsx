@@ -20,6 +20,7 @@ var force_8_bit = true;
 
 var fancy = true;
 var halation = true;
+var transparent_matte = false;
 
 // Settings for fancy borders
 
@@ -982,7 +983,7 @@ function run_fancy() {
                 doc.selection.invert();
             }
 
-            if (thisShadow || thisSubshadow) {
+            if (thisSubshadow) {
                 // Blur perpendicular to short edge and use high pass to contrast edges
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.HARDLIGHT;
@@ -1025,6 +1026,16 @@ function run_fancy() {
     }
 
     doc.flatten();
+
+	// Transparent matte
+	if (transparent_matte) {
+		if (doc.backgroundLayer.isBackgroundLayer) {
+			doc.backgroundLayer.isBackgroundLayer = false;
+		}
+		thisMask.makeSelection(feather, true);
+		doc.selection.invert();
+		doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+	}
 
     if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
@@ -1098,7 +1109,7 @@ function run_crop() {
     doc.selection.fill(myColor_black, ColorBlendMode.LINEARBURN, 100, true);
 
 	if (halation) {
-		renderHalation(negativePath, delta);
+		renderHalation(thisNegative, delta);
 	}
 
     createBackdropLayer();
@@ -1111,10 +1122,22 @@ function run_crop() {
 
 	doc.flatten(); // Flatten all layers
 
-	if (matted_crop == true) {
-        backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
-        doc.resizeCanvas(UnitValue(isPortrait ? 100 + matted_border_size : matted_border_size * ratio + 100,"%"), UnitValue(isPortrait ? matted_border_size / ratio + 100 : matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
-    }
+	if (matted_crop) {
+			if (transparent_matte) {
+				if (doc.backgroundLayer.isBackgroundLayer) {
+					doc.backgroundLayer.isBackgroundLayer = false;
+				}
+				var transparentColor = new SolidColor();
+				transparentColor.rgb.red = 0;
+				transparentColor.rgb.green = 0;
+				transparentColor.rgb.blue = 0;
+				transparentColor.rgb.alpha = 0; // Set alpha to 0 for transparency
+				backgroundColor = transparentColor; // Sets background color to transparent
+			} else {
+				backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
+			}
+		doc.resizeCanvas(UnitValue(isPortrait ? 100 + matted_border_size : matted_border_size * ratio + 100, "%"), UnitValue(isPortrait ? matted_border_size / ratio + 100 : matted_border_size + 100, "%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+	}
 	
 
 }
