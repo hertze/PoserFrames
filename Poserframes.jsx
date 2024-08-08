@@ -493,40 +493,44 @@ function buildPathFromPoints(thisPath, pathName) {
 }
 
 function loadAllPathsToDocument() {
-	// This draws upon chooseLibraryPath and buildPathFromPoints to construct the paths and put them into the document
+    // This draws upon chooseLibraryPath and buildPathFromPoints to construct the paths and put them into the document
 
-	var thisSubshadow = null;
-	var thisShadow = null;
+    var thisSubshadow = null;
+    var thisShadow = null;
+    var thisMask = null;
+    var thisNegative = null;
 
-	// Create negative path
-	var negativePath = chooseLibraryPath("negative");
-	buildPathFromPoints(negativePath, "negative");
+    // Create negative path
+    var negativePath = chooseLibraryPath("negative");
+    buildPathFromPoints(negativePath, "negative");
+    thisNegative = negativePath;
 
-	// Check if fancy mode is enabled and choose mask path
-	if (fancy) {
-		var maskPath = chooseLibraryPath("mask");
-		if (maskPath) {
-			buildPathFromPoints(maskPath, "mask");
-		}
-	}
+    // Check if fancy mode is enabled and choose mask path
+    if (fancy) {
+        var maskPath = chooseLibraryPath("mask");
+        if (maskPath) {
+            buildPathFromPoints(maskPath, "mask");
+            thisMask = maskPath;
+        }
+    }
 
-	// Check if fancy mode and artifacts are enabled to create subshadow path
-	if (fancy && artifacts) {
-		thisSubshadow = chooseLibraryPath("subshadow");
-		if (thisSubshadow) {
-			buildPathFromPoints(thisSubshadow, "subshadow");
-		}
-	}
+    // Check if fancy mode and artifacts are enabled to create subshadow path
+    if (fancy && artifacts) {
+        thisSubshadow = chooseLibraryPath("subshadow");
+        if (thisSubshadow) {
+            buildPathFromPoints(thisSubshadow, "subshadow");
+        }
+    }
 
-	// Check if fancy mode and artifacts are enabled to create shadow path
-	if (fancy && artifacts) {
-		thisShadow = chooseLibraryPath("shadow");
-		if (thisShadow) {
-			buildPathFromPoints(thisShadow, "shadow");
-		}
-	}
+    // Check if fancy mode and artifacts are enabled to create shadow path
+    if (fancy && artifacts) {
+        thisShadow = chooseLibraryPath("shadow");
+        if (thisShadow) {
+            buildPathFromPoints(thisShadow, "shadow");
+        }
+    }
 
-	return { subshadow: thisSubshadow, shadow: thisShadow };
+    return { subshadow: thisSubshadow, shadow: thisShadow, mask: thisMask, negative: thisNegative };
 }
 
 function createBackdropLayer() {
@@ -1153,18 +1157,9 @@ function saveClose() {
 
 function cleanup() {
     doc.selection.deselect();
-    doc.pathItems.getByName('negative').remove();
-
-    if (fancy) {
-        doc.pathItems.getByName('mask').remove();
-    }
-    if (fancy && artifacts) {
-        if (thisSubshadow) {
-            doc.pathItems.getByName('subshadow').remove();
-        }
-        if (thisShadow) {
-            doc.pathItems.getByName('shadow').remove();
-        }
+    // Loop through all path items and delete them
+    for (var i = doc.pathItems.length - 1; i >= 0; i--) {
+        doc.pathItems[i].remove();
     }
     if (save) {
         saveClose();
@@ -1690,8 +1685,10 @@ try {
 		var flipMask = generateRandomInteger(1, 100) < mask_flip_probability && thisFormat != "45";
 		// Load paths
 		const loadedpaths = loadAllPathsToDocument();
-		var thisSubshadow = loadedpaths.subshadow;
-		var thisShadow = loadedpaths.shadow;
+		const thisSubshadow = loadedpaths.subshadow;
+		const thisShadow = loadedpaths.shadow;
+		const thisMask = loadedpaths.mask;
+		const thisNegative = loadedpaths.negative;
 		// Run fancy or crop
 		fancy ? run_fancy() : run_crop();
 		// Clean up
