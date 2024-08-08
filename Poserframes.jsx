@@ -1038,38 +1038,31 @@ function run_crop() {
     var finished_height = 100;
     var border_width;
 
-    switch (thisFormat) {
-        case "35mm":
-            border_width = border_width_35mm;
-            break;
-        case "645":
-            border_width = border_width_645;
-            break;
-        case "67":
-            border_width = border_width_67;
-            break;
-        case "45":
-            border_width = border_width_45;
-            break;
-        case "square":
-            border_width = border_width_square;
-            break;
-        default:
-            break;
-    }
-
 	switch (thisFormat) {
-		case "square":
-			finished_width = border_width + 100;
-			finished_height = border_width * short_side_factor + 100;
+		case "35mm":
+			border_width = border_width_35mm;
+			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
+			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
 			break;
 		case "645":
+			border_width = border_width_645;
 			finished_width = ratio > 1 ? border_width + 100 : 100;
 			finished_height = ratio > 1 ? 100 : border_width + 100;
 			break;
+		case "67":
+			border_width = border_width_67;
+			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
+			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
+			break;
 		case "45":
+			border_width = border_width_45;
 			finished_width = ratio > 1 ? 100.5 : border_width * ratio + 100;
 			finished_height = ratio > 1 ? border_width / ratio + 100 : 100.5;
+			break;
+		case "square":
+			border_width = border_width_square;
+			finished_width = border_width + 100;
+			finished_height = border_width * short_side_factor + 100;
 			break;
 		default:
 			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
