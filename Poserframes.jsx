@@ -463,8 +463,8 @@ function buildPathFromPoints(thisPath, pathName) {
     var centerY = (minY + maxY) / 2;
 
     // Get the document's width and height
-    var docWidth = app.activeDocument.width.as("px");
-    var docHeight = app.activeDocument.height.as("px");
+    var docWidth = doc.width.as("px");
+    var docHeight = doc.height.as("px");
 
     // Calculate the document's center point
     var docCenterX = docWidth / 2;
