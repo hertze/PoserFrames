@@ -489,7 +489,9 @@ function buildPathFromPoints(thisPath, pathName) {
     subPathInfo.closed = true;
     subPathInfo.entireSubPath = pathPointInfos;
 
-    app.activeDocument.pathItems.add(pathName, [subPathInfo]);
+    var pathItem = doc.pathItems.add(pathName, [subPathInfo]);
+
+    return pathItem; // Return the path object
 }
 
 function loadAllPathsToDocument() {
