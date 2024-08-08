@@ -495,42 +495,40 @@ function buildPathFromPoints(thisPath, pathName) {
 function loadAllPathsToDocument() {
     // This draws upon chooseLibraryPath and buildPathFromPoints to construct the paths and put them into the document
 
-    var thisSubshadow = null;
-    var thisShadow = null;
-    var thisMask = null;
-    var thisNegative = null;
+    var subshadowPath = null;
+    var shadowPath = null;
+    var maskPath = null;
+    var negativePath = null;
 
     // Create negative path
-    var negativePath = chooseLibraryPath("negative");
+    negativePath = chooseLibraryPath("negative");
     buildPathFromPoints(negativePath, "negative");
-    thisNegative = negativePath;
 
     // Check if fancy mode is enabled and choose mask path
     if (fancy) {
-        var maskPath = chooseLibraryPath("mask");
+        maskPath = chooseLibraryPath("mask");
         if (maskPath) {
             buildPathFromPoints(maskPath, "mask");
-            thisMask = maskPath;
         }
     }
 
     // Check if fancy mode and artifacts are enabled to create subshadow path
     if (fancy && artifacts) {
-        thisSubshadow = chooseLibraryPath("subshadow");
-        if (thisSubshadow) {
-            buildPathFromPoints(thisSubshadow, "subshadow");
+        subshadowPath = chooseLibraryPath("subshadow");
+        if (subshadowPath) {
+            buildPathFromPoints(subshadowPath, "subshadow");
         }
     }
 
     // Check if fancy mode and artifacts are enabled to create shadow path
     if (fancy && artifacts) {
-        thisShadow = chooseLibraryPath("shadow");
-        if (thisShadow) {
-            buildPathFromPoints(thisShadow, "shadow");
+        shadowPath = chooseLibraryPath("shadow");
+        if (shadowPath) {
+            buildPathFromPoints(shadowPath, "shadow");
         }
     }
 
-    return { subshadow: thisSubshadow, shadow: thisShadow, mask: thisMask, negative: thisNegative };
+    return { subshadow: subshadowPath, shadow: shadowPath, mask: maskPath, negative: negativePath };
 }
 
 function createBackdropLayer() {
