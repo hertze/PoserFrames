@@ -995,7 +995,7 @@ function run_fancy() {
 
                 // Add noise and fill the outside with white again
                 var path = thisSubshadow ? subshadowPath : shadowPath;
-                path.makeSelection(feather, true);
+                path.makeSelection(0, true);
                 masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.VIVIDLIGHT);
