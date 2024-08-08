@@ -556,7 +556,7 @@ function moveNeg() {
 
 	switch (thisFormat) {
 		case "645":
-			if (ratio > 1) {
+			if (isPortrait) {
 				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_645 * 0.006 + doc.width * 0.003);
 			} else {
 				movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.height * border_width_645 * 0.006 + doc.height * 0.003);
@@ -564,7 +564,7 @@ function moveNeg() {
 			break;
 
 		case "67":
-			if (ratio > 1) {
+			if (isPortrait) {
 				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_67 * 0.008 + doc.width * 0.003);
 				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.height * border_width_67 * short_side_factor / ratio * 0.008 + doc.height * 0.003);
 			} else {
@@ -574,7 +574,7 @@ function moveNeg() {
 			break;
 
 		case "45":
-			if (ratio > 1) {
+			if (isPortrait) {
 				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.01;
 				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.height * border_width_45 / ratio * 0.01;
 			} else {
@@ -589,7 +589,7 @@ function moveNeg() {
 			break;
 
 		default:
-			if (ratio > 1) {
+			if (isPortrait) {
 				movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * (doc.width * border_width_35mm * 0.01 + doc.width * 0.0015);
 				movement_vertical = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * (doc.height * border_width_35mm * short_side_factor / ratio * 0.008 + doc.height * 0.002);
 			} else {
@@ -608,7 +608,7 @@ function moveNeg_fancy() {
 
 	switch (thisFormat) {
 		case "645":
-			if (ratio > 1) {
+			if (isPortrait) {
 				// Portrait
 				switch (String(mask_variant_645)) {
 					case "4":
@@ -650,7 +650,7 @@ function moveNeg_fancy() {
 			break;
 		
 		case "67":
-			if (ratio > 1) {
+			if (isPortrait) {
 				// Portrait
 				switch (String(mask_variant_67)) {
 					case "2":
@@ -680,7 +680,7 @@ function moveNeg_fancy() {
 			break;
 		
 		case "45":
-			if (ratio > 1) {
+			if (isPortrait) {
 				switch (String(mask_variant_45)) {
 					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.width * 0.005 * thisDirection();
@@ -719,7 +719,7 @@ function moveNeg_fancy() {
 			break;
 		
 		case "35mm":
-			if (ratio > 1) {
+			if (isPortrait) {
 				// Portrait
 				switch (String(mask_variant_35mm)) {
 					case "10":
@@ -919,7 +919,7 @@ function renderHalation(negativePath, delta) {
     doc.selection.contract(new UnitValue(feather, 'px'));
 
     if (delta != 0) {
-        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+        doc.selection.translateBoundary(UnitValue(isPortrait ? 0 : delta, "px"), UnitValue(isPortrait ? delta : 0, "px"));
     }
 
     // Fill the selection with black color in clear blend mode
@@ -932,7 +932,7 @@ function renderHalation(negativePath, delta) {
 }
 
 function run_fancy() {
-    if (ratio > 1) {
+    if (isPortrait) {
         doc.resizeCanvas(UnitValue(110, "%"), UnitValue(10 / ratio + 100, "%"), AnchorPosition.MIDDLECENTER);
     } else {
         doc.resizeCanvas(UnitValue(10 * ratio + 100, "%"), UnitValue(110, "%"), AnchorPosition.MIDDLECENTER);
@@ -987,16 +987,16 @@ function run_fancy() {
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.HARDLIGHT;
                 edgemask.applyHighPass(Math.round(doc_scale * 20));
-                edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 80);
-				edgemask.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 5);
+                edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 80);
+				edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 5);
                 edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
                 edgemask.merge();
 
                 // Soften edges in one direction
                 doc.selection.expand(doc_scale * 10);
                 doc.selection.feather(doc_scale * 40);
-                masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 25);
-                masklayer.applyMotionBlur(ratio > 1 ? 0 : 90, doc_scale * 50);
+                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 25);
+                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 50);
                 doc.selection.contract(doc_scale * 10);
 
                 // Add noise and fill the outside with white again
@@ -1044,28 +1044,28 @@ function run_crop() {
 	
 	switch (thisFormat) {
 		case "35mm":
-			finished_width = ratio > 1 ? border_width_35mm + 100 : border_width_35mm * short_side_factor * ratio + 100;
-			finished_height = ratio > 1 ? border_width_35mm * short_side_factor / ratio + 100 : border_width_35mm + 100;
+			finished_width = isPortrait ? border_width_35mm + 100 : border_width_35mm * short_side_factor * ratio + 100;
+			finished_height = isPortrait ? border_width_35mm * short_side_factor / ratio + 100 : border_width_35mm + 100;
 			break;
 		case "645":
-			finished_width = ratio > 1 ? border_width_645 + 100 : 100;
-			finished_height = ratio > 1 ? 100 : border_width_645 + 100;
+			finished_width = isPortrait ? border_width_645 + 100 : 100;
+			finished_height = isPortrait ? 100 : border_width_645 + 100;
 			break;
 		case "67":
-			finished_width = ratio > 1 ? border_width_67 + 100 : border_width_67 * short_side_factor * ratio + 100;
-			finished_height = ratio > 1 ? border_width_67 * short_side_factor / ratio + 100 : border_width_67 + 100;
+			finished_width = isPortrait ? border_width_67 + 100 : border_width_67 * short_side_factor * ratio + 100;
+			finished_height = isPortrait ? border_width_67 * short_side_factor / ratio + 100 : border_width_67 + 100;
 			break;
 		case "45":
-			finished_width = ratio > 1 ? 100.5 : border_width_45 * ratio + 100;
-			finished_height = ratio > 1 ? border_width_45 / ratio + 100 : 100.5;
+			finished_width = isPortrait ? 100.5 : border_width_45 * ratio + 100;
+			finished_height = isPortrait ? border_width_45 / ratio + 100 : 100.5;
 			break;
 		case "square":
 			finished_width = border_width_square + 100;
 			finished_height = border_width_square * short_side_factor + 100;
 			break;
 		default:
-			finished_width = ratio > 1 ? border_width + 100 : border_width * short_side_factor * ratio + 100;
-			finished_height = ratio > 1 ? border_width * short_side_factor / ratio + 100 : border_width + 100;
+			finished_width = isPortrait ? border_width + 100 : border_width * short_side_factor * ratio + 100;
+			finished_height = isPortrait ? border_width * short_side_factor / ratio + 100 : border_width + 100;
 			break;
 	}
 
@@ -1078,8 +1078,8 @@ function run_crop() {
 	var resizedHeight = UnitValue(newHeight, "px");
 
 	// Calculate the final dimensions
-	var finalWidth = (ratio > 1 ? 100 + matted_border_size : matted_border_size * ratio + 100) / 100 * resizedWidth;
-	var finalHeight = (ratio > 1 ? matted_border_size / ratio + 100 : matted_border_size + 100) / 100 * resizedHeight;
+	var finalWidth = (isPortrait ? 100 + matted_border_size : matted_border_size * ratio + 100) / 100 * resizedWidth;
+	var finalHeight = (isPortrait ? matted_border_size / ratio + 100 : matted_border_size + 100) / 100 * resizedHeight;
 
 	// Resize the canvas
 	doc.resizeCanvas(UnitValue(finalWidth,"px"), UnitValue(finalHeight,"px"), AnchorPosition.MIDDLECENTER);
@@ -1091,7 +1091,7 @@ function run_crop() {
 	var delta = 0;
     if (thisFormat == "645" && movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0 ) {
         delta = generateRandomInteger(movement_min_short, movement_max_short) * -0.0001 * doc.height * thisDirection();
-        doc.selection.translateBoundary(UnitValue(ratio > 1 ? 0 : delta, "px"), UnitValue(ratio > 1 ? delta : 0, "px"));
+        doc.selection.translateBoundary(UnitValue(isPortrait ? 0 : delta, "px"), UnitValue(isPortrait ? delta : 0, "px"));
     }
 
     doc.selection.invert(); // Invert selection
@@ -1113,7 +1113,7 @@ function run_crop() {
 
 	if (matted_crop == true) {
         backgroundColor.rgb.hexValue = myColor_white.rgb.hexValue; // Sets background color to white
-        doc.resizeCanvas(UnitValue(ratio > 1 ? 100 + matted_border_size : matted_border_size * ratio + 100,"%"), UnitValue(ratio > 1 ? matted_border_size / ratio + 100 : matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
+        doc.resizeCanvas(UnitValue(isPortrait ? 100 + matted_border_size : matted_border_size * ratio + 100,"%"), UnitValue(isPortrait ? matted_border_size / ratio + 100 : matted_border_size + 100,"%"), AnchorPosition.MIDDLECENTER); // Enlarge "negative" space
     }
 	
 
@@ -1546,7 +1546,13 @@ app.preferences.rulerUnits = Units.PIXELS;
 app.displayDialogs = DialogModes.NO;
 doc.resizeImage(null, null, 72, ResampleMethod.NONE); // Necessary to resample to 72dpi for the negative to fit
 
+// We need a numeric value for this as well
 var ratio = doc.height / doc.width;
+
+// Check if the document is in portrait orientation using the ratio
+var isPortrait = ratio > 1;
+
+// Decide aspect ratio
 var thisFormat = format();
 
 // Calculate feathering
@@ -1565,16 +1571,13 @@ switch (thisFormat) {
         feather_factor = feather_factor_67_square;
         break;
 }
-var feather = (ratio > 1 ? doc.width : doc.height) / feather_factor;
+var feather = (isPortrait ? doc.width : doc.height) / feather_factor;
 
 // Decide the shortest side
-var negative_size = ratio > 1 ? doc.width : doc.height;
+var negative_size = isPortrait ? doc.width : doc.height;
 
 // Scale
 var doc_scale = negative_size.value / 3600;
-
-// Check if the document is in portrait orientation
-var isPortrait = doc.height > doc.width;
 
 // Sets up existing image layer
 doc.activeLayer.isBackgroundLayer = false; // Unlocks background layer
