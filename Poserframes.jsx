@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -984,39 +984,21 @@ function run_fancy() {
             }
 
             if (thisSubshadow) {
-                // Blur perpendicular to short edge and use high pass to contrast edges
-               	//var edgemask = masklayer.duplicate();
-                //edgemask.blendMode = BlendMode.HARDLIGHT;
-                //edgemask.applyHighPass(Math.round(doc_scale * 20));
-                //edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 100);
-				//edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 10);
-                //edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
-                //edgemask.merge();
-
-
-				//thisSubshadow.makeSelection(feather, true);
-				//doc.selection.selectBorder(20 * doc_scale);
-				//doc.selection.fill(myColor_subshadow, ColorBlendMode.MULTIPLY, 100, true);
-
+               
 				// Adding a border around the mask
 				thisMask.makeSelection(feather, true);
 				// Expand the current selection by 20 * doc_scale
 				doc.selection.expand(5 * doc_scale);
 				// Create a border selection around the expanded selection
 				doc.selection.selectBorder(15 * doc_scale);
-				//doc.selection.feather(10 * doc_scale);
-				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 10, true);
+				doc.selection.feather(3 * doc_scale);
+				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 15, true);
 
 
                 // Soften edges in one direction
-				//thisSubshadow.makeSelection(feather, true);
-                //doc.selection.expand(doc_scale * 10);
-                //doc.selection.feather(doc_scale * 40);
 				doc.selection.deselect();
                 masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
 				masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
-                //masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 50);
-                //doc.selection.contract(doc_scale * 10);
 
                 // Add noise and fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
