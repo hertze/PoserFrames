@@ -1692,11 +1692,11 @@ if (colorCheck() == "color") {
 	 
 	myColor_shadow.hsb.hue = 0;
 	myColor_shadow.hsb.saturation = 0;
-	myColor_shadow.hsb.brightness =  generateRandomInteger(80, 99);
+	myColor_shadow.hsb.brightness =  generateRandomInteger(70, 85);
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 1.5));
+myColor_subshadow.hsb.saturation = (myColor_shadow.hsb.saturation === 0) ? 0 : Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 1.5));
 myColor_subshadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.3));
 
 // Lessen the gauge of these settings should be used
