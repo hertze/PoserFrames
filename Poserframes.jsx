@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -53,10 +53,10 @@ var feather_factor_35mm = 1000;
 var feather_factor_645 = 1600;
 var feather_factor_67_square = 2200;
 var feather_factor_45 = 5200;
-var movement_min_long = 0;
-var movement_max_long = 0;
-var movement_min_short = 0;
-var movement_max_short = 0;
+var movement_min_long = 100;
+var movement_max_long = 100;
+var movement_min_short = 100;
+var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probability = 20;
 var blue_artefacts_odds = 20;
@@ -979,7 +979,7 @@ function run_fancy() {
             if (thisSubshadow) {
                 thisSubshadow.makeSelection(0, true);
                 doc.selection.invert();
-                doc.selection.fill(myColor_white);
+                doc.selection.fill(myColor_white, ColorBlendMode.NORMAL);
                 doc.selection.invert();
             }
 
@@ -988,8 +988,8 @@ function run_fancy() {
                 var edgemask = masklayer.duplicate();
                 edgemask.blendMode = BlendMode.HARDLIGHT;
                 edgemask.applyHighPass(Math.round(doc_scale * 20));
-                edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 80);
-				edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 5);
+                edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 100);
+				edgemask.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 10);
                 edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
                 edgemask.merge();
 
@@ -1019,7 +1019,15 @@ function run_fancy() {
 
     thisMask.makeSelection(feather, true);
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
+
+
+	// Test
+
+	doc.selection.selectBorder(20*doc_scale);
+	doc.selection.fill(myColor_white, ColorBlendMode.LUMINOSITY, 50, true);
+
     doc.selection.deselect();
+
 
     if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
         moveNeg_fancy();
