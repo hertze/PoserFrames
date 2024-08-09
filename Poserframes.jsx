@@ -1002,15 +1002,13 @@ function run_fancy() {
 				masklayer = app.activeDocument.activeLayer;
             }
 
-            // Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
             if (thisSubshadow) {
+
+				// Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
                 thisSubshadow.makeSelection(0, true);
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.NORMAL);
                 doc.selection.invert();
-            }
-
-            if (thisSubshadow) {
                
 				// Adding a border around the mask
 				thisMask.makeSelection(feather, true);
