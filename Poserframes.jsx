@@ -1000,10 +1000,9 @@ function run_fancy() {
                 masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
 				masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
 
-                // Add noise and fill the outside with white again
+                // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
                 path.makeSelection(0, true);
-                //masklayer.applyAddNoise(doc_scale * 2, NoiseDistribution.GAUSSIAN, true);
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.VIVIDLIGHT);
                 doc.selection.deselect();
