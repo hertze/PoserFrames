@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 7;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -1638,7 +1638,7 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) < blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 80;
+		minBrightness = 70;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
@@ -1653,7 +1653,7 @@ if (colorCheck() == "color") {
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
-		minSaturation = 16;
+		minSaturation = 14;
 		maxSaturation = 20;
 		saturationRange = maxSaturation - minSaturation;
 		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
@@ -1675,8 +1675,8 @@ if (colorCheck() == "color") {
 }
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
-myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 2));
-myColor_subshadow.hsb.brightness = myColor_shadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.3));
+myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 1.5));
+myColor_subshadow.hsb.brightness = myColor_shadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.5));
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
