@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 7;
+var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -971,8 +971,8 @@ function run_fancy() {
             // Add noise and blur if either thisShadow or thisSubshadow exists
             if (thisShadow || thisSubshadow) {
                 masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
-                masklayer.applyGaussianBlur(doc_scale * 5);
-                masklayer.adjustBrightnessContrast(5, 20);
+                masklayer.applyGaussianBlur(doc_scale * 3);
+                //masklayer.adjustBrightnessContrast(5, 20);
             }
 
             // Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
@@ -993,12 +993,30 @@ function run_fancy() {
                 //edgemask.adjustBrightnessContrast(0, generateRandomInteger(10, 30));
                 //edgemask.merge();
 
+
+				//thisSubshadow.makeSelection(feather, true);
+				//doc.selection.selectBorder(20 * doc_scale);
+				//doc.selection.fill(myColor_subshadow, ColorBlendMode.MULTIPLY, 100, true);
+
+				// Adding a border around the mask
+				thisMask.makeSelection(feather, true);
+				// Expand the current selection by 20 * doc_scale
+				doc.selection.expand(5 * doc_scale);
+				// Create a border selection around the expanded selection
+				doc.selection.selectBorder(15 * doc_scale);
+				//doc.selection.feather(10 * doc_scale);
+				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 10, true);
+
+
                 // Soften edges in one direction
-                doc.selection.expand(doc_scale * 10);
-                doc.selection.feather(doc_scale * 40);
-                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 25);
-                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 50);
-                doc.selection.contract(doc_scale * 10);
+				//thisSubshadow.makeSelection(feather, true);
+                //doc.selection.expand(doc_scale * 10);
+                //doc.selection.feather(doc_scale * 40);
+				doc.selection.deselect();
+                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
+				masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
+                //masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 50);
+                //doc.selection.contract(doc_scale * 10);
 
                 // Add noise and fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1007,15 +1025,6 @@ function run_fancy() {
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.VIVIDLIGHT);
                 doc.selection.deselect();
-
-				// Adding a border around the mask
-				thisMask.makeSelection(feather, true);
-				// Expand the current selection by 20 * doc_scale
-				doc.selection.expand(8 * doc_scale);
-				// Create a border selection around the expanded selection
-				doc.selection.selectBorder(16 * doc_scale);
-				doc.selection.feather(5 * doc_scale);
-				doc.selection.fill(myColor_white, ColorBlendMode.LINEARLIGHT, 15, true);
             }
 
             break;
