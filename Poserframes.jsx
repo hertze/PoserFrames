@@ -191,7 +191,7 @@ function processRecipe(runtimesettings) {
     thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
     
     // Check recipe against syntax
-    const regex = /^(true;|false;){2}([1-9]|10);[1-5];[1-3];[1-2];[1-3];[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$/gm;
+    const regex = /^(true;|false;){2}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$/gm;
     
     if (regex.test(thisRecipe)) {
         thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -1191,11 +1191,14 @@ if (legacy == false ) {
 
 // PATH LIBRARY ------------------------------------------------------
 
+// Auto settings for scanner mask
+
 if (mask_variant_35mm === "auto") mask_variant_35mm = generateRandomInteger(1, 10);
 if (mask_variant_645 === "auto") mask_variant_645 = generateRandomInteger(1, 4);
 if (mask_variant_square === "auto") mask_variant_square = generateRandomInteger(1, 2);
 if (mask_variant_67 === "auto") mask_variant_67 = generateRandomInteger(1, 2);
 if (mask_variant_45 === "auto") mask_variant_45 = generateRandomInteger(1, 2);
+
 
 // 35mm
 
