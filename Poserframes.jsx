@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = 7;
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -1649,7 +1649,7 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minBrightness = 70;
+		minBrightness = 60;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
