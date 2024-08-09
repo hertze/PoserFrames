@@ -1666,14 +1666,16 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		minSaturation = 2;
 		maxSaturation = 4;
+		minBrightness = 80;
+		maxBrightness = 98;
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
 		minSaturation = 14;
 		maxSaturation = 18;
+		minBrightness = 80;
+		maxBrightness = 90;
 	}
 	
-	minBrightness = 80;
-	maxBrightness = 100;
 	myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 	brightnessRange = maxBrightness - minBrightness;
 	saturationRange = maxSaturation - minSaturation;
