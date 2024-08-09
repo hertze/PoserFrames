@@ -26,11 +26,11 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = "auto";
-var mask_variant_645 = "auto";
-var mask_variant_67 = "auto";
-var mask_variant_45 = "auto";
-var mask_variant_square = "auto";
+var mask_variant_35mm = 5;
+var mask_variant_645 = 1;
+var mask_variant_67 = 1;
+var mask_variant_45 = 1;
+var mask_variant_square = 1;
 var negative_variant_square = 1;
 var negative_variant_645 = 1;
 
@@ -970,9 +970,36 @@ function run_fancy() {
 
             // Add noise and blur if either thisShadow or thisSubshadow exists
             if (thisShadow || thisSubshadow) {
-                masklayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true);
-                masklayer.applyGaussianBlur(doc_scale * 3);
-                //masklayer.adjustBrightnessContrast(5, 20);
+                				// Duplicate the original layer to create a temporary layer
+				var tempLayer = app.activeDocument.artLayers.add();
+				tempLayer.name = "Temporary Layer";
+
+				// Fill the layer with 50% grey
+				var greyColor = new SolidColor();
+				greyColor.rgb.red = 128;
+				greyColor.rgb.green = 128;
+				greyColor.rgb.blue = 128;
+				app.foregroundColor = greyColor;
+
+				// Fill the layer with 50% grey
+				app.activeDocument.selection.selectAll();
+				app.activeDocument.selection.fill(app.foregroundColor);
+				app.activeDocument.selection.deselect();
+				
+				// Move the temporary layer to the top
+				tempLayer.move(app.activeDocument, ElementPlacement.PLACEATBEGINNING);
+				
+				// Apply noise and blur effects to the temporary layer
+				tempLayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true, true);
+				tempLayer.applyGaussianBlur(doc_scale * 5);
+				
+				// Set the blend mode of the temporary layer
+				tempLayer.blendMode = BlendMode.OVERLAY; // You can change this to any blend mode you prefer
+				
+				// Merge the temporary layer back to the original layer
+				app.activeDocument.activeLayer = tempLayer;
+				tempLayer.merge();
+				masklayer = app.activeDocument.activeLayer;
             }
 
             // Fill the outside of the subshadow with white, invert the selection back if thisSubshadow exists
@@ -990,25 +1017,19 @@ function run_fancy() {
 				// Expand the current selection by 20 * doc_scale
 				doc.selection.expand(5 * doc_scale);
 				// Create a border selection around the expanded selection
-				doc.selection.selectBorder(15 * doc_scale);
-				doc.selection.feather(3 * doc_scale);
-				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 15, true);
-
-
-                // Soften edges in one direction
-				doc.selection.deselect();
-                masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
-				masklayer.applyMotionBlur(isPortrait ? 0 : 90, doc_scale * 20);
+				doc.selection.selectBorder(15 * doc_scale); // Denna...
+				doc.selection.feather(5 * doc_scale); // ...och denna...
+				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20, true); // ...tillsammans med denna skapar styrka och radie på uppklarning.
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
-                path.makeSelection(0, true);
+                path.makeSelection(feather, true);
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.VIVIDLIGHT);
                 doc.selection.deselect();
             }
 
-            break;
+        break;
 
         default:
             doc.selection.selectAll();
@@ -1645,7 +1666,7 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) < blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 70;
+		minBrightness = 80;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
@@ -1656,16 +1677,17 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minBrightness = 60;
+		minBrightness = 80;
 		maxBrightness = 100;
 		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
 		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 14;
-		maxSaturation = 20;
+		maxSaturation = 18;
 		saturationRange = maxSaturation - minSaturation;
 		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
 		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	}
+
 } else {
 
 	myColor_halation.rgb.red = 240;
@@ -1683,7 +1705,7 @@ if (colorCheck() == "color") {
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 1.5));
-myColor_subshadow.hsb.brightness = myColor_shadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.5));
+myColor_subshadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.5));
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
