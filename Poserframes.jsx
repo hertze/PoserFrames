@@ -1666,27 +1666,21 @@ if (colorCheck() == "color") {
 
 	if (generateRandomInteger(1, 100) < blue_artefacts_odds) {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
-		minBrightness = 80;
-		maxBrightness = 100;
-		myColor_shadow.hsb.brightness =  generateRandomInteger(minBrightness, maxBrightness);
-		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 2;
 		maxSaturation = 4;
-		saturationRange = maxSaturation - minSaturation;
-		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
-		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minBrightness = 80;
-		maxBrightness = 100;
-		myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
-		brightnessRange = maxBrightness - minBrightness;
 		minSaturation = 14;
 		maxSaturation = 18;
-		saturationRange = maxSaturation - minSaturation;
-		scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
-		myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 	}
+	
+	minBrightness = 80;
+	maxBrightness = 100;
+	myColor_shadow.hsb.brightness = generateRandomInteger(minBrightness, maxBrightness);
+	brightnessRange = maxBrightness - minBrightness;
+	saturationRange = maxSaturation - minSaturation;
+	scaledBrightness = (myColor_shadow.hsb.brightness - minBrightness) / brightnessRange;
+	myColor_shadow.hsb.saturation = Math.max(1, Math.floor(minSaturation + (scaledBrightness * saturationRange)));
 
 } else {
 
@@ -1705,7 +1699,7 @@ if (colorCheck() == "color") {
 
 myColor_subshadow.hsb.hue = myColor_shadow.hsb.hue;
 myColor_subshadow.hsb.saturation = Math.max(1, Math.floor(myColor_shadow.hsb.saturation / 1.5));
-myColor_subshadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.5));
+myColor_subshadow.hsb.brightness = Math.min(100, Math.floor(myColor_shadow.hsb.brightness * 1.3));
 
 // Lessen the gauge of these settings should be used
 border_width_35mm = border_width_35mm/10;
