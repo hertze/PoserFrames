@@ -26,7 +26,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 1;
+var mask_variant_35mm = "auto";
 var mask_variant_645 = 1;
 var mask_variant_67 = 1;
 var mask_variant_45 = 1;
@@ -1191,6 +1191,11 @@ if (legacy == false ) {
 
 // PATH LIBRARY ------------------------------------------------------
 
+if (mask_variant_35mm === "auto") mask_variant_35mm = generateRandomInteger(1, 10);
+if (mask_variant_645 === "auto") mask_variant_645 = generateRandomInteger(1, 4);
+if (mask_variant_square === "auto") mask_variant_square = generateRandomInteger(1, 2);
+if (mask_variant_67 === "auto") mask_variant_67 = generateRandomInteger(1, 2);
+if (mask_variant_45 === "auto") mask_variant_45 = generateRandomInteger(1, 2);
 
 // 35mm
 
