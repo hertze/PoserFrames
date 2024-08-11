@@ -992,9 +992,11 @@ function run_fancy() {
 				// Apply noise and blur effects to the temporary layer
 				tempLayer.applyAddNoise(20, NoiseDistribution.GAUSSIAN, true, true);
 				tempLayer.applyGaussianBlur(doc_scale * 5);
+				tempLayer.applyDustAndScratches(doc_scale*20, doc_scale*5);
+				tempLayer.applyGaussianBlur(doc_scale);
 				
 				// Set the blend mode of the temporary layer
-				tempLayer.blendMode = BlendMode.OVERLAY; // You can change this to any blend mode you prefer
+				tempLayer.blendMode = BlendMode.SOFTLIGHT; // You can change this to any blend mode you prefer
 				
 				// Merge the temporary layer back to the original layer
 				app.activeDocument.activeLayer = tempLayer;
