@@ -1049,8 +1049,13 @@ function run_fancy() {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
 		doc.selection.contract(6 * doc_scale);
-		doc.selection.selectBorder(10 * doc_scale); 
+		doc.selection.selectBorder(12 * doc_scale);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
+		
+		thisMask.makeSelection(feather, true);
+		doc.selection.contract(16 * doc_scale);
+		doc.selection.selectBorder(10 * doc_scale);
+		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
 	}
 
 	// Transparent matte
