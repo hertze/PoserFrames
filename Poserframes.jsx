@@ -1057,9 +1057,9 @@ function run_fancy() {
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
 
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(3 * feather);
-		doc.selection.selectBorder(5 * feather*2);
-		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
+		doc.selection.contract(2 * feather);
+		doc.selection.selectBorder(5 * feather);
+		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 15);
 	}
 
 	// Transparent matte
