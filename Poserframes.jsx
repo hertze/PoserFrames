@@ -1053,7 +1053,6 @@ function run_fancy() {
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
 
 		thisMask.makeSelection(feather, true);
-		doc.selection.rotate(0.2*thisDirection());
 		doc.selection.contract(6 * feather);
 		doc.selection.selectBorder(5 * feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
