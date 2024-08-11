@@ -1048,13 +1048,13 @@ function run_fancy() {
 	if (artifacts) {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(6 * doc_scale);
-		doc.selection.selectBorder(12 * doc_scale);
+		doc.selection.contract(2 * feather);
+		doc.selection.selectBorder(6 * feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
-		
+
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(16 * doc_scale);
-		doc.selection.selectBorder(10 * doc_scale);
+		doc.selection.contract(6 * feather);
+		doc.selection.selectBorder(5 * feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
 	}
 
