@@ -1017,7 +1017,7 @@ function run_fancy() {
 				// Create a border selection around the expanded selection
 				doc.selection.selectBorder(15 * doc_scale);
 				doc.selection.feather(20 * doc_scale);
-				doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20, true); 
+				doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10, true); 
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1048,12 +1048,13 @@ function run_fancy() {
 	if (artifacts) {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather);
+		doc.selection.contract(1.5*feather);
 		doc.selection.selectBorder(6 * feather);
-		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
+		doc.selection.feather(2 * feather);
+		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 25);
 
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(6 * feather);
+		doc.selection.contract(3 * feather);
 		doc.selection.selectBorder(5 * feather);
 		doc.selection.feather(2 * feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
