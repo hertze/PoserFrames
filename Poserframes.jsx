@@ -53,10 +53,10 @@ var feather_factor_35mm = 1000;
 var feather_factor_645 = 1600;
 var feather_factor_67_square = 2200;
 var feather_factor_45 = 5200;
-var movement_min_long = 0;
-var movement_max_long = 0;
-var movement_min_short = 0;
-var movement_max_short = 0;
+var movement_min_long = 100;
+var movement_max_long = 100;
+var movement_min_short = 100;
+var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probability = 20;
 var blue_artefacts_odds = 20;
@@ -1015,9 +1015,9 @@ function run_fancy() {
 				// Expand the current selection by 20 * doc_scale
 				doc.selection.expand(5 * doc_scale);
 				// Create a border selection around the expanded selection
-				doc.selection.selectBorder(15 * doc_scale); // Denna...
-				doc.selection.feather(5 * doc_scale); // ...och denna...
-				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20, true); // ...tillsammans med denna skapar styrka och radie på uppklarning.
+				doc.selection.selectBorder(15 * doc_scale);
+				doc.selection.feather(5 * doc_scale);
+				doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20, true); 
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1039,12 +1039,17 @@ function run_fancy() {
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
-
     if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
         moveNeg_fancy();
     }
 
     doc.flatten();
+
+	// Ligthen thin inner mask border
+	thisMask.makeSelection(2*doc_scale, true);
+	doc.selection.contract(8 * doc_scale);
+	doc.selection.selectBorder(10 * doc_scale); 
+	doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
 
 	// Transparent matte
 	if (transparent_matte) {
