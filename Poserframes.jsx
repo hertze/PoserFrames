@@ -1045,11 +1045,13 @@ function run_fancy() {
 
     doc.flatten();
 
-	// Ligthen thin inner mask border
-	thisMask.makeSelection(2*doc_scale, true);
-	doc.selection.contract(8 * doc_scale);
-	doc.selection.selectBorder(10 * doc_scale); 
-	doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
+	if (artifacts) {
+		// Lighten thin inner mask border
+		thisMask.makeSelection(feather, true);
+		doc.selection.contract(6 * doc_scale);
+		doc.selection.selectBorder(10 * doc_scale); 
+		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
+	}
 
 	// Transparent matte
 	if (transparent_matte) {
