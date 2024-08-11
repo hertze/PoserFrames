@@ -996,7 +996,8 @@ function run_fancy() {
 				tempLayer.applyGaussianBlur(doc_scale);
 				
 				// Set the blend mode of the temporary layer
-				tempLayer.blendMode = BlendMode.SOFTLIGHT; // You can change this to any blend mode you prefer
+				tempLayer.blendMode = BlendMode.OVERLAY; // You can change this to any blend mode you prefer
+				tempLayer.adjustBrightnessContrast(0, 50); // Adjust the brightness and contrast of the temporary layer
 				
 				// Merge the temporary layer back to the original layer
 				app.activeDocument.activeLayer = tempLayer;
@@ -1017,8 +1018,9 @@ function run_fancy() {
 				// Expand the current selection by 20 * doc_scale
 				//doc.selection.expand(1 * doc_scale);
 				// Create a border selection around the expanded selection
-				doc.selection.selectBorder(15 * doc_scale*20);
-				doc.selection.fill(myColor_subshadow, ColorBlendMode.LIGHTEN, 10, true); 
+				doc.selection.selectBorder(15 * doc_scale);
+				doc.selection.feather(30 * feather);
+				doc.selection.fill(myColor_white, ColorBlendMode.LINEARDODGE, 15, true); 
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1049,8 +1051,9 @@ function run_fancy() {
 	if (artifacts) {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
-		//doc.selection.contract(1.5*feather);
-		doc.selection.selectBorder(6 * feather*2);
+		doc.selection.contract(1.5*feather);
+		doc.selection.selectBorder(6 * feather);
+		doc.selection.feather(2 * feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
 
 		thisMask.makeSelection(feather, true);
