@@ -1049,7 +1049,7 @@ function run_fancy() {
 
     doc.flatten();
 
-	if (artifacts) {
+	if (artifacts && !transparent_matte) {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
 		//doc.selection.contract(1.5*feather);
