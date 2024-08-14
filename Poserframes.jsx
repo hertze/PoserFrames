@@ -1066,12 +1066,12 @@ function run_fancy() {
 		doc.selection.feather(3*feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 30);
 
-		// Lighter line
+		// Thinner outer rim
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather*3);
+		doc.selection.contract(feather*0.5);
 		doc.selection.selectBorder(Math.max(1, Math.floor(feather)));
 		doc.selection.feather(2*feather);
-		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 10);
+		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 30);
 		
 	}
 
