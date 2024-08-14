@@ -1058,26 +1058,28 @@ function run_fancy() {
     doc.flatten();
 
 	if (artifacts && !transparent_matte) {
-		// Lighten thin inner mask border
+
+		// Thicker inner rim
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(2*feather);
-		doc.selection.selectBorder(5 * feather);
-		doc.selection.feather(2 * feather);
+		doc.selection.contract(feather);
+		doc.selection.selectBorder(Math.max(1, Math.floor(6 * feather)));
+		doc.selection.feather(3*feather);
 		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 30);
 
+		// Darker line
 		thisMask.makeSelection(feather, true);
-		//doc.selection.contract(1.5*feather);
-		doc.selection.selectBorder(4*feather);
-		//doc.selection.feather(feather);
-		//doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
-
-		thisMask.makeSelection(feather, true);
-		doc.selection.contract(4 * feather);
-		doc.selection.selectBorder(0.5*feather);
+		doc.selection.contract(feather*3);
+		doc.selection.selectBorder(Math.max(1, Math.floor(0.1*feather)));
 		doc.selection.feather(feather);
-		//doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
+		doc.selection.fill(myColor_shadow, ColorBlendMode.SOFTLIGHT, 100);
 
-		//doc.selection.fill(myColor_shadow, ColorBlendMode.COLORBURN, 50);
+		// Outmost rim
+		thisMask.makeSelection(feather, true);
+		doc.selection.contract(feather*4);
+		doc.selection.selectBorder(Math.max(1, Math.floor(0.5*feather)));
+		doc.selection.feather(feather);
+		//doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
+		
 	}
 
 	// Transparent matte
