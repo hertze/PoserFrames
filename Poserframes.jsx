@@ -1069,23 +1069,9 @@ function run_fancy() {
 		// Lighter line
 		thisMask.makeSelection(feather, true);
 		doc.selection.contract(feather*3);
-		doc.selection.selectBorder(Math.max(1, Math.floor(0.1*feather)));
-		doc.selection.feather(feather);
-		doc.selection.fill(myColor_shadow, ColorBlendMode.COLORDODGE, 10);
-
-		// Darker line
-		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather*3);
-		doc.selection.selectBorder(Math.max(1, Math.floor(0.1*feather)));
-		doc.selection.feather(feather);
-		//doc.selection.fill(myColor_shadow, ColorBlendMode.SOFTLIGHT, 100);
-
-		// Outmost rim
-		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather*4);
-		doc.selection.selectBorder(Math.max(1, Math.floor(0.5*feather)));
-		doc.selection.feather(feather);
-		//doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
+		doc.selection.selectBorder(Math.max(1, Math.floor(feather)));
+		doc.selection.feather(2*feather);
+		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 10);
 		
 	}
 
