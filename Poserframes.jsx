@@ -1022,14 +1022,14 @@ function run_fancy() {
                 doc.selection.invert();
                
 				// Adding a border around the mask
-				thisMask.makeSelection(feather, true);
+				//thisMask.makeSelection(feather, true);
 				// Expand the current selection by 20 * doc_scale
 				//doc.selection.expand(1 * doc_scale);
 				// Create a border selection around the expanded selection
 				//doc.selection.contract(1.5 * doc_scale);
-				doc.selection.selectBorder(15 * doc_scale);
-				doc.selection.feather(40 * feather);
-				doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 20, true); 
+				//doc.selection.selectBorder(15 * doc_scale);
+				//doc.selection.feather(40 * feather);
+				//doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 20, true); 
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1060,15 +1060,24 @@ function run_fancy() {
 	if (artifacts && !transparent_matte) {
 		// Lighten thin inner mask border
 		thisMask.makeSelection(feather, true);
-		//doc.selection.contract(1.5*feather);
-		doc.selection.selectBorder(6 * feather);
+		doc.selection.contract(2*feather);
+		doc.selection.selectBorder(5 * feather);
 		doc.selection.feather(2 * feather);
-		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 20);
+		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 30);
 
 		thisMask.makeSelection(feather, true);
-		doc.selection.contract(3 * feather);
-		doc.selection.selectBorder(5 * feather);
-		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
+		//doc.selection.contract(1.5*feather);
+		doc.selection.selectBorder(4*feather);
+		//doc.selection.feather(feather);
+		//doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
+
+		thisMask.makeSelection(feather, true);
+		doc.selection.contract(4 * feather);
+		doc.selection.selectBorder(0.5*feather);
+		doc.selection.feather(feather);
+		//doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 10);
+
+		//doc.selection.fill(myColor_shadow, ColorBlendMode.COLORBURN, 50);
 	}
 
 	// Transparent matte
