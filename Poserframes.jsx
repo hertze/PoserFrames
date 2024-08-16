@@ -25,6 +25,7 @@ var transparent_matte = false;
 // Settings for fancy borders
 
 var artifacts = true;
+var burned_rim = true;
 
 var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
@@ -1005,7 +1006,6 @@ function run_fancy() {
 				
 				// Set the blend mode of the temporary layer
 				tempLayer.blendMode = BlendMode.OVERLAY; // You can change this to any blend mode you prefer
-				//tempLayer.adjustBrightnessContrast(0, 20); // Adjust the brightness and contrast of the temporary layer
 				
 				// Merge the temporary layer back to the original layer
 				app.activeDocument.activeLayer = tempLayer;
@@ -1047,10 +1047,9 @@ function run_fancy() {
 
     doc.flatten();
 
-	if (artifacts && !transparent_matte) {
+	if (artifacts && burned_rim &&!transparent_matte) {
 
-		// Fainter inner rim
-
+		// Lighter inner rim
 		thisMask.makeSelection(0, true);
 		
 		// Resize the selection to be 1% shorter on the longer side
@@ -1091,7 +1090,7 @@ function run_fancy() {
 		initialSelectionChannel.remove();
 		
 		// Fill the selection with the specified color
-		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
+		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 25);
 
 	}
 
