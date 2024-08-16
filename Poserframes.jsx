@@ -25,7 +25,7 @@ var transparent_matte = false;
 // Settings for fancy borders
 
 var artifacts = true;
-var burned_rim = true;
+var burn_mask_edges = true;
 
 var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
@@ -1047,7 +1047,7 @@ function run_fancy() {
 
     doc.flatten();
 
-	if (artifacts && burned_rim &&!transparent_matte) {
+	if (artifacts && burn_mask_edges &&!transparent_matte) {
 
 		// Lighter inner rim
 		thisMask.makeSelection(0, true);
