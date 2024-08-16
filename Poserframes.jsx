@@ -1005,7 +1005,7 @@ function run_fancy() {
 				
 				// Set the blend mode of the temporary layer
 				tempLayer.blendMode = BlendMode.OVERLAY; // You can change this to any blend mode you prefer
-				tempLayer.adjustBrightnessContrast(0, 50); // Adjust the brightness and contrast of the temporary layer
+				//tempLayer.adjustBrightnessContrast(0, 20); // Adjust the brightness and contrast of the temporary layer
 				
 				// Merge the temporary layer back to the original layer
 				app.activeDocument.activeLayer = tempLayer;
@@ -1020,16 +1020,6 @@ function run_fancy() {
                 doc.selection.invert();
                 doc.selection.fill(myColor_white, ColorBlendMode.NORMAL);
                 doc.selection.invert();
-               
-				// Adding a border around the mask
-				//thisMask.makeSelection(feather, true);
-				// Expand the current selection by 20 * doc_scale
-				//doc.selection.expand(1 * doc_scale);
-				// Create a border selection around the expanded selection
-				//doc.selection.contract(1.5 * doc_scale);
-				//doc.selection.selectBorder(15 * doc_scale);
-				//doc.selection.feather(40 * feather);
-				//doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 20, true); 
 
                 // Fill the outside with white again
                 var path = thisSubshadow ? thisSubshadow : thisShadow;
@@ -1059,20 +1049,50 @@ function run_fancy() {
 
 	if (artifacts && !transparent_matte) {
 
-		// Thicker inner rim
-		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather);
-		doc.selection.selectBorder(Math.max(1, Math.floor(6 * feather)));
-		doc.selection.feather(3*feather);
-		doc.selection.fill(myColor_subshadow, ColorBlendMode.COLORDODGE, 30);
+		// Fainter inner rim
 
-		// Thinner outer rim
-		thisMask.makeSelection(feather, true);
-		doc.selection.contract(feather*0.5);
-		doc.selection.selectBorder(Math.max(1, Math.floor(feather)));
-		doc.selection.feather(2*feather);
-		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 30);
+		thisMask.makeSelection(0, true);
 		
+		// Resize the selection to be 1% shorter on the longer side
+		var bounds = doc.selection.bounds;
+		var width = bounds[2].as("px") - bounds[0].as("px");
+		var height = bounds[3].as("px") - bounds[1].as("px");
+		
+		var scaleFactor = width > height ? 99 : 100;
+		var scaleFactorY = height > width ? 99 : 100;
+		
+		// Resize the selection boundary
+		doc.selection.resizeBoundary(scaleFactor, scaleFactorY, AnchorPosition.MIDDLECENTER);
+		
+		doc.selection.contract(feather * 3);
+		
+		// Save the initial selection to a channel
+		var initialSelectionChannel = doc.channels.add();
+		doc.selection.store(initialSelectionChannel);
+		
+		// Create a new selection from a path and expand it
+		thisMask.makeSelection(0, true);
+		doc.selection.expand(feather * 3);
+		
+		// Load the initial selection from the channel and subtract it from the current selection
+		doc.selection.load(initialSelectionChannel, SelectionType.DIMINISH);
+		
+		// Make the longer side 0.5% longer
+		scaleFactor = width > height ? 100.5 : 100;
+		scaleFactorY = height > width ? 100.5 : 100;
+		
+		// Resize the selection boundary
+		doc.selection.resizeBoundary(scaleFactor, scaleFactorY, AnchorPosition.MIDDLECENTER);
+		
+		// Feather the selection
+		doc.selection.feather(feather * 3);
+		
+		// Remove the temporary channel
+		initialSelectionChannel.remove();
+		
+		// Fill the selection with the specified color
+		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 20);
+
 	}
 
 	// Transparent matte
@@ -1714,13 +1734,13 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		minSaturation = 2;
 		maxSaturation = 4;
-		minBrightness = 80;
-		maxBrightness = 98;
+		minBrightness = 70;
+		maxBrightness = 90;
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
-		minSaturation = 14;
-		maxSaturation = 18;
-		minBrightness = 80;
+		minSaturation = 12;
+		maxSaturation = 16;
+		minBrightness = 70;
 		maxBrightness = 90;
 	}
 	
