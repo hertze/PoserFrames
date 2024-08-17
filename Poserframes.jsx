@@ -20,12 +20,12 @@ var force_8_bit = true;
 
 var fancy = true;
 var halation = true;
+var burn_mask_edges = true;
 var transparent_matte = false;
 
 // Settings for fancy borders
 
 var artifacts = true;
-var burn_mask_edges = true;
 
 var mask_variant_35mm = 5;
 var mask_variant_645 = 1;
@@ -192,31 +192,34 @@ function processRecipe(runtimesettings) {
     thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
     
     // Check recipe against syntax
-    const regex = /^(true;|false;){2}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$/gm;
+    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$/gm;
     
     if (regex.test(thisRecipe)) {
         thisRecipe = thisRecipe.split(";"); // Splits into array at ;
         fancy = (thisRecipe[0].toLowerCase() === "true");
-        artifacts = (thisRecipe[1].toLowerCase() === "true");
-        mask_variant_35mm = thisRecipe[2];
-        mask_variant_645 = thisRecipe[3];
-        mask_variant_67 = thisRecipe[4];
-        mask_variant_45 = thisRecipe[5];
-        mask_variant_square = thisRecipe[6];
-        negative_variant_square = thisRecipe[7];
-        negative_variant_645 = thisRecipe[8];
-        matted_crop = (thisRecipe[9].toLowerCase() === "true");
-        border_width_35mm = parseInt(thisRecipe[10]);
-        border_width_645 = parseInt(thisRecipe[11]);
-        border_width_67 = parseInt(thisRecipe[12]);
-        border_width_45 = parseInt(thisRecipe[13]);
-        border_width_square = parseInt(thisRecipe[14]);
-        short_side_factor = parseInt(thisRecipe[15]);
-        movement_min_long = parseInt(thisRecipe[16]);
-        movement_max_long = parseInt(thisRecipe[17]);
-        movement_min_short = parseInt(thisRecipe[18]);
-        movement_max_short = parseInt(thisRecipe[19]);
-        movement_direction = thisRecipe[20];
+		halation = (thisRecipe[1].toLowerCase() === "true");
+		burn_mask_edges = (thisRecipe[2].toLowerCase() === "true");
+		transparent_matte = (thisRecipe[3].toLowerCase() === "true");
+        artifacts = (thisRecipe[4].toLowerCase() === "true");
+        mask_variant_35mm = thisRecipe[5];
+        mask_variant_645 = thisRecipe[6];
+        mask_variant_67 = thisRecipe[7];
+        mask_variant_45 = thisRecipe[8];
+        mask_variant_square = thisRecipe[9];
+        negative_variant_square = thisRecipe[10];
+        negative_variant_645 = thisRecipe[11];
+        matted_crop = (thisRecipe[12].toLowerCase() === "true");
+        border_width_35mm = parseInt(thisRecipe[13]);
+        border_width_645 = parseInt(thisRecipe[14]);
+        border_width_67 = parseInt(thisRecipe[15]);
+        border_width_45 = parseInt(thisRecipe[16]);
+        border_width_square = parseInt(thisRecipe[17]);
+        short_side_factor = parseInt(thisRecipe[18]);
+        movement_min_long = parseInt(thisRecipe[19]);
+        movement_max_long = parseInt(thisRecipe[20]);
+        movement_min_short = parseInt(thisRecipe[21]);
+        movement_max_short = parseInt(thisRecipe[22]);
+        movement_direction = thisRecipe[23];
     } else {
         executeScript = false;
         alert("Sorry, but that recipe is faulty! Please check its syntax and settings, then try again.");
