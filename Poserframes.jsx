@@ -1101,6 +1101,23 @@ function run_fancy() {
 
 		doc.activeLayer.adjustCurves(curveAdjustment);
 
+		// Increase contrast around mask edges
+
+		thisMask.makeSelection(0, true);
+		doc.selection.selectBorder(feather * 2);
+		doc.selection.feather(feather); // Corrected typo
+		
+		// Apply curve adjustment to increase contrast in midtones
+		var curveAdjustment = [
+			[0, 0],    // Black point
+			[64, 64],  // Preserve shadows
+			[128, 180], // Increase contrast in midtones
+			[192, 192], // Preserve highlights
+			[255, 255] // White point
+		];
+		
+		doc.activeLayer.adjustCurves(curveAdjustment);
+
 	}
 
 	// Transparent matte
@@ -1742,13 +1759,13 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		minSaturation = 2;
 		maxSaturation = 4;
-		minBrightness = 75;
+		minBrightness = 70;
 		maxBrightness = 90;
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
 		minSaturation = 12;
 		maxSaturation = 16;
-		minBrightness = 75;
+		minBrightness = 70;
 		maxBrightness = 90;
 	}
 	
