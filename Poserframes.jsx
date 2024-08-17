@@ -984,8 +984,8 @@ function renderFilmBurn() {
 
         // Calculate handles 180 degrees from average direction
         return [
-            [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength],
-            [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength]
+            [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength],
+            [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength]
         ];
     }
 
@@ -1045,7 +1045,7 @@ function renderFilmBurn() {
         var point = new PathPointInfo();
         point.anchor = points[i];
 
-        if (i > 0 && i < points.length - 2) {
+        if (i > 0 && i < points.length - 1) {
             // Calculate handles only for smooth points on the jagged line
             var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1]);
             point.kind = PointKind.SMOOTHPOINT;
@@ -1070,7 +1070,6 @@ function renderFilmBurn() {
     // Create the path named "filmBurn"
     var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
 }
-
 
 
 
