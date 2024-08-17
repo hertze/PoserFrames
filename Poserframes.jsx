@@ -950,7 +950,7 @@ function renderFilmBurn() {
 
     // Set up variables for the burn effect
     var burnDepth = doc.width.value * 0.03;  // Depth of the burn into the image
-    var waveCount = 30; // Number of waves in the burn effect
+    var waveCount = 40; // Number of waves in the burn effect
     var slantAngle = (Math.random() - 0.5) * 20; // Random slant angle between -10 and 10 degrees
 
     // Convert slant angle to radians for use in calculations
@@ -1012,6 +1012,8 @@ function renderFilmBurn() {
 
         // Complete the path along the upper edge
         points.push([endX, 0]); // Top right corner
+        points.push([endX, doc.height.value]); // Bottom right corner
+        points.push([startX, doc.height.value]); // Bottom left corner
         points.push([startX, 0]); // Top left corner
     } else if ((!isPortrait && thisFormat !== "645") || (isPortrait && thisFormat === "645")) {
         // Add the burn effect on the left edge
@@ -1036,6 +1038,8 @@ function renderFilmBurn() {
 
         // Complete the path along the left edge
         points.push([0, endY]); // Bottom left corner
+        points.push([doc.width.value, endY]); // Bottom right corner
+        points.push([doc.width.value, startY]); // Top right corner
         points.push([0, startY]); // Top left corner
     }
 
@@ -1045,20 +1049,27 @@ function renderFilmBurn() {
         var point = new PathPointInfo();
         point.anchor = points[i];
 
-        if (i > 0 && i < points.length - 1) {
+        if (i > 0 && i < points.length - 3) {
             // Calculate handles only for smooth points on the jagged line
             var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1]);
             point.kind = PointKind.SMOOTHPOINT;
             point.leftDirection = handles[0];
             point.rightDirection = handles[1];
         } else {
-            // Boundary points and end points do not have handles
+            // Boundary points and last three points do not have handles
             point.kind = PointKind.CORNERPOINT;
             point.leftDirection = point.anchor;
             point.rightDirection = point.anchor;
         }
 
         pathPoints.push(point);
+    }
+
+    // Ensure the last three points are corner points
+    for (var j = pathPoints.length - 3; j < pathPoints.length; j++) {
+        pathPoints[j].kind = PointKind.CORNERPOINT;
+        pathPoints[j].leftDirection = pathPoints[j].anchor;
+        pathPoints[j].rightDirection = pathPoints[j].anchor;
     }
 
     // Create a SubPathInfo object
