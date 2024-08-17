@@ -1047,7 +1047,7 @@ function run_fancy() {
 
     doc.flatten();
 
-	if (artifacts && burn_mask_edges &&!transparent_matte) {
+	if (burn_mask_edges) {
 
 		// Lighter inner rim
 		thisMask.makeSelection(0, true);
@@ -1088,9 +1088,18 @@ function run_fancy() {
 		
 		// Remove the temporary channel
 		initialSelectionChannel.remove();
-		
-		// Fill the selection with the specified color
-		doc.selection.fill(myColor_white, ColorBlendMode.COLORDODGE, 25);
+
+		// Apply curve adjustment to lighten midtones
+		var curveAdjustment = [
+			[0, 0],    // Black point
+			[64, 70],  // Darker midtones
+			[128, 170], // Midtones
+			[192, 230], // Lower highlights / skin tones
+			[226, 242], // Save sky tones
+			[255, 255] // White point
+		];
+
+		doc.activeLayer.adjustCurves(curveAdjustment);
 
 	}
 
@@ -1733,13 +1742,13 @@ if (colorCheck() == "color") {
 		myColor_shadow.hsb.hue = generateRandomInteger(190, 210);
 		minSaturation = 2;
 		maxSaturation = 4;
-		minBrightness = 70;
+		minBrightness = 75;
 		maxBrightness = 90;
 	} else {
 		myColor_shadow.hsb.hue = generateRandomInteger(17, 34);
 		minSaturation = 12;
 		maxSaturation = 16;
-		minBrightness = 70;
+		minBrightness = 75;
 		maxBrightness = 90;
 	}
 	
