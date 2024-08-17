@@ -944,66 +944,103 @@ function renderHalation(negativePath, delta) {
 
 }
 
-function renderFilmburn() {
-				
-	// Define the points for the path based on conditions
+function renderFilmBurn() {
+    // Get the active document
+    var doc = app.activeDocument;
 
-	var burnWidth = generateRandomInteger(10, 50) * 0.01 * doc.width.value;
+    // Set up variables for the burn effect
+    var burnDepth = doc.width.value * 0.03;  // Depth of the burn into the image
+    var waveCount = 30; // Number of waves in the burn effect
+    var slantAngle = (Math.random() - 0.5) * 20; // Random slant angle between -10 and 10 degrees
 
-	var points;
-	const offset = 10 * 0.01 * doc.width.value; // Adjust this value as needed
-	
-	if ((isPortrait && thisFormat !== "645") || (!isPortrait && thisFormat === "645")) {
-		points = [
-			[0, 0], // Top left
-			[doc.width.value, 0], // Top right
-			[doc.width.value, burnWidth - offset], // Middle right with offset
-			[0, burnWidth], // Middle left
-			[0, 0] // Close the path
-		];
-	} else if ((!isPortrait && thisFormat !== "645") || (isPortrait && thisFormat === "645")) {
-		points = [
-			[0, 0], // Top left
-			[burnWidth, 0], // Top middle
-			[burnWidth - offset, doc.height.value], // Bottom middle
-			[0, doc.height.value], // Bottom left with offset
-			[0, 0] // Close the path
-		];
-	} else {
-		// Default points if conditions are not met
-		points = [
-			[0, 0], // Top left
-			[0, doc.height.value], // Bottom left
-			[burnWidth, doc.height.value], // Bottom middle
-			[burnWidth, 0], // Top middle
-			[0, 0] // Close the path
-		];
-	}
+    // Convert slant angle to radians for use in calculations
+    var slantRadians = slantAngle * (Math.PI / 180);
 
-// Create PathPointInfo objects for each point
-var pathPoints = [];
-for (var i = 0; i < points.length; i++) {
-var point = new PathPointInfo();
-point.kind = PointKind.CORNERPOINT;
-point.anchor = points[i];
-point.leftDirection = points[i];
-point.rightDirection = points[i];
-pathPoints.push(point);
+    // Create an array to hold the points
+    var points = [];
+
+    // Function to generate random irregularities
+    function generateIrregularity(amplitude) {
+        return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
+    }
+
+    if ((isPortrait && thisFormat !== "645") || (!isPortrait && thisFormat === "645")) {
+        // Add the burn effect on the upper edge
+        var burnHeight = doc.height.value * 0.1; // Height of the burn
+        var burnWidth = doc.width.value;
+        var startX = 0;
+        var endX = burnWidth;
+
+        for (var i = 0; i <= waveCount; i++) {
+            var x = (i / waveCount) * (endX - startX);
+            var y = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth; // Small, smooth undulations
+
+            // Add random irregularities to simulate torn paper
+            y += generateIrregularity(burnDepth * 0.5);
+
+            // Apply slant to the points
+            var slantedX = x + Math.cos(slantRadians) * burnDepth;
+            var slantedY = y + Math.sin(slantRadians) * burnDepth;
+
+            points.push([slantedX, slantedY]);
+        }
+
+        // Complete the path along the upper edge
+        points.push([endX, 0]); // Top right corner
+        points.push([startX, 0]); // Top left corner
+    } else if ((!isPortrait && thisFormat !== "645") || (isPortrait && thisFormat === "645")) {
+        // Add the burn effect on the left edge
+        var burnHeight = doc.height.value;
+        var burnWidth = doc.width.value * 0.1; // Width of the burn
+        var startY = 0;
+        var endY = burnHeight;
+
+        for (var i = 0; i <= waveCount; i++) {
+            var y = (i / waveCount) * (endY - startY);
+            var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth; // Small, smooth undulations
+
+            // Add random irregularities to simulate torn paper
+            x += generateIrregularity(burnDepth * 0.5);
+
+            // Apply slant to the points
+            var slantedX = x + Math.cos(slantRadians) * burnDepth;
+            var slantedY = y + Math.sin(slantRadians) * burnDepth;
+
+            points.push([slantedX, slantedY]);
+        }
+
+        // Complete the path along the left edge
+        points.push([0, endY]); // Bottom left corner
+        points.push([0, startY]); // Top left corner
+    }
+
+    // Create PathPointInfo objects for each point
+    var pathPoints = [];
+    for (var i = 0; i < points.length; i++) {
+        var point = new PathPointInfo();
+        point.kind = PointKind.SMOOTHPOINT;
+        point.anchor = points[i];
+        
+        // Set direction handles to be the same as the anchor point for smoother curves
+        point.leftDirection = point.anchor;
+        point.rightDirection = point.anchor;
+        
+        pathPoints.push(point);
+    }
+
+    // Create a SubPathInfo object
+    var subPathInfo = new SubPathInfo();
+    subPathInfo.closed = true;
+    subPathInfo.operation = ShapeOperation.SHAPEXOR;
+    subPathInfo.entireSubPath = pathPoints;
+
+    // Create the path named "filmBurn"
+    var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
 }
 
-// Create a SubPathInfo object
-var subPathInfo = new SubPathInfo();
-subPathInfo.closed = true;
-subPathInfo.operation = ShapeOperation.SHAPEXOR;
-subPathInfo.entireSubPath = pathPoints;
-
-// Create the path named "redburn"
-var redburnPath = doc.pathItems.add("redburn", [subPathInfo]);
 
 
-throw new Error("Function not implemented.");
 
-}
 
 function run_fancy() {
     if (isPortrait) {
@@ -1024,7 +1061,9 @@ function run_fancy() {
 
     createBackdropLayer();
 
-	renderFilmburn();
+	renderFilmBurn();
+
+	throw new Error("Fancy mode is not yet implemented.");
 
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
