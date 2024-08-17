@@ -964,6 +964,31 @@ function renderFilmBurn() {
         return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
     }
 
+    // Function to create handles for smooth points
+    function createSmoothHandles(prevPoint, currentPoint, nextPoint) {
+        var dx1 = currentPoint[0] - prevPoint[0];
+        var dy1 = currentPoint[1] - prevPoint[1];
+        var dx2 = nextPoint[0] - currentPoint[0];
+        var dy2 = nextPoint[1] - currentPoint[1];
+
+        // Calculate average direction of the jagged line
+        var avgDirectionX = (dx1 + dx2) / 2;
+        var avgDirectionY = (dy1 + dy2) / 2;
+
+        var length = Math.sqrt(avgDirectionX * avgDirectionX + avgDirectionY * avgDirectionY);
+        avgDirectionX /= length;
+        avgDirectionY /= length;
+
+        // Handle length
+        var handleLength = burnDepth * 0.5;
+
+        // Calculate handles 180 degrees from average direction
+        return [
+            [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength],
+            [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength]
+        ];
+    }
+
     if ((isPortrait && thisFormat !== "645") || (!isPortrait && thisFormat === "645")) {
         // Add the burn effect on the upper edge
         var burnHeight = doc.height.value * 0.1; // Height of the burn
@@ -1018,13 +1043,21 @@ function renderFilmBurn() {
     var pathPoints = [];
     for (var i = 0; i < points.length; i++) {
         var point = new PathPointInfo();
-        point.kind = PointKind.SMOOTHPOINT;
         point.anchor = points[i];
-        
-        // Set direction handles to be the same as the anchor point for smoother curves
-        point.leftDirection = point.anchor;
-        point.rightDirection = point.anchor;
-        
+
+        if (i > 0 && i < points.length - 2) {
+            // Calculate handles only for smooth points on the jagged line
+            var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1]);
+            point.kind = PointKind.SMOOTHPOINT;
+            point.leftDirection = handles[0];
+            point.rightDirection = handles[1];
+        } else {
+            // Boundary points and end points do not have handles
+            point.kind = PointKind.CORNERPOINT;
+            point.leftDirection = point.anchor;
+            point.rightDirection = point.anchor;
+        }
+
         pathPoints.push(point);
     }
 
@@ -1037,6 +1070,8 @@ function renderFilmBurn() {
     // Create the path named "filmBurn"
     var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
 }
+
+
 
 
 
