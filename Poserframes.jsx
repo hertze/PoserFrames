@@ -1024,6 +1024,8 @@ function run_fancy() {
 
     createBackdropLayer();
 
+	renderFilmburn();
+
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
 
@@ -1183,8 +1185,6 @@ function run_fancy() {
 		doc.activeLayer.adjustCurves(curveAdjustment);
 
 	}
-
-	renderFilmburn();
 
 	// Transparent matte
 	if (transparent_matte) {
