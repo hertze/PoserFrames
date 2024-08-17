@@ -944,6 +944,67 @@ function renderHalation(negativePath, delta) {
 
 }
 
+function renderFilmburn() {
+				
+	// Define the points for the path based on conditions
+
+	var burnWidth = generateRandomInteger(10, 50) * 0.01 * doc.width.value;
+
+	var points;
+	const offset = 10 * 0.01 * doc.width.value; // Adjust this value as needed
+	
+	if ((isPortrait && thisFormat !== "645") || (!isPortrait && thisFormat === "645")) {
+		points = [
+			[0, 0], // Top left
+			[doc.width.value, 0], // Top right
+			[doc.width.value, burnWidth - offset], // Middle right with offset
+			[0, burnWidth], // Middle left
+			[0, 0] // Close the path
+		];
+	} else if ((!isPortrait && thisFormat !== "645") || (isPortrait && thisFormat === "645")) {
+		points = [
+			[0, 0], // Top left
+			[burnWidth, 0], // Top middle
+			[burnWidth - offset, doc.height.value], // Bottom middle
+			[0, doc.height.value], // Bottom left with offset
+			[0, 0] // Close the path
+		];
+	} else {
+		// Default points if conditions are not met
+		points = [
+			[0, 0], // Top left
+			[0, doc.height.value], // Bottom left
+			[burnWidth, doc.height.value], // Bottom middle
+			[burnWidth, 0], // Top middle
+			[0, 0] // Close the path
+		];
+	}
+
+// Create PathPointInfo objects for each point
+var pathPoints = [];
+for (var i = 0; i < points.length; i++) {
+var point = new PathPointInfo();
+point.kind = PointKind.CORNERPOINT;
+point.anchor = points[i];
+point.leftDirection = points[i];
+point.rightDirection = points[i];
+pathPoints.push(point);
+}
+
+// Create a SubPathInfo object
+var subPathInfo = new SubPathInfo();
+subPathInfo.closed = true;
+subPathInfo.operation = ShapeOperation.SHAPEXOR;
+subPathInfo.entireSubPath = pathPoints;
+
+// Create the path named "redburn"
+var redburnPath = doc.pathItems.add("redburn", [subPathInfo]);
+
+
+throw new Error("Function not implemented.");
+
+}
+
 function run_fancy() {
     if (isPortrait) {
         doc.resizeCanvas(UnitValue(110, "%"), UnitValue(10 / ratio + 100, "%"), AnchorPosition.MIDDLECENTER);
