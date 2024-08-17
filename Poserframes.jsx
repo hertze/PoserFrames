@@ -1184,6 +1184,8 @@ function run_fancy() {
 
 	}
 
+	renderFilmburn();
+
 	// Transparent matte
 	if (transparent_matte) {
 		if (doc.backgroundLayer.isBackgroundLayer) {
