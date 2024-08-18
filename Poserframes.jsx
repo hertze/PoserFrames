@@ -989,59 +989,38 @@ function renderFilmBurn() {
         ];
     }
 
-    if ((isPortrait && thisFormat !== "645") || (!isPortrait && thisFormat === "645")) {
-        // Add the burn effect on the upper edge
-        var burnHeight = doc.height.value * 0.1; // Height of the burn
-        var burnWidth = doc.width.value;
-        var startX = 0;
-        var endX = burnWidth;
+    // Add the burn effect on the left edge
+    var burnHeight = doc.height.value;
+    var burnWidth = doc.width.value * 0.1; // Width of the burn
+    var startY = 0;
+    var endY = burnHeight;
 
-        for (var i = 0; i <= waveCount; i++) {
-            var x = (i / waveCount) * (endX - startX);
-            var y = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth; // Small, smooth undulations
+    // Top left corner point (5% outside document)
+    points.push([-doc.width.value * 0.05, -doc.height.value * 0.05]);
 
-            // Add random irregularities to simulate torn paper
-            y += generateIrregularity(burnDepth * 0.5);
+    // Top intersection with jagged line (5% outside bounds)
+    points.push([burnWidth - doc.width.value * 0.05, -doc.height.value * 0.05]);
 
-            // Apply slant to the points
-            var slantedX = x + Math.cos(slantRadians) * burnDepth;
-            var slantedY = y + Math.sin(slantRadians) * burnDepth;
+    // Generate points for the jagged line
+    for (var i = 0; i <= waveCount; i++) {
+        var y = (i / waveCount) * burnHeight;
+        var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
 
-            points.push([slantedX, slantedY]);
-        }
+        // Add random irregularities
+        x += generateIrregularity(burnDepth * 0.5);
 
-        // Complete the path along the upper edge
-        points.push([endX, 0]); // Top right corner
-        points.push([endX, doc.height.value]); // Bottom right corner
-        points.push([startX, doc.height.value]); // Bottom left corner
-        points.push([startX, 0]); // Top left corner
-    } else if ((!isPortrait && thisFormat !== "645") || (isPortrait && thisFormat === "645")) {
-        // Add the burn effect on the left edge
-        var burnHeight = doc.height.value;
-        var burnWidth = doc.width.value * 0.1; // Width of the burn
-        var startY = 0;
-        var endY = burnHeight;
+        // Apply slant to the points
+        var slantedX = x + Math.cos(slantRadians) * burnDepth;
+        var slantedY = y + Math.sin(slantRadians) * burnDepth;
 
-        for (var i = 0; i <= waveCount; i++) {
-            var y = (i / waveCount) * (endY - startY);
-            var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth; // Small, smooth undulations
-
-            // Add random irregularities to simulate torn paper
-            x += generateIrregularity(burnDepth * 0.5);
-
-            // Apply slant to the points
-            var slantedX = x + Math.cos(slantRadians) * burnDepth;
-            var slantedY = y + Math.sin(slantRadians) * burnDepth;
-
-            points.push([slantedX, slantedY]);
-        }
-
-        // Complete the path along the left edge
-        points.push([0, endY]); // Bottom left corner
-        points.push([doc.width.value, endY]); // Bottom right corner
-        points.push([doc.width.value, startY]); // Top right corner
-        points.push([0, startY]); // Top left corner
+        points.push([slantedX, slantedY]);
     }
+
+    // Bottom intersection with jagged line (5% outside bounds)
+    points.push([-doc.width.value * 0.05, doc.height.value * 1.05]);
+
+    // Bottom left corner point (5% outside document)
+    points.push([-doc.width.value * 0.05, doc.height.value * 1.05]);
 
     // Create PathPointInfo objects for each point
     var pathPoints = [];
@@ -1049,27 +1028,20 @@ function renderFilmBurn() {
         var point = new PathPointInfo();
         point.anchor = points[i];
 
-        if (i > 0 && i < points.length - 3) {
+        if (i > 0 && i < points.length - 1) {
             // Calculate handles only for smooth points on the jagged line
             var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1]);
             point.kind = PointKind.SMOOTHPOINT;
             point.leftDirection = handles[0];
             point.rightDirection = handles[1];
         } else {
-            // Boundary points and last three points do not have handles
+            // Corner points do not have handles
             point.kind = PointKind.CORNERPOINT;
             point.leftDirection = point.anchor;
             point.rightDirection = point.anchor;
         }
 
         pathPoints.push(point);
-    }
-
-    // Ensure the last three points are corner points
-    for (var j = pathPoints.length - 3; j < pathPoints.length; j++) {
-        pathPoints[j].kind = PointKind.CORNERPOINT;
-        pathPoints[j].leftDirection = pathPoints[j].anchor;
-        pathPoints[j].rightDirection = pathPoints[j].anchor;
     }
 
     // Create a SubPathInfo object
