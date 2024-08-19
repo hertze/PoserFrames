@@ -1114,9 +1114,9 @@ function renderFilmBurn() {
 
     createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.80, inverted);
+    createBurnPath("innerburn", doc.width.value * 0.01, 60, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.90, inverted);
 
-	createBurnPath("whiteburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.40, inverted);
+	createBurnPath("whiteburn", doc.width.value * 0.01, 40, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.50, inverted);
 
 	// Create a new layer named "filmburn"
 	var filmburnLayer = doc.artLayers.add();
@@ -1148,10 +1148,10 @@ function renderFilmBurn() {
         spatterFilter(20, 10);
     }
 
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*100, true);
+	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*150, true);
 	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
 
-	doc.pathItems.getByName("whiteburn").makeSelection(doc_scale*200, true);
+	doc.pathItems.getByName("whiteburn").makeSelection(doc_scale*300, true);
 	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
 
 	var filmburnContrastLayer = doc.artLayers.add();
@@ -1161,7 +1161,7 @@ function renderFilmBurn() {
 	doc.pathItems.getByName("outerburn").makeSelection(doc_scale*20, true);
 
 	// Make selection from innerburn and subtract from current selection
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*100, true, SelectionType.DIMINISH);
+	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*200, true, SelectionType.DIMINISH);
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
 
@@ -1186,10 +1186,6 @@ function run_fancy() {
     }
 
     createBackdropLayer();
-
-	renderFilmBurn();
-
-	//throw new Error("Fancy mode is not yet implemented.");
 
     var masklayer = doc.artLayers.add();
     masklayer.name = "mask";
@@ -1271,6 +1267,8 @@ function run_fancy() {
     thisMask.makeSelection(feather, true);
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
+
+	renderFilmBurn();
 
     if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
         moveNeg_fancy();
