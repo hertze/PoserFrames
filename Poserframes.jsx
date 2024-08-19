@@ -948,7 +948,7 @@ function renderFilmBurn() {
     var doc = app.activeDocument;
 
     // Function to generate a single burn path
-    function createBurnPath(burnDepth, waveCount, slantAngle, isUpperPart) {
+    function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart) {
         var slantRadians = slantAngle * (Math.PI / 180);
         var points = [];
         var burnWidth = doc.width.value;
@@ -1055,7 +1055,7 @@ function renderFilmBurn() {
         subPathInfo.operation = ShapeOperation.SHAPEXOR;
         subPathInfo.entireSubPath = pathPoints;
 
-        var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
+        var filmBurnPath = doc.pathItems.add(pathName, [subPathInfo]);
     }
 
     function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
@@ -1087,7 +1087,7 @@ function renderFilmBurn() {
     var isUpperPart = ((thisFormat == "645" && !isPortrait) || (thisFormat != "645" && isPortrait));
 
     // Call the nested function with specific parameters and the calculated isUpperPart
-    createBurnPath(doc.width.value * 0.03, 40, (Math.random() - 0.5) * 20, isUpperPart);
+    createBurnPath("outerburn", doc.width.value * 0.03, 40, (Math.random() - 0.5) * 20, isUpperPart);
 }
 
 
