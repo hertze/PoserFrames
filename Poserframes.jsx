@@ -974,6 +974,14 @@ function renderFilmBurn() {
 
         points.push([startX, startY]);
 
+        if (isUpperPart) {
+            // Add the point directly below the top-right point
+            points.push([startX, burnHeight - offset]);
+        } else {
+            // Add the point directly to the right of the top-left point
+            points.push([burnHeight - offset, startY]);
+        }
+
         // Create the jagged line
         for (var i = 0; i <= waveCount; i++) {
             var x, y;
