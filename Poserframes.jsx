@@ -1132,15 +1132,29 @@ function renderFilmBurn() {
 	doc.selection.selectAll();
 	doc.selection.fill(myColor_black);
 
-	var myColor_filmburn_red = new SolidColor();
-	myColor_filmburn_red.rgb.red = 255;
-	myColor_filmburn_red.rgb.green = generateRandomInteger(0, 20);
-	myColor_filmburn_red.rgb.blue = generateRandomInteger(0, 10);
+	const myColor_filmburn_red = new SolidColor();
+	const myColor_filmburn_orange = new SolidColor();
 
-	var myColor_filmburn_orange = new SolidColor();
-	myColor_filmburn_orange.rgb.red = 255;  
-	myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 110);  
-	myColor_filmburn_orange.rgb.blue = 2;
+	if (color) {
+		myColor_filmburn_red.rgb.red = 255;
+		myColor_filmburn_red.rgb.green = generateRandomInteger(0, 20);
+		myColor_filmburn_red.rgb.blue = generateRandomInteger(0, 10);
+
+		myColor_filmburn_orange.rgb.red = 255;  
+		myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 110);  
+		myColor_filmburn_orange.rgb.blue = 2;
+
+	} else {
+		
+		myColor_filmburn_red.hsb.hue = 0; // Hue set to 0 for greyscale
+		myColor_filmburn_red.hsb.saturation = 0; // Saturation set to 0 for greyscale
+		myColor_filmburn_red.hsb.brightness = generateRandomInteger(30,40); // Randomized brightness
+
+		myColor_filmburn_orange.hsb.hue = 0; // Hue set to 0 for greyscale
+		myColor_filmburn_orange.hsb.saturation = 0; // Saturation set to 0 for greyscale
+		myColor_filmburn_orange.hsb.brightness = generateRandomInteger(120,150); // Randomized brightness
+
+	}
 
 	doc.pathItems.getByName("outerburn").makeSelection(doc_scale*20, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
