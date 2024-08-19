@@ -963,12 +963,12 @@ function renderFilmBurn() {
             startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
             startY = -offset;  // Start at the very top
             endX = -offset;  // End at the top-left, 5% outside the document
-            endY = burnHeight - offset;  // End at the start of the jagged line
+            endY = burnHeight;  // End at the start of the jagged line
         } else {
             // Place the path on the left side of the document (existing behavior)
             startX = -offset;  // Start from the top-left corner, 5% outside the document
             startY = -offset;  // Start at the very top
-            endX = burnHeight - offset;  // End at the start of the jagged line
+            endX = burnHeight;  // End at the start of the jagged line
             endY = doc.height.value + offset;  // Go to the bottom of the document
         }
 
@@ -976,24 +976,24 @@ function renderFilmBurn() {
 
         if (isUpperPart) {
             // Add the point directly below the top-right point
-            points.push([startX, burnHeight - offset]);
+            points.push([startX, burnHeight]);
         } else {
             // Add the point directly to the right of the top-left point
-            points.push([burnHeight - offset, startY]);
+            points.push([burnHeight, startY]);
         }
 
         // Create the jagged line
         var jaggedStartX, jaggedStartY, jaggedEndX, jaggedEndY;
         if (isUpperPart) {
-            jaggedStartX = startX;
-            jaggedStartY = burnHeight - offset;
-            jaggedEndX = endX;
-            jaggedEndY = burnHeight - offset;
+            jaggedStartX = burnWidth;
+            jaggedStartY = burnHeight;
+            jaggedEndX = 0;
+            jaggedEndY = burnHeight;
         } else {
-            jaggedStartX = burnHeight - offset;
-            jaggedStartY = startY;
-            jaggedEndX = burnHeight - offset;
-            jaggedEndY = endY;
+            jaggedStartX = burnHeight;
+            jaggedStartY = 0;
+            jaggedEndX = burnHeight;
+            jaggedEndY = doc.height.value;
         }
 
         for (var i = 0; i <= waveCount; i++) {
@@ -1017,12 +1017,12 @@ function renderFilmBurn() {
         }
 
         if (isUpperPart) {
-            // End the jagged line at the bottom-left of the upper part, 5% outside the document
-            points.push([-offset, burnHeight - offset]);
+            // End the jagged line at the bottom-left of the upper part
+            points.push([-offset, burnHeight]);
             points.push([-offset, -offset]);  // Move to the top-left corner, 5% outside the document
         } else {
-            // End the jagged line at the bottom, 5% outside the document
-            points.push([burnHeight - offset, endY]);
+            // End the jagged line at the bottom
+            points.push([burnHeight, endY]);
             points.push([-offset, endY]);  // Move to the bottom-left corner, 5% outside the document
         }
 
