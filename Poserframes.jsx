@@ -18,7 +18,7 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = false;
+var fancy = true;
 var halation = true;
 var burn_mask_edges = true;
 var filmburn = true;
@@ -1142,7 +1142,7 @@ function renderFilmBurn() {
 
 		myColor_filmburn_orange.rgb.red = 255;  
 		myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 110);  
-		myColor_filmburn_orange.rgb.blue = generateRandomInteger(10, 50);;
+		myColor_filmburn_orange.rgb.blue = generateRandomInteger(10, 50);
 
 	} else {
 		
@@ -1156,15 +1156,14 @@ function renderFilmBurn() {
 
 	}
 
-		// True width of the burn
-	var trueBurnWidth;
-	
+	// True width of the burn
 	if (thisFormat === "645") {
 		var longerSide = Math.max(doc.width.value, doc.height.value);
-		trueBurnWidth = longerSide * burnWidthFactor;
+		var trueBurnWidth = longerSide * burnWidthFactor;
 	} else {
-		trueBurnWidth = doc.width.value * burnWidthFactor;
+		var trueBurnWidth = doc.width.value * burnWidthFactor;
 	}
+
 	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
 
@@ -1183,10 +1182,10 @@ function renderFilmBurn() {
 	filmburnContrastLayer.name = "filmburn contrast";
 	filmburnContrastLayer.blendMode = BlendMode.OVERLAY;
 
-	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
+	doc.pathItems.getByName("outerburn").makeSelection(feather*8, true); // Extend it slightly beyond outer burn
 
 	// Make selection from innerburn and subtract from current selection
-	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.2, true, SelectionType.DIMINISH);
+	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.15, true, SelectionType.DIMINISH);
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
 
