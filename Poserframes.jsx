@@ -242,34 +242,33 @@ function thisDirection() {
             return Math.random() < 0.3 ? -1 : 1;
     }
 }
-
 function colorCheck() {
-	var do_bw = false;
-	var do_color = false;
+    var do_bw = false;
+    var do_color = false;
 
-	var doc_keywords = doc.info.keywords;
+    var doc_keywords = doc.info.keywords;
 
-	for (var a in doc_keywords) {
-		if (doc_keywords[a].toString().match(/bw/i)) {
-			do_bw = true;
-		}
-		if (doc_keywords[a].toString().match(/color/i)) {
-			do_color = true;
-		}
-	}
+    for (var a in doc_keywords) {
+        if (doc_keywords[a].toString().match(/bw/i)) {
+            do_bw = true;
+        }
+        if (doc_keywords[a].toString().match(/color/i)) {
+            do_color = true;
+        }
+    }
 
-	if (do_bw) {
-		return "bw";
-	} else if (do_color) {
-		return "color";
-	} else {
-		var theSampler = doc.colorSamplers.add([Math.abs(doc.width / 2), Math.abs(doc.height / 2)]);
-		if (theSampler.color.rgb.red === theSampler.color.rgb.green && theSampler.color.rgb.green === theSampler.color.rgb.blue) {
-			return "bw";
-		} else {
-			return "color";
-		}
-	}
+    if (do_bw) {
+        return false; // Return false for black and white
+    } else if (do_color) {
+        return true; // Return true for color
+    } else {
+        var theSampler = doc.colorSamplers.add([Math.abs(doc.width / 2), Math.abs(doc.height / 2)]);
+        if (theSampler.color.rgb.red === theSampler.color.rgb.green && theSampler.color.rgb.green === theSampler.color.rgb.blue) {
+            return false; // Return false for black and white
+        } else {
+            return true; // Return true for color
+        }
+    }
 }
 
 function format() {
@@ -1134,13 +1133,13 @@ function renderFilmBurn() {
 	doc.selection.fill(myColor_black);
 
 	var myColor_filmburn_red = new SolidColor();
-	myColor_filmburn_red.rgb.red = 255;  
-	myColor_filmburn_red.rgb.green = 8;  
-	myColor_filmburn_red.rgb.blue = 2;
+	myColor_filmburn_red.rgb.red = 255;
+	myColor_filmburn_red.rgb.green = generateRandomInteger(0, 20);
+	myColor_filmburn_red.rgb.blue = generateRandomInteger(0, 10);
 
 	var myColor_filmburn_orange = new SolidColor();
 	myColor_filmburn_orange.rgb.red = 255;  
-	myColor_filmburn_orange.rgb.green = 97;  
+	myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 110);  
 	myColor_filmburn_orange.rgb.blue = 2;
 
 	doc.pathItems.getByName("outerburn").makeSelection(doc_scale*20, true);
@@ -1166,7 +1165,7 @@ function renderFilmBurn() {
 	// Make selection from innerburn and subtract from current selection
 	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*200, true, SelectionType.DIMINISH);
 
-	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.NORMAL, 20, false);
+	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
 
 }
 
@@ -1981,7 +1980,9 @@ myColor_black.rgb.red = 0;
 myColor_black.rgb.green = 0;  
 myColor_black.rgb.blue = 0;
 
-if (colorCheck() == "color") {
+var color = colorCheck();
+
+if (color) {
 
 	myColor_halation.rgb.red = 45;
 	myColor_halation.rgb.green = 8;
