@@ -967,62 +967,64 @@ function renderFilmBurn() {
         // Determine start and end points based on the path placement
         var startX, startY, endX, endY;
 
-        if (isUpperPart) {
-            // Adjusted for upper part burn
-            startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
-            startY = -offset;  // Start at the very top
-            endX = -offset;  // End at the top-left, 5% outside the document
-            endY = burnHeight;  // End at the adjusted height based on burnWidthFactor
-
-            points.push([startX, startY]);
-            points.push([startX, burnHeight]);  // Add the point directly below the top-right point
-
-            // Create the jagged line horizontally across the top
-            var jaggedStartX = burnWidth;
-            var jaggedEndX = 0;
-            var jaggedY = burnHeight;
-
-            for (var i = 0; i <= waveCount; i++) {
-                var x = jaggedStartX - (i / waveCount) * (jaggedStartX - jaggedEndX);
-                var y = jaggedY + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
-                y += generateIrregularity(burnDepth * 0.5);
-                var slantedX = x + Math.cos(slantRadians) * burnDepth;
-                var slantedY = y + Math.sin(slantRadians) * burnDepth;
-                points.push([slantedX, slantedY]);
-            }
-
-            // End the jagged line at the bottom-left of the upper part
-            points.push([endX, burnHeight]);
-            points.push([endX, startY]);  // Move to the top-left corner, 5% outside the document
-        } else {
-            // Place the path on the left side of the document (original behavior)
-            startX = -offset;  // Start from the top-left corner, 5% outside the document
-            startY = -offset;  // Start at the very top
-            endX = burnHeight;  // End at the start of the jagged line
-            endY = doc.height.value + offset;  // Go to the bottom of the document
-
-            points.push([startX, startY]);
-            points.push([burnHeight, startY]);  // Add the point directly to the right of the top-left point
-
-            // Create the jagged line vertically down the side
-            var jaggedStartX = burnHeight;
-            var jaggedStartY = 0;
-            var jaggedEndX = burnHeight;
-            var jaggedEndY = doc.height.value;
-
-            for (var i = 0; i <= waveCount; i++) {
-                var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
-                var x = jaggedStartX + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
-                x += generateIrregularity(burnDepth * 0.3);
-                var slantedX = x + Math.cos(slantRadians) * burnDepth;
-                var slantedY = y + Math.sin(slantRadians) * burnDepth;
-                points.push([slantedX, slantedY]);
-            }
-
-            // End the jagged line at the bottom
-            points.push([burnHeight, endY]);
-            points.push([startX, endY]);  // Move to the bottom-left corner, 5% outside the document
-        }
+																								if (isUpperPart) {
+			// Adjusted for upper part burn
+			startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
+			startY = -offset;  // Start at the very top
+			endX = -offset;  // End at the top-left, 5% outside the document
+			endY = burnHeight;  // End at the adjusted height based on burnWidthFactor
+		
+			points.push([startX, startY]);
+			points.push([startX, burnHeight]);  // Add the point directly below the top-right point
+		
+			// Create the jagged line horizontally across the top
+			var jaggedStartX = burnWidth;
+			var jaggedEndX = 0;
+			var jaggedY = burnHeight;
+			var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
+		
+			for (var i = 0; i <= waveCount; i++) {
+				var x = jaggedStartX - (i / waveCount) * (jaggedStartX - jaggedEndX);
+				var y = jaggedY + Math.sin(i / waveCount * 2 * Math.PI + phaseShift) * burnDepth;
+				y += generateIrregularity(burnDepth * 0.5);
+				var slantedX = x + Math.cos(slantRadians) * burnDepth;
+				var slantedY = y + Math.sin(slantRadians) * burnDepth;
+				points.push([slantedX, slantedY]);
+			}
+		
+			// End the jagged line at the bottom-left of the upper part
+			points.push([endX, burnHeight]);
+			points.push([endX, startY]);  // Move to the top-left corner, 5% outside the document
+		} else {
+			// Place the path on the left side of the document (original behavior)
+			startX = -offset;  // Start from the top-left corner, 5% outside the document
+			startY = -offset;  // Start at the very top
+			endX = burnHeight;  // End at the start of the jagged line
+			endY = doc.height.value + offset;  // Go to the bottom of the document
+		
+			points.push([startX, startY]);
+			points.push([burnHeight, startY]);  // Add the point directly to the right of the top-left point
+		
+			// Create the jagged line vertically down the side
+			var jaggedStartX = burnHeight;
+			var jaggedStartY = 0;
+			var jaggedEndX = burnHeight;
+			var jaggedEndY = doc.height.value;
+			var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
+		
+			for (var i = 0; i <= waveCount; i++) {
+				var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
+				var x = jaggedStartX + Math.sin(i / waveCount * 2 * Math.PI + phaseShift) * burnDepth;
+				x += generateIrregularity(burnDepth * 0.3);
+				var slantedX = x + Math.cos(slantRadians) * burnDepth;
+				var slantedY = y + Math.sin(slantRadians) * burnDepth;
+				points.push([slantedX, slantedY]);
+			}
+		
+			// End the jagged line at the bottom
+			points.push([burnHeight, endY]);
+			points.push([startX, endY]);  // Move to the bottom-left corner, 5% outside the document
+		}
 
         // Close the path
         points.push([startX, startY]);
