@@ -951,8 +951,8 @@ function renderFilmBurn() {
     function createBurnPath(burnDepth, waveCount, slantAngle, isUpperPart) {
         var slantRadians = slantAngle * (Math.PI / 180);
         var points = [];
-        var burnHeight = doc.height.value;
-        var burnWidth = doc.width.value * 0.1;
+        var burnWidth = doc.width.value;
+        var burnHeight = doc.height.value * 0.1;
         var offset = doc.width.value * 0.05;  // 5% outside the document
 
         // Determine start and end points based on the path placement
@@ -960,15 +960,15 @@ function renderFilmBurn() {
 
         if (isUpperPart) {
             // Place the path at the upper part of the document
-            startX = doc.width.value + offset;  // Start from the top-right, 5% outside the document
+            startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
             startY = -offset;  // Start at the very top
             endX = -offset;  // End at the top-left, 5% outside the document
-            endY = burnWidth - offset;  // End at the start of the jagged line
+            endY = burnHeight - offset;  // End at the start of the jagged line
         } else {
             // Place the path on the left side of the document (existing behavior)
             startX = -offset;  // Start from the top-left corner, 5% outside the document
             startY = -offset;  // Start at the very top
-            endX = burnWidth - offset;  // End at the start of the jagged line
+            endX = burnHeight - offset;  // End at the start of the jagged line
             endY = doc.height.value + offset;  // Go to the bottom of the document
         }
 
@@ -979,16 +979,16 @@ function renderFilmBurn() {
             var x, y;
 
             if (isUpperPart) {
-                x = startX - (i / waveCount) * burnHeight;
-                y = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
+                x = startX - (i / waveCount) * burnWidth;
+                y = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
                 y += generateIrregularity(burnDepth * 0.5);
-                var slantedX = x + Math.cos(slantRadians) * burnDepth - offset;
+                var slantedX = x + Math.cos(slantRadians) * burnDepth;
                 var slantedY = y + Math.sin(slantRadians) * burnDepth;
             } else {
                 y = startY + (i / waveCount) * burnHeight;
-                x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
+                x = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
                 x += generateIrregularity(burnDepth * 0.5);
-                var slantedX = x + Math.cos(slantRadians) * burnDepth - offset;
+                var slantedX = x + Math.cos(slantRadians) * burnDepth;
                 var slantedY = y + Math.sin(slantRadians) * burnDepth;
             }
 
@@ -997,11 +997,11 @@ function renderFilmBurn() {
 
         if (isUpperPart) {
             // End the jagged line at the bottom-left of the upper part, 5% outside the document
-            points.push([-offset, burnWidth - offset]);
+            points.push([-offset, burnHeight - offset]);
             points.push([-offset, -offset]);  // Move to the top-left corner, 5% outside the document
         } else {
             // End the jagged line at the bottom, 5% outside the document
-            points.push([burnWidth - offset, endY]);
+            points.push([burnHeight - offset, endY]);
             points.push([-offset, endY]);  // Move to the bottom-left corner, 5% outside the document
         }
 
@@ -1037,38 +1037,36 @@ function renderFilmBurn() {
         var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
     }
 
-	function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
-		var dx1 = currentPoint[0] - prevPoint[0];
-		var dy1 = currentPoint[1] - prevPoint[1];
-		var dx2 = nextPoint[0] - currentPoint[0];
-		var dy2 = nextPoint[1] - currentPoint[1];
-	
-		var avgDirectionX = (dx1 + dx2) / 2;
-		var avgDirectionY = (dy1 + dy2) / 2;
-	
-		var length = Math.sqrt(avgDirectionX * avgDirectionX + avgDirectionY * avgDirectionY);
-		avgDirectionX /= length;
-		avgDirectionY /= length;
-	
-		var handleLength = burnDepth * 0.5;
-	
-		return [
-			[currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength],
-			[currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength]
-		];
-	}
-	
-	function generateIrregularity(amplitude) {
-		return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
-	}
+    function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
+        var dx1 = currentPoint[0] - prevPoint[0];
+        var dy1 = currentPoint[1] - prevPoint[1];
+        var dx2 = nextPoint[0] - currentPoint[0];
+        var dy2 = nextPoint[1] - currentPoint[1];
+
+        var avgDirectionX = (dx1 + dx2) / 2;
+        var avgDirectionY = (dy1 + dy2) / 2;
+
+        var length = Math.sqrt(avgDirectionX * avgDirectionX + avgDirectionY * avgDirectionY);
+        avgDirectionX /= length;
+        avgDirectionY /= length;
+
+        var handleLength = burnDepth * 0.5;
+
+        return [
+            [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength],
+            [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength]
+        ];
+    }
+
+    function generateIrregularity(amplitude) {
+        return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
+    }
 
     // Check the conditions to determine where to place the burn path
     var isUpperPart = ((thisFormat == "645" && !isPortrait) || (thisFormat != "645" && isPortrait));
 
     // Call the nested function with specific parameters and the calculated isUpperPart
     createBurnPath(doc.width.value * 0.03, 40, (Math.random() - 0.5) * 20, isUpperPart);
-
-
 }
 
 
