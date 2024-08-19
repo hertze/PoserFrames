@@ -1109,7 +1109,7 @@ function renderFilmBurn() {
 
     // Check the conditions to determine where to place the burn path
     var isUpperPart = ((thisFormat == "645" && !isPortrait) || (thisFormat != "645" && isPortrait));
-    var inverted = false; // Set this variable as needed
+    var inverted = flipNegative; // Flip the burn path if the negative is flipped
 
     // Call the nested function with specific parameters and the calculated isUpperPart
     var burnWidthFactor = generateRandomInteger(30, 50)/100; // Example: 50% of the document width/height
