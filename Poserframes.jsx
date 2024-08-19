@@ -1164,7 +1164,7 @@ function renderFilmBurn() {
 	// Make selection from innerburn and subtract from current selection
 	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*200, true, SelectionType.DIMINISH);
 
-	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
+	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.NORMAL, 20, false);
 
 }
 
