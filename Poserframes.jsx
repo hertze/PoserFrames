@@ -952,7 +952,15 @@ function renderFilmBurn() {
         var slantRadians = slantAngle * (Math.PI / 180);
         var points = [];
         var burnWidth = doc.width.value;
-        var burnHeight = doc.height.value * burnWidthFactor; // Apply burnWidthFactor to height for upper part burn
+        
+        // Determine the short side and long side of the document
+        var shortSide = Math.min(doc.width.value, doc.height.value);
+        var longSide = Math.max(doc.width.value, doc.height.value);
+
+        // Apply burnWidthFactor to the appropriate side based on the format
+        var burnDimension = (thisFormat == "645") ? shortSide : longSide;
+        var burnHeight = burnDimension * burnWidthFactor;
+
         var offset = doc.width.value * 0.05;  // 5% outside the document
 
         // Determine start and end points based on the path placement
@@ -1070,7 +1078,6 @@ function renderFilmBurn() {
         subPathInfo.entireSubPath = pathPoints;
 
         var filmBurnPath = doc.pathItems.add(pathName, [subPathInfo]);
-		
     }
 
     function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
@@ -1103,8 +1110,12 @@ function renderFilmBurn() {
     var inverted = true; // Set this variable as needed
 
     // Call the nested function with specific parameters and the calculated isUpperPart
-    var burnWidthFactor = 0.5; // Example: 50% of the document width/height
+    var burnWidthFactor = 0.3; // Example: 50% of the document width/height
     createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted);
+}
+
+function run_fancy() {
+    // Your code here
 }
 
 
