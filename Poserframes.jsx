@@ -945,114 +945,103 @@ function renderHalation(negativePath, delta) {
 }
 
 function renderFilmBurn() {
-    // Get the active document
     var doc = app.activeDocument;
 
-    // Set up variables for the burn effect
     var burnDepth = doc.width.value * 0.03;  // Depth of the burn into the image
     var waveCount = 40; // Number of waves in the burn effect
     var slantAngle = (Math.random() - 0.5) * 20; // Random slant angle between -10 and 10 degrees
-
-    // Convert slant angle to radians for use in calculations
     var slantRadians = slantAngle * (Math.PI / 180);
 
-    // Create an array to hold the points
     var points = [];
 
-    // Function to generate random irregularities
     function generateIrregularity(amplitude) {
         return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
     }
 
-    // Function to create handles for smooth points
-    function createSmoothHandles(prevPoint, currentPoint, nextPoint) {
-        var dx1 = currentPoint[0] - prevPoint[0];
-        var dy1 = currentPoint[1] - prevPoint[1];
-        var dx2 = nextPoint[0] - currentPoint[0];
-        var dy2 = nextPoint[1] - currentPoint[1];
-
-        // Calculate average direction of the jagged line
-        var avgDirectionX = (dx1 + dx2) / 2;
-        var avgDirectionY = (dy1 + dy2) / 2;
-
-        var length = Math.sqrt(avgDirectionX * avgDirectionX + avgDirectionY * avgDirectionY);
-        avgDirectionX /= length;
-        avgDirectionY /= length;
-
-        // Handle length
-        var handleLength = burnDepth * 0.5;
-
-        // Calculate handles 180 degrees from average direction
-        return [
-            [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength],
-            [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength]
-        ];
-    }
-
-    // Add the burn effect on the left edge
     var burnHeight = doc.height.value;
-    var burnWidth = doc.width.value * 0.1; // Width of the burn
-    var startY = 0;
-    var endY = burnHeight;
+    var burnWidth = doc.width.value * 0.1;
+    var startY = 0;  // Start from the very top of the document
+    var endY = doc.height.value;  // Go to the very bottom of the document
 
-    // Top left corner point (5% outside document)
-    points.push([-doc.width.value * 0.05, -doc.height.value * 0.05]);
+    var offset = doc.width.value * 0.05;  // 5% outside the document
 
-    // Top intersection with jagged line (5% outside bounds)
-    points.push([burnWidth - doc.width.value * 0.05, -doc.height.value * 0.05]);
+    // Start at the top-left corner, 5% outside the document
+    points.push([-offset, -offset]);
 
-    // Generate points for the jagged line
+    // Move to the beginning of the jagged line, 5% outside the document
+    points.push([burnWidth - offset, startY - offset]);
+
+    // Create the jagged line
     for (var i = 0; i <= waveCount; i++) {
-        var y = (i / waveCount) * burnHeight;
+        var y = startY + (i / waveCount) * burnHeight;
         var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
-
-        // Add random irregularities
         x += generateIrregularity(burnDepth * 0.5);
 
-        // Apply slant to the points
-        var slantedX = x + Math.cos(slantRadians) * burnDepth;
+        var slantedX = x + Math.cos(slantRadians) * burnDepth - offset;
         var slantedY = y + Math.sin(slantRadians) * burnDepth;
 
         points.push([slantedX, slantedY]);
     }
 
-    // Bottom intersection with jagged line (5% outside bounds)
-    points.push([-doc.width.value * 0.05, doc.height.value * 1.05]);
+    // End the jagged line at the bottom, 5% outside the document
+    points.push([burnWidth - offset, endY + offset]);
 
-    // Bottom left corner point (5% outside document)
-    points.push([-doc.width.value * 0.05, doc.height.value * 1.05]);
+    // Move to the bottom-left corner, 5% outside the document
+    points.push([-offset, endY + offset]);
 
-    // Create PathPointInfo objects for each point
+    // Close the path back at the top-left corner
+    points.push([-offset, -offset]);
+
     var pathPoints = [];
     for (var i = 0; i < points.length; i++) {
         var point = new PathPointInfo();
         point.anchor = points[i];
 
-        if (i > 0 && i < points.length - 1) {
-            // Calculate handles only for smooth points on the jagged line
-            var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1]);
-            point.kind = PointKind.SMOOTHPOINT;
-            point.leftDirection = handles[0];
-            point.rightDirection = handles[1];
-        } else {
-            // Corner points do not have handles
+        if (i === 0 || i === 1 || i === points.length - 2 || i === points.length - 1 || i === points.length - 3) {
+            // Ensure top, bottom line points, and jagged line start and end points are corner points
             point.kind = PointKind.CORNERPOINT;
             point.leftDirection = point.anchor;
             point.rightDirection = point.anchor;
+        } else {
+            // All other points in the jagged line are smooth points
+            var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1], burnDepth);
+            point.kind = PointKind.SMOOTHPOINT;
+            point.leftDirection = handles[0];
+            point.rightDirection = handles[1];
         }
 
         pathPoints.push(point);
     }
 
-    // Create a SubPathInfo object
     var subPathInfo = new SubPathInfo();
     subPathInfo.closed = true;
     subPathInfo.operation = ShapeOperation.SHAPEXOR;
     subPathInfo.entireSubPath = pathPoints;
 
-    // Create the path named "filmBurn"
     var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
 }
+
+function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
+    var dx1 = currentPoint[0] - prevPoint[0];
+    var dy1 = currentPoint[1] - prevPoint[1];
+    var dx2 = nextPoint[0] - currentPoint[0];
+    var dy2 = nextPoint[1] - currentPoint[1];
+
+    var avgDirectionX = (dx1 + dx2) / 2;
+    var avgDirectionY = (dy1 + dy2) / 2;
+
+    var length = Math.sqrt(avgDirectionX * avgDirectionX + avgDirectionY * avgDirectionY);
+    avgDirectionX /= length;
+    avgDirectionY /= length;
+
+    var handleLength = burnDepth * 0.5;
+
+    return [
+        [currentPoint[0] + avgDirectionX * handleLength, currentPoint[1] + avgDirectionY * handleLength],
+        [currentPoint[0] - avgDirectionX * handleLength, currentPoint[1] - avgDirectionY * handleLength]
+    ];
+}
+
 
 
 
