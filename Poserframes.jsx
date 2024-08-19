@@ -1077,7 +1077,7 @@ function renderFilmBurn() {
 
     // Call the nested function with specific parameters and the calculated isUpperPart
     var burnWidthFactor = 0.5; // Example: 10% of the document width/height
-    createBurnPath("outerburn", doc.width.value * 0.02, 60, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor);
+    createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor);
 }
 
 
