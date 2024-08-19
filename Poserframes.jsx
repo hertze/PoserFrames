@@ -983,18 +983,31 @@ function renderFilmBurn() {
         }
 
         // Create the jagged line
+        var jaggedStartX, jaggedStartY, jaggedEndX, jaggedEndY;
+        if (isUpperPart) {
+            jaggedStartX = startX;
+            jaggedStartY = burnHeight - offset;
+            jaggedEndX = endX;
+            jaggedEndY = burnHeight - offset;
+        } else {
+            jaggedStartX = burnHeight - offset;
+            jaggedStartY = startY;
+            jaggedEndX = burnHeight - offset;
+            jaggedEndY = endY;
+        }
+
         for (var i = 0; i <= waveCount; i++) {
             var x, y;
 
             if (isUpperPart) {
-                x = startX - (i / waveCount) * burnWidth;
-                y = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
+                x = jaggedStartX + (i / waveCount) * (jaggedEndX - jaggedStartX);
+                y = jaggedStartY + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
                 y += generateIrregularity(burnDepth * 0.5);
                 var slantedX = x + Math.cos(slantRadians) * burnDepth;
                 var slantedY = y + Math.sin(slantRadians) * burnDepth;
             } else {
-                y = startY + (i / waveCount) * burnHeight;
-                x = burnHeight + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
+                y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
+                x = jaggedStartX + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
                 x += generateIrregularity(burnDepth * 0.5);
                 var slantedX = x + Math.cos(slantRadians) * burnDepth;
                 var slantedY = y + Math.sin(slantRadians) * burnDepth;
