@@ -1116,7 +1116,7 @@ function renderFilmBurn() {
 
     createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 40, isUpperPart, burnWidthFactor*0.90, inverted);
+    createBurnPath("innerburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 40, isUpperPart, burnWidthFactor*0.80, inverted);
 
 	createBurnPath("whiteburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted);
 
@@ -1156,6 +1156,15 @@ function renderFilmBurn() {
 
 	}
 
+		// True width of the burn
+	var trueBurnWidth;
+	
+	if (thisFormat === "645") {
+		var longerSide = Math.max(doc.width.value, doc.height.value);
+		trueBurnWidth = longerSide * burnWidthFactor;
+	} else {
+		trueBurnWidth = doc.width.value * burnWidthFactor;
+	}
 	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
 
@@ -1164,10 +1173,10 @@ function renderFilmBurn() {
         spatterFilter(20, 10);
     }
 
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*100, true);
-	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
+	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.1, true);
+	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 150, false);
 
-	doc.pathItems.getByName("whiteburn").makeSelection(doc_scale*200, true);
+	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
 	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
 
 	var filmburnContrastLayer = doc.artLayers.add();
@@ -1177,7 +1186,7 @@ function renderFilmBurn() {
 	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
 
 	// Make selection from innerburn and subtract from current selection
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*150, true, SelectionType.DIMINISH);
+	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.2, true, SelectionType.DIMINISH);
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
 
