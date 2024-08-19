@@ -1012,7 +1012,7 @@ function renderFilmBurn() {
             for (var i = 0; i <= waveCount; i++) {
                 var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
                 var x = jaggedStartX + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
-                x += generateIrregularity(burnDepth * 0.5);
+                x += generateIrregularity(burnDepth * 0.3);
                 var slantedX = x + Math.cos(slantRadians) * burnDepth;
                 var slantedY = y + Math.sin(slantRadians) * burnDepth;
                 points.push([slantedX, slantedY]);
