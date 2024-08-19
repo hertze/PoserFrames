@@ -947,78 +947,81 @@ function renderHalation(negativePath, delta) {
 function renderFilmBurn() {
     var doc = app.activeDocument;
 
-    var burnDepth = doc.width.value * 0.03;  // Depth of the burn into the image
-    var waveCount = 40; // Number of waves in the burn effect
-    var slantAngle = (Math.random() - 0.5) * 20; // Random slant angle between -10 and 10 degrees
-    var slantRadians = slantAngle * (Math.PI / 180);
+    // Function to generate a single burn path
+    function createBurnPath(burnDepth, waveCount, slantAngle) {
+        var slantRadians = slantAngle * (Math.PI / 180);
 
-    var points = [];
+        var points = [];
 
-    function generateIrregularity(amplitude) {
-        return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
-    }
-
-    var burnHeight = doc.height.value;
-    var burnWidth = doc.width.value * 0.1;
-    var startY = 0;  // Start from the very top of the document
-    var endY = doc.height.value;  // Go to the very bottom of the document
-
-    var offset = doc.width.value * 0.05;  // 5% outside the document
-
-    // Start at the top-left corner, 5% outside the document
-    points.push([-offset, -offset]);
-
-    // Move to the beginning of the jagged line, 5% outside the document
-    points.push([burnWidth - offset, startY - offset]);
-
-    // Create the jagged line
-    for (var i = 0; i <= waveCount; i++) {
-        var y = startY + (i / waveCount) * burnHeight;
-        var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
-        x += generateIrregularity(burnDepth * 0.5);
-
-        var slantedX = x + Math.cos(slantRadians) * burnDepth - offset;
-        var slantedY = y + Math.sin(slantRadians) * burnDepth;
-
-        points.push([slantedX, slantedY]);
-    }
-
-    // End the jagged line at the bottom, 5% outside the document
-    points.push([burnWidth - offset, endY + offset]);
-
-    // Move to the bottom-left corner, 5% outside the document
-    points.push([-offset, endY + offset]);
-
-    // Close the path back at the top-left corner
-    points.push([-offset, -offset]);
-
-    var pathPoints = [];
-    for (var i = 0; i < points.length; i++) {
-        var point = new PathPointInfo();
-        point.anchor = points[i];
-
-        if (i === 0 || i === 1 || i === points.length - 2 || i === points.length - 1 || i === points.length - 3) {
-            // Ensure top, bottom line points, and jagged line start and end points are corner points
-            point.kind = PointKind.CORNERPOINT;
-            point.leftDirection = point.anchor;
-            point.rightDirection = point.anchor;
-        } else {
-            // All other points in the jagged line are smooth points
-            var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1], burnDepth);
-            point.kind = PointKind.SMOOTHPOINT;
-            point.leftDirection = handles[0];
-            point.rightDirection = handles[1];
+        function generateIrregularity(amplitude) {
+            return Math.random() * amplitude * 2 - amplitude; // Random irregularity between -amplitude and amplitude
         }
 
-        pathPoints.push(point);
+        var burnHeight = doc.height.value;
+        var burnWidth = doc.width.value * 0.1;
+        var startY = 0;  // Start from the very top of the document
+        var endY = doc.height.value;  // Go to the very bottom of the document
+
+        var offset = doc.width.value * 0.05;  // 5% outside the document
+
+        // Start at the top-left corner, 5% outside the document
+        points.push([-offset, -offset]);
+
+        // Move to the beginning of the jagged line, 5% outside the document
+        points.push([burnWidth - offset, startY - offset]);
+
+        // Create the jagged line
+        for (var i = 0; i <= waveCount; i++) {
+            var y = startY + (i / waveCount) * burnHeight;
+            var x = burnWidth + Math.sin(i / waveCount * 2 * Math.PI) * burnDepth;
+            x += generateIrregularity(burnDepth * 0.5);
+
+            var slantedX = x + Math.cos(slantRadians) * burnDepth - offset;
+            var slantedY = y + Math.sin(slantRadians) * burnDepth;
+
+            points.push([slantedX, slantedY]);
+        }
+
+        // End the jagged line at the bottom, 5% outside the document
+        points.push([burnWidth - offset, endY + offset]);
+
+        // Move to the bottom-left corner, 5% outside the document
+        points.push([-offset, endY + offset]);
+
+        // Close the path back at the top-left corner
+        points.push([-offset, -offset]);
+
+        var pathPoints = [];
+        for (var i = 0; i < points.length; i++) {
+            var point = new PathPointInfo();
+            point.anchor = points[i];
+
+            if (i === 0 || i === 1 || i === points.length - 2 || i === points.length - 1 || i === points.length - 3) {
+                // Ensure top, bottom line points, and jagged line start and end points are corner points
+                point.kind = PointKind.CORNERPOINT;
+                point.leftDirection = point.anchor;
+                point.rightDirection = point.anchor;
+            } else {
+                // All other points in the jagged line are smooth points
+                var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1], burnDepth);
+                point.kind = PointKind.SMOOTHPOINT;
+                point.leftDirection = handles[0];
+                point.rightDirection = handles[1];
+            }
+
+            pathPoints.push(point);
+        }
+
+        var subPathInfo = new SubPathInfo();
+        subPathInfo.closed = true;
+        subPathInfo.operation = ShapeOperation.SHAPEXOR;
+        subPathInfo.entireSubPath = pathPoints;
+
+        var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
     }
 
-    var subPathInfo = new SubPathInfo();
-    subPathInfo.closed = true;
-    subPathInfo.operation = ShapeOperation.SHAPEXOR;
-    subPathInfo.entireSubPath = pathPoints;
-
-    var filmBurnPath = doc.pathItems.add("filmBurn", [subPathInfo]);
+    // Call the nested function with specific parameters
+    createBurnPath(doc.width.value * 0.03, 40, (Math.random() - 0.5) * 20);
 }
 
 function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
