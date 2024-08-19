@@ -18,9 +18,10 @@ var force_8_bit = true;
 
 // General settings ----------------------------------------------------
 
-var fancy = true;
+var fancy = false;
 var halation = true;
 var burn_mask_edges = true;
+var filmburn = true;
 var transparent_matte = false;
 
 // Settings for fancy borders
@@ -1114,9 +1115,9 @@ function renderFilmBurn() {
 
     createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 60, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.90, inverted);
+    createBurnPath("innerburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 40, isUpperPart, burnWidthFactor*0.90, inverted);
 
-	createBurnPath("whiteburn", doc.width.value * 0.01, 40, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.50, inverted);
+	createBurnPath("whiteburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted);
 
 	// Create a new layer named "filmburn"
 	var filmburnLayer = doc.artLayers.add();
@@ -1268,7 +1269,9 @@ function run_fancy() {
     doc.selection.fill(myColor_black, ColorBlendMode.CLEAR);
     doc.selection.deselect();
 
-	renderFilmBurn();
+	if (filmburn) {
+		renderFilmBurn();
+	}
 
     if (movement_min_long + movement_max_long + movement_min_short + movement_max_short > 0) {
         moveNeg_fancy();
@@ -1441,6 +1444,10 @@ function run_crop() {
     }
 
 	doc.resizeCanvas(resizedWidth, resizedHeight, AnchorPosition.MIDDLECENTER);
+
+	if (filmburn) {
+		renderFilmBurn();
+	}
 
 	doc.flatten(); // Flatten all layers
 
