@@ -1137,26 +1137,26 @@ function renderFilmBurn() {
 
 	if (color) {
 		myColor_filmburn_red.rgb.red = 255;
-		myColor_filmburn_red.rgb.green = generateRandomInteger(0, 20);
-		myColor_filmburn_red.rgb.blue = generateRandomInteger(0, 10);
+		myColor_filmburn_red.rgb.green = generateRandomInteger(20, 100);
+		myColor_filmburn_red.rgb.blue = generateRandomInteger(10, 50);
 
 		myColor_filmburn_orange.rgb.red = 255;  
 		myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 110);  
-		myColor_filmburn_orange.rgb.blue = 2;
+		myColor_filmburn_orange.rgb.blue = generateRandomInteger(10, 50);;
 
 	} else {
 		
 		myColor_filmburn_red.hsb.hue = 0; // Hue set to 0 for greyscale
 		myColor_filmburn_red.hsb.saturation = 0; // Saturation set to 0 for greyscale
-		myColor_filmburn_red.hsb.brightness = generateRandomInteger(30,40); // Randomized brightness
+		myColor_filmburn_red.hsb.brightness = generateRandomInteger(30,60); // Randomized brightness
 
 		myColor_filmburn_orange.hsb.hue = 0; // Hue set to 0 for greyscale
 		myColor_filmburn_orange.hsb.saturation = 0; // Saturation set to 0 for greyscale
-		myColor_filmburn_orange.hsb.brightness = generateRandomInteger(120,150); // Randomized brightness
+		myColor_filmburn_orange.hsb.brightness = generateRandomInteger(150,200); // Randomized brightness
 
 	}
 
-	doc.pathItems.getByName("outerburn").makeSelection(doc_scale*20, true);
+	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
 
 	if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
@@ -1164,20 +1164,20 @@ function renderFilmBurn() {
         spatterFilter(20, 10);
     }
 
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*150, true);
+	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*100, true);
 	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
 
-	doc.pathItems.getByName("whiteburn").makeSelection(doc_scale*300, true);
+	doc.pathItems.getByName("whiteburn").makeSelection(doc_scale*200, true);
 	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
 
 	var filmburnContrastLayer = doc.artLayers.add();
 	filmburnContrastLayer.name = "filmburn contrast";
 	filmburnContrastLayer.blendMode = BlendMode.OVERLAY;
 
-	doc.pathItems.getByName("outerburn").makeSelection(doc_scale*20, true);
+	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
 
 	// Make selection from innerburn and subtract from current selection
-	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*200, true, SelectionType.DIMINISH);
+	doc.pathItems.getByName("innerburn").makeSelection(doc_scale*150, true, SelectionType.DIMINISH);
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
 
