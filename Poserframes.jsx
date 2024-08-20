@@ -984,7 +984,7 @@ function renderFilmBurn() {
 			for (var i = 0; i <= waveCount; i++) {
 				var x = jaggedStartX - (i / waveCount) * (jaggedStartX - jaggedEndX);
 				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
-				var y = jaggedY + Math.sin(i / waveCount * Math.PI + phaseShift) * burnDepth + randomFactor;
+				var y = jaggedY + Math.sin(i / waveCount * 1.33 * Math.PI + phaseShift) * burnDepth + randomFactor;
 				y += generateIrregularity(burnDepth * 0.5);
 				var slantedX = x + Math.cos(slantRadians) * burnDepth;
 				var slantedY = y + Math.sin(slantRadians) * burnDepth;
@@ -1013,7 +1013,7 @@ function renderFilmBurn() {
 			for (var i = 0; i <= waveCount; i++) {
 				var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
 				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
-				var x = jaggedStartX + Math.sin(i / waveCount * Math.PI + phaseShift) * burnDepth + randomFactor;
+				var x = jaggedStartX + Math.sin(i / waveCount * 1.33 * Math.PI + phaseShift) * burnDepth + randomFactor;
 				x += generateIrregularity(burnDepth * 0.3);
 				var slantedX = x + Math.cos(slantRadians) * burnDepth;
 				var slantedY = y + Math.sin(slantRadians) * burnDepth;
