@@ -1143,7 +1143,7 @@ function renderFilmBurn() {
 		myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100);
 
 		myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
-		myColor_filmburn_orange.hsb.saturation = generateRandomInteger(10, 90);
+		myColor_filmburn_orange.hsb.saturation = generateRandomInteger(2, 90);
 		myColor_filmburn_orange.hsb.brightness = 100;
 
 	} else {
