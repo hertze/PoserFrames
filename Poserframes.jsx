@@ -1136,13 +1136,13 @@ function renderFilmBurn() {
 	const myColor_filmburn_orange = new SolidColor();
 
 	if (color) {
-		myColor_filmburn_red.rgb.red = 255;
-		myColor_filmburn_red.rgb.green = generateRandomInteger(20, 50);
-		myColor_filmburn_red.rgb.blue = generateRandomInteger(10, 50);
+		myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
+		myColor_filmburn_red.hsb.saturation = 100;
+		myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100);
 
-		myColor_filmburn_orange.rgb.red = 255;  
-		myColor_filmburn_orange.rgb.green = generateRandomInteger(80, 130);  
-		myColor_filmburn_orange.rgb.blue = generateRandomInteger(10, 50);
+		myColor_filmburn_orange.hsb.hue = generateRandomInteger(25, 35);
+		myColor_filmburn_orange.hsb.saturation = generateRandomInteger(80, 100);
+		myColor_filmburn_orange.hsb.brightness = 100;
 
 	} else {
 		
@@ -1165,10 +1165,10 @@ function renderFilmBurn() {
 	}
 
 	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true);
-	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
+	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.NORMAL, 100, false);
 
 	doc.pathItems.getByName("innerburn").makeSelection(feather*4, true);
-	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.OVERLAY, 100, false);
+	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
 
 	doc.selection.deselect();
 
