@@ -948,7 +948,7 @@ function renderFilmBurn() {
     var doc = app.activeDocument;
 
     // Function to generate a single burn path
-    	function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted, phaseShift) {
+	function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted, phaseShift) {
 		var slantRadians = slantAngle * (Math.PI / 180);
 		var points = [];
 		var burnWidth = doc.width.value;
@@ -986,8 +986,8 @@ function renderFilmBurn() {
 				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
 				var y = jaggedY + Math.sin(i / waveCount * 1.33 * Math.PI + phaseShift) * burnDepth + randomFactor;
 				y += generateIrregularity(burnDepth * 0.5);
-				var slantedX = x + Math.cos(slantRadians) * burnDepth;
-				var slantedY = y + Math.sin(slantRadians) * burnDepth;
+				var slantedX = x + Math.cos(slantRadians) * burnDepth * 3; // Further increased effect of slantAngle
+				var slantedY = y + Math.sin(slantRadians) * burnDepth * 3; // Further increased effect of slantAngle
 				points.push([slantedX, slantedY]);
 			}
 		
@@ -1015,8 +1015,8 @@ function renderFilmBurn() {
 				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
 				var x = jaggedStartX + Math.sin(i / waveCount * 1.33 * Math.PI + phaseShift) * burnDepth + randomFactor;
 				x += generateIrregularity(burnDepth * 0.3);
-				var slantedX = x + Math.cos(slantRadians) * burnDepth;
-				var slantedY = y + Math.sin(slantRadians) * burnDepth;
+				var slantedX = x + Math.cos(slantRadians) * burnDepth * 3; // Further increased effect of slantAngle
+				var slantedY = y + Math.sin(slantRadians) * burnDepth * 3; // Further increased effect of slantAngle
 				points.push([slantedX, slantedY]);
 			}
 		
@@ -1114,12 +1114,10 @@ function renderFilmBurn() {
 	var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
 
     // Call the nested function with specific parameters and the calculated isUpperPart
-    var burnWidthFactor = generateRandomInteger(30, 50)/100; // Example: 50% of the document width/height
+    var burnWidthFactor = generateRandomInteger(10, 50)/100; // Example: 50% of the document width/height
 
     createBurnPath("outerburn", doc.width.value * 0.011, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
-
     createBurnPath("innerburn", doc.width.value * 0.01, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
-
 	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
 	// Create a new layer named "filmburn"
