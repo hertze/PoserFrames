@@ -966,7 +966,7 @@ function renderFilmBurn() {
         // Determine start and end points based on the path placement
         var startX, startY, endX, endY;
 
-																								if (isUpperPart) {
+		if (isUpperPart) {
 			// Adjusted for upper part burn
 			startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
 			startY = -offset;  // Start at the very top
@@ -1008,7 +1008,6 @@ function renderFilmBurn() {
 			var jaggedStartY = 0;
 			var jaggedEndX = burnHeight;
 			var jaggedEndY = doc.height.value;
-			var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
 		
 			for (var i = 0; i <= waveCount; i++) {
 				var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
@@ -1115,9 +1114,9 @@ function renderFilmBurn() {
     // Call the nested function with specific parameters and the calculated isUpperPart
     var burnWidthFactor = generateRandomInteger(30, 50)/100; // Example: 50% of the document width/height
 
-    createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
+    createBurnPath("outerburn", doc.width.value * 0.011, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.98, inverted, phaseShift);
+    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.96, inverted, phaseShift);
 
 	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
