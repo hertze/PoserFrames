@@ -948,24 +948,24 @@ function renderFilmBurn() {
     var doc = app.activeDocument;
 
     // Function to generate a single burn path
-    function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted, phaseShift) {
-        var slantRadians = slantAngle * (Math.PI / 180);
-        var points = [];
-        var burnWidth = doc.width.value;
-        
-        // Determine the short side and long side of the document
-        var shortSide = Math.min(doc.width.value, doc.height.value);
-        var longSide = Math.max(doc.width.value, doc.height.value);
-
-        // Apply burnWidthFactor to the appropriate side based on the format
-        var burnDimension = (thisFormat == "645") ? shortSide : longSide;
-        var burnHeight = burnDimension * burnWidthFactor;
-
-        var offset = doc.width.value * 0.1;  // 5% outside the document
-
-        // Determine start and end points based on the path placement
-        var startX, startY, endX, endY;
-
+    	function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted, phaseShift) {
+		var slantRadians = slantAngle * (Math.PI / 180);
+		var points = [];
+		var burnWidth = doc.width.value;
+		
+		// Determine the short side and long side of the document
+		var shortSide = Math.min(doc.width.value, doc.height.value);
+		var longSide = Math.max(doc.width.value, doc.height.value);
+	
+		// Apply burnWidthFactor to the appropriate side based on the format
+		var burnDimension = (thisFormat == "645") ? shortSide : longSide;
+		var burnHeight = burnDimension * burnWidthFactor;
+	
+		var offset = doc.width.value * 0.1;  // 5% outside the document
+	
+		// Determine start and end points based on the path placement
+		var startX, startY, endX, endY;
+	
 		if (isUpperPart) {
 			// Adjusted for upper part burn
 			startX = burnWidth + offset;  // Start from the top-right, 5% outside the document
@@ -983,7 +983,8 @@ function renderFilmBurn() {
 		
 			for (var i = 0; i <= waveCount; i++) {
 				var x = jaggedStartX - (i / waveCount) * (jaggedStartX - jaggedEndX);
-				var y = jaggedY + Math.sin(i / waveCount * 2 * Math.PI + phaseShift) * burnDepth;
+				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
+				var y = jaggedY + Math.sin(i / waveCount * Math.PI + phaseShift) * burnDepth + randomFactor;
 				y += generateIrregularity(burnDepth * 0.5);
 				var slantedX = x + Math.cos(slantRadians) * burnDepth;
 				var slantedY = y + Math.sin(slantRadians) * burnDepth;
@@ -1011,7 +1012,8 @@ function renderFilmBurn() {
 		
 			for (var i = 0; i <= waveCount; i++) {
 				var y = jaggedStartY + (i / waveCount) * (jaggedEndY - jaggedStartY);
-				var x = jaggedStartX + Math.sin(i / waveCount * 2 * Math.PI + phaseShift) * burnDepth;
+				var randomFactor = (Math.random() - 0.5) * burnDepth * 0.2; // Random factor to add some randomness
+				var x = jaggedStartX + Math.sin(i / waveCount * Math.PI + phaseShift) * burnDepth + randomFactor;
 				x += generateIrregularity(burnDepth * 0.3);
 				var slantedX = x + Math.cos(slantRadians) * burnDepth;
 				var slantedY = y + Math.sin(slantRadians) * burnDepth;
@@ -1022,63 +1024,63 @@ function renderFilmBurn() {
 			points.push([burnHeight, endY]);
 			points.push([startX, endY]);  // Move to the bottom-left corner, 5% outside the document
 		}
-
-        // Close the path
-        points.push([startX, startY]);
-
-        // Rotate points manually if inverted
-        if (inverted) {
-            // Calculate the center of the document
-            var centerX = doc.width.value / 2;
-            var centerY = doc.height.value / 2;
-
-            // Define the rotation function
-            function rotatePoint(px, py, angle, cx, cy) {
-                var radians = angle * Math.PI / 180;
-                var x = px - cx;
-                var y = py - cy;
-                var newX = x * Math.cos(radians) - y * Math.sin(radians) + cx;
-                var newY = x * Math.sin(radians) + y * Math.cos(radians) + cy;
-                return [newX, newY];
-            }
-
-            // Manually rotate each point
-            var rotatedPoints = [];
-            for (var i = 0; i < points.length; i++) {
-                var rotatedPoint = rotatePoint(points[i][0], points[i][1], 180, centerX, centerY);
-                rotatedPoints.push(rotatedPoint);
-            }
-            points = rotatedPoints;
-        }
-
-        var pathPoints = [];
-        for (var i = 0; i < points.length; i++) {
-            var point = new PathPointInfo();
-            point.anchor = points[i];
-
-            if (i === 0 || i === 1 || i === points.length - 2 || i === points.length - 1 || i === points.length - 3) {
-                // Ensure top, bottom line points, and jagged line start and end points are corner points
-                point.kind = PointKind.CORNERPOINT;
-                point.leftDirection = point.anchor;
-                point.rightDirection = point.anchor;
-            } else {
-                // All other points in the jagged line are smooth points
-                var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1], burnDepth);
-                point.kind = PointKind.SMOOTHPOINT;
-                point.leftDirection = handles[0];
-                point.rightDirection = handles[1];
-            }
-
-            pathPoints.push(point);
-        }
-
-        var subPathInfo = new SubPathInfo();
-        subPathInfo.closed = true;
-        subPathInfo.operation = ShapeOperation.SHAPEXOR;
-        subPathInfo.entireSubPath = pathPoints;
-
-        var filmBurnPath = doc.pathItems.add(pathName, [subPathInfo]);
-    }
+	
+		// Close the path
+		points.push([startX, startY]);
+	
+		// Rotate points manually if inverted
+		if (inverted) {
+			// Calculate the center of the document
+			var centerX = doc.width.value / 2;
+			var centerY = doc.height.value / 2;
+	
+			// Define the rotation function
+			function rotatePoint(px, py, angle, cx, cy) {
+				var radians = angle * Math.PI / 180;
+				var x = px - cx;
+				var y = py - cy;
+				var newX = x * Math.cos(radians) - y * Math.sin(radians) + cx;
+				var newY = x * Math.sin(radians) + y * Math.cos(radians) + cy;
+				return [newX, newY];
+			}
+	
+			// Manually rotate each point
+			var rotatedPoints = [];
+			for (var i = 0; i < points.length; i++) {
+				var rotatedPoint = rotatePoint(points[i][0], points[i][1], 180, centerX, centerY);
+				rotatedPoints.push(rotatedPoint);
+			}
+			points = rotatedPoints;
+		}
+	
+		var pathPoints = [];
+		for (var i = 0; i < points.length; i++) {
+			var point = new PathPointInfo();
+			point.anchor = points[i];
+	
+			if (i === 0 || i === 1 || i === points.length - 2 || i === points.length - 1 || i === points.length - 3) {
+				// Ensure top, bottom line points, and jagged line start and end points are corner points
+				point.kind = PointKind.CORNERPOINT;
+				point.leftDirection = point.anchor;
+				point.rightDirection = point.anchor;
+			} else {
+				// All other points in the jagged line are smooth points
+				var handles = createSmoothHandles(points[i - 1], points[i], points[i + 1], burnDepth);
+				point.kind = PointKind.SMOOTHPOINT;
+				point.leftDirection = handles[0];
+				point.rightDirection = handles[1];
+			}
+	
+			pathPoints.push(point);
+		}
+	
+		var subPathInfo = new SubPathInfo();
+		subPathInfo.closed = true;
+		subPathInfo.operation = ShapeOperation.SHAPEXOR;
+		subPathInfo.entireSubPath = pathPoints;
+	
+		var filmBurnPath = doc.pathItems.add(pathName, [subPathInfo]);
+	}
 
     function createSmoothHandles(prevPoint, currentPoint, nextPoint, burnDepth) {
         var dx1 = currentPoint[0] - prevPoint[0];
