@@ -948,7 +948,7 @@ function renderFilmBurn() {
     var doc = app.activeDocument;
 
     // Function to generate a single burn path
-    function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted) {
+    function createBurnPath(pathName, burnDepth, waveCount, slantAngle, isUpperPart, burnWidthFactor, inverted, phaseShift) {
         var slantRadians = slantAngle * (Math.PI / 180);
         var points = [];
         var burnWidth = doc.width.value;
@@ -980,7 +980,6 @@ function renderFilmBurn() {
 			var jaggedStartX = burnWidth;
 			var jaggedEndX = 0;
 			var jaggedY = burnHeight;
-			var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
 		
 			for (var i = 0; i <= waveCount; i++) {
 				var x = jaggedStartX - (i / waveCount) * (jaggedStartX - jaggedEndX);
@@ -1111,14 +1110,16 @@ function renderFilmBurn() {
     var isUpperPart = ((thisFormat == "645" && !isPortrait) || (thisFormat != "645" && isPortrait));
     var inverted = flipNegative; // Flip the burn path if the negative is flipped
 
+	var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
+
     // Call the nested function with specific parameters and the calculated isUpperPart
     var burnWidthFactor = generateRandomInteger(30, 50)/100; // Example: 50% of the document width/height
 
-    createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted);
+    createBurnPath("outerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.98, inverted);
+    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.98, inverted, phaseShift);
 
-	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted);
+	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
 	// Create a new layer named "filmburn"
 	var filmburnLayer = doc.artLayers.add();
