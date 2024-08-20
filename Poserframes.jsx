@@ -1116,7 +1116,7 @@ function renderFilmBurn() {
 
     createBurnPath("outerburn", doc.width.value * 0.011, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
 
-    createBurnPath("innerburn", doc.width.value * 0.01, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor*0.96, inverted, phaseShift);
+    createBurnPath("innerburn", doc.width.value * 0.01, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
 
 	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
