@@ -1179,6 +1179,7 @@ function renderFilmBurn() {
 		spatterFilter(25, 20);
 		filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
 		spatterFilter(25, 20);
+		filmburnLayer.applyGaussianBlur(feather * 0.5);
     }
 
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
