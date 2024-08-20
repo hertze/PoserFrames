@@ -1118,7 +1118,7 @@ function renderFilmBurn() {
 
     createBurnPath("innerburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 40, isUpperPart, burnWidthFactor*0.80, inverted);
 
-	createBurnPath("whiteburn", doc.width.value * 0.01, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted);
+	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted);
 
 	// Create a new layer named "filmburn"
 	var filmburnLayer = doc.artLayers.add();
@@ -1164,12 +1164,18 @@ function renderFilmBurn() {
 		var trueBurnWidth = doc.width.value * burnWidthFactor;
 	}
 
-	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true);
+	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.SCREEN, 100, false);
+
+	doc.selection.deselect();
 
 	if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
         doc.bitsPerChannel = BitsPerChannelType.EIGHT;
-        spatterFilter(20, 10);
+        spatterFilter(25, 20);
+		filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
+		spatterFilter(25, 20);
+		filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
+		spatterFilter(25, 20);
     }
 
 	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.1, true);
@@ -1180,14 +1186,17 @@ function renderFilmBurn() {
 
 	var filmburnContrastLayer = doc.artLayers.add();
 	filmburnContrastLayer.name = "filmburn contrast";
-	filmburnContrastLayer.blendMode = BlendMode.OVERLAY;
+	filmburnContrastLayer.opacity = 50;
+	filmburnContrastLayer.blendMode = BlendMode.SOFTLIGHT;
 
-	doc.pathItems.getByName("outerburn").makeSelection(feather*8, true); // Extend it slightly beyond outer burn
+	doc.pathItems.getByName("outerburn").makeSelection(feather*5, true); 
 
 	// Make selection from innerburn and subtract from current selection
 	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.15, true, SelectionType.DIMINISH);
 
 	doc.selection.fill(myColor_black, ColorBlendMode.NORMAL, 20, false);
+
+	throw new error ("Filmburn is not yet implemented for this format. Please try another format or disable the filmburn option.");
 
 }
 
