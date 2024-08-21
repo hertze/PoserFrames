@@ -49,7 +49,7 @@ var short_side_factor = 100;
 
 // Settings for film burn
 
-var filmburn = true;
+var filmburn = "monochrome";
 var jagged_filmburn = true;
 var filmburn_min_pos = 10;
 var filmburn_max_pos = 30;
@@ -1169,12 +1169,12 @@ function renderFilmBurn() {
 
 	if (color) {
 		if (filmburn == "monochrome") {
-			myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
-			myColor_filmburn_red.hsb.saturation = generateRandomInteger(70, 90);
-			myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100, "lower");
+			myColor_filmburn_red.hsb.hue = generateRandomInteger(35, 45);
+			myColor_filmburn_red.hsb.saturation = 10;
+			myColor_filmburn_red.hsb.brightness = 94;
 
-			myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
-			myColor_filmburn_orange.hsb.saturation = 2;
+			myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue;
+			myColor_filmburn_orange.hsb.saturation = 10;
 			myColor_filmburn_orange.hsb.brightness = 98;
 
 		} else {
