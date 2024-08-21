@@ -49,8 +49,8 @@ var short_side_factor = 100;
 
 // Settings for film burn
 
-var filmburn = true;
-var jagged_filmburn = false;
+var filmburn = "monochrome";
+var jagged_filmburn = true;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -1166,13 +1166,24 @@ function renderFilmBurn() {
 	const myColor_filmburn_orange = new SolidColor();
 
 	if (color) {
-		myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
-		myColor_filmburn_red.hsb.saturation = generateRandomInteger(70, 90);
-		myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100, "lower");
+		if (filmburn == "monochrome") {
+			myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
+			myColor_filmburn_red.hsb.saturation = generateRandomInteger(70, 90);
+			myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100, "lower");
 
-		myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
-		myColor_filmburn_orange.hsb.saturation = generateRandomInteger(2, 90, "higher");
-		myColor_filmburn_orange.hsb.brightness = 100;
+			myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
+			myColor_filmburn_orange.hsb.saturation = 2;
+			myColor_filmburn_orange.hsb.brightness = 98;
+
+		} else {
+			myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
+			myColor_filmburn_red.hsb.saturation = generateRandomInteger(70, 90);
+			myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100, "lower");
+
+			myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
+			myColor_filmburn_orange.hsb.saturation = generateRandomInteger(2, 90, "higher");
+			myColor_filmburn_orange.hsb.brightness = 100;
+		}
 
 	} else {
 		
@@ -1217,19 +1228,12 @@ function renderFilmBurn() {
 	}
 
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
-	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 50, false);
-
-	//var filmburnContrastLayer = doc.artLayers.add();
-	//filmburnContrastLayer.name = "filmburn contrast";
-	//filmburnContrastLayer.opacity = 100;
-	//filmburnContrastLayer.blendMode = BlendMode.COLORBURN;
+	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
 
 	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true); 
 
 	// Make selection from innerburn and subtract from current selection
 	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.15, true, SelectionType.DIMINISH);
-
-	//doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.NORMAL, 100, false);
 
 	filmburnLayer.adjustCurves([[0, 0], [64, 32], [128, 128], [192, 224], [255, 255]]);
 
