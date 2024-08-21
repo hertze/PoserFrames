@@ -1149,9 +1149,10 @@ function renderFilmBurn() {
     var burnWidthFactor = generateRandomInteger(filmburn_min_reach, filmburn_max_reach, "middle")/100; // Example: 50% of the document width/height
 	var thisAmplitude = (0.01 + Math.random() * 0.005);
     
+	// Draw paths for the burn
 	if (jagged_filmburn) {
 		createBurnPath("outerburn", doc.width.value * thisAmplitude, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
-		createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+		createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.94 + (Math.random() * 0.04)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
 	} else {
 		createBurnPath("outerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
 		createBurnPath("innerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
@@ -1214,10 +1215,10 @@ function renderFilmBurn() {
 	}
 
 	// Fill selections with colors
-	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true);
+	doc.pathItems.getByName("outerburn").makeSelection(feather*8, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.NORMAL, 100, false);
 
-	doc.pathItems.getByName("innerburn").makeSelection(feather*4, true);
+	doc.pathItems.getByName("innerburn").makeSelection(feather*8, true);
 	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
 
 	doc.selection.deselect();
