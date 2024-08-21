@@ -51,8 +51,8 @@ var short_side_factor = 100;
 
 var filmburn = true;
 var jagged_filmburn = true;
-var filmburn_min_pos = 10;
-var filmburn_max_pos = 30;
+var filmburn_min_reach = 10;
+var filmburn_max_reach = 30;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -1146,10 +1146,10 @@ function renderFilmBurn() {
 	var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
 
     // Call the nested function with specific parameters and the calculated isUpperPart
-    var burnWidthFactor = generateRandomInteger(filmburn_min_pos, filmburn_max_pos, "middle")/100; // Example: 50% of the document width/height
-
-    createBurnPath("outerburn", doc.width.value * 0.011, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
-    createBurnPath("innerburn", doc.width.value * 0.01, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+    var burnWidthFactor = generateRandomInteger(filmburn_min_reach, filmburn_max_reach, "middle")/100; // Example: 50% of the document width/height
+	var thisAmplitude = (0.01 + Math.random() * 0.005);
+    createBurnPath("outerburn", doc.width.value * thisAmplitude, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
+    createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
 	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
 	// Create a new layer named "filmburn"
@@ -1233,12 +1233,17 @@ function renderFilmBurn() {
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
 	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
 
-	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true); 
+	var filmburnContrastLayer = doc.artLayers.add();
+	filmburnContrastLayer.name = "filmburn contrast";
+	filmburnContrastLayer.opacity = 100;
+	filmburnContrastLayer.blendMode = BlendMode.COLORBURN;
+
+	doc.pathItems.getByName("innerburn").makeSelection(feather*6, true); 
 
 	// Make selection from innerburn and subtract from current selection
-	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.15, true, SelectionType.DIMINISH);
+	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.1, true, SelectionType.DIMINISH);
 
-	filmburnLayer.adjustCurves([[0, 0], [64, 32], [128, 128], [192, 224], [255, 255]]);
+	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.NORMAL, 80, false);
 
 }
 
