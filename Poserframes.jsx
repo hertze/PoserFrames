@@ -21,7 +21,6 @@ var force_8_bit = true;
 var fancy = true;
 var halation = true;
 var burn_mask_edges = true;
-var filmburn = true;
 var transparent_matte = false;
 
 // Settings for fancy borders
@@ -47,6 +46,11 @@ var border_width_67 = 20;
 var border_width_45 = 20;
 var border_width_square = 20;
 var short_side_factor = 100;
+
+// Settings for film burn
+
+var filmburn = true;
+var jagged_filmburn = false;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -1198,15 +1202,19 @@ function renderFilmBurn() {
 
 	doc.selection.deselect();
 
-	if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
-        doc.bitsPerChannel = BitsPerChannelType.EIGHT;
-        spatterFilter(25, 20);
-		filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
-		spatterFilter(25, 20);
-		filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
-		spatterFilter(25, 20);
-		filmburnLayer.applyGaussianBlur(feather * 0.5);
-    }
+	if (jagged_filmburn) {
+		if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
+			doc.bitsPerChannel = BitsPerChannelType.EIGHT;
+			spatterFilter(25, 20);
+			filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
+			spatterFilter(25, 20);
+			filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
+			spatterFilter(25, 20);
+			filmburnLayer.applyGaussianBlur(feather * 0.5);
+		}
+	} else {
+		filmburnLayer.applyGaussianBlur(feather * 30);
+	}
 
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
 	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 50, false);
@@ -1223,7 +1231,7 @@ function renderFilmBurn() {
 
 	//doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.NORMAL, 100, false);
 
-		filmburnLayer.adjustCurves([[0, 0], [64, 32], [128, 128], [192, 224], [255, 255]]);
+	filmburnLayer.adjustCurves([[0, 0], [64, 32], [128, 128], [192, 224], [255, 255]]);
 
 	throw new error ("Filmburn is not yet implemented for this format. Please try another format or disable the filmburn option.");
 
