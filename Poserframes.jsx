@@ -227,10 +227,44 @@ function processRecipe(runtimesettings) {
     }
 }
 
-function generateRandomInteger(min, max) {
-	// Generate a number between min and max, including max
-	return Math.floor(Math.random() * (max - min)) + min;
+function generateRandomInteger(min, max, weight) {
+    // Default weight to 'middle' if not provided
+    if (weight === undefined) {
+        weight = 'middle';
+    }
+
+    // Calculate the range of numbers
+    var range = max - min + 1; // Include max
+
+    var randomValue;
+
+    // Adjust the randomization based on the weight
+    switch (weight) {
+        case 'lower':
+            // Generate a random number biased towards the lower end
+            randomValue = Math.floor(Math.random() * (range / 2)) + min;
+            break;
+        case 'middle':
+            // Generate a random number biased towards the middle
+            var middle = Math.floor((min + max) / 2);
+            randomValue = Math.floor(Math.random() * range) + min;
+            if (randomValue < middle) {
+                randomValue = Math.floor(Math.random() * (middle - min)) + min; // Bias towards the lower middle
+            } else {
+                randomValue = Math.floor(Math.random() * (max - middle + 1)) + middle; // Bias towards the upper middle
+            }
+            break;
+        case 'higher':
+            // Generate a random number biased towards the higher end
+            randomValue = Math.floor(Math.random() * (range / 2)) + middle; // Middle to max
+            break;
+        default:
+            throw new Error('Invalid weight. Use "lower", "middle", or "higher".');
+    }
+
+    return randomValue;
 }
+
 
 function thisDirection() {
     switch (movement_direction) {
@@ -1183,7 +1217,7 @@ function renderFilmBurn() {
     }
 
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
-	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 100, false);
+	doc.selection.fill(myColor_white, ColorBlendMode.LIGHTEN, 50, false);
 
 	var filmburnContrastLayer = doc.artLayers.add();
 	filmburnContrastLayer.name = "filmburn contrast";
