@@ -1218,7 +1218,7 @@ function renderFilmBurn() {
 	doc.pathItems.getByName("outerburn").makeSelection(feather*8, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.NORMAL, 100, false);
 
-	doc.pathItems.getByName("innerburn").makeSelection(feather*8, true);
+	doc.pathItems.getByName("innerburn").makeSelection(feather*4, true);
 	doc.selection.fill(myColor_filmburn_orange, ColorBlendMode.SCREEN, 100, false);
 
 	doc.selection.deselect();
