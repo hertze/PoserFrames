@@ -49,8 +49,10 @@ var short_side_factor = 100;
 
 // Settings for film burn
 
-var filmburn = "monochrome";
+var filmburn = true;
 var jagged_filmburn = true;
+var filmburn_min_pos = 10;
+var filmburn_max_pos = 30;
 
 
 // Hic sunt dracones (advanced user settings) --------------------------
@@ -1144,7 +1146,7 @@ function renderFilmBurn() {
 	var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
 
     // Call the nested function with specific parameters and the calculated isUpperPart
-    var burnWidthFactor = generateRandomInteger(10, 50)/100; // Example: 50% of the document width/height
+    var burnWidthFactor = generateRandomInteger(filmburn_min_pos, filmburn_max_pos, "middle")/100; // Example: 50% of the document width/height
 
     createBurnPath("outerburn", doc.width.value * 0.011, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
     createBurnPath("innerburn", doc.width.value * 0.01, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
