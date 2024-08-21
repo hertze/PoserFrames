@@ -1189,13 +1189,13 @@ function renderFilmBurn() {
 
 	} else {
 		
-		myColor_filmburn_red.hsb.hue = 0; // Hue set to 0 for greyscale
-		myColor_filmburn_red.hsb.saturation = 0; // Saturation set to 0 for greyscale
-		myColor_filmburn_red.hsb.brightness = generateRandomInteger(30,60); // Randomized brightness
+		myColor_filmburn_red.hsb.hue = 0;
+		myColor_filmburn_red.hsb.saturation = 0;
+		myColor_filmburn_red.hsb.brightness = 92;
 
-		myColor_filmburn_orange.hsb.hue = 0; // Hue set to 0 for greyscale
-		myColor_filmburn_orange.hsb.saturation = 0; // Saturation set to 0 for greyscale
-		myColor_filmburn_orange.hsb.brightness = generateRandomInteger(150,200); // Randomized brightness
+		myColor_filmburn_orange.hsb.hue = 0;
+		myColor_filmburn_orange.hsb.saturation = 0;
+		myColor_filmburn_orange.hsb.brightness = 98;
 
 	}
 
@@ -1207,6 +1207,7 @@ function renderFilmBurn() {
 		var trueBurnWidth = doc.width.value * burnWidthFactor;
 	}
 
+	// Fill selections with colors
 	doc.pathItems.getByName("outerburn").makeSelection(feather*4, true);
 	doc.selection.fill(myColor_filmburn_red, ColorBlendMode.NORMAL, 100, false);
 
