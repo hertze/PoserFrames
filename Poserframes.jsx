@@ -27,7 +27,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 5;
+var mask_variant_35mm = 10;
 var mask_variant_645 = 1;
 var mask_variant_67 = 3;
 var mask_variant_45 = 1;
@@ -816,8 +816,8 @@ function moveNeg_fancy() {
 				// Landscape
 				switch (String(mask_variant_35mm)) {
 					case "10":
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.008 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.015 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.022 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.02 * thisDirection();
 						break;
 					case "9":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.01 * thisDirection();
