@@ -199,7 +199,7 @@ function processRecipe(runtimesettings) {
     thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
     
     // Check recipe against syntax
-    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)(;true|;false){0,1}$/gm;
+    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)$/gm;
     
     if (regex.test(thisRecipe)) {
         thisRecipe = thisRecipe.split(";"); // Splits into array at ;
