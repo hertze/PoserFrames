@@ -49,7 +49,7 @@ var short_side_factor = 100;
 
 // Settings for film burn
 
-var filmburn = true;
+var filmburn = false;
 var jagged_filmburn = true;
 var filmburn_min_reach = 10;
 var filmburn_max_reach = 30;
