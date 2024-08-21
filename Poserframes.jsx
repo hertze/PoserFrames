@@ -233,36 +233,28 @@ function generateRandomInteger(min, max, weight) {
         weight = 'middle';
     }
 
-    // Calculate the range of numbers
-    var range = max - min + 1; // Include max
+    // Generate a random number between 0 and 1
+    var random = Math.random();
 
-    var randomValue;
-
-    // Adjust the randomization based on the weight
+    // Adjust the random number based on the weight
     switch (weight) {
         case 'lower':
-            // Generate a random number biased towards the lower end
-            randomValue = Math.floor(Math.random() * (range / 2)) + min;
-            break;
-        case 'middle':
-            // Generate a random number biased towards the middle
-            var middle = Math.floor((min + max) / 2);
-            randomValue = Math.floor(Math.random() * range) + min;
-            if (randomValue < middle) {
-                randomValue = Math.floor(Math.random() * (middle - min)) + min; // Bias towards the lower middle
-            } else {
-                randomValue = Math.floor(Math.random() * (max - middle + 1)) + middle; // Bias towards the upper middle
-            }
+            random = Math.pow(random, 2); // Bias towards lower end
             break;
         case 'higher':
-            // Generate a random number biased towards the higher end
-            randomValue = Math.floor(Math.random() * (range / 2)) + middle; // Middle to max
+            random = Math.pow(random, 0.5); // Bias towards higher end
             break;
+        case 'none':
+            // No adjustment needed for none
+            break;
+        case 'middle':
         default:
-            throw new Error('Invalid weight. Use "lower", "middle", or "higher".');
+            // No adjustment needed for middle
+            break;
     }
 
-    return randomValue;
+    // Scale and shift the random number to the desired range
+    return Math.floor(random * (max - min + 1)) + min;
 }
 
 
