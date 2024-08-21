@@ -27,7 +27,7 @@ var transparent_matte = false;
 
 var artifacts = true;
 
-var mask_variant_35mm = 10;
+var mask_variant_35mm = 1;
 var mask_variant_645 = 1;
 var mask_variant_67 = 3;
 var mask_variant_45 = 1;
@@ -61,9 +61,9 @@ var feather_factor_35mm = 1000;
 var feather_factor_645 = 1600;
 var feather_factor_67_square = 2200;
 var feather_factor_45 = 5200;
-var movement_min_long = 100;
+var movement_min_long = 0;
 var movement_max_long = 100;
-var movement_min_short = 100;
+var movement_min_short = 0;
 var movement_max_short = 100;
 var movement_direction = "random";
 var mask_flip_probability = 20;
@@ -1145,7 +1145,7 @@ function renderFilmBurn() {
     }
 
     // Check the conditions to determine where to place the burn path
-    var isUpperPart = ((thisFormat == "645" && !isPortrait) || (thisFormat != "645" && isPortrait));
+    	var isUpperPart = ((thisFormat == "645" || thisFormat == "square") && !isPortrait) || ((thisFormat != "645" && thisFormat != "square") && isPortrait);
     var inverted = flipNegative; // Flip the burn path if the negative is flipped
 
 	var phaseShift = Math.random() * 2 * Math.PI; // Random phase shift
@@ -1157,7 +1157,7 @@ function renderFilmBurn() {
 	// Draw paths for the burn
 	if (jagged_filmburn) {
 		createBurnPath("outerburn", doc.width.value * thisAmplitude, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
-		createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.94 + (Math.random() * 0.04)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+		createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor * (0.95 + (Math.random() * 0.03)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
 	} else {
 		createBurnPath("outerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
 		createBurnPath("innerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
