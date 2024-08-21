@@ -50,7 +50,7 @@ var short_side_factor = 100;
 // Settings for film burn
 
 var filmburn = true;
-var jagged_filmburn = true;
+var jagged_filmburn = false;
 var filmburn_min_reach = 10;
 var filmburn_max_reach = 30;
 
@@ -1148,8 +1148,14 @@ function renderFilmBurn() {
     // Call the nested function with specific parameters and the calculated isUpperPart
     var burnWidthFactor = generateRandomInteger(filmburn_min_reach, filmburn_max_reach, "middle")/100; // Example: 50% of the document width/height
 	var thisAmplitude = (0.01 + Math.random() * 0.005);
-    createBurnPath("outerburn", doc.width.value * thisAmplitude, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
-    createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+    
+	if (jagged_filmburn) {
+		createBurnPath("outerburn", doc.width.value * thisAmplitude, 90, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
+		createBurnPath("innerburn", doc.width.value * thisAmplitude, 100, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+	} else {
+		createBurnPath("outerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 20, isUpperPart, burnWidthFactor, inverted, phaseShift);
+		createBurnPath("innerburn", doc.width.value * thisAmplitude, 10, (Math.random() - 0.5) * 80, isUpperPart, burnWidthFactor *	(0.96 + (Math.random() * 0.02)), inverted, phaseShift + (0.1 + Math.random() * 0.4));
+	}
 	createBurnPath("whiteburn", doc.width.value * 0.02, 10, (Math.random() - 0.5) * 100, isUpperPart, burnWidthFactor*0.50, inverted, phaseShift);
 
 	// Create a new layer named "filmburn"
@@ -1227,7 +1233,7 @@ function renderFilmBurn() {
 			filmburnLayer.applyGaussianBlur(feather * 0.5);
 		}
 	} else {
-		filmburnLayer.applyGaussianBlur(feather * 30);
+		filmburnLayer.applyGaussianBlur(feather * 20);
 	}
 
 	doc.pathItems.getByName("whiteburn").makeSelection(trueBurnWidth*0.4, true);
