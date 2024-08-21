@@ -1427,7 +1427,7 @@ function run_fancy() {
 		// Increase contrast around mask edges
 
 		thisMask.makeSelection(0, true);
-		doc.selection.selectBorder(feather * 2);
+		doc.selection.selectBorder(Math.max(feather * 2, 1));
 		doc.selection.feather(feather); // Corrected typo
 		
 		// Apply curve adjustment to increase contrast in midtones
