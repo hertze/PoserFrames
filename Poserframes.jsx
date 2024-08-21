@@ -711,8 +711,8 @@ function moveNeg_fancy() {
 				// Landscape
 				switch (String(mask_variant_67)) {
 					case "3":
-						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.005 * thisDirection();
-						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.007 * thisDirection();
+						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.02 * thisDirection();
+						movement_vertical = generateRandomInteger(movement_min_long, movement_max_long) * 0.01 * doc.height * 0.012 * thisDirection();
 						break;
 					case "2":
 						movement_horisontal = generateRandomInteger(movement_min_short, movement_max_short) * 0.01 * doc.width * 0.005 * thisDirection();
