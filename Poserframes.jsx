@@ -1220,10 +1220,10 @@ function renderFilmBurn() {
 		if (doc.bitsPerChannel == BitsPerChannelType.EIGHT || doc.bitsPerChannel == BitsPerChannelType.SIXTEEN && force_8_bit) {
 			doc.bitsPerChannel = BitsPerChannelType.EIGHT;
 			spatterFilter(25, 20);
-			filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
-			spatterFilter(25, 20);
-			filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
-			spatterFilter(25, 20);
+			for (var i = 0; i < 2; i++) {
+				filmburnLayer.applyMotionBlur(thisFormat === "645" ? 0 : 90, feather * 10);
+				spatterFilter(25, 20);
+			}
 			filmburnLayer.applyGaussianBlur(feather * 0.5);
 		}
 	} else {
