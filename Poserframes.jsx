@@ -49,7 +49,7 @@ var short_side_factor = 100;
 
 // Settings for film burn
 
-var filmburn = "monochrome";
+var filmburn = true;
 var jagged_filmburn = true;
 var filmburn_min_pos = 10;
 var filmburn_max_pos = 30;
@@ -1179,11 +1179,11 @@ function renderFilmBurn() {
 
 		} else {
 			myColor_filmburn_red.hsb.hue = generateRandomInteger(0, 10);
-			myColor_filmburn_red.hsb.saturation = generateRandomInteger(70, 90);
-			myColor_filmburn_red.hsb.brightness = generateRandomInteger(80, 100, "lower");
+			myColor_filmburn_red.hsb.saturation = generateRandomInteger(65, 75, "middle");
+			myColor_filmburn_red.hsb.brightness = generateRandomInteger(70, 80, "lower");
 
-			myColor_filmburn_orange.hsb.hue = myColor_filmburn_red.hsb.hue + 35;
-			myColor_filmburn_orange.hsb.saturation = generateRandomInteger(2, 90, "higher");
+			myColor_filmburn_orange.hsb.hue = 45 - myColor_filmburn_red.hsb.hue;
+			myColor_filmburn_orange.hsb.saturation = generateRandomInteger(2, 80, "lower");
 			myColor_filmburn_orange.hsb.brightness = 100;
 		}
 
@@ -1238,8 +1238,6 @@ function renderFilmBurn() {
 	doc.pathItems.getByName("innerburn").makeSelection(trueBurnWidth*0.15, true, SelectionType.DIMINISH);
 
 	filmburnLayer.adjustCurves([[0, 0], [64, 32], [128, 128], [192, 224], [255, 255]]);
-
-	throw new error ("Filmburn is not yet implemented for this format. Please try another format or disable the filmburn option.");
 
 }
 
