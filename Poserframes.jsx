@@ -199,7 +199,7 @@ function processRecipe(runtimesettings) {
     thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
     
     // Check recipe against syntax
-    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random)$/gm;
+    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random);(true|false|monochrome);(true|false);([1-9]|[1-9][0-9]|100);([1-9]|[1-9][0-9]|100);?$/gm;
     
     if (regex.test(thisRecipe)) {
         thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -227,6 +227,11 @@ function processRecipe(runtimesettings) {
         movement_min_short = parseInt(thisRecipe[21]);
         movement_max_short = parseInt(thisRecipe[22]);
         movement_direction = thisRecipe[23];
+		filmburn = (thisRecipe[24].toLowerCase() !== "true" && thisRecipe[24].toLowerCase() !== "false") ? thisRecipe[24] : (thisRecipe[24].toLowerCase() === "true");
+		jagged_filmburn = (thisRecipe[25].toLowerCase() === "true");
+		filmburn_min_reach = parseInt(thisRecipe[26]);
+		filmburn_max_reach = parseInt(thisRecipe[27]);
+
     } else {
         executeScript = false;
         alert("Sorry, but that recipe is faulty! Please check its syntax and settings, then try again.");
