@@ -305,29 +305,29 @@ function colorCheck() {
     }
 
     // Sample points to check for grayscale vs. color
-    var numSamples = 5; // Number of samples to take
-    var isGrayscale = true;
-
-    for (var i = 0; i < numSamples; i++) {
-        // Generate random coordinates within the image bounds
-        var x = Math.floor(Math.random() * doc.width);
-        var y = Math.floor(Math.random() * doc.height);
-
-        // Add a color sampler at the random point
-        var colorSampler = doc.colorSamplers.add([x, y]);
-        var color = colorSampler.color.rgb;
-
-        // Check if the R, G, B values are equal
-        if (color.red !== color.green || color.green !== color.blue) {
-            isGrayscale = false;
-            break; // No need to check further
-        }
-
-        // Remove the color sampler
-        doc.colorSamplers.removeAll();
-    }
-
-    return !isGrayscale; // Return false if grayscale, true if color
+	var numSamples = 5; // Number of samples to take
+	
+	for (var i = 0; i < numSamples; i++) {
+		// Generate random coordinates within the image bounds
+		var x = Math.floor(Math.random() * doc.width);
+		var y = Math.floor(Math.random() * doc.height);
+	
+		// Add a color sampler at the random point
+		var colorSampler = doc.colorSamplers.add([x, y]);
+		var color = colorSampler.color.rgb;
+	
+		// Check if the R, G, B values are equal
+		if (color.red !== color.green || color.green !== color.blue) {
+			// Remove the color sampler immediately
+			doc.colorSamplers.removeAll();
+			return true; // It's color
+		}
+	
+		// Remove the color sampler
+		doc.colorSamplers.removeAll();
+	}
+	
+	return false; // It's grayscale
 }
 
 
