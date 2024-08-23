@@ -279,34 +279,57 @@ function thisDirection() {
             return Math.random() < 0.3 ? -1 : 1;
     }
 }
+
 function colorCheck() {
     var do_bw = false;
     var do_color = false;
 
-    var doc_keywords = doc.info.keywords;
-
-    for (var a in doc_keywords) {
-        if (doc_keywords[a].toString().match(/bw/i)) {
-            do_bw = true;
-        }
-        if (doc_keywords[a].toString().match(/color/i)) {
-            do_color = true;
+    // Check for relevant keywords
+    if (doc.info.keywords) {
+        for (var i = 0; i < doc.info.keywords.length; i++) {
+            var keyword = doc.info.keywords[i].toString();
+            if (/bw/i.test(keyword)) {
+                do_bw = true;
+                break;
+            } else if (/color/i.test(keyword)) {
+                do_color = true;
+                break;
+            }
         }
     }
 
     if (do_bw) {
-        return false; // Return false for black and white
+        return false; // It's black and white
     } else if (do_color) {
-        return true; // Return true for color
-    } else {
-        var theSampler = doc.colorSamplers.add([Math.abs(doc.width / 2), Math.abs(doc.height / 2)]);
-        if (theSampler.color.rgb.red === theSampler.color.rgb.green && theSampler.color.rgb.green === theSampler.color.rgb.blue) {
-            return false; // Return false for black and white
-        } else {
-            return true; // Return true for color
-        }
+        return true; // It's color
     }
+
+    // Sample points to check for grayscale vs. color
+    var numSamples = 5; // Number of samples to take
+    var isGrayscale = true;
+
+    for (var i = 0; i < numSamples; i++) {
+        // Generate random coordinates within the image bounds
+        var x = Math.floor(Math.random() * doc.width);
+        var y = Math.floor(Math.random() * doc.height);
+
+        // Add a color sampler at the random point
+        var colorSampler = doc.colorSamplers.add([x, y]);
+        var color = colorSampler.color.rgb;
+
+        // Check if the R, G, B values are equal
+        if (color.red !== color.green || color.green !== color.blue) {
+            isGrayscale = false;
+            break; // No need to check further
+        }
+
+        // Remove the color sampler
+        doc.colorSamplers.removeAll();
+    }
+
+    return !isGrayscale; // Return false if grayscale, true if color
 }
+
 
 function format() {
     var aspectRatio = doc.height / doc.width;
