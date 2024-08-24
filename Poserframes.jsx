@@ -199,7 +199,7 @@ function processRecipe(runtimesettings) {
     thisRecipe = thisRecipe.replace(/;+$/, ""); // Removes trailing ;
     
     // Check recipe against syntax
-    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random);(true|false|monochrome);(true|false);([1-9]|[1-9][0-9]|100);([1-9]|[1-9][0-9]|100);?$/gm;
+    const regex = /^(true;|false;){5}([1-9]|10|auto);([1-5]|auto);([1-3]|auto);([1-2]|auto);([1-3]|auto);[1-2];[1-2];(true;|false;)([1-9][0-9]?;){5}([1-4][0-9]{0,2}|1000);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);([0-9]|([1-9][0-9])|100);(bottomright|topleft|random);(true|false|monochrome);(true|false);([1-9]|[1-9][0-9]|100);([1-9]|[1-9][0-9]|100)(;|;35|;645|;67|;45|;square)?$/gm;
     
     if (regex.test(thisRecipe)) {
         thisRecipe = thisRecipe.split(";"); // Splits into array at ;
@@ -231,6 +231,7 @@ function processRecipe(runtimesettings) {
 		jagged_filmburn = (thisRecipe[25].toLowerCase() === "true");
 		filmburn_min_reach = parseInt(thisRecipe[26]);
 		filmburn_max_reach = parseInt(thisRecipe[27]);
+		force_format = (thisRecipe[28] !== undefined) ? thisRecipe[28] : undefined;
 
     } else {
         executeScript = false;
@@ -332,6 +333,9 @@ function colorCheck() {
 
 
 function format() {
+	if (typeof force_format !== 'undefined' && force_format !== null) {
+		return force_format;
+	}
     var aspectRatio = doc.height / doc.width;
     if (aspectRatio < 1) {
         aspectRatio = 1 / aspectRatio;
