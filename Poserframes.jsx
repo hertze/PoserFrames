@@ -333,7 +333,7 @@ function colorCheck() {
 
 
 function format() {
-	if (typeof force_format !== 'undefined' && force_format !== null) {
+	if (typeof force_format !== 'undefined') {
 		return force_format;
 	}
     var aspectRatio = doc.height / doc.width;
