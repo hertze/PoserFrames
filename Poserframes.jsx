@@ -47,6 +47,16 @@ var border_width_45 = 20;
 var border_width_square = 20;
 var short_side_factor = 100;
 
+
+// Settings for movement
+
+var movement_min_long = 0;
+var movement_max_long = 100;
+var movement_min_short = 0;
+var movement_max_short = 100;
+var movement_direction = "random";
+
+
 // Settings for film burn
 
 var filmburn = false;
@@ -61,11 +71,6 @@ var feather_factor_35 = 1000;
 var feather_factor_645 = 1600;
 var feather_factor_67_square = 2200;
 var feather_factor_45 = 5200;
-var movement_min_long = 0;
-var movement_max_long = 100;
-var movement_min_short = 0;
-var movement_max_short = 100;
-var movement_direction = "random";
 var mask_flip_probability = 20;
 var blue_artefacts_odds = 20;
 
