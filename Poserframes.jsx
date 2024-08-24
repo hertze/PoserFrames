@@ -23,15 +23,15 @@ var halation = true;
 var burn_mask_edges = true;
 var transparent_matte = false;
 
+
 // Settings for fancy borders
 
 var artifacts = true;
-
 var mask_variant_35 = 1;
 var mask_variant_645 = 1;
-var mask_variant_67 = 3;
+var mask_variant_67 = 1;
 var mask_variant_45 = 1;
-var mask_variant_square = 3;
+var mask_variant_square = 1;
 var negative_variant_square = 1;
 var negative_variant_645 = 1;
 
